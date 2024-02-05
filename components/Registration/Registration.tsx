@@ -2,6 +2,8 @@
 
 import {handleRegister, isUserExist} from '@/firebase/registration';
 import {useState} from 'react';
+import GoogleSignInComponent from './Social/Google';
+import PhoneSignInComponent from './Social/Phone.jsx';
 
 const RegistrationComponent = () => {
   const [email, setEmail] = useState('');
@@ -99,17 +101,20 @@ const RegistrationComponent = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Registration</h2>
-      {isUserExist && <p>user already exist</p>}
-      {!isEmailCorrect && <h3>wrong email</h3>}
-      <input
-        type='text'
-        placeholder='Email'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      {/* {!isEqualPassword && <h2>Пароли не совпадают</h2>} */}
+    <>
+      <PhoneSignInComponent />
+      <GoogleSignInComponent />
+      {/* <form onSubmit={handleSubmit}>
+        <h2>Registration</h2>
+        {isUserExist && <p>user already exist</p>}
+        {!isEmailCorrect && <h3>wrong email</h3>}
+        <input
+          type='text'
+          placeholder='Email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        {/* {!isEqualPassword && <h2>Пароли не совпадают</h2>} */}
       {isIrregularPassword.isIrregular && <p>{isIrregularPassword.note}</p>}
       <input
         type='password'
@@ -124,7 +129,8 @@ const RegistrationComponent = () => {
         value={confirmPassword}
       />
       <button type='submit'>Register</button>
-    </form>
+      {/* </form> */}
+    </>
   );
 };
 export default RegistrationComponent;
