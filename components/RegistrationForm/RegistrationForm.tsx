@@ -9,7 +9,6 @@ import GoogleSignInComponent from '../authMethods/google/Google';
 const RegistrationForm = () => {
   const [methodOfEnter, setMethodOfEnter] = useState({
     isPhone: false,
-    isGoogle: false,
     isEmail: true,
   });
   const searchParams = useSearchParams();
@@ -18,13 +17,11 @@ const RegistrationForm = () => {
     const signInMethod = searchParams.get('sign-in');
     if (signInMethod === 'phone') {
       setMethodOfEnter({
-        isGoogle: false,
         isPhone: true,
         isEmail: false,
       });
     } else {
       setMethodOfEnter({
-        isGoogle: false,
         isPhone: false,
         isEmail: true,
       });
@@ -40,9 +37,7 @@ const RegistrationForm = () => {
       {!methodOfEnter.isEmail && (
         <Link
           href='/registration'
-          onClick={() =>
-            setMethodOfEnter({isGoogle: false, isPhone: false, isEmail: true})
-          }
+          onClick={() => setMethodOfEnter({isPhone: false, isEmail: true})}
         >
           email & password
         </Link>
@@ -51,9 +46,7 @@ const RegistrationForm = () => {
       {!methodOfEnter.isPhone && (
         <Link
           href='/registration?sign-in=phone'
-          onClick={() =>
-            setMethodOfEnter({isGoogle: false, isPhone: true, isEmail: false})
-          }
+          onClick={() => setMethodOfEnter({isPhone: true, isEmail: false})}
         >
           Phone
         </Link>
