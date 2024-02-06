@@ -1,8 +1,9 @@
 import type {Metadata} from 'next';
 import {Inter} from 'next/font/google';
 import './globals.css';
-import UserStatus from '@/components/UserStatus/UserStatus';
-import SignOut from '@/components/SignOut/SignOut';
+import UserStatus from '@/components/auth/UserStatus/UserStatus';
+import SignOut from '@/components/auth/SignOut/SignOut';
+import ReduxProvider from '@/providers/ReduxProvider';
 
 const inter = Inter({subsets: ['latin']});
 
@@ -17,12 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body className={inter.className}>
-        <UserStatus />
-        <SignOut></SignOut>
-        {children}
-      </body>
-    </html>
+    <ReduxProvider>
+      <html lang='en'>
+        <body className={inter.className}>
+          <SignOut></SignOut>
+          <UserStatus />
+          {children}
+        </body>
+      </html>
+    </ReduxProvider>
   );
 }

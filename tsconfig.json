@@ -28,6 +28,7 @@
     ".next/types/**/*.ts",
     "components/Register.js",
     "components/authMethods/phone/Phone.jsx",
+    "store/reducers.js",
   ],
   "exclude": ["node_modules"],
 }

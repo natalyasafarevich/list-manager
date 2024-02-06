@@ -1,6 +1,6 @@
 import RegistrationComponent from '@/components/authMethods/email-password/EmailPassword';
-import RegistrationForm from '@/components/RegistrationForm/RegistrationForm';
-import UserStatus from '@/components/UserStatus/UserStatus';
+import RegistrationForm from '@/components/auth/RegistrationForm/RegistrationForm';
+import UserStatus from '@/components/auth/UserStatus/UserStatus';
 import Link from 'next/link';
 import {useSearchParams} from 'next/navigation';
 
