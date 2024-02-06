@@ -15,6 +15,14 @@ const UserStatus = () => {
   }, [auth]);
 
   useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user: any) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
     if (user) {
       console.log('Пользователь вошел:', user);
     } else {

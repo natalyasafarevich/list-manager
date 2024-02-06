@@ -8,7 +8,7 @@ export default function Registration() {
   return (
     <>
       <RegistrationForm />
-      <UserStatus />
+
       {/* <RegistrationComponent />
       <Link href={'/registration?google'}>Google</Link>
       <br />
