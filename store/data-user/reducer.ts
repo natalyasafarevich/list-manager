@@ -1,13 +1,20 @@
-import {IdTokenResult, User} from 'firebase/auth';
+import {IdTokenResult, User, UserInfo} from 'firebase/auth';
 import {ActionsType, DATA_USER} from './actions';
 
-const initialState = {data: {}};
+const initialState: UserInfo = {
+  displayName: null,
+  email: null,
+  phoneNumber: null,
+  photoURL: null,
+  providerId: '',
+  uid: '',
+};
 export const DataUserReducer = (state = initialState, action: ActionsType) => {
   switch (action.type) {
     case DATA_USER: {
       return {
         ...state,
-        data: action.payload,
+        ...action.payload,
       };
     }
     default:

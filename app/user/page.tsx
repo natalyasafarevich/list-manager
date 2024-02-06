@@ -1,3 +1,9 @@
+import Profile from '@/components/user/Profile/Profile';
+
 export default function User() {
-  return <div>Hi User</div>;
+  return (
+    <div>
+      <Profile />
+    </div>
+  );
 }

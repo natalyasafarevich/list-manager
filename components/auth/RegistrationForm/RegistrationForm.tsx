@@ -1,10 +1,11 @@
 'use client';
-import RegistrationComponent from '@/components/authMethods/email-password/EmailPassword';
+
 import Link from 'next/link';
 import {useSearchParams} from 'next/navigation';
 import {useEffect, useState} from 'react';
-import PhoneSignInComponent from '../../authMethods/phone/Phone';
-import GoogleSignInComponent from '../../authMethods/google/Google';
+import RegistrationComponent from '../authMethods/email-password/EmailPassword';
+import PhoneSignInComponent from '../authMethods/phone/Phone';
+import GoogleSignInComponent from '../authMethods/google/Google';
 
 const RegistrationForm = () => {
   const [methodOfEnter, setMethodOfEnter] = useState({
