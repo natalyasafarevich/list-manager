@@ -3,13 +3,18 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   AuthError,
+  updateProfile,
 } from 'firebase/auth';
 
 export const isUserExist = (a: boolean) => {
   return a;
 };
 
-export const handleRegister = async (email: string, password: string) => {
+export const handleRegister = async (
+  email: string,
+  password: string,
+  username: string,
+) => {
   // try {
   const auth = getAuth(firebaseApp);
   const userCredential = await createUserWithEmailAndPassword(
@@ -18,9 +23,13 @@ export const handleRegister = async (email: string, password: string) => {
     password,
   );
 
-  // Успешная регистрация
   const user = userCredential.user;
-  console.log('User registered successfully:', user);
+
+  await updateProfile(user, {
+    displayName: username,
+  });
+  // console.log('User registered successfully:', user);
+
   // } catch (error: any) {
   //   const errorCode = error.code;
 
@@ -28,4 +37,5 @@ export const handleRegister = async (email: string, password: string) => {
   //     isUserExist(true);
   //   }
   // }
+  return user;
 };

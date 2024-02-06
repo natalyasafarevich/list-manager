@@ -25,7 +25,7 @@ const GoogleSignInComponent = () => {
 
   return (
     <div>
-      <h2>Sign In with Google</h2>
+      {/* <h2>Sign In with Google</h2>   */}
       <button onClick={handleGoogleSignIn}>Sign In with Google</button>
       {error && <p style={{color: 'red'}}>{error}</p>}
     </div>

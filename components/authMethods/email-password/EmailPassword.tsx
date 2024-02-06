@@ -2,11 +2,14 @@
 
 import {handleRegister, isUserExist} from '@/firebase/registration';
 import {useState} from 'react';
-import GoogleSignInComponent from './Social/Google';
-import PhoneSignInComponent from './Social/Phone.jsx';
+import GoogleSignInComponent from '../google/Google';
+import PhoneSignInComponent from '../phone/Phone.jsx';
+import Link from 'next/link';
 
 const RegistrationComponent = () => {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isEmailCorrect, setIsEmailCorrect] = useState(true);
@@ -76,7 +79,7 @@ const RegistrationComponent = () => {
     }
 
     try {
-      await handleRegister(email, password);
+      const user = await handleRegister(email, password, name);
 
       clearForm();
     } catch (error: any) {
@@ -102,10 +105,16 @@ const RegistrationComponent = () => {
 
   return (
     <>
-      <PhoneSignInComponent />
-      <GoogleSignInComponent />
-      {/* <form onSubmit={handleSubmit}>
+      {/* <PhoneSignInComponent />
+      <GoogleSignInComponent /> */}
+      <form onSubmit={handleSubmit}>
         <h2>Registration</h2>
+        <input
+          type='text'
+          placeholder='Name'
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         {isUserExist && <p>user already exist</p>}
         {!isEmailCorrect && <h3>wrong email</h3>}
         <input
@@ -115,21 +124,21 @@ const RegistrationComponent = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         {/* {!isEqualPassword && <h2>Пароли не совпадают</h2>} */}
-      {isIrregularPassword.isIrregular && <p>{isIrregularPassword.note}</p>}
-      <input
-        type='password'
-        placeholder='Password'
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
-      <input
-        type='password'
-        placeholder='ConfirmPassword'
-        onChange={checkPassword}
-        value={confirmPassword}
-      />
-      <button type='submit'>Register</button>
-      {/* </form> */}
+        {isIrregularPassword.isIrregular && <p>{isIrregularPassword.note}</p>}
+        <input
+          type='password'
+          placeholder='Password'
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        <input
+          type='password'
+          placeholder='ConfirmPassword'
+          onChange={checkPassword}
+          value={confirmPassword}
+        />
+        <button type='submit'>Register</button>
+      </form>
     </>
   );
 };
