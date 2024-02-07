@@ -10,7 +10,7 @@ const ChangePhoto = () => {
   const [photo, setPhoto] = useState<any>();
   const [isUploaded, setIsUploaded] = useState(false);
 
-  const userId = useSelector((state: RootState) => state.userdata.uid);
+  const user = useSelector((state: RootState) => state.userdata);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = (e.target as any).files[0];
@@ -24,7 +24,7 @@ const ChangePhoto = () => {
       const storage = getStorage();
       const storageRef = ref(
         storage,
-        `profile_photos/${userId}/avatar/main-photo.jpg`,
+        `profile_photos/${user.uid}/avatar/main-photo.jpg`,
       );
 
       uploadBytes(storageRef, file)
@@ -41,7 +41,7 @@ const ChangePhoto = () => {
         });
     }
   };
-  const {photos, loading, error} = useUserPhotos(userId, isUploaded);
+  const {photos, loading, error} = useUserPhotos(user.uid, isUploaded);
   useEffect(() => {
     setPhoto(photos[0]);
     console.log(photo);
@@ -49,7 +49,12 @@ const ChangePhoto = () => {
   return (
     <div className='container'>
       <h2>Загрузка новой фотографии</h2>
-      {photo?.url && <img src={photo?.url} alt='' width={100} height={100} />}
+      <img
+        src={photo?.url ? photo?.url : user.photoURL}
+        alt=''
+        width={100}
+        height={100}
+      />
       <input type='file' onChange={handleChange} />
       <button onClick={handleUpload}>Загрузить</button>
     </div>

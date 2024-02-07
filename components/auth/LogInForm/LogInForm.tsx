@@ -2,10 +2,11 @@
 import React, {useEffect, useState} from 'react';
 import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 import firebaseApp from '@/firebase';
-import GoogleSignInComponent from '../../authMethods/google/Google';
-import PhoneSignInComponent from '../../authMethods/phone/Phone';
+
 import Link from 'next/link';
 import {useSearchParams} from 'next/navigation';
+import PhoneSignInComponent from '../authMethods/phone/Phone';
+import GoogleSignInComponent from '../authMethods/google/Google';
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
