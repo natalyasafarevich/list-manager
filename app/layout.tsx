@@ -4,6 +4,7 @@ import './globals.css';
 import UserStatus from '@/components/auth/UserStatus/UserStatus';
 import SignOut from '@/components/auth/SignOut/SignOut';
 import ReduxProvider from '@/providers/ReduxProvider';
+import Link from 'next/link';
 
 const inter = Inter({subsets: ['latin']});
 
@@ -21,8 +22,16 @@ export default function RootLayout({
     <ReduxProvider>
       <html lang='en'>
         <body className={inter.className}>
-          <SignOut></SignOut>
           <UserStatus />
+          <Link href={'/user'}>user</Link> <br />
+          <br />
+          <Link href={'/registration'}>registration</Link>
+          <br />
+          <br />
+          <Link href={'/log-in'}>Log in</Link>
+          <br />
+          <br />
+          <SignOut></SignOut>
           {children}
         </body>
       </html>

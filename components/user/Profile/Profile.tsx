@@ -15,7 +15,7 @@ const Profile = () => {
       {/* <Link href={'/settings'}>настройки</Link> */}
       <br />
 
-      <Link href={'/settings'}>управление аккаунтом</Link>
+      <Link href={'/settings'}>управление аккаунтом (settings)</Link>
       <br />
 
       <button>кнопка выйти</button>

@@ -5,7 +5,9 @@ import {getDatabase, ref, set, onValue} from 'firebase/database';
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {createdBoard} from '@/variables/variables';
-import {ProfileVisibility} from './ProfileVisibility/ProfileVisibility';
+
+import Email from './Email/Email';
+import ProfileVisibility from './ProfileVisibility/ProfileVisibility';
 
 // запись данных
 async function writeUserData(
@@ -50,7 +52,9 @@ export const AccountManagement = () => {
   }, [user]);
   return (
     <>
+      <h1>а</h1>
       <ProfileVisibility />
+      <Email />
     </>
   );
 };
