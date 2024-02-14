@@ -1,6 +1,8 @@
-import fetchUserPhotos from '@/helper/fetchUserPhotos';
+import firebaseApp from '@/firebase';
+import {profileUpdate} from '@/helper/updateProfile';
 import useUserPhotos from '@/hooks/useUserPhotos';
 import {RootState} from '@/store/store';
+import {getAuth} from 'firebase/auth';
 import {getStorage, ref, uploadBytes} from 'firebase/storage';
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
@@ -14,10 +16,9 @@ const ChangePhoto = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = (e.target as any).files[0];
-    console.log(selectedFile);
     setFile(selectedFile);
   };
-
+  const auth = getAuth(firebaseApp);
   const handleUpload = () => {
     setIsUploaded(false);
     if (file) {
@@ -30,7 +31,6 @@ const ChangePhoto = () => {
       uploadBytes(storageRef, file)
         .then((snapshot) => {
           setIsUploaded(true);
-          console.log('Фотография профиля успешно загружена');
         })
         .catch((error) => {
           setIsUploaded(false);
@@ -39,18 +39,20 @@ const ChangePhoto = () => {
             error,
           );
         });
+      profileUpdate(user.uid, {
+        photoURL: photo?.url,
+      });
     }
   };
   const {photos, loading, error} = useUserPhotos(user.uid, isUploaded);
   useEffect(() => {
     setPhoto(photos[0]);
-    console.log(photo);
   }, [photos, photo]);
   return (
-    <div className='container'>
-      <h2>Загрузка новой фотографии</h2>
+    <div className='container '>
+      <h3 className='text-secondary'>Загрузка новой фотографии</h3>
       <img
-        src={photo?.url ? photo?.url : user.photoURL}
+        src={photo?.url ? photo.url : user.photoURL}
         alt=''
         width={100}
         height={100}

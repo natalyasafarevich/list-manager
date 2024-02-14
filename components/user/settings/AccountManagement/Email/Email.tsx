@@ -1,5 +1,10 @@
 const Email = () => {
-  return <div>настроки email</div>;
+  return (
+    <div>
+      {' '}
+      <p className='text-info'>настроки email</p>{' '}
+    </div>
+  );
 };
 
 export default Email;

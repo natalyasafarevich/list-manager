@@ -35,13 +35,13 @@ export const AccountManagement = () => {
   const user = useSelector((state: RootState) => state.userdata);
   useEffect(() => {
     if (user) {
-      // writeUserData(
-      //   user.uid,
-      //   user.displayName as string,
-      //   user.email as string,
-      //   user.phoneNumber as string,
-      //   createdBoard,
-      // );
+      writeUserData(
+        user.uid,
+        user.displayName as string,
+        user.email as string,
+        user.phoneNumber as string,
+        createdBoard,
+      );
     }
     // чтение данных
     const db = getDatabase(firebaseApp);
@@ -52,9 +52,10 @@ export const AccountManagement = () => {
   }, [user]);
   return (
     <>
-      <h1>а</h1>
-      <ProfileVisibility />
-      <Email />
+      <div className='d-flex'>
+        <ProfileVisibility />
+        <Email />
+      </div>
     </>
   );
 };
