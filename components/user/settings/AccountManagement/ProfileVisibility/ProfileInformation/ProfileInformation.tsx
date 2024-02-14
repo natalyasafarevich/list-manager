@@ -13,27 +13,52 @@ import {getDatabase, ref, onValue, set, update} from 'firebase/database';
 import firebaseApp from '@/firebase';
 import {profileUpdate} from '@/helper/updateProfile';
 import {createdBoard} from '@/variables/variables';
-async function writeUserData(userId: string, params: any) {
-  const db = getDatabase(firebaseApp);
-  try {
-    await update(ref(db, 'users/' + userId), params);
-    console.log('Data successfully written');
-  } catch (error) {
-    console.error('Error writing data:', error);
-  }
-}
+import {updateUserData} from '@/helper/updateUserData';
+
 const ProfileInformation = () => {
-  // const [name, setName] = useState<string>('');
+  const [data, setData] = useState<any>();
+  console.log(data?.location, 'dfgyuio');
   const user = useSelector((state: RootState) => state.userdata);
+
+  const [updateInfo, setUpdateInfo] = useState({
+    public_name: '',
+    position: '',
+    organization: '',
+    localTime: '',
+    location: '',
+  });
+
+  useEffect(() => {
+    if (user.uid) {
+      console.log(user.uid);
+      // }
+      const starCountRef = ref(db, 'users/' + user.uid);
+      onValue(starCountRef, (snapshot) => {
+        const data = snapshot.val();
+        // получение данных юзера
+        if (data) {
+          setUpdateInfo({
+            public_name: data.public_name || '',
+            position: data.position || '',
+            organization: data.organization || '',
+            localTime: data.localTime || '',
+            location: data.location || '',
+          });
+        }
+        // setData(data);
+        // console.log(data);
+      });
+    }
+  }, [user, user.uid]);
+
   const [generalInfo, setGeneralInfo] = useState({
     displayName: '',
     email: '',
     phoneNumber: '',
     uid: user.uid || '',
     photoURL: '',
-    public_name: '',
   });
-  console.log(generalInfo);
+  // console.log(generalInfo);
   const auth = getAuth(firebaseApp);
   useEffect(() => {
     if (user.displayName) {
@@ -48,27 +73,10 @@ const ProfileInformation = () => {
     }
   }, [user]);
   const db = getDatabase(firebaseApp);
-  useEffect(() => {
-    if (user) {
-      writeUserData(user.uid, {public_name: 'f', company: 'ff'});
-      // writeUserData(
-      //   user.uid,
-      //   user.displayName as string,
-      //   user.email as string,
-      //   user.phoneNumber as string,
-      //   createdBoard,
-      // );
-    }
-    // чтение данных
-    const db = getDatabase(firebaseApp);
-    const starCountRef = ref(db, 'users/' + user.uid);
-    onValue(starCountRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-    });
-  }, [user]);
+
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
+    updateUserData(user.uid, updateInfo);
     profileUpdate(auth, {
       displayName: generalInfo.displayName,
     });
@@ -105,16 +113,61 @@ const ProfileInformation = () => {
         <input
           type='text'
           id='public-name'
-          value={generalInfo.public_name}
+          value={updateInfo.public_name}
           onChange={(e) =>
-            setGeneralInfo((prevState) => ({
+            setUpdateInfo((prevState) => ({
               ...prevState,
               public_name: e.target.value,
             }))
           }
         />
       </div>
-
+      <div className=''>
+        <label htmlFor='position'>Должность</label>
+        <input
+          type='text'
+          id='position'
+          value={updateInfo.position}
+          onChange={(e) =>
+            setUpdateInfo((prevState) => ({
+              ...prevState,
+              position: e.target.value,
+            }))
+          }
+        />
+      </div>
+      <div className=''>
+        <label htmlFor='organization'>Организация</label>
+        <input
+          type='text'
+          id='organization'
+          value={updateInfo.organization}
+          onChange={(e) =>
+            setUpdateInfo((prevState) => ({
+              ...prevState,
+              organization: e.target.value,
+            }))
+          }
+        />
+      </div>
+      <div className=''>
+        <label htmlFor='location'>Расположение</label>
+        <input
+          type='text'
+          id='location'
+          value={updateInfo.location}
+          onChange={(e) =>
+            setUpdateInfo((prevState) => ({
+              ...prevState,
+              location: e.target.value,
+            }))
+          }
+        />
+      </div>
+      <div className=''>
+        <label htmlFor='time'>Местное время</label>
+        <input type='text' id='time' readOnly value={'time'} />
+      </div>
       <div className=''>
         <label htmlFor='phone'>email</label>
         <input

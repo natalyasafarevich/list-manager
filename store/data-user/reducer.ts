@@ -1,7 +1,7 @@
 import {IdTokenResult, User, UserInfo} from 'firebase/auth';
 import {ActionsType, DATA_USER} from './actions';
 
-const initialState: UserInfo = {
+const initialState = {
   displayName: null,
   email: null,
   phoneNumber: null,
