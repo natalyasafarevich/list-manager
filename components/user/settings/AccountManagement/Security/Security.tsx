@@ -1,53 +1,51 @@
+import {FC} from 'react';
+import useEmailVerification from '@/hooks/useEmailVerification';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/store';
+import {getAuth, EmailAuthProvider} from 'firebase/auth';
 import firebaseApp from '@/firebase';
-import {getAuth, sendEmailVerification} from 'firebase/auth';
-import {FC, useEffect, useState} from 'react';
+import NewPassword from './NewPassword/NewPassword';
+// import {EmailAuthProvider} from 'firebase/auth/cordova';
 
 const Security: FC = () => {
-  const [user, setUser] = useState<any>(null);
+  const isVerified = useEmailVerification();
   const auth = getAuth(firebaseApp);
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-        checkEmailVerification(user);
-      } else {
-        setUser(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [auth]);
-
-  const checkEmailVerification = (user: any) => {
-    if (user && !user.emailVerified) {
-      user
-        .sendEmailVerification()
-        .then(() => {
-          alert('Письмо с подтверждением отправлено');
-        })
-        .catch((error: any) => {
-          alert(error.message);
-        });
-    }
-  };
-
+  const users = auth.currentUser;
+  console.log(users);
+  // const credential = EmailAuthProvider.credential(users.email, 'currentPassword');
+  const user = useSelector((state: RootState) => state.userdata);
   return (
-    <div>
-      {user ? (
-        <div>
-          <p>Пользователь: {user.email}</p>
-          {user.emailVerified ? (
-            <p>Email подтвержден</p>
-          ) : (
-            <p>
-              Email не подтвержден. Пожалуйста, проверьте свой почтовый ящик и
-              подтвердите email.
-            </p>
-          )}
+    <div className='d-flex flex-md-column align-items-center w-100'>
+      <h1>Безопасность</h1>
+      {/* <div>
+        {isVerified === true && <p>Email подтвержден</p>}
+        {isVerified === false && <p>Email не подтвержден</p>}
+        {isVerified === null && <p>Проверка статуса...</p>}
+      </div> */}
+      {/* {isVerified ? (
+        <div className='alert alert-success'>
+          <p>Текущий адрес электронной почты</p>
+
+          <p> Ваш текущий адрес электронной почты:{user.email}</p>
         </div>
       ) : (
-        <p>Пользователь не аутентифицирован</p>
-      )}
+        <div className='alert alert-warning' role='alert'>
+          Чтобы управлять настройками аккаунта, подтвердите свой адрес
+          электронной почты.
+        </div>
+      )} */}
+
+      <div className='alert alert-success'>
+        <p>Текущий адрес электронной почты</p>
+
+        <p> Ваш текущий адрес электронной почты:{user.email}</p>
+      </div>
+      {/* <h2>Изменить пароль</h2>
+      <span>
+        При изменении пароля вы останетесь в системе на этом устройстве, но,
+        возможно, выйдете из системы на других устройствах.
+      </span> */}
+      <NewPassword />
     </div>
   );
 };
