@@ -16,11 +16,12 @@ export default function Settings() {
   // writeUserData('UtegspYscmbATUOzJ9myuTCHK6q1', 'name', 'email', 'imageUrl');
   // let [board, setBoard] = useState(createdBoard);
 
-
   return (
     <>
-      <h1>hi ааааа</h1>
+      <h1>hi </h1>
       <Link href={'/settings?profile'}>Профиль и видимость</Link>
+      <br />
+      <Link href={'/settings?security'}>Безопасность</Link>
       <AccountManagement />
     </>
   );

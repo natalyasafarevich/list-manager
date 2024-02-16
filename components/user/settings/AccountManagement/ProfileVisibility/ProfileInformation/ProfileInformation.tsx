@@ -1,13 +1,7 @@
 import {RootState} from '@/store/store';
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {
-  UserInfo,
-  getAuth,
-  sendEmailVerification,
-  updateEmail,
-  updateProfile,
-} from 'firebase/auth';
+import {getAuth} from 'firebase/auth';
 import {getDatabase, ref, onValue, set, update} from 'firebase/database';
 
 import firebaseApp from '@/firebase';
@@ -16,8 +10,6 @@ import {createdBoard} from '@/variables/variables';
 import {updateUserData} from '@/helper/updateUserData';
 
 const ProfileInformation = () => {
-  const [data, setData] = useState<any>();
-  console.log(data?.location, 'dfgyuio');
   const user = useSelector((state: RootState) => state.userdata);
 
   const [updateInfo, setUpdateInfo] = useState({
@@ -30,7 +22,6 @@ const ProfileInformation = () => {
 
   useEffect(() => {
     if (user.uid) {
-      console.log(user.uid);
       // }
       const starCountRef = ref(db, 'users/' + user.uid);
       onValue(starCountRef, (snapshot) => {
@@ -45,8 +36,6 @@ const ProfileInformation = () => {
             location: data.location || '',
           });
         }
-        // setData(data);
-        // console.log(data);
       });
     }
   }, [user, user.uid]);
@@ -58,7 +47,6 @@ const ProfileInformation = () => {
     uid: user.uid || '',
     photoURL: '',
   });
-  // console.log(generalInfo);
   const auth = getAuth(firebaseApp);
   useEffect(() => {
     if (user.displayName) {
@@ -80,6 +68,7 @@ const ProfileInformation = () => {
     profileUpdate(auth, {
       displayName: generalInfo.displayName,
     });
+    alert('данные успешно  обновлены');
   };
   // useEffect(() => {
   //   if (auth?.currentUser)
@@ -93,7 +82,7 @@ const ProfileInformation = () => {
   // }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className='container'>
       <div className=''>
         <label htmlFor='name'>Полное имя</label>
         <input

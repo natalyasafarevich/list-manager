@@ -8,6 +8,7 @@ import {createdBoard} from '@/variables/variables';
 
 import Email from './Email/Email';
 import ProfileVisibility from './ProfileVisibility/ProfileVisibility';
+import Security from './Security/Security';
 
 // запись данных
 async function writeUserData(
@@ -53,8 +54,9 @@ export const AccountManagement = () => {
   return (
     <>
       <div className='d-flex'>
-        <ProfileVisibility />
-        <Email />
+        <Security />
+        {/* <ProfileVisibility /> */}
+        {/* <Email /> */}
       </div>
     </>
   );
