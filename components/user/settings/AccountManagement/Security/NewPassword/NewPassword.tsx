@@ -3,6 +3,7 @@ import {getAuth, signInWithPopup, updatePassword} from 'firebase/auth';
 import {GoogleAuthProvider} from 'firebase/auth/cordova';
 import {FC, useState} from 'react';
 
+//!! НАСТРОИТЬ, НЕ  РАБОТАЕТ
 const googleSignIn = async () => {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
@@ -21,6 +22,7 @@ const googleSignIn = async () => {
 const NewPassword: FC = () => {
   const [value, setValue] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [success, setSuccess] = useState<string>('');
 
   const auth = getAuth(firebaseApp);
 
@@ -31,21 +33,24 @@ const NewPassword: FC = () => {
     if (user) {
       updatePassword(user, value)
         .then(() => {
-          alert('Update successful');
           setError('');
+          setSuccess('password has been changed');
         })
         .catch((error) => {
           switch (error.code) {
             case 'auth/weak-password': {
               setError('Weak password');
+              setSuccess('');
               break;
             }
             case 'auth/requires-recent-login': {
-              googleSignIn(); // Вызываем повторную аутентификацию через Google
+              googleSignIn();
+              setSuccess(''); // Вызываем повторную аутентификацию через Google
               break;
             }
             default: {
               setError('Unknown error occurred');
+              setSuccess('');
             }
           }
         });
@@ -58,7 +63,8 @@ const NewPassword: FC = () => {
         возможно, выйдете из системы на других устройствах.
       </p>
       <div className='d-flex justify-content-center'>
-        {error && <p>{error}</p>}
+        {error && <p className='alert alert-danger'>{error}</p>}{' '}
+        {success && <p className='alert alert-success'>{success}</p>}
         <input
           type='text'
           value={value}

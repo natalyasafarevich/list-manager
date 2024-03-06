@@ -8,7 +8,7 @@ import NewPassword from './NewPassword/NewPassword';
 // import {EmailAuthProvider} from 'firebase/auth/cordova';
 
 const Security: FC = () => {
-  const isVerified = useEmailVerification();
+  // const isVerified = useEmailVerification();
   const auth = getAuth(firebaseApp);
   const users = auth.currentUser;
   console.log(users);
@@ -38,7 +38,7 @@ const Security: FC = () => {
       <div className='alert alert-success'>
         <p>Текущий адрес электронной почты</p>
 
-        <p> Ваш текущий адрес электронной почты:{user.email}</p>
+        <p> Ваш текущий адрес электронной почты:{user?.email}</p>
       </div>
       {/* <h2>Изменить пароль</h2>
       <span>
