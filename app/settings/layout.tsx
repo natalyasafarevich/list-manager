@@ -7,12 +7,20 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <h1>hi </h1>
-      <Link href={'/settings/profile'}>Профиль и видимость</Link>
-      <br />
-      <Link href={'/settings/security'}>Безопасность</Link>
-      <br />
-      <Link href={'/settings/email'}>Электронная почта</Link>
+      <div className='d-flex mt-5 justify-content-center mb-4'>
+        <Link
+          className='m-2 d-block nav-link text-success'
+          href={'/settings/profile'}
+        >
+          Профиль и видимость
+        </Link>
+        <Link className='m-2 d-block text-success' href={'/settings/security'}>
+          Безопасность
+        </Link>
+        <Link className='m-2 d-block text-success' href={'/settings/email'}>
+          Электронная почта
+        </Link>
+      </div>
       {children}
     </>
   );

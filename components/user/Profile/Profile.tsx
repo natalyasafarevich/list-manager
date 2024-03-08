@@ -12,10 +12,7 @@ const Profile = () => {
   return (
     <div>
       <h1>Hi {user.displayName}</h1>
-      {/* <Link href={'/settings'}>настройки</Link> */}
-      <br />
-
-      <Link href={'/settings'}>управление аккаунтом (settings)</Link>
+      <Link href={'/settings/profile'}>управление аккаунтом (settings)</Link>
       <br />
 
       <button>кнопка выйти</button>

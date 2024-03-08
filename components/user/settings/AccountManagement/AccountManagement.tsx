@@ -12,28 +12,29 @@ import ProfileVisibility from './ProfileVisibility/ProfileVisibility';
 import Security from './Security/Security';
 
 // запись данных
-async function writeUserData(
-  userId: string,
-  name: string,
-  email: string,
-  imageUrl: string,
-  board: Array<any>,
-) {
-  const db = getDatabase(firebaseApp);
-  try {
-    await set(ref(db, 'users/' + userId), {
-      username: name,
-      email: email,
-      profile_picture: imageUrl,
-      board: board,
-    });
-    console.log('Data successfully written');
-  } catch (error) {
-    console.error('Error writing data:', error);
-  }
-}
+// async function writeUserData(
+//   userId: string,
+//   name: string,
+//   email: string,
+//   imageUrl: string,
+//   board: Array<any>,
+// ) {
+//   const db = getDatabase(firebaseApp);
+//   try {
+//     await set(ref(db, 'users/' + userId), {
+//       username: name,
+//       email: email,
+//       profile_picture: imageUrl,
+//       board: board,
+//     });
+//     console.log('Data successfully written');
+//   } catch (error) {
+//     console.error('Error writing data:', error);
+//   }
+// }
 
 export const AccountManagement = () => {
+  const router = useParams();
   const user = useSelector((state: RootState) => state.userdata);
   useEffect(() => {
     if (user) {
@@ -52,8 +53,7 @@ export const AccountManagement = () => {
       const data = snapshot.val();
     });
   }, [user]);
-  const router = useParams();
-  console.log(router.slug);
+
   return (
     <>
       <div className='d-flex'>
