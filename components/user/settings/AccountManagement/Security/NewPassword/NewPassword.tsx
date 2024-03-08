@@ -1,7 +1,7 @@
 import firebaseApp from '@/firebase';
 import {getAuth, signInWithPopup, updatePassword} from 'firebase/auth';
 import {GoogleAuthProvider} from 'firebase/auth/cordova';
-import {FC, useState} from 'react';
+import {FC, useEffect, useRef, useState} from 'react';
 
 //!! НАСТРОИТЬ, НЕ  РАБОТАЕТ
 const googleSignIn = async () => {
@@ -23,7 +23,9 @@ const NewPassword: FC = () => {
   const [value, setValue] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+  const [isPassword, setIsPassword] = useState<boolean>(true);
 
+  let inputRef = useRef<any>(null);
   const auth = getAuth(firebaseApp);
 
   const user = auth.currentUser;
@@ -35,6 +37,7 @@ const NewPassword: FC = () => {
         .then(() => {
           setError('');
           setSuccess('password has been changed');
+          setValue('');
         })
         .catch((error) => {
           switch (error.code) {
@@ -56,6 +59,7 @@ const NewPassword: FC = () => {
         });
     }
   };
+
   return (
     <form className='w-50 m-auto mb-5' onSubmit={handlerSubmit}>
       <p>
@@ -63,13 +67,22 @@ const NewPassword: FC = () => {
         возможно, выйдете из системы на других устройствах.
       </p>
       <div className='d-flex justify-content-center'>
-        {error && <p className='alert alert-danger'>{error}</p>}{' '}
+        {error && <p className='alert alert-danger'>{error}</p>}
         {success && <p className='alert alert-success'>{success}</p>}
         <input
-          type='text'
+          ref={inputRef}
+          type={isPassword ? 'password' : 'text'}
           value={value}
           onChange={(e) => setValue(e.currentTarget.value)}
         />
+        <button
+          type='button'
+          onClick={(e) => {
+            setIsPassword(!isPassword);
+          }}
+        >
+          see the password
+        </button>
         <button type='submit' className='btn btn-light'>
           submit
         </button>

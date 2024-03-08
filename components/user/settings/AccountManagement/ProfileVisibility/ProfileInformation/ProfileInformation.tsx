@@ -8,10 +8,49 @@ import firebaseApp from '@/firebase';
 import {profileUpdate} from '@/helper/updateProfile';
 import {createdBoard} from '@/variables/variables';
 import {updateUserData} from '@/helper/updateUserData';
+import {geLocation} from '@/helper/geLocation';
+import {read} from 'fs';
+
+// async function geLocation(lat: number, lon: number) {
+//   const response = await fetch(
+//     `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+//   );
+//   const data = await response.json();
+//   console.log(data);
+//   return data;
+// }
 
 const ProfileInformation = () => {
   const user = useSelector((state: RootState) => state.userdata);
+  const [userLocation, setUserLocation] = useState();
+  const [time, setTime] = useState('');
+  const date = new Date();
+  useEffect(() => {
+    console.log(date.getTimezoneOffset());
+    setTime(`${date.getHours()}:${date.getMinutes()}`);
+  }, [date.getHours(), date.getMinutes()]);
 
+  useEffect(() => {
+    console.log(time);
+  }, [time]);
+  // define the function that finds the users geolocation
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          let location = geLocation(latitude, longitude);
+          location.then((data) => setUserLocation(data.address.country));
+        },
+        (error) => {
+          console.error('Ошибка получения геолокации:', error.message);
+        },
+      );
+    } else {
+      console.error('Геолокация не поддерживается вашим браузером');
+    }
+  }, []);
   const [updateInfo, setUpdateInfo] = useState({
     public_name: '',
     position: '',
@@ -144,18 +183,13 @@ const ProfileInformation = () => {
         <input
           type='text'
           id='location'
-          value={updateInfo.location}
-          onChange={(e) =>
-            setUpdateInfo((prevState) => ({
-              ...prevState,
-              location: e.target.value,
-            }))
-          }
+          value={userLocation ? userLocation : ''}
+          readOnly
         />
       </div>
       <div className=''>
         <label htmlFor='time'>Местное время</label>
-        <input type='text' id='time' readOnly value={'time'} />
+        <input type='text' id='time' readOnly value={time ? time : ''} />
       </div>
       <div className=''>
         <label htmlFor='phone'>email</label>
