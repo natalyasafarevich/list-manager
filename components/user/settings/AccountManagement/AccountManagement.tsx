@@ -5,6 +5,7 @@ import {getDatabase, ref, set, onValue} from 'firebase/database';
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {createdBoard} from '@/variables/variables';
+import {useParams, useRouter} from 'next/navigation';
 
 import Email from './Email/Email';
 import ProfileVisibility from './ProfileVisibility/ProfileVisibility';
@@ -51,11 +52,15 @@ export const AccountManagement = () => {
       const data = snapshot.val();
     });
   }, [user]);
+  const router = useParams();
+  console.log(router.slug);
   return (
     <>
       <div className='d-flex'>
-        <Security />
-        {/* <ProfileVisibility /> */}
+        {router.slug === 'security' && <Security />}
+        {router.slug === 'profile' && <ProfileVisibility />}
+        {router.slug === 'email' && <Email />}
+        {/*не работает*/}
         {/* <Email /> */}
       </div>
     </>

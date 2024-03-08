@@ -9,7 +9,7 @@ import DeleteAccount from './DeleteAccount/DeleteAccount';
 // import {EmailAuthProvider} from 'firebase/auth/cordova';
 
 const Security: FC = () => {
-  // const isVerified = useEmailVerification();
+  const isVerified = useEmailVerification();
   const auth = getAuth(firebaseApp);
   const users = auth.currentUser;
   console.log(users);
