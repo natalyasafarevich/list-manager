@@ -3,22 +3,10 @@ import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {getAuth} from 'firebase/auth';
 import {getDatabase, ref, onValue, set, update} from 'firebase/database';
-
 import firebaseApp from '@/firebase';
 import {profileUpdate} from '@/helper/updateProfile';
-import {createdBoard} from '@/variables/variables';
 import {updateUserData} from '@/helper/updateUserData';
 import {geLocation} from '@/helper/geLocation';
-import {read} from 'fs';
-
-// async function geLocation(lat: number, lon: number) {
-//   const response = await fetch(
-//     `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
-//   );
-//   const data = await response.json();
-//   console.log(data);
-//   return data;
-// }
 
 const ProfileInformation = () => {
   const user = useSelector((state: RootState) => state.userdata);
@@ -26,14 +14,9 @@ const ProfileInformation = () => {
   const [time, setTime] = useState('');
   const date = new Date();
   useEffect(() => {
-    console.log(date.getTimezoneOffset());
     setTime(`${date.getHours()}:${date.getMinutes()}`);
   }, [date.getHours(), date.getMinutes()]);
 
-  useEffect(() => {
-    console.log(time);
-  }, [time]);
-  // define the function that finds the users geolocation
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(

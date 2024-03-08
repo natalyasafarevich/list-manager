@@ -5,6 +5,7 @@ import {RootState} from '@/store/store';
 import {getAuth, EmailAuthProvider} from 'firebase/auth';
 import firebaseApp from '@/firebase';
 import NewPassword from './NewPassword/NewPassword';
+import DeleteAccount from './DeleteAccount/DeleteAccount';
 // import {EmailAuthProvider} from 'firebase/auth/cordova';
 
 const Security: FC = () => {
@@ -46,6 +47,7 @@ const Security: FC = () => {
         возможно, выйдете из системы на других устройствах.
       </span> */}
       <NewPassword />
+      <DeleteAccount />
     </div>
   );
 };

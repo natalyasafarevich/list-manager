@@ -54,8 +54,8 @@ export const AccountManagement = () => {
   return (
     <>
       <div className='d-flex'>
-        {/* <Security /> */}
-        <ProfileVisibility />
+        <Security />
+        {/* <ProfileVisibility /> */}
         {/* <Email /> */}
       </div>
     </>
