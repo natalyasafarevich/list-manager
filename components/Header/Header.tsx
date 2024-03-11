@@ -34,6 +34,11 @@ const Header: FC = () => {
                 </Link>
               </li>
               <li className='nav-item'>
+                <Link className='nav-link' href='/boards'>
+                  Boards
+                </Link>
+              </li>
+              <li className='nav-item'>
                 <Link className='nav-link' href='/log-in'>
                   Log in
                 </Link>

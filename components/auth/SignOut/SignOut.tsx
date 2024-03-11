@@ -1,16 +1,21 @@
 'use client';
-import {getDataUser} from '@/store/data-user/actions';
-import {AppDispatch} from '@/store/store';
+import {ResetDataUser, getDataUser} from '@/store/data-user/actions';
+import {AppDispatch, RootState} from '@/store/store';
 import {getAuth, signOut} from 'firebase/auth';
-import {useDispatch} from 'react-redux';
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 const SignOut = () => {
   const dispatch: AppDispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.userdata);
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
   const handleSignOut = async () => {
     try {
       const auth = getAuth();
       await signOut(auth);
-      dispatch(getDataUser({}));
+      dispatch(ResetDataUser());
       console.log('Выход из приложения выполнен успешно');
     } catch (error) {
       console.error('Ошибка при выходе из приложения:', error);

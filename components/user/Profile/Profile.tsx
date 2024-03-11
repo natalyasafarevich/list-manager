@@ -4,12 +4,13 @@ import Link from 'next/link';
 import {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import ChangeTheme from '../ChangeTheme/ChangeTheme';
+import SignOut from '@/components/auth/SignOut/SignOut';
 
 const Profile = () => {
   const user = useSelector((state: RootState) => state.userdata);
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  // useEffect(() => {
+  //   console.log(user);
+  // }, [user]);
   return (
     <div>
       <h1>Hi {user.displayName} + email</h1>
@@ -21,7 +22,7 @@ const Profile = () => {
         {/* <button className='btn btn-secondary'>кнопка выбора темы</button> */}
         <hr />
       </div>
-      <button className='btn btn-secondary'>кнопка выйти</button>
+      <SignOut />
       <br />
     </div>
   );

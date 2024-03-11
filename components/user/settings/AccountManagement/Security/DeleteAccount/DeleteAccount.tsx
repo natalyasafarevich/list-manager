@@ -1,5 +1,5 @@
 import firebaseApp from '@/firebase';
-import {getDataUser} from '@/store/data-user/actions';
+import {ResetDataUser, getDataUser} from '@/store/data-user/actions';
 import {RootState} from '@/store/store';
 import {getAuth} from 'firebase/auth';
 import {FC, useEffect} from 'react';
@@ -18,7 +18,7 @@ const DeleteAccount: FC = () => {
         ?.delete()
         .then(() => {
           alert('аккаунт успешно удален');
-          dispatch(getDataUser({}));
+          dispatch(ResetDataUser());
         })
         .catch((error) => {
           console.log(error.code);

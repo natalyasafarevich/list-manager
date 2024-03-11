@@ -1,5 +1,5 @@
 import {IdTokenResult, User, UserInfo} from 'firebase/auth';
-import {ActionsType, DATA_USER} from './actions';
+import {ActionsType, DATA_USER, RESET_DATA_USER} from './actions';
 
 const initialState = {
   displayName: null,
@@ -15,6 +15,16 @@ export const DataUserReducer = (state = initialState, action: ActionsType) => {
       return {
         ...state,
         ...action.payload,
+      };
+    }
+    case RESET_DATA_USER: {
+      return {
+        displayName: null,
+        email: null,
+        phoneNumber: null,
+        photoURL: null,
+        providerId: '',
+        uid: '',
       };
     }
     default:
