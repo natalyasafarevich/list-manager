@@ -6,12 +6,13 @@ import {profileUpdate} from '@/helper/updateProfile';
 import {v4 as uuidv4} from 'uuid';
 import firebaseApp from '@/firebase';
 import {doc, getDoc, getFirestore} from 'firebase/firestore';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '@/store/store';
 import {getDatabase, onValue, push, ref, set, update} from 'firebase/database';
 import {updateUserData} from '@/helper/updateUserData';
 import BackgroundCard from './BackgroundBoard/BackgroundBoard';
 import {bg_cards} from '@/variables/default';
+import {getBoards} from '@/store/board/actions';
 
 const CreateABoard: FC = () => {
   const [currentBg, setCurrentBg] = useState<string>(
@@ -21,15 +22,21 @@ const CreateABoard: FC = () => {
   const [visibility, setVisibility] = useState('');
   const [boards, setBoards] = useState<Array<any>>([]);
   const [isUpdate, setIsUpdate] = useState(false);
-  const user = useSelector((state: RootState) => state.userdata);
-  const db = getDatabase(firebaseApp);
 
+  const user = useSelector((state: RootState) => state.userdata);
+
+  const db = getDatabase(firebaseApp);
+  const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     if (user.uid) {
       const starCountRef = ref(db, `users/${user.uid}`);
       onValue(starCountRef, (snapshot) => {
         const data = snapshot.val();
-        setBoards(data.boards);
+
+        if (data && data.boards) {
+          setBoards(data.boards);
+          dispatch(getBoards(data.boards));
+        }
       });
     }
   }, [user.uid]);
@@ -38,6 +45,8 @@ const CreateABoard: FC = () => {
       updateUserData(user.uid, {
         boards,
       });
+      dispatch(getBoards(boards));
+
       setIsUpdate(false);
     }
   }, [isUpdate]);
