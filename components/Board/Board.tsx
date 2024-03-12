@@ -1,17 +1,22 @@
-import {FC} from 'react';
-import CreateABoard from './CreateABoard/CreateABoard';
+'use client';
+import {RootState} from '@/store/store';
+import {FC, useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
 
 const Board: FC = () => {
-  return (
-    <div className='d-block'>
-      <button className='d-block btn btn-outline-primary'>создать доску</button>
-      <CreateABoard />
-      {/* <button className='d-block btn btn-outline-dark'>начнни с шаблона</button> */}
-      {/* <button type='button' className='d-block btn btn-outline-success'>
-        создай рабочее пространство
-      </button> */}
-    </div>
-  );
+  const [currentBoard, setCurrentBoard] = useState();
+  const board = useSelector((state: RootState) => state.boards);
+  useEffect(() => {
+    board.map((item: any) => {
+      if (item.id.includes('3abed')) {
+        setCurrentBoard(item);
+      }
+    });
+  }, [board]);
+  useEffect(() => {
+    console.log(currentBoard);
+  }, [currentBoard]);
+  return <div className=''></div>;
 };
 
 export default Board;
