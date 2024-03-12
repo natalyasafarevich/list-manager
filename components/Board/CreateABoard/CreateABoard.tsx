@@ -1,12 +1,46 @@
 'use client';
 import Image from 'next/image';
-import {FC, useState} from 'react';
-import VisibilityBoard from '../VisibilityBoard/VisibilityBoard';
+import {FC, use, useEffect, useState} from 'react';
+import VisibilityBoard from './VisibilityBoard/VisibilityBoard';
+import {profileUpdate} from '@/helper/updateProfile';
+import {v4 as uuidv4} from 'uuid';
+import firebaseApp from '@/firebase';
+import {doc, getDoc, getFirestore} from 'firebase/firestore';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/store';
+import {getDatabase, onValue, push, ref, set, update} from 'firebase/database';
+import {updateUserData} from '@/helper/updateUserData';
+import BackgroundCard from './BackgroundBoard/BackgroundBoard';
+import {bg_cards} from '@/variables/default';
 
 const CreateABoard: FC = () => {
-  const [currentBg, setCurrentBg] = useState<string>('http://surl.li/rleim');
+  const [currentBg, setCurrentBg] = useState<string>(
+    'https://images.unsplash.com/photo-1710032983278-10fc4f0191f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNzEwMjQ1MDkyfA&ixlib=rb-4.0.3&q=80&w=400',
+  );
   const [value, setValue] = useState<string>('');
   const [visibility, setVisibility] = useState('');
+  const [boards, setBoards] = useState<Array<any>>([]);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const user = useSelector((state: RootState) => state.userdata);
+  const db = getDatabase(firebaseApp);
+
+  useEffect(() => {
+    if (user.uid) {
+      const starCountRef = ref(db, `users/${user.uid}`);
+      onValue(starCountRef, (snapshot) => {
+        const data = snapshot.val();
+        setBoards(data.boards);
+      });
+    }
+  }, [user.uid]);
+  useEffect(() => {
+    if (isUpdate) {
+      updateUserData(user.uid, {
+        boards,
+      });
+      setIsUpdate(false);
+    }
+  }, [isUpdate]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setCurrentBg(e.currentTarget?.dataset?.url as string);
@@ -21,7 +55,14 @@ const CreateABoard: FC = () => {
       alert('ВВедите название');
       return;
     }
-    console.log(currentBg, value, visibility);
+    const newBoard = {
+      id: uuidv4(),
+      name: value,
+      visibility: visibility,
+      currentBg: currentBg,
+    };
+    setBoards([...boards, newBoard]);
+    setIsUpdate(true);
   };
   return (
     <form className='d-block mb-5' onSubmit={handleSubmit}>
@@ -42,101 +83,8 @@ const CreateABoard: FC = () => {
             alt='board'
           ></Image>
         </div>
+        <BackgroundCard card={bg_cards} handleClick={handleClick} />
 
-        <div className='d-flex justify-content-between'>
-          <button
-            type='button'
-            onClick={handleClick}
-            data-url='http://surl.li/rleim'
-            style={{
-              width: '100px',
-              height: '100px',
-              background: `center/cover no-repeat url(http://surl.li/rleim)`,
-            }}
-          ></button>
-          <button
-            data-url='http://surl.li/rlekc'
-            type='button'
-            onClick={handleClick}
-            style={{
-              width: '100px',
-              height: '100px',
-              background: `center/cover no-repeat url(http://surl.li/rlekc)`,
-            }}
-          ></button>
-          <button
-            data-url='http://surl.li/rlekk'
-            type='button'
-            onClick={handleClick}
-            style={{
-              width: '100px',
-              height: '100px',
-              background: `center/cover no-repeat url(http://surl.li/rlekk  )`,
-            }}
-          ></button>
-          <button
-            data-url='http://surl.li/rleky'
-            type='button'
-            onClick={handleClick}
-            style={{
-              width: '100px',
-              height: '100px',
-              background: `center/cover no-repeat url(http://surl.li/rleky)`,
-            }}
-          ></button>
-          <button
-            data-url='http://surl.li/rleim'
-            type='button'
-            onClick={handleClick}
-            style={{
-              width: '100px',
-              height: '100px',
-              background: `center/cover no-repeat url(http://surl.li/rleim)`,
-            }}
-          ></button>
-        </div>
-        <div className='d-flex mt-2 justify-content-between'>
-          <button
-            type='button'
-            onClick={handleClick}
-            data-url={'/trello-bg-1.svg'}
-            style={{
-              width: '100px',
-              height: '100px',
-              background: `center/cover no-repeat url(/trello-bg-1.svg)`,
-            }}
-          ></button>
-          <button
-            type='button'
-            onClick={handleClick}
-            data-url={'https://trello.com/assets/d106776cb297f000b1f4.svg'}
-            style={{
-              width: '100px',
-              height: '100px',
-              background: `center/cover no-repeat url(https://trello.com/assets/d106776cb297f000b1f4.svg)`,
-            }}
-          ></button>
-          <button
-            type='button'
-            onClick={handleClick}
-            data-url={'https://trello.com/assets/a7c521b94eb153008f2d.svg'}
-            style={{
-              width: '100px',
-              height: '100px',
-              background: `center/cover no-repeat url(https://trello.com/assets/a7c521b94eb153008f2d.svg)`,
-            }}
-          ></button>
-          <button
-            type='button'
-            onClick={handleClick}
-            data-url={'https://trello.com/assets/aec98becb6d15a5fc95e.svg'}
-            style={{
-              width: '100px',
-              height: '100px',
-              background: `center/cover no-repeat url(https://trello.com/assets/aec98becb6d15a5fc95e.svg)`,
-            }}
-          ></button>
-        </div>
         <div className='mt-4'>
           <label htmlFor='title'>Заголовок доски</label>
           <input type='text' id='title' value={value} onChange={handleChange} />
