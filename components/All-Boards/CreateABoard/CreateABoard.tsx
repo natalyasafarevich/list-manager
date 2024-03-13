@@ -21,6 +21,7 @@ const CreateABoard: FC = () => {
   const [value, setValue] = useState<string>('');
   const [visibility, setVisibility] = useState('');
   const [boards, setBoards] = useState<Array<any>>([]);
+  const [bocards, setBoacrds] = useState<Array<any>>([]);
   const [isUpdate, setIsUpdate] = useState(false);
   const user = useSelector((state: RootState) => state.userdata);
 

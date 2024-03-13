@@ -21,6 +21,7 @@ const initialBoard = {
 const CurrentBoard: FC = () => {
   const [currentBoard, setCurrentBoard] = useState<PayloadProps>(initialBoard);
   const [currentPathname, setCurrentPathname] = useState<string>('');
+  const [index, setIndex] = useState<any>(null);
 
   const {pathname} = useUrl() ?? {};
   const board = useSelector((state: RootState) => state.boards);
@@ -37,6 +38,7 @@ const CurrentBoard: FC = () => {
         if (!item.id.includes(currentPathname)) {
           return;
         }
+        setIndex(board.indexOf(item));
         setCurrentBoard(item);
       });
   }, [board, currentPathname]);
@@ -45,7 +47,7 @@ const CurrentBoard: FC = () => {
     <div className='mt-5  '>
       <h1 className='text-center'>{currentBoard.name}</h1>
       <div className=''>
-        <NewColumn />
+        <NewColumn currentIndex={index} />
       </div>
     </div>
   );
