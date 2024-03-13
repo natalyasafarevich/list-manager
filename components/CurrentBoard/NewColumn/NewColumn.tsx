@@ -13,56 +13,121 @@ interface NewColumnProps {
 }
 const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
   const [components, setComponents] = useState<Array<any>>([]);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [currentBoard, setCurrentBoard] = useState({});
+  const [value, setValue] = useState('');
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [isClick, setIsClick] = useState(false);
   const [currentList, setCurrentList] = useState<any>([]);
-  useEffect(() => {
-    currentBoard;
-  }, []);
+
   const user = useSelector((state: RootState) => state.userdata);
+  useEffect(() => {
+    if (isUpdate) {
+      updateUserData(`${user.uid}/boards/${currentIndex}`, {
+        lists: currentList,
+      }),
+        setIsUpdate(false);
+      console.log(currentList);
+    }
+  }, [isUpdate, currentList]);
 
   useEffect(() => {
-    if (user.uid && currentIndex) {
+    if (user.uid) {
       const db = getDatabase(firebaseApp);
       const starCountRef = ref(db, 'users/' + user.uid + '/boards');
       onValue(starCountRef, (snapshot) => {
         const data = snapshot.val();
         setCurrentBoard(data[currentIndex]);
-        4;
-
+        //получение созданных колонок
         if (data[currentIndex] && data[currentIndex].lists) {
+          setCurrentList(data[currentIndex].lists);
+
           setComponents(
             data[currentIndex].lists.map((item: any) => (
-              <Column key={item.id} />
+              <Column key={item.id} name={item.name} />
             )),
           );
         }
       });
     }
   }, [user.uid, currentIndex]);
-  console.log(currentBoard);
 
-  const addComponents = () => {
-    const newComponents = [...components, <Column key={uuidv4()} />];
+  // console.log(currentList);
+  const addComponents = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newComponents = [
+      ...components,
+      <Column name={value} key={uuidv4()} />,
+    ];
+
     setComponents(newComponents);
     setCurrentList((prev: any) => [
       ...prev,
       {
-        title: '',
         id: uuidv4(),
-        name: 'new Column',
+        name: value,
       },
     ]);
-    updateUserData(`${user.uid}/boards/${currentIndex}`, {lists: currentList});
+    setIsUpdate(true);
+    setValue('');
+    setIsDisabled(true);
+    setIsClick(false);
   };
 
+  const saveComponents = () => {
+    setIsClick(true);
+  };
+
+  useEffect(() => {
+    if (value.length >= 1) {
+      setIsDisabled(false);
+      return;
+    }
+    setIsDisabled(true);
+  }, [value]);
   return (
-    <div className='d-flex align-items-center'>
+    <div className='d-flex align-items-start'>
       {components.map((component, i) => (
-        <div className='' key={i}>
+        <div
+          style={{minWidth: '280px', maxWidth: '280px', width: '100%'}}
+          key={i}
+        >
           {component}
         </div>
       ))}
-      <button onClick={addComponents}>добавить коллонку</button>
+      <div className='d-block btn-outline-primary__'>
+        {isClick ? (
+          <form
+            onSubmit={addComponents}
+            className='border p-3 border-dark rounded'
+          >
+            <input
+              type='text'
+              placeholder='name of task'
+              value={value}
+              onChange={(e) => setValue(e.currentTarget.value)}
+            />
+            <button
+              className='btn btn-outline-secondary d-block mt-2'
+              type='submit'
+              disabled={isDisabled}
+            >
+              save
+            </button>
+            <button
+              onClick={(e) => {
+                setIsClick(false), setValue('');
+              }}
+            >
+              close
+            </button>
+          </form>
+        ) : (
+          <button onClick={saveComponents} className='btn btn-outline-primary'>
+            создать список
+          </button>
+        )}
+      </div>
     </div>
   );
 };
