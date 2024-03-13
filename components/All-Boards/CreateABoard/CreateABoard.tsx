@@ -22,7 +22,6 @@ const CreateABoard: FC = () => {
   const [visibility, setVisibility] = useState('');
   const [boards, setBoards] = useState<Array<any>>([]);
   const [isUpdate, setIsUpdate] = useState(false);
-
   const user = useSelector((state: RootState) => state.userdata);
 
   const db = getDatabase(firebaseApp);
@@ -35,7 +34,7 @@ const CreateABoard: FC = () => {
 
         if (data && data.boards) {
           setBoards(data.boards);
-          dispatch(getBoards(data.boards));
+          // dispatch(getBoards(data.boards));
         }
       });
     }

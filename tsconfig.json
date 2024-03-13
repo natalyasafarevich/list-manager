@@ -30,6 +30,9 @@
     "components/authMethods/phone/Phone.jsx",
     "store/reducers.js",
     "components/user/settings/AccountManagement/Security/DeleteAccount/DeleteAccount.tsx",
+    "app/board/[id]/page.tsx",
+    "app/board/board.js",
+    "pages/about.tsx",
   ],
   "exclude": ["node_modules"],
 }

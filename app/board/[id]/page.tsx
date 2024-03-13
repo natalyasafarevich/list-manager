@@ -1,10 +1,12 @@
+'use client';
 import Board from '@/components/Board/Board';
-
+import {usePathname} from 'next/navigation';
 export default function BoardPage() {
+  const pathname = usePathname();
   return (
     <div>
-      <h1 className='text-align-center'>BOvdvARDS cPAGE</h1>
       <Board />
+      <p>Current pathname: {pathname}</p>
     </div>
   );
 }

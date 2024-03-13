@@ -7,14 +7,29 @@ import firebaseApp from '@/firebase';
 import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDataUser} from '@/store/data-user/actions';
+import {getDatabase, onValue, ref} from 'firebase/database';
+import {getBoards} from '@/store/board/actions';
 
 const UserStatus = () => {
   const [user, setUser] = useState<any>();
 
   const dispatch: AppDispatch = useDispatch();
-
+  const current_user = useSelector((state: RootState) => state.userdata);
   const auth = getAuth(firebaseApp);
+  const db = getDatabase(firebaseApp);
 
+  useEffect(() => {
+    if (current_user.uid) {
+      const starCountRef = ref(db, `users/${user.uid}`);
+      onValue(starCountRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data && data.boards) {
+          dispatch(getBoards(data.boards));
+        }
+      });
+    }
+  }, [current_user.uid]);
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: UserInfo | null) => {
       if (user) {

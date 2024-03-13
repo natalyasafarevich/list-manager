@@ -4,9 +4,10 @@ import CreateABoard from './CreateABoard/CreateABoard';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import Link from 'next/link';
+import {PayloadProps} from '../Board/Board';
 
 const AllBoards: FC = () => {
-  const [currentBoard, setCurrentBoard] = useState([]);
+  const [currentBoard, setCurrentBoard] = useState<Array<PayloadProps>>([]);
   const boards = useSelector((state: RootState) => state.boards);
   useEffect(() => {
     setCurrentBoard(boards);
@@ -23,7 +24,7 @@ const AllBoards: FC = () => {
             {boards.map((item: any, i: any) => (
               <Link
                 className='d-block'
-                href={`board/${item.id.slice(0, 5)}/${item.name.replace(/\s+/g, '-')}`}
+                href={`board/${item.id.slice(0, 5)}`}
                 key={i}
               >
                 {item.name}

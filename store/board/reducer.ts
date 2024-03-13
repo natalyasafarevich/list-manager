@@ -1,6 +1,6 @@
-import {ActionsType, BOARDS} from './actions';
+import {ActionsType, BOARDS, PayloadProps} from './actions';
 
-const initialState: any = [];
+const initialState: Array<PayloadProps> = [];
 
 export const DataBoardReducer = (state = initialState, action: ActionsType) => {
   switch (action.type) {
