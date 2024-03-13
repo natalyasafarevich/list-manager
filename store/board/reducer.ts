@@ -1,11 +1,23 @@
-import {ActionsType, BOARDS, PayloadProps} from './actions';
+import {ActionsType, BOARDS, CURRENT_BOARDS, PayloadProps} from './actions';
 
-const initialState: Array<PayloadProps> = [];
+type InitialStateType = {
+  boards: Array<PayloadProps>;
+  currentBoards: any; // Замените 'any' на тип данных для поля currentBoards, если он не является массивом
+};
+
+const initialState: InitialStateType = {
+  boards: [],
+  currentBoards: [],
+};
 
 export const DataBoardReducer = (state = initialState, action: ActionsType) => {
   switch (action.type) {
     case BOARDS: {
-      return [...action.payload];
+      return {...state, boards: action.payload}; // Обновляем поле boards в состоянии
+    }
+
+    case CURRENT_BOARDS: {
+      return {...state, currentBoards: action.payload}; // Обновляем поле currentBoards в состоянии
     }
 
     default:

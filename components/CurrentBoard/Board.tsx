@@ -24,8 +24,8 @@ const CurrentBoard: FC = () => {
   const [index, setIndex] = useState<any>(null);
 
   const {pathname} = useUrl() ?? {};
-  const board = useSelector((state: RootState) => state.boards);
-
+  const board = useSelector((state: RootState) => state.boards.boards);
+  console.log(board);
   useEffect(() => {
     const parts = pathname ? pathname.split('/') : [];
     const lastPart = parts.length > 0 ? parts[parts.length - 1] : '';
@@ -34,11 +34,11 @@ const CurrentBoard: FC = () => {
 
   useEffect(() => {
     if (currentPathname && board)
-      board.map((item) => {
+      board?.map((item: any, i: any) => {
         if (!item.id.includes(currentPathname)) {
           return;
         }
-        setIndex(board.indexOf(item));
+        setIndex(i);
         setCurrentBoard(item);
       });
   }, [board, currentPathname]);

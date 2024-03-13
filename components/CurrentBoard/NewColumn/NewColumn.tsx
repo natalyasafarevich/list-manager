@@ -2,24 +2,30 @@
 import {FC, useEffect, useState} from 'react';
 import Column from '../Column/Column';
 import {updateUserData} from '@/helper/updateUserData';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '@/store/store';
 import {getDatabase, onValue, ref} from 'firebase/database';
 import firebaseApp from '@/firebase';
 import {v4 as uuidv4} from 'uuid';
+import {getBoardCurrent} from '@/store/board/actions';
 
 interface NewColumnProps {
   currentIndex: number;
 }
 const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
+  const t = useSelector((state: RootState) => state.column);
+  console.log(t);
+  const dispatch: AppDispatch = useDispatch();
   const [components, setComponents] = useState<Array<any>>([]);
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
-  const [currentBoard, setCurrentBoard] = useState({});
+  const [currentBoard, setCurrentBoard] = useState<any>({});
   const [value, setValue] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const [isClick, setIsClick] = useState(false);
   const [currentList, setCurrentList] = useState<any>([]);
-
+  useEffect(() => {
+    // dispatch(getBoardCurrent(currentBoard?.lists));
+  }, [currentBoard]);
   const user = useSelector((state: RootState) => state.userdata);
   useEffect(() => {
     if (isUpdate) {
@@ -27,7 +33,6 @@ const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
         lists: currentList,
       }),
         setIsUpdate(false);
-      console.log(currentList);
     }
   }, [isUpdate, currentList]);
 
@@ -37,6 +42,7 @@ const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
       const starCountRef = ref(db, 'users/' + user.uid + '/boards');
       onValue(starCountRef, (snapshot) => {
         const data = snapshot.val();
+
         setCurrentBoard(data[currentIndex]);
         //получение созданных колонок
         if (data[currentIndex] && data[currentIndex].lists) {
@@ -44,7 +50,11 @@ const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
 
           setComponents(
             data[currentIndex].lists.map((item: any) => (
-              <Column key={item.id} name={item.name} />
+              <Column
+                // currentId={currentBoard.id}
+                key={item.id}
+                name={item.name}
+              />
             )),
           );
         }
