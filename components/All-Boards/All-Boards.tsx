@@ -4,11 +4,11 @@ import CreateABoard from './CreateABoard/CreateABoard';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import Link from 'next/link';
-import {PayloadProps} from '../Board/Board';
+import {PayloadProps} from '../CurrentBoard/Board';
 
 const AllBoards: FC = () => {
   const [currentBoard, setCurrentBoard] = useState<Array<PayloadProps>>([]);
-  const boards = useSelector((state: RootState) => state.boards);
+  const boards = useSelector((state: RootState) => state.boards.boards);
   useEffect(() => {
     setCurrentBoard(boards);
   }, [boards]);

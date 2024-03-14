@@ -4,68 +4,65 @@ import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4 as uuidv4} from 'uuid';
+import CreateCard from '../CreateCard/CreateCard';
+import {profileUpdate} from '@/helper/updateProfile';
+import {updateUserData} from '@/helper/updateUserData';
 type ColumnProps = {
   name: string;
+  dataId?: string;
 };
-const Column: FC<ColumnProps> = ({name}) => {
-  const [value, setValue] = useState('');
+const Column: FC<ColumnProps> = ({name, dataId}) => {
   const [isClose, setIsClose] = useState(true);
   const [cards, setCards] = useState<any>([]);
   const [isSave, setIsSave] = useState(false);
-  const s = useSelector((state: RootState) => state.column);
-  console.log(s);
-  const handleClose = () => {
-    setIsClose(true);
-    setValue('');
-  };
+
+  // const s = useSelector((state: RootState) => state.column);
+  // console.log(s, 'g');
+  const [cardIndex, setCardIndex] = useState<number>(0);
   const dispatch: AppDispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.userdata);
+  const current_column = useSelector((state: RootState) => state.column);
+
+  const current_board = useSelector((state: RootState) => state?.boards);
 
   useEffect(() => {
+    console.log(current_board);
+  }, [current_board]);
+  // console.log(dataId, 'id');
+  useEffect(() => {
     if (isSave) {
+      updateUserData(
+        `${user.uid}/boards/${current_board.index}/lists/${cardIndex}`,
+        {cards},
+      );
       dispatch(
         getColumnInfo({
-          id: '25d01923-bd66-4cb1-b62e-888c148010b1',
+          id: dataId,
           cards: cards,
         }),
       );
     }
     setIsSave(false);
   }, [isSave]);
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const obj = {
-      id: uuidv4(),
-      title: value,
-      desc: '',
-      chek: '',
-    };
-    setCards((prevList: any) => [...prevList, obj]);
-    setIsSave(true);
-  };
+
+  console.log(cardIndex);
   return (
-    <div className='m-2 border rounded p-3 bg-light text-dark '>
+    <div
+      className='m-2 border rounded p-3 bg-light text-dark '
+      data-id={dataId}
+    >
       <div className='d-flex w-100 justify-content-between'>
         <b>{name}</b>
         <button>set</button>
       </div>
       {!isClose ? (
-        <form action='' onSubmit={handleSubmit}>
-          <input
-            type='text'
-            value={value}
-            onChange={(e) => setValue(e.currentTarget.value)}
-          />
-          <button className='btn btn-info' type='submit'>
-            добавить карточку
-          </button>
-          <button
-            className='btn btn-danger'
-            type='button'
-            onClick={handleClose}
-          >
-            close
-          </button>
-        </form>
+        <CreateCard
+          setCards={(e) => setCards(e)}
+          setIsSave={(e) => setIsSave(e)}
+          setIsClose={(e) => setIsClose(e)}
+          listId={dataId as string}
+          setCardIndex={(e) => setCardIndex(e)}
+        />
       ) : (
         <button type='button' onClick={(e) => setIsClose(false)}>
           добавить карточку

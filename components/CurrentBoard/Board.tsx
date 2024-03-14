@@ -10,6 +10,7 @@ export type PayloadProps = {
   id: string;
   name: string;
   visibility: string;
+  lists?: Array<any>;
 };
 const initialBoard = {
   name: '',
@@ -25,7 +26,8 @@ const CurrentBoard: FC = () => {
 
   const {pathname} = useUrl() ?? {};
   const board = useSelector((state: RootState) => state.boards.boards);
-  console.log(board);
+  // console.log(currentBoard.lists, 'board');
+
   useEffect(() => {
     const parts = pathname ? pathname.split('/') : [];
     const lastPart = parts.length > 0 ? parts[parts.length - 1] : '';

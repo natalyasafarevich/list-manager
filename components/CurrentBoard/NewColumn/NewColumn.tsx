@@ -4,29 +4,30 @@ import Column from '../Column/Column';
 import {updateUserData} from '@/helper/updateUserData';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '@/store/store';
-import {getDatabase, onValue, ref} from 'firebase/database';
-import firebaseApp from '@/firebase';
 import {v4 as uuidv4} from 'uuid';
 import {getBoardCurrent} from '@/store/board/actions';
+import {getFirebaseData} from '@/helper/getFirebaseData';
 
 interface NewColumnProps {
   currentIndex: number;
 }
 const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
-  const t = useSelector((state: RootState) => state.column);
-  console.log(t);
   const dispatch: AppDispatch = useDispatch();
-  const [components, setComponents] = useState<Array<any>>([]);
-  const [isUpdate, setIsUpdate] = useState<boolean>(false);
-  const [currentBoard, setCurrentBoard] = useState<any>({});
+
   const [value, setValue] = useState('');
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [isClick, setIsClick] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
+  const [components, setComponents] = useState<Array<any>>([]);
   const [currentList, setCurrentList] = useState<any>([]);
+  const [currentBoard, setCurrentBoard] = useState<any>({});
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [isClick, setIsClick] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
   useEffect(() => {
-    // dispatch(getBoardCurrent(currentBoard?.lists));
+    dispatch(getBoardCurrent(currentBoard, currentIndex));
   }, [currentBoard]);
   const user = useSelector((state: RootState) => state.userdata);
+
   useEffect(() => {
     if (isUpdate) {
       updateUserData(`${user.uid}/boards/${currentIndex}`, {
@@ -37,32 +38,34 @@ const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
   }, [isUpdate, currentList]);
 
   useEffect(() => {
-    if (user.uid) {
-      const db = getDatabase(firebaseApp);
-      const starCountRef = ref(db, 'users/' + user.uid + '/boards');
-      onValue(starCountRef, (snapshot) => {
-        const data = snapshot.val();
+    if (userData) {
+      setCurrentBoard(userData[currentIndex]);
+      if (userData[currentIndex] && userData[currentIndex].lists) {
+        setCurrentList(userData[currentIndex].lists);
 
-        setCurrentBoard(data[currentIndex]);
-        //получение созданных колонок
-        if (data[currentIndex] && data[currentIndex].lists) {
-          setCurrentList(data[currentIndex].lists);
-
-          setComponents(
-            data[currentIndex].lists.map((item: any) => (
-              <Column
-                // currentId={currentBoard.id}
-                key={item.id}
-                name={item.name}
-              />
-            )),
-          );
-        }
-      });
+        setComponents(
+          userData[currentIndex].lists.map((item: any) => (
+            <Column dataId={item.id} key={item.id} name={item.name} />
+          )),
+        );
+      }
     }
-  }, [user.uid, currentIndex]);
+  }, [userData, currentIndex]);
 
-  // console.log(currentList);
+  useEffect(() => {
+    if (user.uid) {
+      const fetchData = async () => {
+        try {
+          const userData = await getFirebaseData(user.uid, '/boards');
+          setUserData(userData);
+        } catch (error) {
+          alert(error + 'error in new column');
+        }
+      };
+      fetchData();
+    }
+  }, [user.uid]);
+
   const addComponents = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newComponents = [
