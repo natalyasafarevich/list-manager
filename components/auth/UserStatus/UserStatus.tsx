@@ -20,16 +20,17 @@ const UserStatus = () => {
 
   useEffect(() => {
     if (current_user.uid) {
-      const starCountRef = ref(db, `users/${user.uid}`);
+      const starCountRef = ref(db, `users/${current_user?.uid}`);
       onValue(starCountRef, (snapshot) => {
         const data = snapshot.val();
         if (data && data.boards) {
+          console.log(data.boards);
           dispatch(getBoards(data.boards));
         }
       });
     }
   }, [current_user.uid]);
-  
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: UserInfo | null) => {
       if (user) {

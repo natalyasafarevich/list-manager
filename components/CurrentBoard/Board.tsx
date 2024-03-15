@@ -33,18 +33,19 @@ const CurrentBoard: FC = () => {
     const lastPart = parts.length > 0 ? parts[parts.length - 1] : '';
     setCurrentPathname(lastPart);
   }, [pathname]);
-
+  console.log(board);
   useEffect(() => {
     if (currentPathname && board)
       board?.map((item: any, i: any) => {
         if (!item.id.includes(currentPathname)) {
           return;
         }
+
         setIndex(i);
         setCurrentBoard(item);
       });
   }, [board, currentPathname]);
-
+  console.log(index);
   return (
     <div className='mt-5  '>
       <h1 className='text-center'>{currentBoard.name}</h1>

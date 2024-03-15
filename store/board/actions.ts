@@ -22,7 +22,7 @@ export type CurrentBoardProp = {
 
 export type ActionsType = DataBoardProp | CurrentBoardProp;
 
-export const getBoards = (data: any) => {
+export const getBoards = (data: Array<any>) => {
   return {
     type: BOARDS,
     payload: data,

@@ -27,7 +27,8 @@ const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
     dispatch(getBoardCurrent(currentBoard, currentIndex));
   }, [currentBoard]);
   const user = useSelector((state: RootState) => state.userdata);
-
+  const c = useSelector((state: RootState) => state.column.cards);
+  // console.log(c);
   useEffect(() => {
     if (isUpdate) {
       updateUserData(`${user.uid}/boards/${currentIndex}`, {
@@ -35,17 +36,18 @@ const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
       }),
         setIsUpdate(false);
     }
-  }, [isUpdate, currentList]);
+  }, [isUpdate, currentList, c]);
 
   useEffect(() => {
     if (userData) {
       setCurrentBoard(userData[currentIndex]);
+
       if (userData[currentIndex] && userData[currentIndex].lists) {
         setCurrentList(userData[currentIndex].lists);
 
         setComponents(
           userData[currentIndex].lists.map((item: any) => (
-            <Column dataId={item.id} key={item.id} name={item.name} />
+            <Column item={item} name={item.name} key={item.id} />
           )),
         );
       }
@@ -64,7 +66,7 @@ const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
       };
       fetchData();
     }
-  }, [user.uid]);
+  }, [user.uid, c]);
 
   const addComponents = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
