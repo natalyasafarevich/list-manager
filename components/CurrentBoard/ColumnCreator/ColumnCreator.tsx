@@ -1,5 +1,5 @@
 'use client';
-import {FC, useEffect, useState} from 'react';
+import {FC, createContext, useEffect, useState} from 'react';
 import Column from '../Column/Column';
 import {updateUserData} from '@/helper/updateUserData';
 import {useDispatch, useSelector} from 'react-redux';
@@ -7,12 +7,14 @@ import {AppDispatch, RootState} from '@/store/store';
 import {v4 as uuidv4} from 'uuid';
 import {getBoardCurrent} from '@/store/board/actions';
 import {getFirebaseData} from '@/helper/getFirebaseData';
+import CardForm from '../Column/CardForm/CardForm';
 
 interface NewColumnProps {
   currentIndex: number;
 }
-const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
-  const dispatch: AppDispatch = useDispatch();
+
+const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
+  // const userd = {name: 'John', email: 'john@example.com'};
 
   const [value, setValue] = useState('');
   const [userData, setUserData] = useState<any>(null);
@@ -23,20 +25,22 @@ const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
   const [isClick, setIsClick] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
+  const dispatch: AppDispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getBoardCurrent(currentBoard, currentIndex));
   }, [currentBoard]);
+
   const user = useSelector((state: RootState) => state.userdata);
-  const c = useSelector((state: RootState) => state.column.cards);
-  // console.log(c);
+
   useEffect(() => {
     if (isUpdate) {
       updateUserData(`${user.uid}/boards/${currentIndex}`, {
         lists: currentList,
-      }),
-        setIsUpdate(false);
+      });
+      setIsUpdate(false);
     }
-  }, [isUpdate, currentList, c]);
+  }, [isUpdate, currentList]);
 
   useEffect(() => {
     if (userData) {
@@ -66,7 +70,7 @@ const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
       };
       fetchData();
     }
-  }, [user.uid, c]);
+  }, [user.uid]);
 
   const addComponents = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -96,55 +100,23 @@ const NewColumn: FC<NewColumnProps> = ({currentIndex}) => {
   useEffect(() => {
     if (value.length >= 1) {
       setIsDisabled(false);
-      return;
+    } else {
+      setIsDisabled(true);
     }
-    setIsDisabled(true);
   }, [value]);
+
   return (
-    <div className='d-flex align-items-start'>
-      {components.map((component, i) => (
-        <div
-          style={{minWidth: '280px', maxWidth: '280px', width: '100%'}}
-          key={i}
-        >
-          {component}
-        </div>
-      ))}
-      <div className='d-block btn-outline-primary__'>
-        {isClick ? (
-          <form
-            onSubmit={addComponents}
-            className='border p-3 border-dark rounded'
-          >
-            <input
-              type='text'
-              placeholder='name of task'
-              value={value}
-              onChange={(e) => setValue(e.currentTarget.value)}
-            />
-            <button
-              className='btn btn-outline-secondary d-block mt-2'
-              type='submit'
-              disabled={isDisabled}
-            >
-              save
-            </button>
-            <button
-              onClick={(e) => {
-                setIsClick(false), setValue('');
-              }}
-            >
-              close
-            </button>
-          </form>
-        ) : (
-          <button onClick={saveComponents} className='btn btn-outline-primary'>
-            создать список
-          </button>
-        )}
-      </div>
-    </div>
+    <CardForm
+      components={components}
+      addComponents={addComponents}
+      setValue={setValue}
+      saveComponents={saveComponents}
+      isClick={isClick}
+      isDisabled={isDisabled}
+      value={value}
+      setIsClick={setIsClick}
+    />
   );
 };
 
-export default NewColumn;
+export default ColumnCreator;

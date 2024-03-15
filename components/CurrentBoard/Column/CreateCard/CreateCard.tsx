@@ -20,8 +20,8 @@ const CreateCard: FC<CreateCardProps> = ({
   listId,
 }) => {
   // const [cardIndex, setCardIndex] = useState<number>(0);
-  const tt = useSelector((state: RootState) => state.column);
-  console.log(tt);
+  // const tt = useSelector((state: RootState) => state.column);
+  // console.log(tt);
   const [value, setValue] = useState('');
 
   const user = useSelector((state: RootState) => state);
@@ -41,7 +41,7 @@ const CreateCard: FC<CreateCardProps> = ({
     );
     // const dataId = e.currentTarget.dataset.id;
     // console.log(dataId);
-    console.log(listId);
+    // console.log(listId);
     const obj = {
       id: uuidv4(),
       title: value,

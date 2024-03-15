@@ -7,7 +7,10 @@ import {v4 as uuidv4} from 'uuid';
 import CreateCard from './CreateCard/CreateCard';
 import {profileUpdate} from '@/helper/updateProfile';
 import {updateUserData} from '@/helper/updateUserData';
-import Card from './Card/Card';
+import CardDisplay from './CardDisplay/CardDisplay';
+import ColumnSettings from './ColumnSettings/ColumnSettings';
+import NameWithSettingsButton from './NameWithSettingsButton/NameWithSettingsButton';
+
 type ColumnProps = {
   item?: {id?: string; cards: Array<any>};
   name?: string;
@@ -17,23 +20,19 @@ const Column: FC<ColumnProps> = ({item, name}) => {
   const [isClose, setIsClose] = useState(true);
   const [cards, setCards] = useState<any>([]);
   const [isSave, setIsSave] = useState(false);
-  
+
+  const user = useSelector((state: RootState) => state.userdata);
+  const current_board = useSelector((state: RootState) => state?.boards);
+
+  const dispatch: AppDispatch = useDispatch();
+
   useEffect(() => {
+    if (!item?.cards) {
+      return;
+    }
     setCards(item?.cards);
   }, [item]);
 
-
-  const dispatch: AppDispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.userdata);
-  // const current_column = useSelector((state: RootState) => state.column);
-
-  const current_board = useSelector((state: RootState) => state?.boards);
-
-  // useEffect(() => {
-  //   console.log(current_board);
-  // }, [current_board]);
-
-  // // console.log(dataId, 'id');
   useEffect(() => {
     if (isSave) {
       updateUserData(
@@ -50,16 +49,16 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     setIsSave(false);
   }, [isSave]);
 
-  // console.log(<car></car>dIndex);
   return (
     <div
-      className='m-2 border rounded p-3 bg-light text-dark '
+      className='m-2 border rounded p-3 bg-light text-dark position-relative '
       data-id={item?.id}
     >
-      <div className='d-flex w-100 justify-content-between'>
+      <NameWithSettingsButton name={name} />
+      {/* <div className=''>
         <b>{name}</b>
-        <button>set</button>
-      </div>
+        <button className='btn btn-dark'>...</button>
+      </div> */}
       {!isClose ? (
         <CreateCard
           setCards={(e) => setCards(e)}
@@ -71,12 +70,10 @@ const Column: FC<ColumnProps> = ({item, name}) => {
       ) : (
         <div>
           <div className='mb-2'>
-            {cards?.map((itedm: any, i: any) => {
-              // console.log(itedm);
+            {cards?.map((card: any, i: any) => {
               return (
                 <div key={i}>
-                  {' '}
-                  <Card />
+                  <CardDisplay card={card} />
                 </div>
               );
             })}

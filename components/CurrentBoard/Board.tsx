@@ -3,7 +3,7 @@ import {RootState} from '@/store/store';
 import {useUrl} from 'nextjs-current-url';
 import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import NewColumn from './NewColumn/NewColumn';
+import ColumnCreator from './ColumnCreator/ColumnCreator';
 
 export type PayloadProps = {
   currentBg: string;
@@ -45,12 +45,12 @@ const CurrentBoard: FC = () => {
         setCurrentBoard(item);
       });
   }, [board, currentPathname]);
-  console.log(index);
+
   return (
     <div className='mt-5  '>
       <h1 className='text-center'>{currentBoard.name}</h1>
       <div className=''>
-        <NewColumn currentIndex={index} />
+        <ColumnCreator currentIndex={index} />
       </div>
     </div>
   );
