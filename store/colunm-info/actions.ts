@@ -1,4 +1,5 @@
 // import {PayloadProdps} from './../column-setting/actions';
+import {ColumnCardsProps} from '@/types/interfaces';
 import {UserInfo} from 'firebase/auth'; // Используйте UserInfo, если это возможно
 
 export const COLUMN = 'colunm-info/COLUMN';
@@ -16,7 +17,7 @@ export type DataColumnProp = {
 };
 
 interface PayloadProps {
-  cards: Array<any>;
+  cards: Array<ColumnCardsProps>;
   id?: string;
   name?: string;
 }

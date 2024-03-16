@@ -44,23 +44,18 @@ const CreateCard: FC<CreateCardProps> = ({
       (item: any, i: number) => {
         if (item.id === listId) {
           setCardIndex(i);
-          console.log(item, 'item');
+          // console.log(item, 'item');
           dispatch(getCurrentColumn(item));
           // console.log(item, 'fcf');
         }
       },
     );
-    // dispatch(getCurrentColumn(item));
-    // dispatch(isCreateCard({isCreate: false}));
 
-    // dispatch(isCreateCard({i: false}));
-    const obj = {
+    const newCard = {
       id: uuidv4(),
       title: value,
-      desc: '',
-      chek: '',
     };
-    setCards((prevList: any) => [...prevList, obj]);
+    setCards((prevList: any) => [...prevList, newCard]);
     setIsSave(true);
     setIsClose(true);
     setValue('');

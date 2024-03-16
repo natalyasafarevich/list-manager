@@ -10,6 +10,7 @@ import CardDisplay from './CardDisplay/CardDisplay';
 import NameWithSettingsButton from './NameWithSettingsButton/NameWithSettingsButton';
 import {getIsOpenClSetting} from '@/store/column-setting/actions';
 import {getFirebaseData} from '@/helper/getFirebaseData';
+import {CurrentColumnProps} from '@/types/interfaces';
 
 type ColumnProps = {
   item?: {id: string; cards: Array<any>};
@@ -48,49 +49,52 @@ const Column: FC<ColumnProps> = ({item, name}) => {
   useEffect(() => {
     // console.log(isCreateNewCard, 'c');
   }, [isCreateNewCard]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const userData = await getFirebaseData(
+  //         user.uid,
+  //         `/boards/${current_board.index}/lists/${cardIndex}`,
+  //       );
+  //       // console.log(userData, 'userData');
+  //       // console.log(userData, 'uer data');
+  //     } catch (error) {
+  //       alert(error + 'error in new column');
+  //     }
+  //   };
+  //   fetchData();
+  //   // getFirebaseData(
+  //   //   user.uid +,
+  //   // );
+  // }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userData = await getFirebaseData(
+        const columnData = await getFirebaseData(
           user.uid,
           `/boards/${current_board.index}/lists/${cardIndex}`,
         );
-        // console.log(userData, 'userData');
+
+        // console.log(columnData,'hjk');
+        getUserData(columnData as CurrentColumnProps);
         // console.log(userData, 'uer data');
       } catch (error) {
         alert(error + 'error in new column');
       }
     };
     fetchData();
-    // getFirebaseData(
-    //   user.uid +,
-    // );
   }, []);
+  const [userData, getUserData] = useState<CurrentColumnProps>();
+  console.log(userData, 'ghjk');
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userData = await getFirebaseData(
-          user.uid,
-          `/boards/${current_board.index}/lists/${cardIndex}`,
-        );
-        sy(userData);
-        // console.log(userData, 'uer data');
-      } catch (error) {
-        alert(error + 'error in new column');
-      }
-    };
-    fetchData();
-  }, []);
-  const [y, sy] = useState<any>();
-  useEffect(() => {
-    // console.log(y, 'ghjk');
-    dispatch(
-      getColumnInfo({
-        id: y?.id,
-        cards: y?.cards,
-      }),
-    );
-  }, [y]);
+    if (userData)
+      dispatch(
+        getColumnInfo({
+          id: userData.id,
+          cards: userData.cards,
+        }),
+      );
+  }, [userData]);
   useEffect(() => {
     if (isSave) {
       updateUserData(
@@ -99,11 +103,11 @@ const Column: FC<ColumnProps> = ({item, name}) => {
       );
       const fetchData = async () => {
         try {
-          const userData = await getFirebaseData(
+          const columnData = await getFirebaseData(
             user.uid,
             `/boards/${current_board.index}/lists/${cardIndex}`,
           );
-          sy(userData);
+          getUserData(columnData as CurrentColumnProps);
           // console.log(userData, 'uer data');
         } catch (error) {
           alert(error + 'error in new column');
