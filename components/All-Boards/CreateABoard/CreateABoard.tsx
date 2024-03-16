@@ -34,7 +34,7 @@ const CreateABoard: FC = () => {
         const data = snapshot.val();
 
         if (data && data.boards) {
-          setBoards(data.boards);
+          setBoards(data?.boards);
           // dispatch(getBoards(data.boards));
         }
       });

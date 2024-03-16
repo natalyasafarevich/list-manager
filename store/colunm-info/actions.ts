@@ -1,6 +1,9 @@
+// import {PayloadProdps} from './../column-setting/actions';
 import {UserInfo} from 'firebase/auth'; // Используйте UserInfo, если это возможно
 
 export const COLUMN = 'colunm-info/COLUMN';
+export const CURRENT_COLUMN = 'column-info/CURRENT_COLUMN';
+
 // export type PayloadProps = {
 //   currentBg: string;
 //   id: string;
@@ -12,11 +15,28 @@ export type DataColumnProp = {
   payload: any;
 };
 
-export type ActionsType = DataColumnProp;
+interface PayloadProps {
+  cards: Array<any>;
+  id?: string;
+  name?: string;
+}
+export type DataCurrentColumnProp = {
+  type: typeof CURRENT_COLUMN;
+  payload: PayloadProps;
+};
 
-export const getColumnInfo = (data: any) => {
+export type ActionsType = DataColumnProp | DataCurrentColumnProp;
+
+export const getColumnInfo = (data: PayloadProps) => {
   return {
     type: COLUMN,
+    payload: data,
+  };
+};
+
+export const getCurrentColumn = (data: any) => {
+  return {
+    type: CURRENT_COLUMN,
     payload: data,
   };
 };

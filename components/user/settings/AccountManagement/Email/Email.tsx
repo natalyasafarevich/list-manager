@@ -18,7 +18,7 @@ const Email = () => {
     e.preventDefault();
     updateEmail(auth.currentUser, 'user@example.com')
       .then(() => {
-        console.log('yra');
+        // console.log('yra');
         // ...
       })
       .catch((error: any) => {

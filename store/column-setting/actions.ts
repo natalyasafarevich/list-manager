@@ -1,5 +1,6 @@
 export const IS_COLUMN_SETTING_OPEN = 'column-setting/IS_COLUMN_SETTING_OPEN';
 export const IS_CREATE_CARD = 'column-setting/IS_COLUMN_OPEN';
+export const IS_COPY_COLUMN = 'column-setting/IS_COPY_COLUMN';
 
 export type PayloadProps = {
   isOpen: boolean;
@@ -10,7 +11,10 @@ export type DataColumnProps = {
   payload: PayloadProps;
 };
 
-export type ActionsType = DataColumnProps | DataCreateCardProps;
+export type ActionsType =
+  | DataColumnProps
+  | DataCreateCardProps
+  | DataIsCopyColumnProps;
 
 export const getIsOpenClSetting = (data: PayloadProps) => {
   return {
@@ -26,10 +30,25 @@ export type DataCreateCardProps = {
   type: typeof IS_CREATE_CARD;
   payload: CreateCardProps;
 };
-
+// export type CreateCardProps = {
+//   isCreate: boolean;
+// };
 export const isCreateCard = (data: CreateCardProps) => {
   return {
     type: IS_CREATE_CARD,
+    payload: data,
+  };
+};
+export type CopyColumnProps = {
+  isCopy: boolean;
+};
+export type DataIsCopyColumnProps = {
+  type: typeof IS_COPY_COLUMN;
+  payload: CopyColumnProps;
+};
+export const isCopyColumn = (data: CopyColumnProps) => {
+  return {
+    type: IS_COPY_COLUMN,
     payload: data,
   };
 };

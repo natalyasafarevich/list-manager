@@ -1,5 +1,6 @@
 'use client';
 import {isCreateCard} from '@/store/column-setting/actions';
+import {getCurrentColumn} from '@/store/colunm-info/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,8 +23,9 @@ const CreateCard: FC<CreateCardProps> = ({
 }) => {
   // const [cardIndex, setCardIndex] = useState<number>(0);
   const tt = useSelector((state: RootState) => state.column);
-  console.log(tt);
+  // console.log(tt);
   const [value, setValue] = useState('');
+  const [d, setde] = useState<Array<any>>([]);
 
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state);
@@ -35,17 +37,20 @@ const CreateCard: FC<CreateCardProps> = ({
   //   console.log(isCreateNewCard);
   //   isCreateNewCard.isCreate && setIsClose(isCreateNewCard.isCreate);
   // }, [isCreateNewCard]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     current_board.boards[current_board.index]?.lists.map(
       (item: any, i: number) => {
         if (item.id === listId) {
           setCardIndex(i);
-          // console.log(item);
+          console.log(item, 'item');
+          dispatch(getCurrentColumn(item));
+          // console.log(item, 'fcf');
         }
       },
     );
-
+    // dispatch(getCurrentColumn(item));
     // dispatch(isCreateCard({isCreate: false}));
 
     // dispatch(isCreateCard({i: false}));

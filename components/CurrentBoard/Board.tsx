@@ -22,11 +22,11 @@ const initialBoard = {
 const CurrentBoard: FC = () => {
   const [currentBoard, setCurrentBoard] = useState<PayloadProps>(initialBoard);
   const [currentPathname, setCurrentPathname] = useState<string>('');
-  const [index, setIndex] = useState<any>(null);
+  const [index, setIndex] = useState<any>(0);
 
   const {pathname} = useUrl() ?? {};
   const board = useSelector((state: RootState) => state.boards.boards);
-  // console.log(currentBoard.lists, 'board');
+  // console.log(board, 'board');
 
   useEffect(() => {
     const parts = pathname ? pathname.split('/') : [];
@@ -37,7 +37,7 @@ const CurrentBoard: FC = () => {
   useEffect(() => {
     if (currentPathname && board)
       board?.map((item: any, i: any) => {
-        if (!item.id.includes(currentPathname)) {
+        if (!item?.id?.includes(currentPathname)) {
           return;
         }
 

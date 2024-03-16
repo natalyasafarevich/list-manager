@@ -32,6 +32,8 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   }, [currentBoard]);
 
   const user = useSelector((state: RootState) => state.userdata);
+  const d = useSelector((state: RootState) => state);
+  // console.log(d.column.data, 'fefef');
 
   useEffect(() => {
     if (isUpdate) {
@@ -40,8 +42,10 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       });
       setIsUpdate(false);
     }
+    // console.log(currentList, 'is');
   }, [isUpdate, currentList]);
-
+  const isCopy = useSelector((state: RootState) => state.cl_setting);
+  console.log(isCopy);
   useEffect(() => {
     if (userData) {
       setCurrentBoard(userData[currentIndex]);
@@ -59,18 +63,19 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   }, [userData, currentIndex]);
 
   useEffect(() => {
-    if (user.uid) {
+    if (user.uid && isCopy) {
       const fetchData = async () => {
         try {
           const userData = await getFirebaseData(user.uid, '/boards');
           setUserData(userData);
+          // console.log(userData, 'uer data');
         } catch (error) {
           alert(error + 'error in new column');
         }
       };
       fetchData();
     }
-  }, [user.uid]);
+  }, [user.uid, isCopy]);
 
   const addComponents = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

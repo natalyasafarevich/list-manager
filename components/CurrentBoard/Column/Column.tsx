@@ -9,9 +9,10 @@ import CreateCard from './CreateCard/CreateCard';
 import CardDisplay from './CardDisplay/CardDisplay';
 import NameWithSettingsButton from './NameWithSettingsButton/NameWithSettingsButton';
 import {getIsOpenClSetting} from '@/store/column-setting/actions';
+import {getFirebaseData} from '@/helper/getFirebaseData';
 
 type ColumnProps = {
-  item?: {id?: string; cards: Array<any>};
+  item?: {id: string; cards: Array<any>};
   name?: string;
 };
 
@@ -19,16 +20,16 @@ const Column: FC<ColumnProps> = ({item, name}) => {
   const [cardIndex, setCardIndex] = useState<number>(0);
   const [cards, setCards] = useState<any>([]);
   const [isSave, setIsSave] = useState(false);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   const user = useSelector((state: RootState) => state.userdata);
   const current_board = useSelector((state: RootState) => state?.boards);
-  const isCreateNewCard = useSelector(
-    (state: any) => state.cl_setting.isCreate,
-  );
+  const isCreateNewCard = useSelector((state: RootState) => state.column);
   const dispatch: AppDispatch = useDispatch();
 
   const [isClose, setIsClose] = useState<boolean>(true); // Состояние открытия текущего компонента
-
+  // useEffect(()=>
+  // )
   // useEffect(() => {
   //   if (isCreateNewCard) {
   //     addCard();
@@ -44,23 +45,77 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     }
     setCards(item?.cards);
   }, [item]);
-
+  useEffect(() => {
+    // console.log(isCreateNewCard, 'c');
+  }, [isCreateNewCard]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userData = await getFirebaseData(
+          user.uid,
+          `/boards/${current_board.index}/lists/${cardIndex}`,
+        );
+        // console.log(userData, 'userData');
+        // console.log(userData, 'uer data');
+      } catch (error) {
+        alert(error + 'error in new column');
+      }
+    };
+    fetchData();
+    // getFirebaseData(
+    //   user.uid +,
+    // );
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userData = await getFirebaseData(
+          user.uid,
+          `/boards/${current_board.index}/lists/${cardIndex}`,
+        );
+        sy(userData);
+        // console.log(userData, 'uer data');
+      } catch (error) {
+        alert(error + 'error in new column');
+      }
+    };
+    fetchData();
+  }, []);
+  const [y, sy] = useState<any>();
+  useEffect(() => {
+    // console.log(y, 'ghjk');
+    dispatch(
+      getColumnInfo({
+        id: y?.id,
+        cards: y?.cards,
+      }),
+    );
+  }, [y]);
   useEffect(() => {
     if (isSave) {
       updateUserData(
         `${user.uid}/boards/${current_board.index}/lists/${cardIndex}`,
         {cards},
       );
-      dispatch(
-        getColumnInfo({
-          id: item?.id,
-          cards: cards,
-        }),
-      );
+      const fetchData = async () => {
+        try {
+          const userData = await getFirebaseData(
+            user.uid,
+            `/boards/${current_board.index}/lists/${cardIndex}`,
+          );
+          sy(userData);
+          // console.log(userData, 'uer data');
+        } catch (error) {
+          alert(error + 'error in new column');
+        }
+      };
+      fetchData();
     }
     setIsSave(false);
   }, [isSave]);
-
+  useEffect(() => {
+    dispatch(getIsOpenClSetting({isOpen: false}));
+  }, []);
   const addCard = () => {
     setIsClose(false);
     dispatch(getIsOpenClSetting({isOpen: true}));
@@ -72,7 +127,12 @@ const Column: FC<ColumnProps> = ({item, name}) => {
       className='m-2 border rounded p-3 bg-light text-dark position-relative '
       data-id={item?.id}
     >
-      <NameWithSettingsButton name={name} addNewCard={addCard} />
+      <NameWithSettingsButton
+        // setIsUpdate={(e) => setIsUpdate(e)}
+        item={item}
+        name={name}
+        addNewCard={addCard}
+      />
       {!isClose ? (
         <CreateCard
           setCards={setCards}
