@@ -25,8 +25,7 @@ const CopyColumn: FC<CopyColumnProps> = ({setValue, list, value}) => {
     );
   };
   return (
-    <p>
-      {' '}
+    <>
       <form onSubmit={handleSubmit}>
         <label htmlFor='name'>Название</label>
         <input
@@ -37,7 +36,7 @@ const CopyColumn: FC<CopyColumnProps> = ({setValue, list, value}) => {
         />
         <button type='submit'>save</button>
       </form>
-    </p>
+    </>
   );
 };
 

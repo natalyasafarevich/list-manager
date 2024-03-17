@@ -4,8 +4,7 @@ import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import ColumnSettings from '../ColumnSettings/ColumnSettings';
-import {getCurrentColumn} from '@/store/colunm-info/actions';
-import {currentListIndex} from '@/helper/currentListIndex';
+import {getColumnInfo} from '@/store/colunm-info/actions';
 
 interface NameWithSettingsButtonProps {
   name?: string;
@@ -33,7 +32,7 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
   // console.log(isCreateNewCard);
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    // console.log(item);
+    // console.log(item.id);
   }, [item]);
   useEffect(() => {
     if (isOpen) {
@@ -49,17 +48,20 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
   useEffect(() => {
     setIsOpen(false);
   }, []);
+
+  const openMenu = () => {
+    setIsOpen(!isOpen);
+    dispatch(
+      getColumnInfo({
+        id: item.id,
+        // cards: userData.cards,
+      }),
+    );
+  };
   return (
     <div className=''>
       <b>{name}</b>
-      <button
-        className='btn btn-dark'
-        onClick={(e) => {
-          // currentListIndex(item);
-          // dispatch(getCurrentColumn(item));
-          setIsOpen(!isOpen);
-        }}
-      >
+      <button className='btn btn-dark' onClick={openMenu}>
         ...
       </button>
       <>

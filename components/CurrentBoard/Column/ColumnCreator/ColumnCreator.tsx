@@ -1,21 +1,19 @@
 'use client';
 import {FC, createContext, useEffect, useState} from 'react';
-import Column from '../Column/Column';
+import Column from '../Column';
 import {updateUserData} from '@/helper/updateUserData';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '@/store/store';
 import {v4 as uuidv4} from 'uuid';
 import {getBoardCurrent} from '@/store/board/actions';
 import {getFirebaseData} from '@/helper/getFirebaseData';
-import CardForm from '../Column/CardForm/CardForm';
+import CardForm from '../CardForm/CardForm';
 
 interface NewColumnProps {
   currentIndex: number;
 }
 
 const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
-  // const userd = {name: 'John', email: 'john@example.com'};
-
   const [value, setValue] = useState('');
   const [userData, setUserData] = useState<any>(null);
   const [components, setComponents] = useState<Array<any>>([]);
@@ -32,8 +30,7 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   }, [currentBoard]);
 
   const user = useSelector((state: RootState) => state.userdata);
-  const d = useSelector((state: RootState) => state);
-  // console.log(d.column.data, 'fefef');
+  const isCopy = useSelector((state: RootState) => state.cl_setting);
 
   useEffect(() => {
     if (isUpdate) {
@@ -42,17 +39,12 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       });
       setIsUpdate(false);
     }
-    // console.log(currentList, 'is');
   }, [isUpdate, currentList]);
-  const isCopy = useSelector((state: RootState) => state.cl_setting);
-  console.log(isCopy);
   useEffect(() => {
     if (userData) {
       setCurrentBoard(userData[currentIndex]);
-
       if (userData[currentIndex] && userData[currentIndex].lists) {
         setCurrentList(userData[currentIndex].lists);
-
         setComponents(
           userData[currentIndex].lists.map((item: any) => (
             <Column item={item} name={item.name} key={item.id} />
@@ -68,7 +60,6 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
         try {
           const userData = await getFirebaseData(user.uid, '/boards');
           setUserData(userData);
-          // console.log(userData, 'uer data');
         } catch (error) {
           alert(error + 'error in new column');
         }

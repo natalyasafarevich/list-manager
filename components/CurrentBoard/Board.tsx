@@ -3,7 +3,8 @@ import {RootState} from '@/store/store';
 import {useUrl} from 'nextjs-current-url';
 import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import ColumnCreator from './ColumnCreator/ColumnCreator';
+import ColumnCreator from './Column/ColumnCreator/ColumnCreator';
+import ArchiveColumn from './Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 
 export type PayloadProps = {
   currentBg: string;
@@ -26,14 +27,13 @@ const CurrentBoard: FC = () => {
 
   const {pathname} = useUrl() ?? {};
   const board = useSelector((state: RootState) => state.boards.boards);
-  // console.log(board, 'board');
 
   useEffect(() => {
     const parts = pathname ? pathname.split('/') : [];
     const lastPart = parts.length > 0 ? parts[parts.length - 1] : '';
     setCurrentPathname(lastPart);
   }, [pathname]);
-  console.log(board);
+
   useEffect(() => {
     if (currentPathname && board)
       board?.map((item: any, i: any) => {
@@ -47,10 +47,13 @@ const CurrentBoard: FC = () => {
   }, [board, currentPathname]);
 
   return (
-    <div className='mt-5  '>
+    <div className='mt-5 '>
       <h1 className='text-center'>{currentBoard.name}</h1>
-      <div className=''>
-        <ColumnCreator currentIndex={index} />
+      <div className='d-flex'>
+        <div className=''>
+          <ColumnCreator currentIndex={index} />
+        </div>
+        {/* <ArchiveColumn /> */}
       </div>
     </div>
   );

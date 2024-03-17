@@ -35,7 +35,6 @@ const CreateABoard: FC = () => {
 
         if (data && data.boards) {
           setBoards(data?.boards);
-          // dispatch(getBoards(data.boards));
         }
       });
     }

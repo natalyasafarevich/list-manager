@@ -1,6 +1,7 @@
 export const IS_COLUMN_SETTING_OPEN = 'column-setting/IS_COLUMN_SETTING_OPEN';
 export const IS_CREATE_CARD = 'column-setting/IS_COLUMN_OPEN';
 export const IS_COPY_COLUMN = 'column-setting/IS_COPY_COLUMN';
+export const IS_ARCHIVE_COLUMN = 'column-setting/IS_ARCHIVE_COLUMN';
 
 export type PayloadProps = {
   isOpen: boolean;
@@ -14,7 +15,8 @@ export type DataColumnProps = {
 export type ActionsType =
   | DataColumnProps
   | DataCreateCardProps
-  | DataIsCopyColumnProps;
+  | DataIsCopyColumnProps
+  | DataIsArchiveColumnProps;
 
 export const getIsOpenClSetting = (data: PayloadProps) => {
   return {
@@ -49,6 +51,20 @@ export type DataIsCopyColumnProps = {
 export const isCopyColumn = (data: CopyColumnProps) => {
   return {
     type: IS_COPY_COLUMN,
+    payload: data,
+  };
+};
+
+export type IsArchiveColumnProps = {
+  isArchive: boolean;
+};
+export type DataIsArchiveColumnProps = {
+  type: typeof IS_ARCHIVE_COLUMN;
+  payload: IsArchiveColumnProps;
+};
+export const isArchiveColumn = (data: IsArchiveColumnProps) => {
+  return {
+    type: IS_ARCHIVE_COLUMN,
     payload: data,
   };
 };

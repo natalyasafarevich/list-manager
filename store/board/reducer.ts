@@ -3,12 +3,14 @@ import {ActionsType, BOARDS, CURRENT_BOARDS, PayloadProps} from './actions';
 type InitialStateType = {
   boards: Array<PayloadProps>;
   index: number;
-  currentBoards: any; // Замените 'any' на тип данных для поля currentBoards, если он не является массивом
+  currentBoards: {
+    lists: Array<any>;
+  }; // Замените 'any' на тип данных для поля currentBoards, если он не является массивом
 };
 
 const initialState: InitialStateType = {
   boards: [],
-  currentBoards: [],
+  currentBoards: {lists: []},
   index: 0,
 };
 

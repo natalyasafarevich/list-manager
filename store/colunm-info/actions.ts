@@ -17,7 +17,7 @@ export type DataColumnProp = {
 };
 
 interface PayloadProps {
-  cards: Array<ColumnCardsProps>;
+  cards?: Array<ColumnCardsProps>;
   id?: string;
   name?: string;
 }

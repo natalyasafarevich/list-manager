@@ -21,22 +21,11 @@ const CreateCard: FC<CreateCardProps> = ({
   setCardIndex,
   listId,
 }) => {
-  // const [cardIndex, setCardIndex] = useState<number>(0);
-  const tt = useSelector((state: RootState) => state.column);
-  // console.log(tt);
   const [value, setValue] = useState('');
-  const [d, setde] = useState<Array<any>>([]);
 
   const dispatch: AppDispatch = useDispatch();
-  const user = useSelector((state: RootState) => state);
-  const current_column = useSelector((state: RootState) => state.column);
 
   const current_board = useSelector((state: RootState) => state?.boards);
-  const isCreateNewCard = useSelector((state: RootState) => state.cl_setting);
-  // useEffect(() => {
-  //   console.log(isCreateNewCard);
-  //   isCreateNewCard.isCreate && setIsClose(isCreateNewCard.isCreate);
-  // }, [isCreateNewCard]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,9 +33,7 @@ const CreateCard: FC<CreateCardProps> = ({
       (item: any, i: number) => {
         if (item.id === listId) {
           setCardIndex(i);
-          // console.log(item, 'item');
           dispatch(getCurrentColumn(item));
-          // console.log(item, 'fcf');
         }
       },
     );

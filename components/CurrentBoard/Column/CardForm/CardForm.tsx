@@ -25,11 +25,11 @@ const CardForm: FC<CardFormProps> = ({
     <div className='d-flex align-items-start'>
       {components.map((component, i) => (
         <div
-          style={{
-            minWidth: '280px',
-            maxWidth: '280px',
-            width: '100%',
-          }}
+          // style={{
+          //   minWidth: '280px',
+          //   maxWidth: '280px',
+          //   width: '100%',
+          // }}
           key={i}
         >
           {component}
@@ -72,4 +72,4 @@ const CardForm: FC<CardFormProps> = ({
     </div>
   );
 };
-export default CardForm
+export default CardForm;

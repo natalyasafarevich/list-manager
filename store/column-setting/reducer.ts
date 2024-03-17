@@ -3,20 +3,21 @@ import {
   IS_COLUMN_SETTING_OPEN,
   IS_COPY_COLUMN,
   IS_CREATE_CARD,
+  IS_ARCHIVE_COLUMN,
 } from './actions';
-// export type PayloadProps = {
-//   isOpen: boolean;
-// };
+
 interface initialStateProps {
   isOpen: boolean;
   isCreate: boolean;
   isCopy: boolean;
+  isArchive: boolean;
 }
 
 const initialState: initialStateProps = {
   isOpen: false,
   isCreate: false,
   isCopy: false,
+  isArchive: false,
 };
 
 export const ColumnSettingReducer = (
@@ -39,6 +40,12 @@ export const ColumnSettingReducer = (
       clone.isCopy = action.payload.isCopy;
       return clone;
     }
+    case IS_ARCHIVE_COLUMN: {
+      const clone = structuredClone(state);
+      clone.isArchive = action.payload.isArchive;
+      return clone;
+    }
+
     default:
       return state;
   }
