@@ -15,10 +15,11 @@ const ArchiveColumn: FC = () => {
 
   const columnId = useSelector((state: RootState) => state.column.data.id);
   const user = useSelector((state: RootState) => state.userdata);
+  const boardIndex = useSelector((state: RootState) => state?.boards.index);
   const current_board = useSelector(
     (state: RootState) => state?.boards?.currentBoards,
   );
-  const boardIndex = useSelector((state: RootState) => state?.boards.index);
+
   useEffect(() => {
     const currentIndex = getListIndex(current_board.lists, columnId);
     getColumnIndex(currentIndex);

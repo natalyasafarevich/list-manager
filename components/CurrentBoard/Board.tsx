@@ -4,7 +4,7 @@ import {useUrl} from 'nextjs-current-url';
 import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import ColumnCreator from './Column/ColumnCreator/ColumnCreator';
-import ArchiveColumn from './Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
+import ArchivedСolumns from './ArchivedСolumns/ArchivedСolumns';
 
 export type PayloadProps = {
   currentBg: string;
@@ -49,10 +49,11 @@ const CurrentBoard: FC = () => {
   return (
     <div className='mt-5 '>
       <h1 className='text-center'>{currentBoard.name}</h1>
-      <div className='d-flex'>
+      <div className='d-flex justify-content-between'>
         <div className=''>
           <ColumnCreator currentIndex={index} />
         </div>
+        <ArchivedСolumns />
         {/* <ArchiveColumn /> */}
       </div>
     </div>

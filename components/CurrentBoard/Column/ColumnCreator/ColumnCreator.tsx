@@ -55,7 +55,7 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   }, [userData, currentIndex]);
 
   useEffect(() => {
-    if (user.uid && isCopy) {
+    if (user.uid) {
       const fetchData = async () => {
         try {
           const userData = await getFirebaseData(user.uid, '/boards');

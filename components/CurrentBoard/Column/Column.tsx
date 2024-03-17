@@ -94,7 +94,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     // dispatch(getIsOpenClSetting({isOpen: true}));
     // При добавлении карточки открываем компонент
   };
-  console.log(item?.isArchive);
+  // console.log(item?.isArchive);
 
   return (
     <>
