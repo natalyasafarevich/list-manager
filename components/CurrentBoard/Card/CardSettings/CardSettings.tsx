@@ -18,7 +18,10 @@ type CardSettingsProps = {
 };
 const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const [columnName, setColumnName] = useState<string>('');
-
+  const [description, setDescription] = useState<string>('');
+  useEffect(() => {
+    console.log(description);
+  }, [description]);
   const board = useSelector(
     (state: RootState) => state.boards.currentBoards.lists,
   );
@@ -42,7 +45,11 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
           </span>
           <button onClick={setIsOpenCard}>x</button>
         </div>
-        <CardDescription />
+        <CardDescription getHTML={(e) => setDescription(e)} />
+        <div
+          className='btn-secondary__'
+          dangerouslySetInnerHTML={{__html: description}}
+        ></div>
       </div>
     </div>
   );
