@@ -23,7 +23,7 @@ const initialBoard = {
 const CurrentBoard: FC = () => {
   const [currentBoard, setCurrentBoard] = useState<PayloadProps>(initialBoard);
   const [currentPathname, setCurrentPathname] = useState<string>('');
-  const [index, setIndex] = useState<any>(0);
+  const [index, setIndex] = useState<any>();
 
   const {pathname} = useUrl() ?? {};
   const board = useSelector((state: RootState) => state.boards.boards);

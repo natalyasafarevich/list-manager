@@ -4,11 +4,14 @@ import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import ColumnSettings from '../ColumnSettings/ColumnSettings';
-import {getColumnInfo} from '@/store/colunm-info/actions';
+import {getColumnInfo, getCurrentColumn} from '@/store/colunm-info/actions';
+import {getListIndex} from '../ColumnSettings/ArchiveColumn/ArchiveColumn';
+import {updateUserData} from '@/helper/updateUserData';
 
 interface NameWithSettingsButtonProps {
   name?: string;
   addNewCard: () => void;
+  listIndex: number;
   // setIsUpdate: (a: boolean) => void;
 
   item: any;
@@ -18,11 +21,10 @@ interface NameWithSettingsButtonProps {
 const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
   name,
   addNewCard,
-  // setIsUpdate,
+  listIndex,
   item,
 }) => {
   const isCreateNewCard = useSelector((state: RootState) => state.cl_setting);
-  // const d = useSelector((state: RootState) => state.boards.currentBoards.lists);
   const [isOpen, setIsOpen] = useState<boolean>(
     isCreateNewCard.isOpen || false,
   );
@@ -32,11 +34,11 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
   // console.log(isCreateNewCard);
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    // console.log(item.id);
+    // console.log(item);
   }, [item]);
   useEffect(() => {
     if (isOpen) {
-      // dispatch(getCurrentColumn(item));
+      dispatch(getCurrentColumn(item));
       dispatch(getIsOpenClSetting({isOpen: true}));
       setsIsOpen(true);
       return;
@@ -54,16 +56,43 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
     dispatch(
       getColumnInfo({
         id: item.id,
-        // cards: userData.cards,
+        cards: item.cards,
       }),
     );
   };
+  // const [readOnly, isReadOnly] = useState(true);
+  const board = useSelector((state: RootState) => state.boards);
+  const user = useSelector((state: RootState) => state.userdata);
+  const changeTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    // console.log(d.currentBoards.lists);
+    let index = getListIndex(board.currentBoards.lists, item.id);
+    updateUserData(`${user.uid}/boards/${board.index}/lists/${index}`, {
+      name: e.currentTarget.value,
+    });
+    console.log(index);
+  };
   return (
     <div className=''>
-      <b>{name}</b>
-      <button className='btn btn-dark' onClick={openMenu}>
-        ...
-      </button>
+      <div className='d-flex align-items-center justify-content-between'>
+        <textarea
+          defaultValue={name}
+          onChange={changeTitle}
+          style={{
+            border: 'none',
+            background: 'transparent',
+            resize: 'none',
+            width: '70%',
+            height: '30px',
+            color: 'violet',
+          }}
+          // readOnly={readOnly}
+        >
+          {/* {name} */}
+        </textarea>
+        <button className='btn btn-dark' onClick={openMenu}>
+          ...
+        </button>
+      </div>
       <>
         {isOpen && (
           <ColumnSettings

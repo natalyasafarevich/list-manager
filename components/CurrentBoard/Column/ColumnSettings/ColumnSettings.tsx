@@ -35,8 +35,8 @@ const ColumnSettings: FC<SettingsProps> = ({
   }, [current_title]);
   useEffect(() => {
     current_column.cards && getCards((prev: any) => [...current_column.cards]);
-  }, [current_column?.cards]);
-
+  }, [current_column.cards]);
+  console.log(current_column);
   const dispatch: AppDispatch = useDispatch();
 
   // const archiveColumn = () => {

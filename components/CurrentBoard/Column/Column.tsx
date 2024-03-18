@@ -49,6 +49,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     fetchData();
   }, []);
   const [userData, getUserData] = useState<CurrentColumnProps>();
+  // console.log(userData);
   useEffect(() => {
     if (userData)
       dispatch(
@@ -86,6 +87,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
   useEffect(() => {
     dispatch(getIsOpenClSetting({isOpen: false}));
   }, []);
+  // console.log(cardIndex);
   // const info = useSelector((state: RootState) => state.userdata);
   // console.log(info);
   const addCard = () => {
@@ -94,7 +96,14 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     // dispatch(getIsOpenClSetting({isOpen: true}));
     // При добавлении карточки открываем компонент
   };
-  // console.log(item?.isArchive);
+  // useEffect(() => {
+  //   dispatch(
+  //     getColumnInfo({
+  //       id: userData?.id,
+  //       cards: userData?.cards,
+  //     }),
+  //   );
+  // }, [item]);
 
   return (
     <>
@@ -105,6 +114,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
         >
           <NameWithSettingsButton
             item={item}
+            listIndex={cardIndex}
             name={name}
             addNewCard={addCard}
           />

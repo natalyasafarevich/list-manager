@@ -19,6 +19,7 @@ const CopyColumn: FC<CopyColumnProps> = ({setValue, list, value}) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(isCopyColumn({isCopy: true}));
+    // console.log(list);
     updateUserData(
       `${user.uid}/boards/${current_board?.index}/lists/${current_board?.currentBoards?.lists?.length}/`,
       {cards: list, id: uuidv4(), name: value},

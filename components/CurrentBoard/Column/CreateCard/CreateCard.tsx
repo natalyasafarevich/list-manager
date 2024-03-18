@@ -34,6 +34,7 @@ const CreateCard: FC<CreateCardProps> = ({
         if (item.id === listId) {
           setCardIndex(i);
           dispatch(getCurrentColumn(item));
+          console.log(item);
         }
       },
     );

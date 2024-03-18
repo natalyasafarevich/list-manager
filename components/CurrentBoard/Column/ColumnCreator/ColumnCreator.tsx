@@ -53,7 +53,19 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       }
     }
   }, [userData, currentIndex]);
-
+  useEffect(() => {
+    if (user.uid) {
+      const fetchData = async () => {
+        try {
+          const userData = await getFirebaseData(user.uid, '/boards');
+          setUserData(userData);
+        } catch (error) {
+          alert(error + 'error in new column');
+        }
+      };
+      fetchData();
+    }
+  }, [user.uid, isCopy]);
   useEffect(() => {
     if (user.uid) {
       const fetchData = async () => {
