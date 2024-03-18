@@ -1,5 +1,5 @@
 'use client';
-import {getIsOpenClSetting} from '@/store/column-setting/actions';
+
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -7,6 +7,7 @@ import ColumnSettings from '../ColumnSettings/ColumnSettings';
 import {getColumnInfo, getCurrentColumn} from '@/store/colunm-info/actions';
 import {getListIndex} from '../ColumnSettings/ArchiveColumn/ArchiveColumn';
 import {updateUserData} from '@/helper/updateUserData';
+import {getIsOpenClSetting} from '@/store/column-setting/actions';
 
 interface NameWithSettingsButtonProps {
   name?: string;
@@ -50,7 +51,21 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
   useEffect(() => {
     setIsOpen(false);
   }, []);
-
+  const isCardOpen = useSelector(
+    (state: RootState) => state.card_setting.isOpen,
+  );
+  // useEffect(() => {
+  //   // console.log(isCardOpen, 'jhgfd');
+  //   if (isCardOpen && item) {
+  //     console.log(item, 'g');
+  //     dispatch(
+  //       getColumnInfo({
+  //         id: item.id,
+  //         cards: item.cards,
+  //       }),
+  //     );
+  //   }
+  // }, [isCardOpen, item]);
   const openMenu = () => {
     setIsOpen(!isOpen);
     dispatch(

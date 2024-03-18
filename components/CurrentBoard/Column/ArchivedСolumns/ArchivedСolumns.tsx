@@ -5,7 +5,7 @@ import {isArchiveColumn} from '@/store/column-setting/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-const fetchData = async (
+export const fetchData = async (
   id: string,
   index: number,
   getUserData: (a: any) => void,

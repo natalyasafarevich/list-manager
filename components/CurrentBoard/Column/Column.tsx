@@ -7,10 +7,11 @@ import {updateUserData} from '@/helper/updateUserData';
 import CreateCard from '../Card/CreateCard/CreateCard';
 import CardDisplay from '../Card/CardDisplay/CardDisplay';
 import NameWithSettingsButton from './NameWithSettingsButton/NameWithSettingsButton';
-import {getIsOpenClSetting} from '@/store/column-setting/actions';
+
 import {getFirebaseData} from '@/helper/getFirebaseData';
 import {CurrentColumnProps} from '@/types/interfaces';
 import {getDataUserForFB} from '@/store/data-user/actions';
+import {getIsOpenClSetting} from '@/store/column-setting/actions';
 
 type ColumnProps = {
   item?: {id: string; cards: Array<any>; isArchive: boolean};
@@ -49,13 +50,26 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     fetchData();
   }, []);
   const [userData, getUserData] = useState<CurrentColumnProps>();
-  // console.log(userData);
+  const isCardOpen = useSelector(
+    (state: RootState) => state.card_setting.isOpen,
+  );
+  useEffect(() => {
+    if (isCardOpen) {
+      console.log(userData?.id, 'gfe');
+    }
+    // dispatch(
+    //   getColumnInfo({
+    //     id: userData?.id,
+    //     cards: userData?.cards,
+    //   }),
+    // );
+  }, [isCardOpen, userData]);
   useEffect(() => {
     if (userData)
       dispatch(
         getColumnInfo({
-          id: userData.id,
-          cards: userData.cards,
+          id: userData?.id,
+          cards: userData?.cards,
         }),
       );
   }, [userData]);
@@ -124,7 +138,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
                 {cards?.map((card: any, i: any) => {
                   return (
                     <div className='mt-2 p-2 bg-secondary text-white' key={i}>
-                      <CardDisplay card={card} />
+                      <CardDisplay card={card} item={item} />
                     </div>
                   );
                 })}

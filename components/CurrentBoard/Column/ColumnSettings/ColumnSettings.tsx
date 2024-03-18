@@ -5,7 +5,6 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import CopyColumn from './CopyColumn/CopyColumn';
 import {ColumnCardsProps} from '@/types/interfaces';
-import {isArchiveColumn} from '@/store/column-setting/actions';
 import ArchiveColumn from './ArchiveColumn/ArchiveColumn';
 
 type SettingsProps = {
@@ -36,8 +35,8 @@ const ColumnSettings: FC<SettingsProps> = ({
   useEffect(() => {
     current_column.cards && getCards((prev: any) => [...current_column.cards]);
   }, [current_column.cards]);
-  console.log(current_column);
-  const dispatch: AppDispatch = useDispatch();
+  // console.log(current_column);
+  // const dispatch: AppDispatch = useDispatch();
 
   // const archiveColumn = () => {
   //   dispatch(isArchiveColumn({isArchive: true}));

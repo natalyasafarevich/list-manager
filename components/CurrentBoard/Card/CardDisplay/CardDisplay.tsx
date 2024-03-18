@@ -1,16 +1,36 @@
 'use client';
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import CardSettings from '../CardSettings/CardSettings';
+import {AppDispatch} from '@/store/store';
+import {useDispatch} from 'react-redux';
+import {getIsOpenCardSetting} from '@/store/card-setting/actions';
+import {getColumnInfo} from '@/store/colunm-info/actions';
 
 export interface CardProps {
   title: string;
+  id: string;
 }
 export type CardDisplayProps = {
   card: CardProps;
+  item: any;
 };
-const CardDisplay: FC<CardDisplayProps> = ({card}) => {
-  // console.log(card);
+
+// getIsOpenCardSetting
+const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
   const [isOpenCard, setIsOpenCard] = useState(false);
+
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      getColumnInfo({
+        id: item?.id,
+        cards: item?.cards,
+      }),
+    );
+  }, [isOpenCard]);
+  const openCard = () => {
+    setIsOpenCard(!isOpenCard);
+  };
   return (
     <>
       <button
@@ -19,7 +39,7 @@ const CardDisplay: FC<CardDisplayProps> = ({card}) => {
       >
         <span> {card.title}</span>
       </button>
-      {!isOpenCard && <CardSettings card={card} />}
+      {isOpenCard && <CardSettings setIsOpenCard={openCard} card={card} />}
     </>
   );
 };
