@@ -7,7 +7,7 @@ import {AppDispatch, RootState} from '@/store/store';
 import {v4 as uuidv4} from 'uuid';
 import {getBoardCurrent} from '@/store/board/actions';
 import {getFirebaseData} from '@/helper/getFirebaseData';
-import CardForm from '../CardForm/CardForm';
+import CardForm from '../../Card/CardForm/CardForm';
 
 interface NewColumnProps {
   currentIndex: number;

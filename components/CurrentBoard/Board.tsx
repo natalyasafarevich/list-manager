@@ -4,7 +4,7 @@ import {useUrl} from 'nextjs-current-url';
 import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import ColumnCreator from './Column/ColumnCreator/ColumnCreator';
-import ArchivedСolumns from './ArchivedСolumns/ArchivedСolumns';
+import ArchivedСolumns from './Column/ArchivedСolumns/ArchivedСolumns';
 
 export type PayloadProps = {
   currentBg: string;

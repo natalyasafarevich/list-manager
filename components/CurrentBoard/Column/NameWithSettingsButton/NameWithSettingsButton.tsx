@@ -60,16 +60,14 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
       }),
     );
   };
-  // const [readOnly, isReadOnly] = useState(true);
   const board = useSelector((state: RootState) => state.boards);
   const user = useSelector((state: RootState) => state.userdata);
+
   const changeTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    // console.log(d.currentBoards.lists);
     let index = getListIndex(board.currentBoards.lists, item.id);
     updateUserData(`${user.uid}/boards/${board.index}/lists/${index}`, {
       name: e.currentTarget.value,
     });
-    console.log(index);
   };
   return (
     <div className=''>
@@ -85,10 +83,7 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
             height: '30px',
             color: 'violet',
           }}
-          // readOnly={readOnly}
-        >
-          {/* {name} */}
-        </textarea>
+        ></textarea>
         <button className='btn btn-dark' onClick={openMenu}>
           ...
         </button>
@@ -100,7 +95,6 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
             addNewCard={addNewCard}
             setIsOpen={() => setIsOpen(!isOpen)}
             item={item}
-            // setIsUpdate={setIsUpdate}
           />
         )}
       </>

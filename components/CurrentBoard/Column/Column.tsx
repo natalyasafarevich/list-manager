@@ -4,8 +4,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getColumnInfo} from '@/store/colunm-info/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {updateUserData} from '@/helper/updateUserData';
-import CreateCard from './CreateCard/CreateCard';
-import CardDisplay from './CardDisplay/CardDisplay';
+import CreateCard from '../Card/CreateCard/CreateCard';
+import CardDisplay from '../Card/CardDisplay/CardDisplay';
 import NameWithSettingsButton from './NameWithSettingsButton/NameWithSettingsButton';
 import {getIsOpenClSetting} from '@/store/column-setting/actions';
 import {getFirebaseData} from '@/helper/getFirebaseData';
@@ -96,14 +96,6 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     // dispatch(getIsOpenClSetting({isOpen: true}));
     // При добавлении карточки открываем компонент
   };
-  // useEffect(() => {
-  //   dispatch(
-  //     getColumnInfo({
-  //       id: userData?.id,
-  //       cards: userData?.cards,
-  //     }),
-  //   );
-  // }, [item]);
 
   return (
     <>
@@ -131,7 +123,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
               <div className='mb-2'>
                 {cards?.map((card: any, i: any) => {
                   return (
-                    <div key={i}>
+                    <div className='mt-2 p-2 bg-secondary text-white' key={i}>
                       <CardDisplay card={card} />
                     </div>
                   );
