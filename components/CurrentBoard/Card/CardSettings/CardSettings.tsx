@@ -8,6 +8,7 @@ import {RootState} from '@/store/store';
 import {getListIndex} from '../../Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import {fetchData} from '../../Column/ArchivedСolumns/ArchivedСolumns';
 import {it} from 'node:test';
+import CardDescription from './CardDescription/CardDescription';
 export function getCardIndex(lists: Array<any>, id: string) {
   return lists.findIndex((item) => item.id === id);
 }
@@ -16,19 +17,16 @@ type CardSettingsProps = {
   setIsOpenCard: () => void;
 };
 const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
-  const [boardName, setBoardName] = useState<string>('');
-  const [data, setData] = useState<any>();
+  const [columnName, setColumnName] = useState<string>('');
 
   const board = useSelector(
     (state: RootState) => state.boards.currentBoards.lists,
   );
-  const user = useSelector((state: RootState) => state.userdata);
   const current_column = useSelector((state: RootState) => state?.column.data);
-  const current_board = useSelector((state: RootState) => state?.boards);
 
   useEffect(() => {
     const columnIndex = getListIndex(board, current_column.id);
-    setBoardName(board[columnIndex]?.name);
+    setColumnName(board[columnIndex]?.name);
   }, [board, current_column]);
 
   return (
@@ -36,12 +34,15 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
       <div className='card-settings__container'>
         <div className='d-flex justify-content-between align-items-center'>
           <span className=''>
-            {card.title}
+            <b> {card.title}</b>
             <br />
-            <span className=''>в колонке: {boardName}</span>
+            <span className=''>
+              в колонке: <b> {columnName}</b>
+            </span>
           </span>
           <button onClick={setIsOpenCard}>x</button>
         </div>
+        <CardDescription />
       </div>
     </div>
   );
