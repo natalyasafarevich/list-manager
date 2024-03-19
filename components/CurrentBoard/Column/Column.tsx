@@ -50,20 +50,20 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     fetchData();
   }, []);
   const [userData, getUserData] = useState<CurrentColumnProps>();
-  const isCardOpen = useSelector(
-    (state: RootState) => state.card_setting.isOpen,
-  );
-  useEffect(() => {
-    if (isCardOpen) {
-      console.log(userData?.id, 'gfe');
-    }
-    // dispatch(
-    //   getColumnInfo({
-    //     id: userData?.id,
-    //     cards: userData?.cards,
-    //   }),
-    // );
-  }, [isCardOpen, userData]);
+  // const isCardOpen = useSelector(
+  //   (state: RootState) => state.card_setting.isOpen,
+  // );
+  // useEffect(() => {
+  //   if (isCardOpen) {
+  //     console.log(userData?.id, 'gfe');
+  //   }
+  //   // dispatch(
+  //   //   getColumnInfo({
+  //   //     id: userData?.id,
+  //   //     cards: userData?.cards,
+  //   //   }),
+  //   // );
+  // }, [isCardOpen, userData]);
   useEffect(() => {
     if (userData)
       dispatch(

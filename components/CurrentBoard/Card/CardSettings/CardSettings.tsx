@@ -9,6 +9,7 @@ import {getListIndex} from '../../Column/ColumnSettings/ArchiveColumn/ArchiveCol
 import {fetchData} from '../../Column/ArchivedСolumns/ArchivedСolumns';
 import {it} from 'node:test';
 import CardDescription from './CardDescription/CardDescription';
+import {updateUserData} from '@/helper/updateUserData';
 export function getCardIndex(lists: Array<any>, id: string) {
   return lists.findIndex((item) => item.id === id);
 }
@@ -19,18 +20,40 @@ type CardSettingsProps = {
 const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const [columnName, setColumnName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  useEffect(() => {
-    console.log(description);
-  }, [description]);
-  const board = useSelector(
+  const [index, getIndex] = useState<any>({
+    column: null,
+    card: null,
+  });
+  const user = useSelector((state: RootState) => state.userdata);
+  const boardLists = useSelector(
     (state: RootState) => state.boards.currentBoards.lists,
   );
   const current_column = useSelector((state: RootState) => state?.column.data);
 
+  const current_board = useSelector((state: RootState) => state.boards);
   useEffect(() => {
-    const columnIndex = getListIndex(board, current_column.id);
-    setColumnName(board[columnIndex]?.name);
-  }, [board, current_column]);
+    // const cardIndex = getListIndex(current_column.cards, card.id);
+    description &&
+      updateUserData(
+        `${user.uid}/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
+        {description: description},
+      );
+    // getIndex((prevState:any) => ({ ...prevState, card: cardIndex }));
+  }, [index, description, user, current_board]);
+  useEffect(() => {
+    const cardIndex = getListIndex(current_column.cards, card.id);
+    // updateUserData(
+    //   `${user.uid}/boards/${current_board.index}/lists/${indexCL}/cards/${}`,
+    //   {cards},
+    // );
+    getIndex((prevState: any) => ({...prevState, card: cardIndex}));
+  }, [current_column, card]);
+
+  useEffect(() => {
+    const columnIndex = getListIndex(boardLists, current_column.id);
+    setColumnName(boardLists[columnIndex]?.name);
+    getIndex((prevState: any) => ({...prevState, column: columnIndex}));
+  }, [boardLists, current_column]);
 
   return (
     <div className='card-settings'>
@@ -46,10 +69,6 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
           <button onClick={setIsOpenCard}>x</button>
         </div>
         <CardDescription getHTML={(e) => setDescription(e)} />
-        <div
-          className='btn-secondary__'
-          dangerouslySetInnerHTML={{__html: description}}
-        ></div>
       </div>
     </div>
   );

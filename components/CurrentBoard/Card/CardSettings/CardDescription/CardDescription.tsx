@@ -4,20 +4,33 @@ import ReactQuill, {Quill} from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
 
 import 'react-quill/dist/quill.snow.css';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/store';
 
 Quill.register('modules/imageResize', ImageResize);
+
+
 interface CardDescriptionProps {
-  getHTML: (html: string) => void;
+  getHTML:(value:string)=>void
 }
 const CardDescription: FC<CardDescriptionProps> = ({getHTML}) => {
   const [isSave, setIsSave] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [desc, setDesc] = useState(' введите описание');
   const [editorHtml, setEditorHtml] = useState('');
+
   useEffect(() => {
     if (isSave) {
-      getHTML(editorHtml);
       setIsOpen(false);
+      getHTML(editorHtml)
+      // updateUserData(
+      //   `${user.uid}/boards/${current_board.index}/lists/${cardIndex}`,
+      //   {cards},
+      // );
+      setDesc(editorHtml);
+      setIsSave(false);
+    } else {
+      // getHTML('');
     }
   }, [isSave, editorHtml]);
   const handleChange = (html: string) => {
@@ -58,36 +71,46 @@ const CardDescription: FC<CardDescriptionProps> = ({getHTML}) => {
     'link',
     'image',
   ];
-
+  
   return (
     <>
       {isOpen ? (
-        <ReactQuill
-          theme='snow'
-          onChange={handleChange}
-          value={editorHtml}
-          modules={modules}
-          formats={formats}
-          bounds={'#root'}
-          // placeholder={placeholder}
-        />
+        <>
+          <ReactQuill
+            theme='snow'
+            onChange={handleChange}
+            value={editorHtml}
+            modules={modules}
+            formats={formats}
+            bounds={'#root'}
+          />
+          <div className='d-flex'>
+            <button
+              type='button'
+              className='btn btn-secondary'
+              onClick={(e) => setIsSave(true)}
+            >
+              сохранить
+            </button>
+            <button type='button' className='btn btn-secondary'>
+              отменить
+            </button>
+          </div>
+        </>
       ) : (
-        <p className='text-primary' onClick={(e) => setIsOpen(!isOpen)}>
-          введите описание
-        </p>
-      )}
-      <div className='d-flex'>
-        <button
-          type='button'
-          className='btn btn-secondary'
-          onClick={(e) => setIsSave(true)}
+        <div
+          className='text-primary'
+          onClick={(e) => setIsOpen(!isOpen)}
+          // dangerouslySetInnerHTML={{__html: editorHtml}}
         >
-          сохранить
-        </button>
-        <button type='button' className='btn btn-secondary'>
-          отменить
-        </button>
-      </div>
+          {editorHtml ? (
+            <div dangerouslySetInnerHTML={{__html: editorHtml}}></div>
+          ) : (
+            <span>{desc}</span>
+          )}
+        </div>
+      )}
+
       {/* <div
         className='btn-secondary__'
         dangerouslySetInnerHTML={{__html: editorHtml}}
