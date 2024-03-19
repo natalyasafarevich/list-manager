@@ -6,13 +6,27 @@ import {CardDisplayProps, CardProps} from '../CardDisplay/CardDisplay';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import {getListIndex} from '../../Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
-import {fetchData} from '../../Column/ArchivedСolumns/ArchivedСolumns';
-import {it} from 'node:test';
 import CardDescription from './CardDescription/CardDescription';
 import {updateUserData} from '@/helper/updateUserData';
+import {getFirebaseData} from '@/helper/getFirebaseData';
+
 export function getCardIndex(lists: Array<any>, id: string) {
   return lists.findIndex((item) => item.id === id);
 }
+
+export const fetchBackData = async (
+  id: string,
+  path: string,
+  getUserData: (a: any) => void,
+) => {
+  try {
+    const columnData = await getFirebaseData(id, path);
+    getUserData(columnData);
+  } catch (error) {
+    alert(error + 'error in new column');
+  }
+};
+
 type CardSettingsProps = {
   card: CardProps;
   setIsOpenCard: () => void;
@@ -20,6 +34,8 @@ type CardSettingsProps = {
 const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const [columnName, setColumnName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [currentCard, getCurrentCard] = useState<any>();
+
   const [index, getIndex] = useState<any>({
     column: null,
     card: null,
@@ -32,14 +48,26 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
 
   const current_board = useSelector((state: RootState) => state.boards);
   useEffect(() => {
-    // const cardIndex = getListIndex(current_column.cards, card.id);
     description &&
       updateUserData(
         `${user.uid}/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
         {description: description},
       );
-    // getIndex((prevState:any) => ({ ...prevState, card: cardIndex }));
+    // setIsSave(true);
+    fetchBackData(
+      user.uid,
+      `/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
+      getCurrentCard,
+    );
   }, [index, description, user, current_board]);
+  useEffect(() => {
+    user.uid &&
+      fetchBackData(
+        user.uid,
+        `/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
+        getCurrentCard,
+      );
+  }, [user]);
   useEffect(() => {
     const cardIndex = getListIndex(current_column.cards, card.id);
     // updateUserData(
@@ -48,7 +76,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
     // );
     getIndex((prevState: any) => ({...prevState, card: cardIndex}));
   }, [current_column, card]);
-
+  // useEffect(()=>{isSave(())},[isSave])
   useEffect(() => {
     const columnIndex = getListIndex(boardLists, current_column.id);
     setColumnName(boardLists[columnIndex]?.name);
@@ -68,7 +96,10 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
           </span>
           <button onClick={setIsOpenCard}>x</button>
         </div>
-        <CardDescription getHTML={(e) => setDescription(e)} />
+        <CardDescription
+          backDescription={currentCard?.description}
+          getHTML={(e) => setDescription(e)}
+        />
       </div>
     </div>
   );

@@ -9,20 +9,25 @@ import {RootState} from '@/store/store';
 
 Quill.register('modules/imageResize', ImageResize);
 
-
 interface CardDescriptionProps {
-  getHTML:(value:string)=>void
+  getHTML: (value: string) => void;
+  backDescription: string;
 }
-const CardDescription: FC<CardDescriptionProps> = ({getHTML}) => {
+const CardDescription: FC<CardDescriptionProps> = ({
+  getHTML,
+  backDescription,
+}) => {
   const [isSave, setIsSave] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [desc, setDesc] = useState(' введите описание');
   const [editorHtml, setEditorHtml] = useState('');
-
+  useEffect(() => {
+    setEditorHtml(backDescription);
+  }, [backDescription]);
   useEffect(() => {
     if (isSave) {
       setIsOpen(false);
-      getHTML(editorHtml)
+      getHTML(editorHtml);
       // updateUserData(
       //   `${user.uid}/boards/${current_board.index}/lists/${cardIndex}`,
       //   {cards},
@@ -71,7 +76,7 @@ const CardDescription: FC<CardDescriptionProps> = ({getHTML}) => {
     'link',
     'image',
   ];
-  
+
   return (
     <>
       {isOpen ? (
