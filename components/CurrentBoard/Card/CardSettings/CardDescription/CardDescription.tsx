@@ -2,10 +2,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import ReactQuill, {Quill} from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
-
 import 'react-quill/dist/quill.snow.css';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/store/store';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -21,26 +18,22 @@ const CardDescription: FC<CardDescriptionProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [desc, setDesc] = useState(' введите описание');
   const [editorHtml, setEditorHtml] = useState('');
+
   useEffect(() => {
-    setEditorHtml(backDescription);
+    if (backDescription !== undefined) {
+      setEditorHtml(backDescription);
+    }
   }, [backDescription]);
   useEffect(() => {
     if (isSave) {
       setIsOpen(false);
       getHTML(editorHtml);
-      // updateUserData(
-      //   `${user.uid}/boards/${current_board.index}/lists/${cardIndex}`,
-      //   {cards},
-      // );
       setDesc(editorHtml);
       setIsSave(false);
-    } else {
-      // getHTML('');
     }
   }, [isSave, editorHtml]);
   const handleChange = (html: string) => {
     setEditorHtml(html);
-    // console.log(html);
   };
 
   const modules = {

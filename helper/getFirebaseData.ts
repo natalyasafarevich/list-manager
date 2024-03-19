@@ -17,13 +17,15 @@ export async function getFirebaseData(userId: string, params: string) {
     );
   });
 }
-// async function fetchData(userId: string, params: string) {
-//   try {
-//     const userData = await updateUserData(userId, params);
-//     console.log(userData);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
-// fetchData();
+export const fetchBackData = async (
+  id: string,
+  path: string,
+  getUserData: (a: any) => void,
+) => {
+  try {
+    const columnData = await getFirebaseData(id, path);
+    getUserData(columnData);
+  } catch (error) {
+    alert(error + 'error in new column');
+  }
+};

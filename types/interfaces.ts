@@ -5,6 +5,7 @@ export interface UserProps {
 export interface ColumnCardsProps {
   title: string;
   id: string;
+  description?: string;
 }
 export interface CurrentColumnProps {
   name?: string;

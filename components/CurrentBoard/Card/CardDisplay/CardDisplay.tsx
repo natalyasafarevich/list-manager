@@ -5,13 +5,15 @@ import {AppDispatch} from '@/store/store';
 import {useDispatch} from 'react-redux';
 import {getIsOpenCardSetting} from '@/store/card-setting/actions';
 import {getColumnInfo} from '@/store/colunm-info/actions';
+import {ColumnCardsProps} from '@/types/interfaces';
 
-export interface CardProps {
-  title: string;
-  id: string;
-}
+// export interface CardProps {
+//   title: string;
+//   id: string;
+//   description: string;
+// }
 export type CardDisplayProps = {
-  card: CardProps;
+  card: ColumnCardsProps;
   item: any;
 };
 
