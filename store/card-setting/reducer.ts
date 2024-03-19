@@ -1,11 +1,14 @@
-import {ActionsType, IS_CARD_SETTING_OPEN} from './actions';
+import {CommentProps} from '@/components/CurrentBoard/Card/CardSettings/CardSettings';
+import {ActionsType, COMMENTS, IS_CARD_SETTING_OPEN} from './actions';
 
 interface initialStateProps {
   isOpen: boolean;
+  comments: Array<CommentProps>;
 }
 
 const initialState: initialStateProps = {
   isOpen: false,
+  comments: [],
 };
 
 export const CardSettingReducer = (
@@ -16,6 +19,11 @@ export const CardSettingReducer = (
     case IS_CARD_SETTING_OPEN: {
       const clone = structuredClone(state);
       clone.isOpen = action.payload.isOpen;
+      return clone;
+    }
+    case COMMENTS: {
+      const clone = structuredClone(state);
+      clone.comments = action.payload;
       return clone;
     }
 
