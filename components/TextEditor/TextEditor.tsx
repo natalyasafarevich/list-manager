@@ -39,12 +39,12 @@ const TextEditor: FC<TextEditorProps> = ({
   const allComments = useSelector(
     (state: RootState) => state.card_setting.comments,
   );
+
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    if (allComments.length !== 0) {
+    if (allComments) {
       setComments(allComments);
-      console.log(allComments, 'gf');
     }
   }, [allComments]);
 
@@ -75,7 +75,6 @@ const TextEditor: FC<TextEditorProps> = ({
         setIsOpen(false);
         getHTML(editorHtml);
         setCurrentTitle(editorHtml);
-
         setIsSave(false);
       }
     }
@@ -137,7 +136,6 @@ const TextEditor: FC<TextEditorProps> = ({
               className='btn btn-secondary'
               onClick={(e) => {
                 setIsSave(true);
-                // setEditorHtml('');
               }}
             >
               отменить

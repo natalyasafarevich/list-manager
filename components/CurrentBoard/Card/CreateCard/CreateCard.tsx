@@ -1,5 +1,7 @@
 'use client';
 
+import {fetchBackData} from '@/helper/getFirebaseData';
+import {isCardCreate} from '@/store/card-setting/actions';
 import {isCreateCard} from '@/store/column-setting/actions';
 import {getCurrentColumn} from '@/store/colunm-info/actions';
 import {AppDispatch, RootState} from '@/store/store';
@@ -25,7 +27,6 @@ const CreateCard: FC<CreateCardProps> = ({
   const [value, setValue] = useState('');
 
   const dispatch: AppDispatch = useDispatch();
-
   const current_board = useSelector((state: RootState) => state?.boards);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,7 +36,6 @@ const CreateCard: FC<CreateCardProps> = ({
         if (item.id === listId) {
           setCardIndex(i);
           dispatch(getCurrentColumn(item));
-          console.log(item);
         }
       },
     );
@@ -48,9 +48,10 @@ const CreateCard: FC<CreateCardProps> = ({
     setIsSave(true);
     setIsClose(true);
     setValue('');
+    dispatch(isCardCreate({isCardCreate: true}));
   };
   const handleClose = () => {
-    dispatch(isCreateCard({isCreate: true}));
+    dispatch(isCardCreate({isCardCreate: false}));
 
     setIsClose(true);
     setValue('');

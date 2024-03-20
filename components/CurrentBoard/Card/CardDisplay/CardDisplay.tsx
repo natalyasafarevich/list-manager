@@ -3,23 +3,16 @@ import {FC, useEffect, useState} from 'react';
 import CardSettings from '../CardSettings/CardSettings';
 import {AppDispatch} from '@/store/store';
 import {useDispatch} from 'react-redux';
-import {getIsOpenCardSetting} from '@/store/card-setting/actions';
 import {getColumnInfo} from '@/store/colunm-info/actions';
 import {ColumnCardsProps} from '@/types/interfaces';
 
-// export interface CardProps {
-//   title: string;
-//   id: string;
-//   description: string;
-// }
 export type CardDisplayProps = {
   card: ColumnCardsProps;
   item: any;
 };
 
-// getIsOpenCardSetting
 const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
-  const [isOpenCard, setIsOpenCard] = useState(false);
+  const [isOpenCard, setIsOpenCards] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
@@ -30,13 +23,16 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
       }),
     );
   }, [isOpenCard]);
+
   const openCard = () => {
-    setIsOpenCard(!isOpenCard);
+    setIsOpenCards(!isOpenCard);
   };
   return (
     <>
       <button
-        onClick={(e) => setIsOpenCard(!isOpenCard)}
+        onClick={(e) => {
+          setIsOpenCards(!isOpenCard);
+        }}
         className='bg-transparent text-light w-100'
       >
         <span> {card.title}</span>

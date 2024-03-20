@@ -15,6 +15,9 @@ interface CardssP {
 }
 const CommentsAndDesc: FC<CardssP> = ({card}) => {
   const current_column = useSelector((state: RootState) => state?.column.data);
+  const [comment, setComment] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+
   const user = useSelector((state: RootState) => state.userdata);
   const boardLists = useSelector(
     (state: RootState) => state.boards.currentBoards.lists,
@@ -24,19 +27,8 @@ const CommentsAndDesc: FC<CardssP> = ({card}) => {
     column: null,
     card: null,
   });
-  const [description, setDescription] = useState<string>('');
 
-  const [currentComment, getCurrentComment] = useState<any>();
-  useEffect(() => {
-    const cardIndex = getListIndex(current_column.cards, card.id);
-    const columnIndex = getListIndex(boardLists, current_column.id);
-    getIndex((prevState: any) => ({...prevState, column: columnIndex}));
-    fetchBackData(
-      user.uid,
-      `/boards/${current_board.index}/lists/${columnIndex}/cards/${cardIndex}`,
-      getCurrentComment,
-    );
-  }, [user, current_board, current_column, boardLists]);
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     description &&
@@ -44,79 +36,62 @@ const CommentsAndDesc: FC<CardssP> = ({card}) => {
         `${user.uid}/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
         {description: description},
       );
-    fetchBackData(
-      user.uid,
-      `/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
-      getCurrentCard,
-    );
   }, [index, description, user, current_board]);
-  const [allComments, setAllComment] = useState<Array<CommentProps>>([]);
-  const dispatch: AppDispatch = useDispatch();
-  useEffect(() => {
-    if (allComments.length !== 0) {
-      dispatch(getComments(allComments));
-    }
-  }, [allComments]);
+
   const comments = useSelector(
     (state: RootState) => state.card_setting.comments,
   );
   useEffect(() => {
-    user.uid &&
+    if (index.column !== null && index.card !== null) {
       fetchBackData(
         user.uid,
         `/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
         getCurrentCard,
       );
-  }, [user]);
-  // const [columnName, setColumnName] = useState<string>('');
-
-  useEffect(() => {
-    const cardIndex = getListIndex(current_column.cards, card.id);
-    // getIndex((prevState: any) => ({...prevState, card: cardIndex}));
-    const columnIndex = getListIndex(boardLists, current_column.id);
-    getIndex((prevState: any) => ({
-      ...prevState,
-      column: columnIndex,
-      card: cardIndex,
-    }));
-  }, [current_column, card, boardLists, allComments]);
-
-  const [comment, setComment] = useState<string>('');
-  useEffect(() => {
-    if (currentComment?.comments) {
-      dispatch(getComments(currentComment?.comments));
     }
-  }, [currentComment]);
+  }, [user, card.id, current_column, boardLists, index]);
 
   useEffect(() => {
-    if (comments.length !== 0) {
-      // updateUserData(
-      //   `${user.uid}/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
-      //   {comments: comments},
-      // );
-      console.log(
-        `${user.uid}/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
-      );
+    if (card.id) {
+      const cardIndex = getListIndex(current_column.cards, card.id);
+      const columnIndex = getListIndex(boardLists, current_column.id);
+      getIndex((prevState: any) => ({
+        ...prevState,
+        column: columnIndex,
+        card: cardIndex,
+      }));
     }
-  }, [comments]);
-  useEffect(() => {
-    if (comment) {
-      const comments = {
-        title: comment,
-        id: uuidv4(),
-      };
+  }, [card.id, current_column, boardLists]);
 
-      setAllComment((prev) => [...prev, comments]);
-    }
-  }, [comment]);
   const [currentCard, getCurrentCard] = useState<ColumnCardsProps>({
     title: '',
     description: '',
     id: '',
     comments: [],
   });
+
+  useEffect(() => {
+    dispatch(getComments(currentCard?.comments as []));
+  }, [currentCard]);
+  useEffect(() => {
+    if (
+      comments &&
+      comments?.length !== 0 &&
+      index.column !== null &&
+      index.column !== -1 &&
+      index.card !== null &&
+      index.card !== -1
+    ) {
+      console.log(comments?.length, 'c');
+      updateUserData(
+        `${user.uid}/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
+        {comments: comments},
+      );
+    }
+  }, [comments, index]);
+
   return (
-    <p>
+    <>
       <p>oписание</p>
       <TextEditor
         isArray={false}
@@ -129,7 +104,7 @@ const CommentsAndDesc: FC<CardssP> = ({card}) => {
         getHTML={(e) => setComment(e)}
         title={'title'}
       />
-    </p>
+    </>
   );
 };
 export default CommentsAndDesc;

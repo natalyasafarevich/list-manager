@@ -8,6 +8,7 @@ import {v4 as uuidv4} from 'uuid';
 import {getBoardCurrent} from '@/store/board/actions';
 import {getFirebaseData} from '@/helper/getFirebaseData';
 import CardForm from '../../Card/CardForm/CardForm';
+import {isCardCreate} from '@/store/card-setting/actions';
 
 interface NewColumnProps {
   currentIndex: number;
@@ -23,14 +24,16 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   const [isClick, setIsClick] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
+  const user = useSelector((state: RootState) => state.userdata);
+  const isCopy = useSelector((state: RootState) => state.cl_setting);
+  const isCreate = useSelector((d: RootState) => d.card_setting);
+
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getBoardCurrent(currentBoard, currentIndex));
   }, [currentBoard]);
 
-  const user = useSelector((state: RootState) => state.userdata);
-  const isCopy = useSelector((state: RootState) => state.cl_setting);
 
   useEffect(() => {
     if (isUpdate) {
@@ -40,6 +43,7 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       setIsUpdate(false);
     }
   }, [isUpdate, currentList]);
+
   useEffect(() => {
     if (userData) {
       setCurrentBoard(userData[currentIndex]);
@@ -53,6 +57,7 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       }
     }
   }, [userData, currentIndex]);
+ 
   useEffect(() => {
     if (user.uid) {
       const fetchData = async () => {
@@ -64,21 +69,9 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
         }
       };
       fetchData();
+      dispatch(isCardCreate({isCardCreate: false}));
     }
-  }, [user.uid, isCopy]);
-  useEffect(() => {
-    if (user.uid) {
-      const fetchData = async () => {
-        try {
-          const userData = await getFirebaseData(user.uid, '/boards');
-          setUserData(userData);
-        } catch (error) {
-          alert(error + 'error in new column');
-        }
-      };
-      fetchData();
-    }
-  }, [user.uid, isCopy]);
+  }, [user.uid, isCopy, isCreate.isCardCreate]);
 
   const addComponents = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

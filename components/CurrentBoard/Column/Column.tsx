@@ -64,15 +64,19 @@ const Column: FC<ColumnProps> = ({item, name}) => {
   //   //   }),
   //   // );
   // }, [isCardOpen, userData]);
+
+  const t = useSelector((s: RootState) => s);
   useEffect(() => {
-    if (userData)
+    if (userData) {
+      console.log(userData);
       dispatch(
         getColumnInfo({
           id: userData?.id,
           cards: userData?.cards,
         }),
       );
-  }, [userData]);
+    }
+  }, [userData, isSave]);
   useEffect(() => {
     if (isSave) {
       updateUserData(
@@ -111,6 +115,10 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     // При добавлении карточки открываем компонент
   };
 
+  const f = useSelector((state: RootState) => state.boards);
+  // useEffect(() => {
+  //   console.log(userData, f);
+  // }, [f]);
   return (
     <>
       {!item?.isArchive && (

@@ -7,7 +7,7 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 export function getListIndex(lists: Array<any>, id: string) {
-  return lists.findIndex((item) => item.id === id);
+  return lists?.findIndex((item) => item.id === id);
 }
 
 const ArchiveColumn: FC = () => {
