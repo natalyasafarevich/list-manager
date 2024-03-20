@@ -6,6 +6,7 @@ import {RootState} from '@/store/store';
 import {getListIndex} from '../../Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import {ColumnCardsProps} from '@/types/interfaces';
 import CommentsAndDesc from './CommentsAndDesc/CommentsAndDesc';
+import CardSideBar from '../CardSideBar/CardSideBar';
 
 export function getCardIndex(lists: Array<any>, id: string) {
   return lists.findIndex((item) => item.id === id);
@@ -51,8 +52,14 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
           </span>
           <button onClick={closeSetting}>x</button>
         </div>
-
-        <CommentsAndDesc card={card} />
+        <div className='d-flex justify-content-between'>
+          <div className=''>
+            <CommentsAndDesc card={card} />
+          </div>
+          <div className='w-25'>
+            <CardSideBar />
+          </div>
+        </div>
       </div>
     </div>
   );
