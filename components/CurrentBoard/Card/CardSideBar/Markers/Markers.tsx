@@ -1,33 +1,52 @@
 'use client';
-import {FC, useState} from 'react';
+import firebaseApp from '@/firebase';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {updateUserData} from '@/helper/updateUserData';
+import {AppDispatch, RootState} from '@/store/store';
+import {getDatabase, ref, update} from 'firebase/database';
+import {FC, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {v4 as uuidv4} from 'uuid';
+import ColorCheckbox from '../ColorCheckbox/ColorCheckbox';
+import {getMarkersCurrent} from '@/store/card-sidebar/actions';
 
-const markers = [
-  {
-    color: '#4bce97',
-  },
-  {
-    color: '#f5cd47',
-  },
-  {
-    color: '#fea362',
-  },
-  {
-    color: '#9f8fef',
-  },
-  {
-    color: '#579dff',
-  },
-];
-
+interface MarkersFirebaseProps {
+  color: string;
+  id: string;
+}
 const Markers: FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [checked, getChecked] = useState<Array<string>>([]);
+  const [removedItem, getRemovedItem] = useState<string>('');
 
-  const chooseMark = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.checked;
-    if (newValue) {
-      console.log(e.target.dataset.color);
+  const [markers, getMarkers] = useState<Array<MarkersFirebaseProps>>();
+  const [isOpen, setIsOpen] = useState(false);
+  const user = useSelector((state: RootState) => state.userdata);
+
+  useEffect(() => {
+    if (user) {
+      fetchBackDefaultData('card-settings-data/markers', getMarkers);
     }
-    // console.log(newValue);
+  }, [user]);
+
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    if (removedItem) {
+      const updatedArray = checked.filter((item) => item !== removedItem);
+      getChecked(updatedArray);
+      console.log(checked, 'updated');
+      //
+    }
+  }, [removedItem]);
+
+  useEffect(() => {
+    console.log(checked, 'cheked');
+    if (checked.length !== 0) {
+      dispatch(getMarkersCurrent(checked));
+    }
+  }, [checked]);
+
+  const updateCheckedMarks = (e: string) => {
+    getChecked((prev) => [...prev, e]);
   };
   return (
     <div className='position-relative'>
@@ -48,26 +67,33 @@ const Markers: FC = () => {
             <button onClick={() => setIsOpen(!isOpen)}>x</button>
           </div>
           <div className=''>
-            {markers.map((item, i) => (
-              <div className='' key={i}>
-                <input
-                  data-color={item.color}
-                  onChange={chooseMark}
-                  type='checkbox'
-                  id={`${i}`}
-                  name={`checkbox${i}`}
-                />
-                <label
-                  htmlFor={`checkbox${i}`}
-                  style={{
-                    background: item.color,
-                    width: '50%',
-                    height: '10px',
-                    display: 'flex',
-                  }}
-                ></label>
-                <br />
-              </div>
+            {markers?.map((item, i) => (
+              <ColorCheckbox
+                key={i}
+                data={item}
+                addedID={updateCheckedMarks}
+                removeID={(e) => getRemovedItem(e)}
+              />
+              // <div className='d-flex mb-2' key={i}>
+              //   <input
+              //     data-id={`${item.id}`}
+              //     onChange={chooseMark}
+              //     type='checkbox'
+              //     id={`${item.id}`}
+              //     name={`checkbox${i}`}
+              //     checked={isChecked}
+              //   />
+              //   <label
+              //     htmlFor={`${item.id}`}
+              //     style={{
+              //       background: item.color,
+              //       width: '100%',
+              //       height: '10px',
+              //       display: 'flex',
+              //     }}
+              //   ></label>
+              //   <br />
+              // </div>
             ))}
           </div>
         </div>
