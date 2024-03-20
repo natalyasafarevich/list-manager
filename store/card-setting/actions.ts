@@ -22,10 +22,6 @@ export const getIsOpenCardSetting = (data: PayloadProps) => {
   };
 };
 
-// export type PayloadCommentProps = {
-//   isOpen: boolean;
-// };
-
 export type DataCommentProps = {
   type: typeof COMMENTS;
   payload: Array<CommentProps>;

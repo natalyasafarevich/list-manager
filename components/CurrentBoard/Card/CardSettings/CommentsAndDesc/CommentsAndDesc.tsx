@@ -5,15 +5,13 @@ import {fetchBackData} from '@/helper/getFirebaseData';
 import {updateUserData} from '@/helper/updateUserData';
 import {AppDispatch, RootState} from '@/store/store';
 import {ColumnCardsProps} from '@/types/interfaces';
-import {v4 as uuidv4} from 'uuid';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {CommentProps} from '../CardSettings';
 import {getComments} from '@/store/card-setting/actions';
-interface CardssP {
+interface CommentsAndDescProps {
   card: ColumnCardsProps;
 }
-const CommentsAndDesc: FC<CardssP> = ({card}) => {
+const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
   const current_column = useSelector((state: RootState) => state?.column.data);
   const [comment, setComment] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -82,7 +80,6 @@ const CommentsAndDesc: FC<CardssP> = ({card}) => {
       index.card !== null &&
       index.card !== -1
     ) {
-      console.log(comments?.length, 'c');
       updateUserData(
         `${user.uid}/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
         {comments: comments},

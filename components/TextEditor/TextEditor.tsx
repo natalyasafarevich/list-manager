@@ -34,6 +34,7 @@ const TextEditor: FC<TextEditorProps> = ({
   const [commentsInfo, setCommentsInfo] = useState({
     id: '',
     index: 0,
+    editDate: '',
   });
 
   const allComments = useSelector(
@@ -54,12 +55,24 @@ const TextEditor: FC<TextEditorProps> = ({
     }
   }, [backDescription]);
   useEffect(() => {
+    const date = new Date();
+    const year = date.getFullYear() % 100;
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    const editDate = `${hours}:${minutes} ${month}/${day}/${year}`;
     if (isSave) {
       const commentToUpdate = comments.find(
         (item) => item.id === commentsInfo.id,
       );
       if (commentToUpdate) {
-        const updatedComment = {...commentToUpdate, title: editorHtml};
+        const updatedComment = {
+          ...commentToUpdate,
+          title: editorHtml,
+          editDate,
+        };
 
         const updatedComments = comments.map((item) =>
           item.id === commentsInfo.id ? updatedComment : item,
@@ -101,14 +114,25 @@ const TextEditor: FC<TextEditorProps> = ({
 
   const addComment = () => {
     setEditorHtml('');
+    const date = new Date();
+    const year = date.getFullYear() % 100;
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
 
     const newId = uuidv4();
     const newComment: CommentProps = {
       id: newId,
       title: '',
+      createDate: `${hours}:${minutes} ${month}/${day}/${year}`,
     };
     setComments((prevComments) => [...prevComments, newComment]);
-    setCommentsInfo({id: newId, index: comments.length});
+    setCommentsInfo({
+      id: newId,
+      index: comments.length,
+      editDate: `${hours}:${minutes} ${month}/${day}/${year}`,
+    });
   };
 
   return (
@@ -156,12 +180,19 @@ const TextEditor: FC<TextEditorProps> = ({
               </button>
               {comments?.map((item, key) => {
                 return (
-                  <p
-                    data-id={item.id}
-                    key={key}
-                    onClick={changeComment}
-                    dangerouslySetInnerHTML={{__html: item.title}}
-                  ></p>
+                  <div key={key}>
+                    {item.editDate ? (
+                      <span>{item.editDate}(изменнено)</span>
+                    ) : (
+                      <span>{item.createDate}</span>
+                    )}
+
+                    <p
+                      data-id={item.id}
+                      onClick={changeComment}
+                      dangerouslySetInnerHTML={{__html: item.title}}
+                    ></p>
+                  </div>
                 );
               })}
             </>
