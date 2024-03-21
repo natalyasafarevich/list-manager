@@ -28,10 +28,12 @@ const ArchivedСolumns: FC = () => {
   useEffect(() => {
     fetchData(user.uid, current_board.index, getAllColumns);
   }, [user, current_board]);
-
   useEffect(() => {
-    let archived = allColumns?.filter((item) => item?.isArchive === true);
-    getArchivedColumns(archived);
+    if (allColumns) {
+  
+      let archived = allColumns?.filter((item) => item?.isArchive === true);
+      getArchivedColumns(archived);
+    }
   }, [allColumns]);
 
   const returnToBoard = (e: React.MouseEvent<HTMLButtonElement>) => {

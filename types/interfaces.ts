@@ -14,3 +14,7 @@ export interface CurrentColumnProps {
   id?: string;
   cards: Array<ColumnCardsProps>;
 }
+export type CheckListProps = {
+  id: string;
+  title: string;
+};
