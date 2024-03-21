@@ -16,7 +16,7 @@ const ColorCheckbox: FC<ColorCheckboxProps> = ({data, addedID, removeID}) => {
   );
   useEffect(() => {
     const marker = currentMarkers.map((item) => {
-      if (item === data.id) {
+      if (item === data.color) {
         setIsChecked(true);
       }
     });
@@ -38,7 +38,7 @@ const ColorCheckbox: FC<ColorCheckboxProps> = ({data, addedID, removeID}) => {
       <input
         onChange={changeCheckBox}
         type='checkbox'
-        data-id={data.id}
+        data-id={data.color}
         id={data.id}
         name='name'
         checked={isChecked}

@@ -25,6 +25,7 @@ export interface CommentProps {
 const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const [columnName, setColumnName] = useState<string>('');
   const [allComments, setAllComment] = useState<Array<CommentProps>>([]);
+  const [makers, setMarkers] = useState<Array<string>>([]);
 
   const boardLists = useSelector(
     (state: RootState) => state.boards.currentBoards.lists,
@@ -39,6 +40,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const closeSetting = () => {
     setIsOpenCard();
   };
+
   return (
     <div className='card-settings'>
       <div className='card-settings__container'>
