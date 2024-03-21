@@ -71,7 +71,6 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
             ))}
           </div>
         </div>
-
         <div className='d-flex justify-content-between'>
           <div className=''>
             <CommentsAndDesc card={card} />
