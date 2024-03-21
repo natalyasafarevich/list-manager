@@ -2,8 +2,9 @@ import {UserInfo} from 'firebase/auth';
 
 export const DATA_USER = 'data-user/DATA_USER';
 export const RESET_DATA_USER = 'data-user/RESET_DATA_USER';
-
 export const DATA_USER_FOR_FIREBASE = 'data-user/DATA_USER_FOR_FIREBASE';
+
+export const UPDATE_LINK = 'data-user/UPDATE_LINK';
 
 export type DataUserProp = {
   type: typeof DATA_USER;
@@ -15,7 +16,8 @@ export type ResetDataUserProp = {
 export type ActionsType =
   | DataUserProp
   | ResetDataUserProp
-  | DataUserFirebaseProp;
+  | DataUserFirebaseProp
+  | UpdateLinkProp;
 
 export const getDataUser = (data: any) => {
   return {
@@ -44,6 +46,25 @@ export type DataUserFirebaseProp = {
 export const getDataUserForFB = (data: DataUserForFBProps) => {
   return {
     type: DATA_USER,
+    payload: data,
+  };
+};
+
+interface ObjectProps {
+  boardIndex: number;
+  listIndex: number;
+  cardIndex: number;
+  uid: string
+}
+
+export type UpdateLinkProp = {
+  type: typeof UPDATE_LINK;
+  payload: ObjectProps;
+};
+
+export const getUpdateLink = (data: ObjectProps) => {
+  return {
+    type: UPDATE_LINK,
     payload: data,
   };
 };

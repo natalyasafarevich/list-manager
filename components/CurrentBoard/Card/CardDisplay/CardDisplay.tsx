@@ -5,6 +5,7 @@ import {AppDispatch} from '@/store/store';
 import {useDispatch} from 'react-redux';
 import {getColumnInfo} from '@/store/colunm-info/actions';
 import {ColumnCardsProps} from '@/types/interfaces';
+import {getMarkersCurrent} from '@/store/card-sidebar/actions';
 
 export type CardDisplayProps = {
   card: ColumnCardsProps;
@@ -31,6 +32,8 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
     <>
       <button
         onClick={(e) => {
+          dispatch(getMarkersCurrent([]));
+
           setIsOpenCards(!isOpenCard);
         }}
         className='bg-transparent text-light w-100'

@@ -8,6 +8,7 @@ import {ColumnCardsProps} from '@/types/interfaces';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getComments} from '@/store/card-setting/actions';
+import {getUpdateLink} from '@/store/data-user/actions';
 interface CommentsAndDescProps {
   card: ColumnCardsProps;
 }
@@ -28,6 +29,17 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
 
   const dispatch: AppDispatch = useDispatch();
 
+  useEffect(() => {
+    if (index.column !== null && index.card !== null) {
+      const link = {
+        boardIndex: current_board.index,
+        listIndex: index.column,
+        cardIndex: index.card,
+        uid: user.uid,
+      };
+      dispatch(getUpdateLink(link));
+    }
+  }, [index]);
   useEffect(() => {
     description &&
       updateUserData(

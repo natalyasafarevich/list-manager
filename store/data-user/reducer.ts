@@ -4,6 +4,7 @@ import {
   DATA_USER,
   DATA_USER_FOR_FIREBASE,
   RESET_DATA_USER,
+  UPDATE_LINK,
 } from './actions';
 
 interface initialStateProps {
@@ -26,6 +27,11 @@ const initialState = {
     uid: '',
     boardIndex: 0,
     cardIndex: 0,
+  },
+  dataLink: {
+    boardIndex: null,
+    listIndex: null,
+    cardIndex: null,
   },
 };
 export const DataUserReducer = (state = initialState, action: ActionsType) => {
@@ -58,6 +64,13 @@ export const DataUserReducer = (state = initialState, action: ActionsType) => {
         dataFB: action.payload,
       };
     }
+    case UPDATE_LINK: {
+      return {
+        ...state,
+        dataLink: action.payload,
+      };
+    }
+
     default:
       return state;
   }

@@ -15,7 +15,6 @@ const ColorCheckbox: FC<ColorCheckboxProps> = ({data, addedID, removeID}) => {
     (state: RootState) => state.markers.markers,
   );
   useEffect(() => {
-    // console.log(currentMarkers);
     const marker = currentMarkers.map((item) => {
       if (item === data.id) {
         setIsChecked(true);
@@ -25,7 +24,6 @@ const ColorCheckbox: FC<ColorCheckboxProps> = ({data, addedID, removeID}) => {
   const changeCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(!isChecked);
     const checkbox = e.target.checked;
-    console.log(e.target.dataset.id);
     const id = e.target.dataset.id;
     if (id) {
       if (checkbox) {

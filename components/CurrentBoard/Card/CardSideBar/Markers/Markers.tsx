@@ -1,6 +1,6 @@
 'use client';
 import firebaseApp from '@/firebase';
-import {fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {updateUserData} from '@/helper/updateUserData';
 import {AppDispatch, RootState} from '@/store/store';
 import {getDatabase, ref, update} from 'firebase/database';
@@ -9,45 +9,79 @@ import {useDispatch, useSelector} from 'react-redux';
 import {v4 as uuidv4} from 'uuid';
 import ColorCheckbox from '../ColorCheckbox/ColorCheckbox';
 import {getMarkersCurrent} from '@/store/card-sidebar/actions';
+import {ColumnCardsProps} from '@/types/interfaces';
 
 interface MarkersFirebaseProps {
   color: string;
   id: string;
 }
+
 const Markers: FC = () => {
+  const [card, setCard] = useState<ColumnCardsProps>();
   const [checked, getChecked] = useState<Array<string>>([]);
   const [removedItem, getRemovedItem] = useState<string>('');
-
   const [markers, getMarkers] = useState<Array<MarkersFirebaseProps>>();
   const [isOpen, setIsOpen] = useState(false);
-  const user = useSelector((state: RootState) => state.userdata);
 
+  const user = useSelector((state: RootState) => state.userdata);
+  const current_markers = useSelector(
+    (state: RootState) => state.markers.markers,
+  );
+
+  const dispatch: AppDispatch = useDispatch();
+
+  // get all default markers
   useEffect(() => {
     if (user) {
       fetchBackDefaultData('card-settings-data/markers', getMarkers);
     }
   }, [user]);
 
-  const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     if (removedItem) {
       const updatedArray = checked.filter((item) => item !== removedItem);
       getChecked(updatedArray);
-      console.log(checked, 'updated');
-      //
     }
   }, [removedItem]);
 
+  // update markers
   useEffect(() => {
-    console.log(checked, 'cheked');
+    getChecked(current_markers);
+    if (current_markers.length !== 0) {
+      updateUserData(
+        `${user.uid}/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
+        {
+          markers: current_markers,
+        },
+      );
+    }
+  }, [current_markers, user.dataLink]);
+
+  // get markers
+  useEffect(() => {
+    if (user)
+      fetchBackData(
+        user.uid,
+        `/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
+        setCard,
+      );
+  }, [user, user.dataLink.listIndex, checked.length]);
+  // write current checked items
+  useEffect(() => {
     if (checked.length !== 0) {
       dispatch(getMarkersCurrent(checked));
+      return;
     }
-  }, [checked]);
+    if (card?.markers) {
+      dispatch(getMarkersCurrent(card.markers));
+      return;
+    }
+  }, [checked, card]);
 
   const updateCheckedMarks = (e: string) => {
     getChecked((prev) => [...prev, e]);
   };
+
   return (
     <div className='position-relative'>
       <p onClick={() => setIsOpen(!isOpen)}>метки</p>
@@ -74,26 +108,6 @@ const Markers: FC = () => {
                 addedID={updateCheckedMarks}
                 removeID={(e) => getRemovedItem(e)}
               />
-              // <div className='d-flex mb-2' key={i}>
-              //   <input
-              //     data-id={`${item.id}`}
-              //     onChange={chooseMark}
-              //     type='checkbox'
-              //     id={`${item.id}`}
-              //     name={`checkbox${i}`}
-              //     checked={isChecked}
-              //   />
-              //   <label
-              //     htmlFor={`${item.id}`}
-              //     style={{
-              //       background: item.color,
-              //       width: '100%',
-              //       height: '10px',
-              //       display: 'flex',
-              //     }}
-              //   ></label>
-              //   <br />
-              // </div>
             ))}
           </div>
         </div>

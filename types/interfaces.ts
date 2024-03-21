@@ -6,7 +6,8 @@ export interface ColumnCardsProps {
   title: string;
   id: string;
   description?: string;
-  comments:Array<string>
+  comments: Array<string>;
+  markers?: Array<string>;
 }
 export interface CurrentColumnProps {
   name?: string;
