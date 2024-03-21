@@ -3,6 +3,7 @@ import {CommentProps} from '@/components/CurrentBoard/Card/CardSettings/CardSett
 export const IS_CARD_SETTING_OPEN = 'card-setting/IS_CARD_SETTING_OPEN';
 export const COMMENTS = 'card-setting/COMMENTS';
 export const IS_CREATE_CARD = 'card-setting/IS_CREATE_CARD';
+export const IS_DESCRIPTION_ADDED = 'card-setting/IS_DESCRIPTION_ADDED';
 
 export type PayloadProps = {
   isOpen: boolean;
@@ -13,7 +14,11 @@ export type DataCardProps = {
   payload: PayloadProps;
 };
 
-export type ActionsType = DataCardProps | DataCommentProps | IsCardCreateProps;
+export type ActionsType =
+  | DataCardProps
+  | DataCommentProps
+  | IsCardCreateProps
+  | IsDescriptionAddedProps;
 
 export const getIsOpenCardSetting = (data: PayloadProps) => {
   return {
@@ -45,6 +50,18 @@ export type IsCardCreateProps = {
 export const isCardCreate = (data: CardProps) => {
   return {
     type: IS_CREATE_CARD,
+    payload: data,
+  };
+};
+
+export type IsDescriptionAddedProps = {
+  type: typeof IS_DESCRIPTION_ADDED;
+  payload: boolean;
+};
+
+export const isDescriptionAdded = (data: boolean) => {
+  return {
+    type: IS_DESCRIPTION_ADDED,
     payload: data,
   };
 };

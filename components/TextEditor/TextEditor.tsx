@@ -9,7 +9,7 @@ import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {CommentProps} from '../CurrentBoard/Card/CardSettings/CardSettings';
 import {getListIndex} from '../CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
-import {getComments} from '@/store/card-setting/actions';
+import {getComments, isDescriptionAdded} from '@/store/card-setting/actions';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -61,9 +61,11 @@ const TextEditor: FC<TextEditorProps> = ({
     const day = date.getDate().toString().padStart(2, '0');
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
-
     const editDate = `${hours}:${minutes} ${month}/${day}/${year}`;
     if (isSave) {
+      if (!isArray && editorHtml) {
+        dispatch(isDescriptionAdded(true));
+      }
       const commentToUpdate = comments.find(
         (item) => item.id === commentsInfo.id,
       );
@@ -135,6 +137,7 @@ const TextEditor: FC<TextEditorProps> = ({
     });
   };
 
+  useEffect(() => {}, [isArray, editorHtml]);
   return (
     <>
       {isOpen ? (

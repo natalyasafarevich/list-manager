@@ -50,25 +50,8 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     fetchData();
   }, []);
   const [userData, getUserData] = useState<CurrentColumnProps>();
-  // const isCardOpen = useSelector(
-  //   (state: RootState) => state.card_setting.isOpen,
-  // );
-  // useEffect(() => {
-  //   if (isCardOpen) {
-  //     console.log(userData?.id, 'gfe');
-  //   }
-  //   // dispatch(
-  //   //   getColumnInfo({
-  //   //     id: userData?.id,
-  //   //     cards: userData?.cards,
-  //   //   }),
-  //   // );
-  // }, [isCardOpen, userData]);
-
-  const t = useSelector((s: RootState) => s);
   useEffect(() => {
     if (userData) {
-      console.log(userData);
       dispatch(
         getColumnInfo({
           id: userData?.id,
@@ -83,10 +66,6 @@ const Column: FC<ColumnProps> = ({item, name}) => {
         `${user.uid}/boards/${current_board.index}/lists/${cardIndex}`,
         {cards},
       );
-      // dispatch(getDataUserForFB({uid:user.uid,boardIndex:}))
-      // console.log(
-      //   `${user.uid}/boards/${current_board.index}/lists/${cardIndex}`,
-      // );
       const fetchData = async () => {
         try {
           const columnData = await getFirebaseData(
@@ -102,23 +81,16 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     }
     setIsSave(false);
   }, [isSave]);
+  // const markers=useSelector((state:RootState))
   useEffect(() => {
     dispatch(getIsOpenClSetting({isOpen: false}));
   }, []);
-  // console.log(cardIndex);
-  // const info = useSelector((state: RootState) => state.userdata);
-  // console.log(info);
+
   const addCard = () => {
     setIsClose(false);
-
-    // dispatch(getIsOpenClSetting({isOpen: true}));
     // При добавлении карточки открываем компонент
   };
 
-  const f = useSelector((state: RootState) => state.boards);
-  // useEffect(() => {
-  //   console.log(userData, f);
-  // }, [f]);
   return (
     <>
       {!item?.isArchive && (

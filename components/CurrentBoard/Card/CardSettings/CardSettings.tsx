@@ -26,7 +26,13 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const [columnName, setColumnName] = useState<string>('');
   const [allComments, setAllComment] = useState<Array<CommentProps>>([]);
   const [makers, setMarkers] = useState<Array<string>>([]);
+  const current_markers = useSelector(
+    (state: RootState) => state.markers.markers,
+  );
 
+  useEffect(() => {
+    setMarkers(current_markers);
+  }, [current_markers]);
   const boardLists = useSelector(
     (state: RootState) => state.boards.currentBoards.lists,
   );
@@ -54,6 +60,18 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
           </span>
           <button onClick={closeSetting}>x</button>
         </div>
+        <div className=''>
+          <span>метки</span>
+          <div className='d-flex align-items-center'>
+            {makers?.map((item) => (
+              <div
+                className='m-2'
+                style={{width: '50px', height: '10px', background: item}}
+              ></div>
+            ))}
+          </div>
+        </div>
+
         <div className='d-flex justify-content-between'>
           <div className=''>
             <CommentsAndDesc card={card} />

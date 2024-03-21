@@ -4,18 +4,21 @@ import {
   COMMENTS,
   IS_CARD_SETTING_OPEN,
   IS_CREATE_CARD,
+  IS_DESCRIPTION_ADDED,
 } from './actions';
 
 interface initialStateProps {
   isOpen: boolean;
   comments: Array<CommentProps>;
   isCardCreate: boolean;
+  isDescriptionAdded: boolean;
 }
 
 const initialState: initialStateProps = {
   isOpen: false,
   comments: [],
   isCardCreate: false,
+  isDescriptionAdded: false,
 };
 
 export const CardSettingReducer = (
@@ -36,6 +39,11 @@ export const CardSettingReducer = (
     case IS_CREATE_CARD: {
       const clone = structuredClone(state);
       clone.isCardCreate = action.payload.isCardCreate;
+      return clone;
+    }
+    case IS_DESCRIPTION_ADDED: {
+      const clone = structuredClone(state);
+      clone.isDescriptionAdded = action.payload;
       return clone;
     }
 
