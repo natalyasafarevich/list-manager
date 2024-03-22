@@ -12,6 +12,7 @@ import React, {
 } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4 as createId} from 'uuid';
+import CheckboxItem from '../CheckboxItem/CheckboxItem';
 export interface ListTasksProps {
   title: string;
   id: string;
@@ -102,8 +103,9 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
       <div>
         <p>{item.title}</p>
         <ul className=''>
-          {value?.map((item) => <li key={item.id}>{item.title}</li>)}
+          {value?.map((item) => <CheckboxItem item={item} />)}
         </ul>
+
         <button type='button' onClick={() => setIsOpen(!isOpen)}>
           добавить элемент
         </button>

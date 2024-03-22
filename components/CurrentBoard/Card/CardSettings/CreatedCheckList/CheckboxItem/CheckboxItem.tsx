@@ -1,15 +1,15 @@
 import {FC} from 'react';
 import {v4 as createId} from 'uuid';
 interface CheckboxItemProps {
-  // id:
+  item: {id: string; title: string};
 }
 
-const CheckboxItem: FC = () => {
+const CheckboxItem: FC<CheckboxItemProps> = ({item}) => {
   return (
     <div>
-      <input id='1' type='checkbox' />
-      <label className='m-1' htmlFor={'1'}>
-        a new task
+      <input id={item.id} type='checkbox' />
+      <label className='m-1' htmlFor={item.id}>
+        {item.title}
       </label>
     </div>
   );

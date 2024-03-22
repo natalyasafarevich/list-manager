@@ -53,7 +53,7 @@ const CreatedCheckList: FC = () => {
           />
         ))}
       </div>
-      <CheckboxItem />
+
       <hr />
     </div>
   );
