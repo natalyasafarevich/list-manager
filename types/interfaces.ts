@@ -17,4 +17,5 @@ export interface CurrentColumnProps {
 export type CheckListProps = {
   id: string;
   title: string;
+  tasks?: Array<any>;
 };

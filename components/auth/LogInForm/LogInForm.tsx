@@ -43,7 +43,7 @@ const LoginComponent = () => {
       );
       const user = userCredential.user;
       clearForm();
-      console.log(')');
+   
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;

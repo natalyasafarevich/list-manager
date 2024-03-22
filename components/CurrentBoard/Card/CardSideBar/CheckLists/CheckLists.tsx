@@ -1,41 +1,42 @@
 'use client';
 import MiniPopup from '@/components/MiniPopup/MiniPopup';
 import {FC, useEffect, useState} from 'react';
-import CheckboxItem from '../CheckboxItem/CheckboxItem';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '@/store/store';
 import {v4 as createId} from 'uuid';
 import {updateUserData} from '@/helper/updateUserData';
 import {CheckListProps} from '@/types/interfaces';
-import {getCheckLists} from '@/store/check-lists/actions';
+import {getCheckLists, getCurrentTask} from '@/store/check-lists/actions';
 import {fetchBackData} from '@/helper/getFirebaseData';
 
 const CheckLists: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isUpdate, setIsUpdate] = useState(false);
-
   const [value, setValue] = useState('');
   const [checkLists, setCheckLists] = useState<Array<CheckListProps>>([]);
   const [checkFBLists, setCheckFBLists] = useState<any>([]);
-
   const user = useSelector((state: RootState) => state.userdata);
-
+  const idList = useSelector((state: RootState) => state.check_lists);
   const dispatch: AppDispatch = useDispatch();
-  // const lists = useSelector((state: RootState) => state.check_lists.lists);
-  // console.log(lists, checkLists);
+
   useEffect(() => {
-    if (user || checkLists.length !== checkFBLists.length) {
+    if (
+      user ||
+      checkLists.length !== checkFBLists.length ||
+      idList.current_tasks.isCreate
+    ) {
       fetchBackData(
         user.uid,
         `/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}/check-lists`,
         setCheckFBLists,
       );
     }
-  }, [user]);
+  }, [user, idList.current_tasks.isCreate]);
 
   useEffect(() => {
     if (checkFBLists?.length > 0) {
       setCheckLists(checkFBLists);
+      dispatch(getCheckLists(checkLists));
+      // dispatch(getCurrentTask(checkLists, false));
     }
   }, [checkFBLists]);
 
@@ -47,7 +48,6 @@ const CheckLists: FC = () => {
           'check-lists': checkLists,
         },
       );
-    setIsUpdate(true);
     dispatch(getCheckLists(checkLists));
   }, [checkLists.length, user]);
 
@@ -85,7 +85,6 @@ const CheckLists: FC = () => {
           </form>
         </MiniPopup>
       )}
-      <CheckboxItem />
     </div>
   );
 };

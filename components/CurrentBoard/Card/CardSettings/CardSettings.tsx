@@ -7,6 +7,7 @@ import {getListIndex} from '../../Column/ColumnSettings/ArchiveColumn/ArchiveCol
 import {ColumnCardsProps} from '@/types/interfaces';
 import CommentsAndDesc from './CommentsAndDesc/CommentsAndDesc';
 import CardSideBar from '../CardSideBar/CardSideBar';
+import CreatedCheckList from './CreatedCheckList/CreatedCheckList';
 
 export function getCardIndex(lists: Array<any>, id: string) {
   return lists.findIndex((item) => item.id === id);
@@ -26,6 +27,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const [columnName, setColumnName] = useState<string>('');
   const [allComments, setAllComment] = useState<Array<CommentProps>>([]);
   const [makers, setMarkers] = useState<Array<string>>([]);
+
   const current_markers = useSelector(
     (state: RootState) => state.markers.markers,
   );
@@ -73,6 +75,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
         </div>
         <div className='d-flex justify-content-between'>
           <div className=''>
+            <CreatedCheckList></CreatedCheckList>
             <CommentsAndDesc card={card} />
           </div>
           <div className='w-25'>

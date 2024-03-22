@@ -9,6 +9,7 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getComments} from '@/store/card-setting/actions';
 import {getUpdateLink} from '@/store/data-user/actions';
+import CreatedCheckList from '../CreatedCheckList/CreatedCheckList';
 interface CommentsAndDescProps {
   card: ColumnCardsProps;
 }
@@ -108,6 +109,7 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
         getHTML={(e) => setDescription(e)}
         title='oписание'
       />
+
       <TextEditor
         isArray={true}
         getHTML={(e) => setComment(e)}
