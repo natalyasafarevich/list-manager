@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    // "noImplicitAny": false,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next",
+      },
+    ],
+    "paths": {
+      "@/*": ["./*"],
+    },
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "components/Register.js",
+    "components/authMethods/phone/Phone.jsx",
+    "store/reducers.js",
+    "components/user/settings/AccountManagement/Security/DeleteAccount/DeleteAccount.tsx",
+    "app/board/[id]/page.tsx",
+    "app/board/board.js",
+    "pages/about.tsx",
+  ],
+  "exclude": ["node_modules"],
+}
