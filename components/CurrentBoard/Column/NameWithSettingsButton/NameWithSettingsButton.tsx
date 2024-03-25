@@ -32,11 +32,9 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
   // const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   const [isOspen, setsIsOpen] = useState<boolean>(false);
-  // console.log(isCreateNewCard);
+
   const dispatch: AppDispatch = useDispatch();
-  useEffect(() => {
-    // console.log(item);
-  }, [item]);
+
   useEffect(() => {
     if (isOpen) {
       dispatch(getCurrentColumn(item));
@@ -51,21 +49,7 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
   useEffect(() => {
     setIsOpen(false);
   }, []);
-  const isCardOpen = useSelector(
-    (state: RootState) => state.card_setting.isOpen,
-  );
-  // useEffect(() => {
-  //   // console.log(isCardOpen, 'jhgfd');
-  //   if (isCardOpen && item) {
-  //     console.log(item, 'g');
-  //     dispatch(
-  //       getColumnInfo({
-  //         id: item.id,
-  //         cards: item.cards,
-  //       }),
-  //     );
-  //   }
-  // }, [isCardOpen, item]);
+
   const openMenu = () => {
     setIsOpen(!isOpen);
     dispatch(

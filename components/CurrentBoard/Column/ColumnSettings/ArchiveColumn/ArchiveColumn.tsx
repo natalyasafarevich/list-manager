@@ -27,8 +27,6 @@ const ArchiveColumn: FC = () => {
 
   const dispatch: AppDispatch = useDispatch();
   const archiveColumn = () => {
-    console.log(boardIndex);
-
     updateUserData(`${user.uid}/boards/${boardIndex}/lists/${columnIndex}`, {
       isArchive: true,
     });

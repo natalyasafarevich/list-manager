@@ -44,8 +44,12 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
 
   const checkboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(!isChecked);
+    if (e.currentTarget.checked) {
+      dispatch(isTaskUpdate(true));
+    }
     const listIndex = getListIndex(lists, listId);
     setIndex((prev: any) => ({...prev, list: listIndex}));
+
     if (lists[listIndex]?.tasks) {
       lists[listIndex]?.tasks?.filter((checkbox, i) => {
         if (checkbox.id === item.id) {

@@ -61,7 +61,6 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
   const isUpdateTaskList = useSelector(
     (state: RootState) => state.check_lists.isTaskUpdate,
   );
-  console.log(isUpdateTaskList, 'isUpdateTaskList');
   //receiving tasks from the server and saving them
   useEffect(() => {
     if (tasksFB) {
@@ -78,8 +77,6 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
         `/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}/check-lists`,
         setTasksFB,
       );
-      console.log('<yes></yes>');
-      dispatch(isTaskUpdate(false));
     }
   }, [user, isUpdateTaskList]);
 
@@ -97,7 +94,7 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
       setValue((prevValue) => [...prevValue, newValue]);
 
       addNewCheckbox(e);
-
+      dispatch(isTaskUpdate(true));
       setIsOpen(false);
       setIsUpdate(true);
 
@@ -105,9 +102,7 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
       dispatch(getCurrentListIndex(itemIndex));
     }
   };
-  const id = useSelector((state: RootState) => state.check_lists.lists);
 
-  console.log(item.id);
   return (
     <>
       <div>
