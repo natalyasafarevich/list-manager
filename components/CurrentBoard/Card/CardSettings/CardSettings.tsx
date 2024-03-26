@@ -65,8 +65,9 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
         <div className=''>
           <span>метки</span>
           <div className='d-flex align-items-center'>
-            {makers?.map((item) => (
+            {makers?.map((item, i) => (
               <div
+                key={i}
                 className='m-2'
                 style={{width: '50px', height: '10px', background: item}}
               ></div>
@@ -74,7 +75,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
           </div>
         </div>
         <div className='d-flex justify-content-between'>
-          <div className=''>
+          <div className='w-50'>
             <CreatedCheckList></CreatedCheckList>
             <CommentsAndDesc card={card} />
           </div>

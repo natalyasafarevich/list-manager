@@ -4,14 +4,18 @@ import {
   CHECK_LISTS,
   CHECK_LIST_INDEX,
   CURRENT_TASKS,
+  DELETE_LIST,
+  IS_DELETE_LIST,
   IS_UPDATE_TASK,
 } from './actions';
 import {ListTasksProps} from '@/components/CurrentBoard/Card/CardSettings/CreatedCheckList/AddItemForm/AddItemForm';
 
 interface initialStateProps {
   lists: Array<CheckListProps>;
+  deleteList: Array<CheckListProps>;
   index: any;
   isTaskUpdate: boolean;
+  isDeleteList: boolean;
   current_tasks: {
     isCreate: boolean;
     data: Array<ListTasksProps>;
@@ -20,6 +24,8 @@ interface initialStateProps {
 
 const initialState: initialStateProps = {
   lists: [],
+  deleteList: [],
+  isDeleteList: false,
   isTaskUpdate: false,
   index: null,
   current_tasks: {
@@ -54,7 +60,16 @@ export const CheckListsReducer = (
       clone.isTaskUpdate = action.payload;
       return clone;
     }
-
+    case IS_DELETE_LIST: {
+      const clone = structuredClone(state);
+      clone.isDeleteList = action.payload;
+      return clone;
+    }
+    case DELETE_LIST: {
+      const clone = structuredClone(state);
+      clone.deleteList = action.payload;
+      return clone;
+    }
     default:
       return state;
   }

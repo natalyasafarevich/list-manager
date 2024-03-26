@@ -1,7 +1,10 @@
 import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import {fetchBackData} from '@/helper/getFirebaseData';
 import {
+  getCheckLists,
   getListIndex as getCurrentListIndex,
+  deleteList as deleteListStore,
+  isDeleteList,
   isTaskUpdate,
 } from '@/store/check-lists/actions';
 import {AppDispatch, RootState} from '@/store/store';
@@ -16,18 +19,15 @@ import React, {
 import {useDispatch, useSelector} from 'react-redux';
 import {v4 as createId} from 'uuid';
 import CheckboxItem from '../CheckboxItem/CheckboxItem';
+import {CheckListProps} from '@/types/interfaces';
 export interface ListTasksProps {
   title: string;
   id: string;
-}
-export interface ListItem {
-  id: string;
-  title: string;
-  tasks?: Array<ListTasksProps>;
+  isChecked?: boolean;
 }
 
 interface Props {
-  item: ListItem;
+  item: CheckListProps;
   addNewCheckbox: (e: any) => void;
   currentValue: (e: any) => void;
 }
@@ -36,8 +36,8 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [value, setValue] = useState<Array<ListTasksProps>>([]);
-  const [tasksFB, setTasksFB] = useState<Array<ListItem>>();
-  const index = useSelector((state: RootState) => state.check_lists.index);
+  const [tasksFB, setTasksFB] = useState<Array<CheckListProps>>();
+
   const lists = useSelector((state: RootState) => state.check_lists.lists);
   const user = useSelector((state: RootState) => state.userdata);
 
@@ -61,6 +61,7 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
   const isUpdateTaskList = useSelector(
     (state: RootState) => state.check_lists.isTaskUpdate,
   );
+  const check_lists = useSelector((state: RootState) => state.check_lists);
   //receiving tasks from the server and saving them
   useEffect(() => {
     if (tasksFB) {
@@ -68,17 +69,16 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
       current_task[0]?.tasks && setValue(current_task[0]?.tasks);
     }
   }, [tasksFB]);
-
   //receiving data
   useEffect(() => {
-    if (user || isUpdateTaskList) {
+    if (user || isUpdateTaskList || check_lists.isDeleteList) {
       fetchBackData(
         user.uid,
         `/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}/check-lists`,
         setTasksFB,
       );
     }
-  }, [user, isUpdateTaskList]);
+  }, [user, isUpdateTaskList, check_lists]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -102,15 +102,23 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
       dispatch(getCurrentListIndex(itemIndex));
     }
   };
+  const deleteList = () => {
+    const itemIndex = getListIndex(lists, item.id);
+    dispatch(getCurrentListIndex(itemIndex));
 
+    dispatch(isDeleteList(true));
+  };
   return (
     <>
-      <div>
-        <p>{item.title}</p>
+      <div className=''>
+        <div className='d-flex align-items-center justify-content-between'>
+          <span>{item.title}</span>
+          <button onClick={deleteList}>удалить</button>
+        </div>
         <ul className=''>
-          {value?.map((checkbox, i) => (
-            <CheckboxItem key={i} listId={item.id} item={checkbox} />
-          ))}
+          {value?.map((checkbox, i) => {
+            return <CheckboxItem key={i} listId={item.id} item={checkbox} />;
+          })}
         </ul>
 
         <button type='button' onClick={() => setIsOpen(!isOpen)}>

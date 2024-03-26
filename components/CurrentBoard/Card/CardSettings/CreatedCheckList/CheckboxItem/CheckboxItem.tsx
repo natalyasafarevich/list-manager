@@ -5,9 +5,10 @@ import {AppDispatch, RootState} from '@/store/store';
 import {CheckListProps} from '@/types/interfaces';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {ListTasksProps} from '../AddItemForm/AddItemForm';
 // import {v4 as createId} from 'uuid';
 interface CheckboxItemProps {
-  item: {id: string; title: string; isChecked?: boolean};
+  item: ListTasksProps;
   listId: string;
 }
 
