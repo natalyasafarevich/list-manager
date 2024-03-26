@@ -8,6 +8,7 @@ export interface ColumnCardsProps {
   description?: string;
   comments: Array<string>;
   markers?: Array<string>;
+  isArchived?: boolean;
 }
 export interface CurrentColumnProps {
   name?: string;

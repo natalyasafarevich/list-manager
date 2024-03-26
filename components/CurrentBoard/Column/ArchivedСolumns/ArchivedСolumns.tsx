@@ -1,7 +1,7 @@
 'use client';
 import {getFirebaseData} from '@/helper/getFirebaseData';
 import {updateUserData} from '@/helper/updateUserData';
-import {isArchiveColumn} from '@/store/column-setting/actions';
+import {isArchive} from '@/store/column-setting/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -25,12 +25,14 @@ const ArchivedСolumns: FC = () => {
 
   const user = useSelector((state: RootState) => state.userdata);
   const current_board = useSelector((state: RootState) => state?.boards);
+  const isArchived = useSelector(
+    (state: RootState) => state?.markers.isCardArchived,
+  );
   useEffect(() => {
     fetchData(user.uid, current_board.index, getAllColumns);
-  }, [user, current_board]);
+  }, [user, current_board, isArchived]);
   useEffect(() => {
     if (allColumns) {
-  
       let archived = allColumns?.filter((item) => item?.isArchive === true);
       getArchivedColumns(archived);
     }
@@ -44,7 +46,7 @@ const ArchivedСolumns: FC = () => {
         updateUserData(`${user.uid}/boards/${boardIndex}/lists/${i}`, {
           isArchive: false,
         });
-        dispatch(isArchiveColumn({isArchive: false}));
+        dispatch(isArchive({isArchive: false}));
       }
     });
   };
