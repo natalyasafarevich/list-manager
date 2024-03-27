@@ -34,6 +34,9 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     }
     setCards(item?.cards);
   }, [item]);
+  const isArchived = useSelector(
+    (state: RootState) => state.markers.isCardArchived,
+  );
 
   useEffect(() => {
     const fetchData = async () => {

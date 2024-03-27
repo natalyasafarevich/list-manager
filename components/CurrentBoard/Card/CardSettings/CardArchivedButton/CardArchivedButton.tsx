@@ -4,7 +4,7 @@ import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-const CardArchived: FC = () => {
+const CardArchivedButton: FC = () => {
   const [isArchived, setIsArchived] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
 
@@ -24,18 +24,20 @@ const CardArchived: FC = () => {
   }, [user.dataLink.cardIndex, isArchiveFB]);
 
   useEffect(() => {
-    if (uid && isUpdate)
+    if (uid && isUpdate) {
       updateUserData(
         `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}`,
         {
           isArchived: isArchived,
         },
       );
-    setIsUpdate(false);
-  }, [isArchived, uid]);
+      setIsUpdate(false);
+      dispatch(isArchive({isArchive: true}));
+    }
+  }, [uid, isUpdate]);
 
   const archivedCard = () => {
-    setIsArchived(!isArchived);
+    setIsArchived((prev) => !prev);
     setIsUpdate(true);
     dispatch(isArchive({isArchive: true}));
   };
@@ -46,4 +48,4 @@ const CardArchived: FC = () => {
   );
 };
 
-export default CardArchived;
+export default CardArchivedButton;

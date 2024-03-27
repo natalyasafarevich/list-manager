@@ -25,20 +25,14 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
   }, [isOpenCard]);
 
   const openCard = () => {
+    dispatch(getMarkersCurrent([]));
     setIsOpenCards(!isOpenCard);
-    card?.isArchived && dispatch(isArchivedCard(card?.isArchived));
+    dispatch(isArchivedCard(card?.isArchived || false));
   };
-
   return (
     <>
       {!card?.isArchived && (
-        <button
-          onClick={(e) => {
-            dispatch(getMarkersCurrent([]));
-            setIsOpenCards(!isOpenCard);
-          }}
-          className='bg-transparent text-light w-100'
-        >
+        <button onClick={openCard} className='bg-transparent text-light w-100'>
           <span> {card.title}</span>
           {card?.description && (
             <div dangerouslySetInnerHTML={{__html: card.description}}></div>
@@ -55,7 +49,14 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
         </button>
       )}
 
-      {isOpenCard && <CardSettings setIsOpenCard={openCard} card={card} />}
+      {isOpenCard && (
+        <CardSettings
+          setIsOpenCard={() => {
+            setIsOpenCards(!isOpenCard);
+          }}
+          card={card}
+        />
+      )}
     </>
   );
 };

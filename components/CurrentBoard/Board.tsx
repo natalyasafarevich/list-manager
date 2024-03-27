@@ -5,6 +5,7 @@ import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import ColumnCreator from './Column/ColumnCreator/ColumnCreator';
 import ArchivedСolumns from './Column/ArchivedСolumns/ArchivedСolumns';
+import CardArchived from './Card/CardArchived/CardArchived';
 
 export type PayloadProps = {
   currentBg: string;
@@ -49,7 +50,7 @@ const CurrentBoard: FC = () => {
   return (
     <div className='mt-5 '>
       <ArchivedСolumns />
-
+      <CardArchived />
       <h1 className='text-center'>{currentBoard.name}</h1>
       <div className='d-flex justify-content-between'>
         <div className=''>

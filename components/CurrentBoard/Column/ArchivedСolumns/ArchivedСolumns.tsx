@@ -21,7 +21,7 @@ export const fetchData = async (
 const ArchivedСolumns: FC = () => {
   const [allColumns, getAllColumns] = useState<Array<any>>([]);
   const [archivedColumns, getArchivedColumns] = useState<Array<any>>([]);
-  const [archivedIndexColumns, getArchivedIndexColumns] = useState<number>(0);
+  <p>архивированные карточка:</p>;
 
   const user = useSelector((state: RootState) => state.userdata);
   const current_board = useSelector((state: RootState) => state?.boards);
@@ -32,11 +32,11 @@ const ArchivedСolumns: FC = () => {
     fetchData(user.uid, current_board.index, getAllColumns);
   }, [user, current_board, isArchived]);
   useEffect(() => {
-    if (allColumns) {
+    if (allColumns?.length) {
       let archived = allColumns?.filter((item) => item?.isArchive === true);
       getArchivedColumns(archived);
     }
-  }, [allColumns]);
+  }, [allColumns?.length]);
 
   const returnToBoard = (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = e.currentTarget.dataset.id;
