@@ -21,10 +21,7 @@ const CreatedCheckList: FC = () => {
   useEffect(() => {
     dispatch(getCurrentTask(tasks, false));
   }, [tasks]);
-  // const [isHide, setIsHide] = useState(false);
-  // useEffect(() => {
-  //   console.log(isHide, 'ggrgr');
-  // }, [isHide]);
+
   useEffect(() => {
     if (tasks.length !== 0 && isPost) {
       updateUserData(
@@ -53,7 +50,6 @@ const CreatedCheckList: FC = () => {
   };
   const getIsHide = (e: boolean, id: string) => {
     const listIndex = getListIndex(idList.lists, id);
-    console.log(e);
     updateUserData(
       `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${listIndex}`,
       {
