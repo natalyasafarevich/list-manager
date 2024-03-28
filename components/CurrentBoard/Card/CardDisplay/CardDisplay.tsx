@@ -34,7 +34,7 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
       {!card?.isArchived && (
         <button
           onClick={openCard}
-          className=' text-light w-100'
+          className=' text-light w-100 p-2'
           style={{backgroundColor: card.cover || 'black'}}
         >
           <span> {card.title}</span>

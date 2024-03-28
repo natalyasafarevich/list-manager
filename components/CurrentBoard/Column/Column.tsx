@@ -119,11 +119,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
             <div>
               <div className='mb-2'>
                 {cards?.map((card: any, i: any) => {
-                  return (
-                    <div className='mt-2 p-2 bg-secondary text-white' key={i}>
-                      <CardDisplay card={card} item={item} />
-                    </div>
-                  );
+                  return <CardDisplay card={card} item={item} key={i} />;
                 })}
               </div>
               <button type='button' onClick={addCard}>
