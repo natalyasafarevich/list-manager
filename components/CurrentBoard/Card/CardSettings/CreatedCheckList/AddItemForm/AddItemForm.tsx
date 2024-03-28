@@ -30,10 +30,16 @@ export interface ListTasksProps {
 interface Props {
   item: CheckListProps;
   addNewCheckbox: (e: any) => void;
+  isHide: (value: boolean, id: string) => void;
   currentValue: (e: any) => void;
 }
 
-const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
+const AddItemForm: FC<Props> = ({
+  item,
+  addNewCheckbox,
+  currentValue,
+  isHide,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [value, setValue] = useState<Array<ListTasksProps>>([]);
@@ -51,6 +57,9 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
       inputValue.current.value = e.target.value;
     }
   };
+  useEffect(() => {
+    item?.isHideCheckedList && setIsHideChecked(item?.isHideCheckedList);
+  }, [item.isHideCheckedList]);
 
   // passing to the parent component for sending to the server
   useEffect(() => {
@@ -59,14 +68,21 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
       setIsUpdate(false);
     }
   }, [value]);
+  const [isHideChecked, setIsHideChecked] = useState(false);
+  const [hideText, setHideText] = useState('');
   const isUpdateTaskList = useSelector(
     (state: RootState) => state.check_lists.isTaskUpdate,
   );
   const check_lists = useSelector((state: RootState) => state.check_lists);
+
   //receiving tasks from the server and saving them
   useEffect(() => {
     if (tasksFB) {
       const current_task = tasksFB.filter((task: any) => task.id === item.id);
+      const isHide = tasksFB.filter((task: any) => task.isHideCheckedList);
+      isHide[0]?.isHideCheckedList &&
+        isHide[0]?.isDelete &&
+        setIsHideChecked(isHide[0].isHideCheckedList);
       current_task[0]?.tasks && setValue(current_task[0]?.tasks);
     }
   }, [tasksFB]);
@@ -79,7 +95,7 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
         setTasksFB,
       );
     }
-  }, [user, isUpdateTaskList, check_lists]);
+  }, [user, isUpdateTaskList, check_lists, isHideChecked]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -106,32 +122,45 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
   const deleteList = () => {
     const itemIndex = getListIndex(lists, item.id);
     dispatch(getCurrentListIndex(itemIndex));
-
     dispatch(isDeleteList(true));
   };
 
-  const [isHideChecked, setIsHideChecked] = useState(false);
-  const [hideText, setHideText] = useState('скрыть отмеченные');
-  useEffect(() => {
-    isHideChecked
-      ? setHideText('показать отмеченные')
-      : setHideText('скрыть отмеченные');
-  }, [isHideChecked]);
   const hideChecked = () => {
     setIsHideChecked(!isHideChecked);
+    isHide(!isHideChecked, item.id);
   };
+  useEffect(() => {
+    value.map((item) => {
+      if (!item.isChecked || (item.isDelete && item.isChecked)) {
+        setHideText('');
+
+        return;
+      }
+      isHideChecked
+        ? setHideText('показать отмеченные')
+        : setHideText('cкрыть');
+    });
+  }, [value]);
+
   return (
     <>
       <div className=''>
         <div className='d-flex align-items-center justify-content-between'>
           <span>{item.title}</span>
-          <button onClick={hideChecked}>{hideText}</button>
+          {value.length && hideText ? (
+            <button onClick={hideChecked}>{hideText}</button>
+          ) : (
+            ''
+          )}
           <button onClick={deleteList}>удалить</button>
         </div>
         <ul className=''>
           {value?.map((checkbox, i) => {
             if (isHideChecked && checkbox.isChecked) {
               return;
+            }
+            if (checkbox.isDelete) {
+              return null;
             }
             return <CheckboxItem key={i} listId={item.id} item={checkbox} />;
           })}

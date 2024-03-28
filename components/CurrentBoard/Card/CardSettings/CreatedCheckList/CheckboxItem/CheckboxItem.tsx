@@ -34,7 +34,6 @@ const updateIndex = (
 };
 
 const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
-
   const [value, setValue] = useState(item.title);
   const [initialValue, setInitialValue] = useState('');
   const [isReadOnly, setIsReadOnly] = useState(true);

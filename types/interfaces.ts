@@ -20,4 +20,5 @@ export type CheckListProps = {
   title: string;
   tasks?: Array<any>;
   isDelete?: boolean;
+  isHideCheckedList?: boolean;
 };

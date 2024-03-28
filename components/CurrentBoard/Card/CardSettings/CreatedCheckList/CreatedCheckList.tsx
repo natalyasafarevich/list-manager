@@ -6,6 +6,7 @@ import AddItemForm from './AddItemForm/AddItemForm';
 import {updateUserData} from '@/helper/updateUserData';
 import {getCurrentTask} from '@/store/check-lists/actions';
 import {CheckListProps} from '@/types/interfaces';
+import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 
 const CreatedCheckList: FC = () => {
   const [isPost, setIsPost] = useState(false);
@@ -20,7 +21,10 @@ const CreatedCheckList: FC = () => {
   useEffect(() => {
     dispatch(getCurrentTask(tasks, false));
   }, [tasks]);
-
+  // const [isHide, setIsHide] = useState(false);
+  // useEffect(() => {
+  //   console.log(isHide, 'ggrgr');
+  // }, [isHide]);
   useEffect(() => {
     if (tasks.length !== 0 && isPost) {
       updateUserData(
@@ -47,6 +51,16 @@ const CreatedCheckList: FC = () => {
   const addNewCheckbox = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+  const getIsHide = (e: boolean, id: string) => {
+    const listIndex = getListIndex(idList.lists, id);
+    console.log(e);
+    updateUserData(
+      `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${listIndex}`,
+      {
+        isHideCheckedList: e,
+      },
+    );
+  };
   return (
     <div className=''>
       <div className=''>
@@ -58,6 +72,7 @@ const CreatedCheckList: FC = () => {
               <>
                 <hr />
                 <AddItemForm
+                  isHide={getIsHide}
                   item={item}
                   key={item.id}
                   addNewCheckbox={addNewCheckbox}
