@@ -1,12 +1,9 @@
 'use client';
-import firebaseApp from '@/firebase';
 import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {updateUserData} from '@/helper/updateUserData';
 import {AppDispatch, RootState} from '@/store/store';
-import {getDatabase, ref, update} from 'firebase/database';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {v4 as uuidv4} from 'uuid';
 import ColorCheckbox from '../ColorCheckbox/ColorCheckbox';
 import {getMarkersCurrent} from '@/store/card-sidebar/actions';
 import {ColumnCardsProps} from '@/types/interfaces';
