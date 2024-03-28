@@ -109,15 +109,30 @@ const AddItemForm: FC<Props> = ({item, addNewCheckbox, currentValue}) => {
 
     dispatch(isDeleteList(true));
   };
+
+  const [isHideChecked, setIsHideChecked] = useState(false);
+  const [hideText, setHideText] = useState('скрыть отмеченные');
+  useEffect(() => {
+    isHideChecked
+      ? setHideText('показать отмеченные')
+      : setHideText('скрыть отмеченные');
+  }, [isHideChecked]);
+  const hideChecked = () => {
+    setIsHideChecked(!isHideChecked);
+  };
   return (
     <>
       <div className=''>
         <div className='d-flex align-items-center justify-content-between'>
           <span>{item.title}</span>
+          <button onClick={hideChecked}>{hideText}</button>
           <button onClick={deleteList}>удалить</button>
         </div>
         <ul className=''>
           {value?.map((checkbox, i) => {
+            if (isHideChecked && checkbox.isChecked) {
+              return;
+            }
             return <CheckboxItem key={i} listId={item.id} item={checkbox} />;
           })}
         </ul>
