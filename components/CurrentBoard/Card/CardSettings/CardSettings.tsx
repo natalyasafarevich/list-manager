@@ -52,6 +52,11 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   return (
     <div className='card-settings'>
       <div className='card-settings__container'>
+        {card.cover && (
+          <div
+            style={{backgroundColor: card.cover, width: '100%', height: '30px'}}
+          ></div>
+        )}
         <div className='d-flex justify-content-between align-items-center'>
           <span className=''>
             <b> {card.title}</b>
