@@ -5,6 +5,7 @@ import {RootState} from '@/store/store';
 import {updateUserData} from '@/helper/updateUserData';
 import ButtonToFavorites from '@/components/ButtonToFavorites/ButtonToFavorites';
 import ProfileCard from '../ProfileCard/ProfileCard';
+import AdditionalMenu from '../AdditionalMenu/AdditionalMenu';
 
 interface HeaderBoardProps {
   board: BoardProps;
@@ -35,37 +36,42 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const [isOpenCard, setIsOpenCard] = useState(false);
 
   return (
-    <div className='mb-5 bg-black text-bg-danger p-3'>
-      <div className='d-flex justify-content-between'>
-        <div className='d-flex'>
-          <input
-            value={value}
-            onChange={changeTitle}
-            style={{
-              background: 'transparent',
-              color: 'white',
-              border: 'none',
-              fontSize: 20,
-            }}
-          />
-          <ButtonToFavorites
-            path={`${uid}/boards/${boardsIndex}`}
-            isFavorite={board.isFavorite || false}
-          />
-        </div>
-        <div className='d-flex position-relative w-25'>
-          <div
-            onClick={(e) => setIsOpenCard(!isOpenCard)}
-            style={{
-              background: `center/cover no-repeat url(${user?.photoURL})`,
-              width: 50,
-              height: 50,
-            }}
-          ></div>
-          {isOpenCard && <ProfileCard setIsOpen={(e) => setIsOpenCard(e)} />}
+    <>
+      <AdditionalMenu />
+      <div className='mb-5 bg-black text-bg-danger p-3'>
+        <div className='d-flex justify-content-between'>
+          <div className='d-flex'>
+            <input
+              value={value}
+              onChange={changeTitle}
+              style={{
+                background: 'transparent',
+                color: 'white',
+                border: 'none',
+                fontSize: 20,
+              }}
+            />
+            <ButtonToFavorites
+              path={`${uid}/boards/${boardsIndex}`}
+              isFavorite={board.isFavorite || false}
+            />
+          </div>
+          <div className='d-flex position-relative w-25'>
+            <div
+              onClick={(e) => setIsOpenCard(!isOpenCard)}
+              style={{
+                background: `center/cover no-repeat url(${user?.photoURL})`,
+                width: 50,
+                height: 50,
+              }}
+            ></div>
+            <button className='m-2'>боковое меню</button>
+
+            {isOpenCard && <ProfileCard setIsOpen={(e) => setIsOpenCard(e)} />}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
