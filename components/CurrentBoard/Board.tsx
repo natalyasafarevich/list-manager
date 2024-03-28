@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import ColumnCreator from './Column/ColumnCreator/ColumnCreator';
 import ArchivedСolumns from './Column/ArchivedСolumns/ArchivedСolumns';
 import CardArchived from './Card/CardArchived/CardArchived';
-import Header from './Header/Header';
+import BoardHeader from './BoardHeader/BoardHeader';
 
 export type PayloadProps = {
   currentBg: string;
@@ -14,6 +14,7 @@ export type PayloadProps = {
   name: string;
   visibility: string;
   lists?: Array<any>;
+  isFavorite?: boolean;
 };
 const initialBoard = {
   name: '',
@@ -50,7 +51,7 @@ const CurrentBoard: FC = () => {
 
   return (
     <div className='mt-5 '>
-      <Header board={currentBoard} />
+      <BoardHeader board={currentBoard} />
       {/* <ArchivedСolumns />
       <CardArchived /> */}
       {/* <h1 className='text-center'>{currentBoard.name}</h1> */}

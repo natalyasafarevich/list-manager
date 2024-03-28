@@ -3,12 +3,13 @@ import {PayloadProps as BoardProps} from '../Board';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import {updateUserData} from '@/helper/updateUserData';
+import ButtonToFavorites from '@/components/ButtonToFavorites/ButtonToFavorites';
 
 interface HeaderBoardProps {
   board: BoardProps;
 }
 
-const Header: FC<HeaderBoardProps> = ({board}) => {
+const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const [value, setValue] = useState('');
   const [isUpdate, setIsUpdate] = useState(false);
 
@@ -31,9 +32,22 @@ const Header: FC<HeaderBoardProps> = ({board}) => {
   };
   return (
     <div className='mb-5 bg-black text-bg-danger p-3'>
-      <input value={value} onChange={changeTitle} />
+      <input
+        value={value}
+        onChange={changeTitle}
+        style={{
+          background: 'transparent',
+          color: 'white',
+          border: 'none',
+          fontSize: 20,
+        }}
+      />
+      <ButtonToFavorites
+        path={`${uid}/boards/${boardsIndex}`}
+        isFavorite={board.isFavorite || false}
+      />
     </div>
   );
 };
 
-export default Header;
+export default BoardHeader;
