@@ -3,6 +3,7 @@ import {
   ActionsType,
   COMMENTS,
   IS_CARD_SETTING_OPEN,
+  IS_COVER,
   IS_CREATE_CARD,
   IS_DESCRIPTION_ADDED,
 } from './actions';
@@ -12,6 +13,7 @@ interface initialStateProps {
   comments: Array<CommentProps>;
   isCardCreate: boolean;
   isDescriptionAdded: boolean;
+  isCover: boolean;
 }
 
 const initialState: initialStateProps = {
@@ -19,6 +21,7 @@ const initialState: initialStateProps = {
   comments: [],
   isCardCreate: false,
   isDescriptionAdded: false,
+  isCover: false,
 };
 
 export const CardSettingReducer = (
@@ -46,7 +49,11 @@ export const CardSettingReducer = (
       clone.isDescriptionAdded = action.payload;
       return clone;
     }
-
+    case IS_COVER: {
+      const clone = structuredClone(state);
+      clone.isCover = action.payload;
+      return clone;
+    }
     default:
       return state;
   }

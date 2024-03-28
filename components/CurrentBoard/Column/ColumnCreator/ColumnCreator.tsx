@@ -8,7 +8,11 @@ import {v4 as uuidv4} from 'uuid';
 import {getBoardCurrent} from '@/store/board/actions';
 import {getFirebaseData} from '@/helper/getFirebaseData';
 import CardForm from '../../Card/CardForm/CardForm';
-import {isCardCreate, isDescriptionAdded} from '@/store/card-setting/actions';
+import {
+  isCardCreate,
+  isCover,
+  isDescriptionAdded,
+} from '@/store/card-setting/actions';
 
 interface NewColumnProps {
   currentIndex: number;
@@ -59,6 +63,9 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   const current_markers = useSelector(
     (state: RootState) => state.markers.markers,
   );
+  const updateCover = useSelector(
+    (state: RootState) => state.card_setting.isCover,
+  );
   useEffect(() => {
     if (user.uid) {
       const fetchData = async () => {
@@ -72,8 +79,10 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       fetchData();
       dispatch(isCardCreate({isCardCreate: false}));
       dispatch(isDescriptionAdded(false));
+      dispatch(isCover(false));
     }
   }, [
+    updateCover,
     user.uid,
     isCopy,
     isCreate.isDescriptionAdded,

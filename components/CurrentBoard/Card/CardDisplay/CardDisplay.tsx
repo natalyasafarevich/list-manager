@@ -32,7 +32,11 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
   return (
     <>
       {!card?.isArchived && (
-        <button onClick={openCard} className='bg-transparent text-light w-100'>
+        <button
+          onClick={openCard}
+          className=' text-light w-100'
+          style={{backgroundColor: card.cover || 'black'}}
+        >
           <span> {card.title}</span>
           {card?.description && (
             <div dangerouslySetInnerHTML={{__html: card.description}}></div>
