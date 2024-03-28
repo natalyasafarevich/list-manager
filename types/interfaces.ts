@@ -9,7 +9,7 @@ export interface ColumnCardsProps {
   comments: Array<string>;
   markers?: Array<string>;
   isArchived?: boolean;
-  cover: string;
+  cover?: string;
 }
 export interface CurrentColumnProps {
   name?: string;
