@@ -31,12 +31,13 @@ const ArchivedСolumns: FC = () => {
   useEffect(() => {
     fetchData(user.uid, current_board.index, getAllColumns);
   }, [user, current_board, isArchived]);
+
   useEffect(() => {
-    if (allColumns?.length) {
+    if (allColumns !== null && allColumns.length) {
       let archived = allColumns?.filter((item) => item?.isArchive === true);
       getArchivedColumns(archived);
     }
-  }, [allColumns?.length]);
+  }, [allColumns]);
 
   const returnToBoard = (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = e.currentTarget.dataset.id;

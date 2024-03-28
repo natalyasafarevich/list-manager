@@ -16,7 +16,7 @@ import {fetchBackData} from '@/helper/getFirebaseData';
 
 const CheckLists: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('check list');
   const [checkLists, setCheckLists] = useState<Array<CheckListProps>>([]);
   const [checkFBLists, setCheckFBLists] = useState<any>([]);
 
@@ -94,6 +94,7 @@ const CheckLists: FC = () => {
           <form onSubmit={handleSubmit}>
             <label htmlFor='name'>название</label>
             <input
+              // placeholder='check list'
               className='w-100'
               id='name'
               type='text'

@@ -3,7 +3,7 @@ import {updateUserData} from '@/helper/updateUserData';
 import {isTaskUpdate} from '@/store/check-lists/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {CheckListProps} from '@/types/interfaces';
-import {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListTasksProps} from '../AddItemForm/AddItemForm';
 // import {v4 as createId} from 'uuid';
@@ -60,17 +60,76 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
       });
     }
   };
+
+  const [value, setValue] = useState(item.title);
+  const [initialValue, setInitialValue] = useState('');
+  const [isReadOnly, setIsReadOnly] = useState(true);
+
+  const changeInput = (e: React.FormEvent<HTMLInputElement>) => {
+    setValue(e.currentTarget.value);
+  };
+
+  const closeEditItem = () => {
+    setValue(initialValue);
+    setIsReadOnly(true);
+  };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (value.length === 0) {
+      alert('введите текст');
+      return;
+    }
+    updateUserData(
+      `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${index.list}/tasks/${index.checkbox}`,
+      {
+        title: value,
+      },
+    );
+    dispatch(isTaskUpdate(true));
+    setIsReadOnly(true);
+  };
+  const handleClick = () => {
+    setIsReadOnly(!isReadOnly);
+    setInitialValue(value);
+    const listIndex = getListIndex(lists, listId);
+
+    setIndex((prev: any) => ({...prev, list: listIndex}));
+
+    if (lists[listIndex]?.tasks) {
+      lists[listIndex]?.tasks?.filter((checkbox, i) => {
+        if (checkbox.id === item.id) {
+          setIndex((prev: any) => ({...prev, checkbox: i}));
+          return checkbox;
+        }
+      });
+    }
+  };
   return (
     <div>
-      <input
-        id={item.id}
-        type='checkbox'
-        checked={isChecked}
-        onChange={checkboxChange}
-      />
-      <label className='m-1' htmlFor={item.id}>
-        {item.title}
-      </label>
+      <form action='' onSubmit={handleSubmit}>
+        <input
+          id={item.id}
+          type='checkbox'
+          checked={isChecked}
+          onChange={checkboxChange}
+        />
+        <input
+          className='m-1'
+          value={value}
+          // onBlur={handleBlur}
+          onChange={changeInput}
+          onClick={handleClick}
+          readOnly={isReadOnly}
+        />
+        {!isReadOnly && (
+          <div className='d-flex'>
+            <button type='submit'>сохранить</button>
+            <button type='button' onClick={closeEditItem}>
+              close
+            </button>
+          </div>
+        )}
+      </form>
     </div>
   );
 };
