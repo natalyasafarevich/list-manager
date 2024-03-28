@@ -12,7 +12,33 @@ interface CheckboxItemProps {
   listId: string;
 }
 
+const updateIndex = (
+  lists: any,
+  listId: string,
+  itemId: string,
+  setIndex: (a: any) => void,
+) => {
+  const listIndex = getListIndex(lists, listId);
+  if (lists[listIndex]?.tasks) {
+    const checkboxIndex = lists[listIndex]?.tasks.findIndex(
+      (checkbox: any) => checkbox.id === itemId,
+    );
+    if (checkboxIndex !== -1) {
+      setIndex((prev: any) => ({
+        ...prev,
+        list: listIndex,
+        checkbox: checkboxIndex,
+      }));
+    }
+  }
+};
+
 const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
+  const [value, setValue] = useState(item.title);
+  const [initialValue, setInitialValue] = useState('');
+  const [isReadOnly, setIsReadOnly] = useState(true);
+  const [isDeleteItem, setIsDeleteItem] = useState(false);
+
   const lists = useSelector((state: RootState) => state.check_lists.lists);
   const [isChecked, setIsChecked] = useState(false);
   useEffect(() => {
@@ -48,22 +74,8 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
     if (e.currentTarget.checked) {
       dispatch(isTaskUpdate(true));
     }
-    const listIndex = getListIndex(lists, listId);
-    setIndex((prev: any) => ({...prev, list: listIndex}));
-
-    if (lists[listIndex]?.tasks) {
-      lists[listIndex]?.tasks?.filter((checkbox, i) => {
-        if (checkbox.id === item.id) {
-          setIndex((prev: any) => ({...prev, checkbox: i}));
-          return checkbox;
-        }
-      });
-    }
+    updateIndex(lists, listId, item.id, setIndex);
   };
-
-  const [value, setValue] = useState(item.title);
-  const [initialValue, setInitialValue] = useState('');
-  const [isReadOnly, setIsReadOnly] = useState(true);
 
   const changeInput = (e: React.FormEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
@@ -91,45 +103,55 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
   const handleClick = () => {
     setIsReadOnly(!isReadOnly);
     setInitialValue(value);
-    const listIndex = getListIndex(lists, listId);
 
-    setIndex((prev: any) => ({...prev, list: listIndex}));
-
-    if (lists[listIndex]?.tasks) {
-      lists[listIndex]?.tasks?.filter((checkbox, i) => {
-        if (checkbox.id === item.id) {
-          setIndex((prev: any) => ({...prev, checkbox: i}));
-          return checkbox;
-        }
-      });
+    updateIndex(lists, listId, item.id, setIndex);
+  };
+  useEffect(() => {
+    if (isDeleteItem) {
+      updateUserData(
+        `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${index.list}/tasks/${index.checkbox}`,
+        {
+          isDelete: true,
+        },
+      );
+      setIsDeleteItem(false);
     }
+  }, [isDeleteItem]);
+  const deleteCheckbox = () => {
+    updateIndex(lists, listId, item.id, setIndex);
+    setIsDeleteItem(true);
   };
   return (
     <div>
-      <form action='' onSubmit={handleSubmit}>
-        <input
-          id={item.id}
-          type='checkbox'
-          checked={isChecked}
-          onChange={checkboxChange}
-        />
-        <input
-          className='m-1'
-          value={value}
-          // onBlur={handleBlur}
-          onChange={changeInput}
-          onClick={handleClick}
-          readOnly={isReadOnly}
-        />
-        {!isReadOnly && (
-          <div className='d-flex'>
-            <button type='submit'>сохранить</button>
-            <button type='button' onClick={closeEditItem}>
-              close
-            </button>
-          </div>
-        )}
-      </form>
+      {!item.isDelete && (
+        <form action='' onSubmit={handleSubmit}>
+          <input
+            id={item.id}
+            type='checkbox'
+            checked={isChecked}
+            onChange={checkboxChange}
+          />
+
+          <input
+            className='m-1'
+            value={value}
+            onChange={changeInput}
+            onClick={handleClick}
+            readOnly={isReadOnly}
+          />
+          <button type='button' onClick={deleteCheckbox}>
+            x
+          </button>
+          {!isReadOnly && (
+            <div className='d-flex'>
+              <button type='submit'>сохранить</button>
+              <button type='button' onClick={closeEditItem}>
+                close
+              </button>
+            </div>
+          )}
+        </form>
+      )}
     </div>
   );
 };

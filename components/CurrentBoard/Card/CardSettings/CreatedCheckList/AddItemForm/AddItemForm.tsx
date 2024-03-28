@@ -24,6 +24,7 @@ export interface ListTasksProps {
   title: string;
   id: string;
   isChecked?: boolean;
+  isDelete?: boolean;
 }
 
 interface Props {
