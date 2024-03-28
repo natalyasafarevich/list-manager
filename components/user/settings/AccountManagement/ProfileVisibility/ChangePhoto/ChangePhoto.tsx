@@ -1,11 +1,14 @@
 import firebaseApp from '@/firebase';
+import {fetchBackData} from '@/helper/getFirebaseData';
 import {profileUpdate} from '@/helper/updateProfile';
+import {updateUserData} from '@/helper/updateUserData';
 import useUserPhotos from '@/hooks/useUserPhotos';
-import {RootState} from '@/store/store';
+import {getUpdatePhoto} from '@/store/data-user/actions';
+import {AppDispatch, RootState} from '@/store/store';
 import {getAuth} from 'firebase/auth';
 import {getStorage, ref, uploadBytes} from 'firebase/storage';
 import {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const ChangePhoto = () => {
   const [file, setFile] = useState<any>(null);
@@ -44,7 +47,14 @@ const ChangePhoto = () => {
       });
     }
   };
+  const dispatch: AppDispatch = useDispatch();
   const {photos, loading, error} = useUserPhotos(user.uid, isUploaded);
+  useEffect(() => {
+    if (photos[0]) {
+      updateUserData(user.uid, {mainPhoto: photos[0]});
+      dispatch(getUpdatePhoto(photos[0].url));
+    }
+  }, [photos]);
   useEffect(() => {
     setPhoto(photos[0]);
   }, [photos, photo]);

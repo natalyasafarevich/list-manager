@@ -5,6 +5,7 @@ import {
   DATA_USER_FOR_FIREBASE,
   RESET_DATA_USER,
   UPDATE_LINK,
+  UPDATE_PHOTO,
 } from './actions';
 
 interface initialStateProps {
@@ -68,6 +69,12 @@ export const DataUserReducer = (state = initialState, action: ActionsType) => {
       return {
         ...state,
         dataLink: action.payload,
+      };
+    }
+    case UPDATE_PHOTO: {
+      return {
+        ...state,
+        photoURL: action.payload,
       };
     }
 
