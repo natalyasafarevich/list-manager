@@ -72,7 +72,6 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
 
             {isOpenCard && (
               <div className='position-absolute bg-light p-3 w-100 text-dark'>
-                {' '}
                 <ProfileCard setIsOpen={(e) => setIsOpenCard(e)} />
               </div>
             )}

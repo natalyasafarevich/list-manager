@@ -40,6 +40,17 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
   const [isOpenArchives, setIsOpenArchives] = useState(false);
   const [isOpenBg, setIsOpenBg] = useState(false);
 
+  // for text-color
+  // const user =useSelector((state:RootState)=>state.userdata)
+  const changeTextColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {currentTarget} = e;
+    if (currentTarget.checked) {
+      updateUserData(`${user.uid}/boards/${boardIndex}`, {
+        'text-color': currentTarget.dataset.color,
+      });
+    }
+  };
+
   return (
     <>
       <div className='position-absolute top-0 end-0 bg-info text-light p-4 w-25 z-3'>
@@ -95,6 +106,27 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
             <ChangeBackground />
           </ExpandableContent>
           <CopyBoard />
+          <div className=''>
+            <p>Текст доски</p>
+            <div className=''>
+              <input
+                type='radio'
+                name='1'
+                id='1'
+                data-color='dark'
+                onChange={changeTextColor}
+              />
+              <label htmlFor='1'>темный</label>
+            </div>
+            <input
+              type='radio'
+              name='1'
+              id='2'
+              data-color='light'
+              onChange={changeTextColor}
+            />
+            <label htmlFor='2'>светлый</label>
+          </div>
         </div>
       </div>
     </>

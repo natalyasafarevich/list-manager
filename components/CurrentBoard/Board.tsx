@@ -4,6 +4,7 @@ import {useUrl} from 'nextjs-current-url';
 import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import ColumnCreator from './Column/ColumnCreator/ColumnCreator';
+import './Board.css';
 
 import BoardHeader from './BoardHeader/BoardHeader';
 
@@ -14,6 +15,7 @@ export type PayloadProps = {
   visibility: string;
   lists?: Array<any>;
   isFavorite?: boolean;
+  'text-color'?: string;
   currentColor?: string;
 };
 const initialBoard = {
@@ -48,9 +50,17 @@ const CurrentBoard: FC = () => {
         setCurrentBoard(item);
       });
   }, [board, currentPathname]);
+  const [isLight, setIsLight] = useState(false);
+  useEffect(() => {
+    if (currentBoard['text-color'] === 'light') {
+      setIsLight(true);
+      return;
+    }
+    setIsLight(false);
+  }, [currentBoard['text-color']]);
   return (
     <div
-      className='p-2'
+      className={`p-2 ${isLight ? 'light' : ''}`}
       style={{
         background: currentBoard.currentBg
           ? `center/cover no-repeat url(${currentBoard.currentBg || ''} )`
