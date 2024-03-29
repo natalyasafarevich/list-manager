@@ -23,7 +23,11 @@ const ExpandableContent: FC<ExpandableContent> = ({
           </p>
         </div>
       )}
-      {isOpen && <div>{children}</div>}
+      {isOpen && (
+        <div className='position-absolute  bg-black top-0 w-100'>
+          {children}
+        </div>
+      )}
     </>
   );
 };

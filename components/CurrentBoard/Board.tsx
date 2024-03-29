@@ -4,8 +4,7 @@ import {useUrl} from 'nextjs-current-url';
 import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import ColumnCreator from './Column/ColumnCreator/ColumnCreator';
-import ArchivedСolumns from './Column/ArchivedСolumns/ArchivedСolumns';
-import CardArchived from './Card/CardArchived/CardArchived';
+
 import BoardHeader from './BoardHeader/BoardHeader';
 
 export type PayloadProps = {
@@ -50,17 +49,19 @@ const CurrentBoard: FC = () => {
   }, [board, currentPathname]);
 
   return (
-    <div className='mt-5 '>
-      <BoardHeader board={currentBoard} />
-      {/* <ArchivedСolumns />
-      <CardArchived /> */}
-      {/* <h1 className='text-center'>{currentBoard.name}</h1> */}
-      <div className='d-flex justify-content-between'>
-        <div className=''>
-          <ColumnCreator currentIndex={index} />
+    <div
+      className='p-2'
+      style={{
+        background: `center/cover no-repeat url(${currentBoard.currentBg || ''})`,
+      }}
+    >
+      <div className='mt-5 '>
+        <BoardHeader board={currentBoard} />
+        <div className='d-flex justify-content-between'>
+          <div className=''>
+            <ColumnCreator currentIndex={index} />
+          </div>
         </div>
-
-        {/* <ArchiveColumn /> */}
       </div>
     </div>
   );

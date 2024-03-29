@@ -9,6 +9,7 @@ import {RootState} from '@/store/store';
 import ExpandableContent from '@/components/ExpandableContent/ExpandableContent';
 import ArchivedСolumns from '../Column/ArchivedСolumns/ArchivedСolumns';
 import CardArchived from '../Card/CardArchived/CardArchived';
+import ChangeBackground from '../ChangeBackground/ChangeBackground';
 
 const AdditionalMenu: FC = () => {
   const [description, setDescription] = useState<string>('');
@@ -21,39 +22,30 @@ const AdditionalMenu: FC = () => {
   );
   console.log(current_board);
   useEffect(() => {
-    if (current_board.description) {
+    if (current_board?.description) {
       setDescriptionBack(current_board.description);
     }
-  }, [current_board.description]);
+  }, [current_board?.description]);
   useEffect(() => {
     updateUserData(`${user.uid}/boards/${boardIndex}`, {
       description: description,
     });
   }, [description]);
+
   const [isAboutBoardOpen, setIsAboutBoardOpen] = useState(false);
-  // const [isOpenArchives, setIsOpenArchives] = useState(false);
-
-  const [isCardOpen, setIsCardOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-
   const [isOpenArchives, setIsOpenArchives] = useState(false);
-  console.log(isCardOpen);
-  useEffect(() => {
-    if (isOpenArchives || isOpen) {
-      setIsCardOpen(true);
-    } else {
-      setIsCardOpen(false);
-    }
-  }, [isOpenArchives, isOpen]);
+  const [isOpenBg, setIsOpenBg] = useState(false);
+
   return (
     <>
       <div className='position-absolute top-0 end-0 bg-info text-light p-4 w-25 z-3'>
         <div className='d-flex justify-content-between align-item-center'>
-          {(isAboutBoardOpen || isOpenArchives) && (
+          {(isAboutBoardOpen || isOpenArchives || isOpenBg) && (
             <button
               onClick={() => {
                 setIsAboutBoardOpen(false); // Для описания доски
-                setIsOpenArchives(false); // Для архивов
+                setIsOpenArchives(false);
+                setIsOpenBg(false);
               }}
             >
               back
@@ -64,51 +56,41 @@ const AdditionalMenu: FC = () => {
           <button>close</button>
         </div>
         <hr />
-
-        <ExpandableContent
-          setIsOpen={(e) => setIsAboutBoardOpen(e)}
-          isOpen={isAboutBoardOpen}
-          title={'О доске'}
-        >
-          <h5>Администраторы доски</h5>
-          <ProfileCard />
-          <h5 className='mt-2'>Oписание</h5>
-          <TextEditor
-            title={'о доске'}
-            isArray={false}
-            backDescription={descriptionBack}
-            getHTML={(e) => setDescription(e)}
-          />
-        </ExpandableContent>
-
-        <ExpandableContent
-          setIsOpen={(e) => setIsOpenArchives(e)}
-          isOpen={isOpenArchives}
-          title={'Архивы'}
-        >
-          <div>
-            {/* <p>колонки</p> */}
-            <ArchivedСolumns />
-            <CardArchived />
-            {/* <ArchivedСolumns />
-      <CardArchived /> */}
-          </div>
-        </ExpandableContent>
-        {/* )} */}
-        {/* {isAboutBoardOpen && !isOpenArchives && ( */}
-        {/* <div>
+        <div className='position-relative'>
+          <ExpandableContent
+            setIsOpen={(e) => setIsAboutBoardOpen(e)}
+            isOpen={isAboutBoardOpen}
+            title={'О доске'}
+          >
             <h5>Администраторы доски</h5>
             <ProfileCard />
             <h5 className='mt-2'>Oписание</h5>
             <TextEditor
-              title={'title'}
+              title={'о доске'}
               isArray={false}
               backDescription={descriptionBack}
               getHTML={(e) => setDescription(e)}
             />
-          </div> */}
-        {/* )} */}
-        {/* {!isAboutBoardOpen && !isOpenArchives && <div>d</div>} */}
+          </ExpandableContent>
+
+          <ExpandableContent
+            setIsOpen={(e) => setIsOpenArchives(e)}
+            isOpen={isOpenArchives}
+            title={'Архивы'}
+          >
+            <div>
+              <ArchivedСolumns />
+              <CardArchived />
+            </div>
+          </ExpandableContent>
+          <ExpandableContent
+            setIsOpen={(e) => setIsOpenBg(e)}
+            isOpen={isOpenBg}
+            title={'сменить фон'}
+          >
+            <ChangeBackground />
+          </ExpandableContent>
+        </div>
       </div>
     </>
   );
