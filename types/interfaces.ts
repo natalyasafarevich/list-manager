@@ -23,3 +23,14 @@ export type CheckListProps = {
   isDelete?: boolean;
   isHideCheckedList?: boolean;
 };
+
+export interface BackgroundImageBoard {
+  urls: {
+    full: string;
+    raw: string;
+    small: string;
+    small_s3: string;
+    thumb: string;
+  };
+  user: {link: string; name: string};
+}

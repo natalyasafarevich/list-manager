@@ -5,7 +5,6 @@ import TextEditor from '@/components/TextEditor/TextEditor';
 import {updateUserData} from '@/helper/updateUserData';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
-
 import ExpandableContent from '@/components/ExpandableContent/ExpandableContent';
 import ArchivedСolumns from '../Column/ArchivedСolumns/ArchivedСolumns';
 import CardArchived from '../Card/CardArchived/CardArchived';
