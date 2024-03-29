@@ -1,7 +1,32 @@
 'use client';
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
+import ProfileCard from '../ProfileCard/ProfileCard';
+import TextEditor from '@/components/TextEditor/TextEditor';
+import {updateUserData} from '@/helper/updateUserData';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/store';
 
 const AdditionalMenu: FC = () => {
+  const [description, setDescription] = useState<string>('');
+  const [descriptionBack, setDescriptionBack] = useState<string>('');
+
+  const user = useSelector((state: RootState) => state.userdata);
+  const boardIndex = useSelector((state: RootState) => state.boards.index);
+  const current_board = useSelector(
+    (state: RootState) => state.boards.currentBoards,
+  );
+  console.log(current_board);
+  useEffect(() => {
+    if (current_board.description) {
+      setDescriptionBack(current_board.description);
+    }
+  }, [current_board.description]);
+  useEffect(() => {
+    updateUserData(`${user.uid}/boards/${boardIndex}`, {
+      description: description,
+    });
+  }, [description]);
+
   const [isAboutBoardOpen, setIsAboutBoardOpen] = useState(false);
   return (
     <>
@@ -26,7 +51,15 @@ const AdditionalMenu: FC = () => {
           </div>
         ) : (
           <div>
-            <h2>Администраторы доски</h2>
+            <h5>Администраторы доски</h5>
+            <ProfileCard />
+            <h5 className='mt-2'>Oписание</h5>
+            <TextEditor
+              title={'title'}
+              isArray={false}
+              backDescription={descriptionBack}
+              getHTML={(e) => setDescription(e)}
+            />
           </div>
         )}
       </div>

@@ -67,7 +67,12 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
             ></div>
             <button className='m-2'>боковое меню</button>
 
-            {isOpenCard && <ProfileCard setIsOpen={(e) => setIsOpenCard(e)} />}
+            {isOpenCard && (
+              <div className='position-absolute bg-light p-3 w-100 text-dark'>
+                {' '}
+                <ProfileCard setIsOpen={(e) => setIsOpenCard(e)} />
+              </div>
+            )}
           </div>
         </div>
       </div>

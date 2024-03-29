@@ -15,9 +15,9 @@ Quill.register('modules/imageResize', ImageResize);
 
 interface TextEditorProps {
   title: string;
-  getHTML: (value: string) => void;
+  getHTML?: (value: string) => void;
   backDescription?: string;
-  isArray: boolean;
+  isArray?: boolean;
 }
 
 const TextEditor: FC<TextEditorProps> = ({
@@ -82,13 +82,13 @@ const TextEditor: FC<TextEditorProps> = ({
 
         dispatch(getComments(updatedComments));
         setIsOpen(false);
-        getHTML('');
+        getHTML && getHTML('');
         setCurrentTitle(editorHtml);
 
         setIsSave(false);
       } else {
         setIsOpen(false);
-        getHTML(editorHtml);
+        getHTML && getHTML(editorHtml);
         setCurrentTitle(editorHtml);
         setIsSave(false);
       }

@@ -10,7 +10,7 @@ interface UserDataProps {
 }
 
 interface ProfileCardProp {
-  setIsOpen: (value: boolean) => void;
+  setIsOpen?: (value: boolean) => void;
 }
 const ProfileCard: FC<ProfileCardProp> = ({setIsOpen}) => {
   const [userData, setUserData] = useState<UserDataProps>({
@@ -37,10 +37,9 @@ const ProfileCard: FC<ProfileCardProp> = ({setIsOpen}) => {
       });
     }
   }, [user.uid]);
-
   return (
-    <div className='position-absolute bg-light p-3 w-100 text-dark'>
-      <button onClick={() => setIsOpen(false)}>close</button>
+    <div className=''>
+      {setIsOpen && <button onClick={() => setIsOpen(false)}>close</button>}
       <div className='d-flex'>
         <img src={userData.photoURL.url || user?.photoURL || ''} alt='user' />
         <div className='m-2'>
