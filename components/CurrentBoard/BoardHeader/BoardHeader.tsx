@@ -23,7 +23,6 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const user = useSelector((state: RootState) => state.userdata);
   const {uid} = user;
 
-  console.log(user);
   useEffect(() => {
     isUpdate && updateUserData(`${uid}/boards/${boardsIndex}`, {name: value});
     setIsUpdate(false);

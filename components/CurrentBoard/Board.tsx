@@ -14,6 +14,7 @@ export type PayloadProps = {
   visibility: string;
   lists?: Array<any>;
   isFavorite?: boolean;
+  currentColor?: string;
 };
 const initialBoard = {
   name: '',
@@ -47,12 +48,13 @@ const CurrentBoard: FC = () => {
         setCurrentBoard(item);
       });
   }, [board, currentPathname]);
-
   return (
     <div
       className='p-2'
       style={{
-        background: `center/cover no-repeat url(${currentBoard.currentBg || ''})`,
+        background: currentBoard.currentBg
+          ? `center/cover no-repeat url(${currentBoard.currentBg || ''} )`
+          : currentBoard.currentColor,
       }}
     >
       <div className='mt-5 '>

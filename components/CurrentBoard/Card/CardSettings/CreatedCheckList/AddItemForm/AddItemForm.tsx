@@ -1,7 +1,6 @@
 import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import {fetchBackData} from '@/helper/getFirebaseData';
 import {
-  getCheckLists,
   getListIndex as getCurrentListIndex,
   deleteList as deleteListStore,
   isDeleteList,

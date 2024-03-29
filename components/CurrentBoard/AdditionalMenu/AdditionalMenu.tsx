@@ -19,7 +19,7 @@ const AdditionalMenu: FC = () => {
   const current_board = useSelector(
     (state: RootState) => state.boards.currentBoards,
   );
-  console.log(current_board);
+
   useEffect(() => {
     if (current_board?.description) {
       setDescriptionBack(current_board.description);

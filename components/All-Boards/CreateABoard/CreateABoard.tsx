@@ -72,6 +72,7 @@ const CreateABoard: FC = () => {
     setBoards([...boards, newBoard]);
     setIsUpdate(true);
   };
+
   return (
     <form className='d-block mb-5' onSubmit={handleSubmit}>
       <h2>создать доску</h2>
