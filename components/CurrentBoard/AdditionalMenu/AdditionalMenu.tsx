@@ -6,6 +6,10 @@ import {updateUserData} from '@/helper/updateUserData';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 
+import ExpandableContent from '@/components/ExpandableContent/ExpandableContent';
+import ArchivedСolumns from '../Column/ArchivedСolumns/ArchivedСolumns';
+import CardArchived from '../Card/CardArchived/CardArchived';
+
 const AdditionalMenu: FC = () => {
   const [description, setDescription] = useState<string>('');
   const [descriptionBack, setDescriptionBack] = useState<string>('');
@@ -26,14 +30,32 @@ const AdditionalMenu: FC = () => {
       description: description,
     });
   }, [description]);
-
   const [isAboutBoardOpen, setIsAboutBoardOpen] = useState(false);
+  // const [isOpenArchives, setIsOpenArchives] = useState(false);
+
+  const [isCardOpen, setIsCardOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [isOpenArchives, setIsOpenArchives] = useState(false);
+  console.log(isCardOpen);
+  useEffect(() => {
+    if (isOpenArchives || isOpen) {
+      setIsCardOpen(true);
+    } else {
+      setIsCardOpen(false);
+    }
+  }, [isOpenArchives, isOpen]);
   return (
     <>
       <div className='position-absolute top-0 end-0 bg-info text-light p-4 w-25 z-3'>
         <div className='d-flex justify-content-between align-item-center'>
-          {isAboutBoardOpen && (
-            <button onClick={() => setIsAboutBoardOpen(!isAboutBoardOpen)}>
+          {(isAboutBoardOpen || isOpenArchives) && (
+            <button
+              onClick={() => {
+                setIsAboutBoardOpen(false); // Для описания доски
+                setIsOpenArchives(false); // Для архивов
+              }}
+            >
               back
             </button>
           )}
@@ -42,15 +64,39 @@ const AdditionalMenu: FC = () => {
           <button>close</button>
         </div>
         <hr />
-        {!isAboutBoardOpen ? (
-          <div className='align-item-center__'>
-            <p onClick={() => setIsAboutBoardOpen(!isAboutBoardOpen)}>
-              <b> о доске</b>
-              <i className='d-block'>Добавьте описание для доски</i>
-            </p>
-          </div>
-        ) : (
+
+        <ExpandableContent
+          setIsOpen={(e) => setIsAboutBoardOpen(e)}
+          isOpen={isAboutBoardOpen}
+          title={'О доске'}
+        >
+          <h5>Администраторы доски</h5>
+          <ProfileCard />
+          <h5 className='mt-2'>Oписание</h5>
+          <TextEditor
+            title={'о доске'}
+            isArray={false}
+            backDescription={descriptionBack}
+            getHTML={(e) => setDescription(e)}
+          />
+        </ExpandableContent>
+
+        <ExpandableContent
+          setIsOpen={(e) => setIsOpenArchives(e)}
+          isOpen={isOpenArchives}
+          title={'Архивы'}
+        >
           <div>
+            {/* <p>колонки</p> */}
+            <ArchivedСolumns />
+            <CardArchived />
+            {/* <ArchivedСolumns />
+      <CardArchived /> */}
+          </div>
+        </ExpandableContent>
+        {/* )} */}
+        {/* {isAboutBoardOpen && !isOpenArchives && ( */}
+        {/* <div>
             <h5>Администраторы доски</h5>
             <ProfileCard />
             <h5 className='mt-2'>Oписание</h5>
@@ -60,8 +106,9 @@ const AdditionalMenu: FC = () => {
               backDescription={descriptionBack}
               getHTML={(e) => setDescription(e)}
             />
-          </div>
-        )}
+          </div> */}
+        {/* )} */}
+        {/* {!isAboutBoardOpen && !isOpenArchives && <div>d</div>} */}
       </div>
     </>
   );

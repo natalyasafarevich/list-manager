@@ -73,12 +73,13 @@ const CardArchived: FC = () => {
 
     dispatch(isArchivedCard(true));
   };
+
   return (
     <div>
       <span>архивированные карточки:</span>
       {archivedCards &&
         archivedCards?.map((item, i) => (
-          <div key={i}>
+          <div key={i} className='bg-secondary p-2'>
             <p>{item?.title}</p>
             <button
               data-cardid={item?.cardId}
