@@ -9,8 +9,13 @@ import ExpandableContent from '@/components/ExpandableContent/ExpandableContent'
 import ArchivedСolumns from '../Column/ArchivedСolumns/ArchivedСolumns';
 import CardArchived from '../Card/CardArchived/CardArchived';
 import ChangeBackground from '../ChangeBackground/ChangeBackground';
+import CopyBoard from '../CopyBoard/CopyBoard';
 
-const AdditionalMenu: FC = () => {
+interface AdditionalMenuProps {
+  closeMenu: (value: boolean) => void;
+}
+
+const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
   const [description, setDescription] = useState<string>('');
   const [descriptionBack, setDescriptionBack] = useState<string>('');
 
@@ -52,7 +57,7 @@ const AdditionalMenu: FC = () => {
           )}
 
           <h4>меню</h4>
-          <button>close</button>
+          <button onClick={() => closeMenu(false)}>close</button>
         </div>
         <hr />
         <div className='position-relative'>
@@ -89,6 +94,7 @@ const AdditionalMenu: FC = () => {
           >
             <ChangeBackground />
           </ExpandableContent>
+          <CopyBoard />
         </div>
       </div>
     </>

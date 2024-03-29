@@ -35,10 +35,10 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   };
 
   const [isOpenCard, setIsOpenCard] = useState(false);
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <>
-      <AdditionalMenu />
+      {isMenuOpen && <AdditionalMenu closeMenu={(e) => setIsMenuOpen(e)} />}
       <div className='mb-5 bg-black text-bg-danger p-3'>
         <div className='d-flex justify-content-between'>
           <div className='d-flex'>
@@ -66,7 +66,9 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                 height: 50,
               }}
             ></div>
-            <button className='m-2'>боковое меню</button>
+            <button className='m-2' onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              боковое меню
+            </button>
 
             {isOpenCard && (
               <div className='position-absolute bg-light p-3 w-100 text-dark'>
