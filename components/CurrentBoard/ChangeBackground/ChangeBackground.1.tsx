@@ -1,7 +1,6 @@
 import firebaseApp from '@/firebase';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
-import {BackgroundImageBoard} from '@/types/interfaces';
-import {getDatabase, set} from 'firebase/database';
+import {getDatabase} from 'firebase/database';
 import {FC, useEffect, useState} from 'react';
 import Image from './Image/Image';
 import Colors from './Color/Color';
@@ -9,14 +8,9 @@ import {getStorage, ref, uploadBytes} from 'firebase/storage';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import useUserPhotos from '@/hooks/useUserPhotos';
-import {updateUserData} from '@/helper/updateUserData';
+import {BackgroundsProps} from './ChangeBackground';
 
-interface BackgroundsProps {
-  'background-images': Array<BackgroundImageBoard>;
-  'background-colors': Array<{prop: string}>;
-}
-const ChangeBackground: FC = () => {
-  const [isUpload, setIsUpload] = useState(false);
+export const ChangeBackground: FC = () => {
   const [isImages, setIsImages] = useState(false);
   const [isColors, setIsColors] = useState(false);
   const [backgrounds, setBackgrounds] = useState<BackgroundsProps>({
@@ -30,7 +24,6 @@ const ChangeBackground: FC = () => {
   const db = getDatabase(firebaseApp);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const user = useSelector((state: RootState) => state.userdata);
-  const [isUploaded, setIsUploaded] = useState(false);
 
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -50,26 +43,32 @@ const ChangeBackground: FC = () => {
           setIsUploaded(true);
         })
         .catch((error) => {
-          setIsUploaded(false);
+          // setIsUploaded(false);
           console.error(
             'Произошла ошибка при загрузке фотографии профиля:',
             error,
           );
         });
+      // profileUpdate(user.uid, {
+      //   photoURL: photo?.url,
+      // });
     }
   };
   const {photos} = useUserPhotos(user.uid, isUploaded, 'board');
-  const boardIndex = useSelector((state: RootState) => state.boards.index);
-  useEffect(() => {
-    if (isUploaded && photos[0]?.url) {
-      updateUserData(`${user.uid}/boards/${boardIndex}`, {
-        currentColor: '',
-        currentBg: photos[0]?.url,
-      });
-      setIsUploaded(false);
-    }
-  }, [photos, isUploaded]);
-
+  const readFileAsDataURL = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          resolve(reader.result);
+        } else {
+          reject(new Error('Failed to read file as data URL'));
+        }
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
   return (
     <div className='p-2'>
       <div className='d-flex flex-wrap justify-content-between'>
@@ -93,6 +92,12 @@ const ChangeBackground: FC = () => {
         </button>
         <div>
           <input type='file' accept='image/*' onChange={handleImageChange} />
+          {/* {selectedImage && (
+              <div>
+                <p>Изображение загружено:</p>
+                <img src={selectedImage} alt='Загруженное изображение' />
+              </div>
+            )} */}
         </div>
       </div>
       {isColors && (
@@ -112,5 +117,3 @@ const ChangeBackground: FC = () => {
     </div>
   );
 };
-
-export default ChangeBackground;

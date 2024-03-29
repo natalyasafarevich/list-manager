@@ -24,6 +24,7 @@ const ChangePhoto = () => {
   const auth = getAuth(firebaseApp);
   const handleUpload = () => {
     setIsUploaded(false);
+    console.log(file);
     if (file) {
       const storage = getStorage();
       const storageRef = ref(
@@ -48,7 +49,8 @@ const ChangePhoto = () => {
     }
   };
   const dispatch: AppDispatch = useDispatch();
-  const {photos, loading, error} = useUserPhotos(user.uid, isUploaded);
+  const {photos} = useUserPhotos(user.uid, isUploaded, 'avatar');
+  console.log(photos);
   useEffect(() => {
     if (photos[0]) {
       updateUserData(user.uid, {mainPhoto: photos[0]});
