@@ -43,9 +43,11 @@ const Markers: FC = () => {
   }, [removedItem]);
 
   // update markers
+  // console.log(current_markers);
   useEffect(() => {
-    getChecked(current_markers);
+    //
     if (current_markers.length !== 0) {
+      getChecked(current_markers);
       updateUserData(
         `${user.uid}/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
         {

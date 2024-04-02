@@ -41,8 +41,10 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const current_column = useSelector((state: RootState) => state?.column.data);
 
   useEffect(() => {
-    const columnIndex = getListIndex(boardLists, current_column.id);
-    setColumnName(boardLists[columnIndex]?.name);
+    if (boardLists) {
+      const columnIndex = getListIndex(boardLists, current_column.id);
+      setColumnName(boardLists[columnIndex]?.name);
+    }
   }, [current_column, card, boardLists, allComments]);
 
   const closeSetting = () => {

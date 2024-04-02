@@ -66,7 +66,6 @@ const CurrentBoard: FC = () => {
     }
     setIsLight(false);
   }, [currentBoard['text-color']]);
-  console.log(currentBoard.isCloseBoard);
   return (
     <div
       className={`p-2 ${isLight ? 'light' : ''}`}

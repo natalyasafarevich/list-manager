@@ -16,6 +16,8 @@ import {fetchBackData} from '@/helper/getFirebaseData';
 
 const CheckLists: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
+
   const [value, setValue] = useState('check list');
   const [checkLists, setCheckLists] = useState<Array<CheckListProps>>([]);
   const [checkFBLists, setCheckFBLists] = useState<any>([]);
@@ -36,12 +38,13 @@ const CheckLists: FC = () => {
       idList.current_tasks.isCreate ||
       user.uid
     ) {
+      dispatch(isDeleteList(false));
+
       fetchBackData(
         user.uid,
         `/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}/check-lists`,
         setCheckFBLists,
       );
-      dispatch(isDeleteList(false));
     }
   }, [
     user,
@@ -67,9 +70,14 @@ const CheckLists: FC = () => {
           'check-lists': checkLists,
         },
       );
-    dispatch(getCheckLists(checkLists));
-  }, [checkLists.length, user]);
+    setIsUpdate(false);
+  }, [isUpdate]);
 
+  useEffect(() => {
+    if (checkLists.length > 0) {
+      dispatch(getCheckLists(checkLists));
+    }
+  }, [checkLists]);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newList = {
@@ -77,9 +85,11 @@ const CheckLists: FC = () => {
       title: value,
     };
     if (value.length !== 0) {
+      console.log(value);
       setCheckLists((prev) => [...prev, newList]);
       setIsOpen(!isOpen);
       setValue('');
+      setIsUpdate(true);
     }
   };
 

@@ -131,7 +131,8 @@ const AddItemForm: FC<Props> = ({
   useEffect(() => {
     value.map((item) => {
       if (!item.isChecked || (item.isDelete && item.isChecked)) {
-        setHideText('');
+        // setHideText('');
+        console.log(item.title);
 
         return;
       }
