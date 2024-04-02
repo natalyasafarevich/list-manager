@@ -9,6 +9,7 @@ import './Board.css';
 import BoardHeader from './BoardHeader/BoardHeader';
 import CloseBoardPopup from './CloseBoardPopup/CloseBoardPopup';
 import {getBoardCurrent} from '@/store/board/actions';
+import Members from './Members/Members';
 
 export type PayloadProps = {
   currentBg: string;
@@ -76,6 +77,7 @@ const CurrentBoard: FC = () => {
       }}
     >
       <div className='mt-5 '>
+        <Members />
         {!currentBoard.isCloseBoard ? (
           <>
             <BoardHeader board={currentBoard} />
