@@ -10,6 +10,7 @@ import ArchivedСolumns from '../Column/ArchivedСolumns/ArchivedСolumns';
 import CardArchived from '../Card/CardArchived/CardArchived';
 import ChangeBackground from '../ChangeBackground/ChangeBackground';
 import CopyBoard from '../CopyBoard/CopyBoard';
+import TextColor from '../TextColor/TextColor';
 
 interface AdditionalMenuProps {
   closeMenu: (value: boolean) => void;
@@ -24,7 +25,7 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
   const current_board = useSelector(
     (state: RootState) => state.boards.currentBoards,
   );
-
+  // console.log(current_board['text-color']);
   useEffect(() => {
     if (current_board?.description) {
       setDescriptionBack(current_board.description);
@@ -42,14 +43,14 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
 
   // for text-color
   // const user =useSelector((state:RootState)=>state.userdata)
-  const changeTextColor = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {currentTarget} = e;
-    if (currentTarget.checked) {
-      updateUserData(`${user.uid}/boards/${boardIndex}`, {
-        'text-color': currentTarget.dataset.color,
-      });
-    }
-  };
+  // const changeTextColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const {currentTarget} = e;
+  //   if (currentTarget.checked) {
+  //     updateUserData(`${user.uid}/boards/${boardIndex}`, {
+  //       'text-color': currentTarget.dataset.color,
+  //     });
+  //   }
+  // };
 
   return (
     <>
@@ -109,23 +110,26 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
           <div className=''>
             <p>Текст доски</p>
             <div className=''>
-              <input
+              {/* <input
                 type='radio'
                 name='1'
                 id='1'
                 data-color='dark'
                 onChange={changeTextColor}
               />
-              <label htmlFor='1'>темный</label>
+              <label htmlFor='1'>темный</label> */}
+
+              <TextColor title='light' text='light' />
+              <TextColor title='dark' text='dark' />
             </div>
-            <input
+            {/* <input
               type='radio'
               name='1'
               id='2'
               data-color='light'
               onChange={changeTextColor}
             />
-            <label htmlFor='2'>светлый</label>
+            <label htmlFor='2'>светлый</label> */}
           </div>
         </div>
       </div>
