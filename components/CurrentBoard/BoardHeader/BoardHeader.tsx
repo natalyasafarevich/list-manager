@@ -36,6 +36,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
 
   const [isOpenCard, setIsOpenCard] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <>
       {isMenuOpen && <AdditionalMenu closeMenu={(e) => setIsMenuOpen(e)} />}
@@ -59,7 +60,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
           </div>
           <div className='d-flex position-relative w-25'>
             <div
-              onClick={(e) => setIsOpenCard(!isOpenCard)}
+              onClick={() => setIsOpenCard(!isOpenCard)}
               style={{
                 background: `center/cover no-repeat url(${user?.photoURL})`,
                 width: 50,

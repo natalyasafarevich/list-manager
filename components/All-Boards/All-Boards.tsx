@@ -4,14 +4,25 @@ import CreateABoard from './CreateABoard/CreateABoard';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import Link from 'next/link';
-import {PayloadProps} from '../CurrentBoard/Board';
+import {BoardProps} from '@/types/interfaces';
 
 const AllBoards: FC = () => {
-  const [currentBoard, setCurrentBoard] = useState<Array<PayloadProps>>([]);
+  const [closedBoard, setClosedBoard] = useState<Array<BoardProps>>([]);
+  const [openBoard, setOpenBoard] = useState<Array<BoardProps>>([]);
+
   const boards = useSelector((state: RootState) => state.boards.boards);
   useEffect(() => {
-    setCurrentBoard(boards);
-  }, [boards]);
+    setClosedBoard([]);
+    setOpenBoard([]);
+
+    if (boards.length)
+      boards.map((board) =>
+        board.isCloseBoard
+          ? setClosedBoard((prev) => [...prev, board])
+          : setOpenBoard((prev) => [...prev, board]),
+      );
+  }, [boards.length]);
+
   return (
     <div className='d-block'>
       <button className='d-block btn btn-outline-primary'>создать доску</button>
@@ -21,15 +32,32 @@ const AllBoards: FC = () => {
         <div className=''>
           <h3>Ваши доски ( созданные)</h3>
           <div className=''>
-            {boards.map((item: any, i: any) => (
-              <Link
-                className='d-block'
-                href={`board/${item.id.slice(0, 5)}`}
-                key={i}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {openBoard.map((item, i) => {
+              return (
+                <Link
+                  className='d-block'
+                  href={`board/${item.id.slice(0, 5)}`}
+                  key={i}
+                >
+                  <b> {item.name}</b>
+                </Link>
+              );
+            })}
+          </div>
+
+          <h3>закрытые доски</h3>
+          <div className=''>
+            {closedBoard.map((item, i) => {
+              return (
+                <Link
+                  className='d-block'
+                  href={`board/${item.id.slice(0, 5)}`}
+                  key={i}
+                >
+                  <b> {item.name}</b>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

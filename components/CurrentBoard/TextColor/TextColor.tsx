@@ -12,7 +12,6 @@ const TextColor: FC<TextColorProps> = ({title, text}) => {
   const [isClicked, setIsClicked] = useState(false);
   const user = useSelector((state: RootState) => state.userdata);
   const boardIndex = useSelector((state: RootState) => state.boards.index);
-  const dispatch = useDispatch();
 
   const handleClick = () => {
     setIsClicked(!isClicked);

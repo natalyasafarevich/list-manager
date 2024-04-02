@@ -11,6 +11,7 @@ import CardArchived from '../Card/CardArchived/CardArchived';
 import ChangeBackground from '../ChangeBackground/ChangeBackground';
 import CopyBoard from '../CopyBoard/CopyBoard';
 import TextColor from '../TextColor/TextColor';
+import CloseBoard from '../CloseBoard/CloseBoard';
 
 interface AdditionalMenuProps {
   closeMenu: (value: boolean) => void;
@@ -25,7 +26,6 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
   const current_board = useSelector(
     (state: RootState) => state.boards.currentBoards,
   );
-  // console.log(current_board['text-color']);
   useEffect(() => {
     if (current_board?.description) {
       setDescriptionBack(current_board.description);
@@ -119,6 +119,7 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
               </div>
             )}
           </div>
+          <CloseBoard />
         </div>
       </div>
     </>

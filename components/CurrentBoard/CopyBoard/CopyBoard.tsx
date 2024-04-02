@@ -32,9 +32,10 @@ const CopyBoard: FC = () => {
       redirect(`/board/${newBoard.id.slice(0, 5)}`);
     }
   }, [newBoard, isUpdate]);
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isChecked && title) {
+    if (!isChecked && title && currentBoard.lists) {
       const newLists = currentBoard.lists.map((list: any) => {
         const {cards, ...listWithoutCards} = list;
         return {...listWithoutCards};
@@ -52,10 +53,12 @@ const CopyBoard: FC = () => {
     } else {
       const newId = uuidv4();
 
-      const {id, ...dataWithoutLists} = currentBoard;
+      const {id, name, ...every} = currentBoard;
+
       const newBoard = {
         id: newId,
-        ...dataWithoutLists,
+        name: title,
+        ...every,
       };
 
       setNewBoard(newBoard);

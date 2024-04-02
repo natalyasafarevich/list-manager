@@ -34,3 +34,16 @@ export interface BackgroundImageBoard {
   };
   user: {link: string; name: string};
 }
+export type ListsProps = {id: string; name: string; isArchive?: boolean};
+export type BoardProps = {
+  currentBg: string;
+  id: string;
+  name: string;
+  visibility: string;
+  lists?: Array<ListsProps>;
+  description?: string;
+  isFavorite?: boolean;
+  'text-color'?: string;
+  currentColor?: string;
+  isCloseBoard?: boolean;
+};
