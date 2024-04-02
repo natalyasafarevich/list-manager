@@ -24,19 +24,7 @@ const TextColor: FC<TextColorProps> = ({title, text}) => {
 
   return (
     <div>
-      <button
-        style={
-          {
-            // width: '100px',
-            // height: '30px',
-            // border: 'none',
-            // cursor: 'pointer',
-          }
-        }
-        onClick={handleClick}
-      >
-        {title}
-      </button>
+      <button onClick={handleClick}>{title}</button>
     </div>
   );
 };

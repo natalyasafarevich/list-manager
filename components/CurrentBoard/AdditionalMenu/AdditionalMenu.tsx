@@ -40,6 +40,7 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
   const [isAboutBoardOpen, setIsAboutBoardOpen] = useState(false);
   const [isOpenArchives, setIsOpenArchives] = useState(false);
   const [isOpenBg, setIsOpenBg] = useState(false);
+  const [isOpenTextColor, setIsOpenTextColor] = useState(false);
 
   // for text-color
   // const user =useSelector((state:RootState)=>state.userdata)
@@ -108,28 +109,15 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
           </ExpandableContent>
           <CopyBoard />
           <div className=''>
-            <p>Текст доски</p>
-            <div className=''>
-              {/* <input
-                type='radio'
-                name='1'
-                id='1'
-                data-color='dark'
-                onChange={changeTextColor}
-              />
-              <label htmlFor='1'>темный</label> */}
-
-              <TextColor title='light' text='light' />
-              <TextColor title='dark' text='dark' />
-            </div>
-            {/* <input
-              type='radio'
-              name='1'
-              id='2'
-              data-color='light'
-              onChange={changeTextColor}
-            />
-            <label htmlFor='2'>светлый</label> */}
+            <p onClick={() => setIsOpenTextColor(!isOpenTextColor)}>
+              Текст доски
+            </p>
+            {isOpenTextColor && (
+              <div className=''>
+                <TextColor title='light' text='light' />
+                <TextColor title='dark' text='dark' />
+              </div>
+            )}
           </div>
         </div>
       </div>
