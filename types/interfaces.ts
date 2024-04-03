@@ -47,3 +47,13 @@ export type BoardProps = {
   currentColor?: string;
   isCloseBoard?: boolean;
 };
+
+export interface UserStructure {
+  board?: Array<BoardProps>;
+  email?: string;
+  localTime?: string;
+  location?: string;
+  mainPhoto?: {name: string; url: string};
+  organization?: string;
+  public_name?: string;
+}

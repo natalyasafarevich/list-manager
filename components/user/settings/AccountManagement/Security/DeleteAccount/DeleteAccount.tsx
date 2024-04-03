@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 const DeleteAccount: FC = () => {
   const auth = getAuth(firebaseApp);
   const dispatch = useDispatch();
-
+  // const usвer = auth.;
   const user = auth.currentUser;
 
   const deleteUser = () => {

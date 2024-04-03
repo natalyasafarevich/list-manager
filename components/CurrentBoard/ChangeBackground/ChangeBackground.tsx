@@ -11,7 +11,7 @@ import {RootState} from '@/store/store';
 import useUserPhotos from '@/hooks/useUserPhotos';
 import {updateUserData} from '@/helper/updateUserData';
 
-interface BackgroundsProps {
+export interface BackgroundsProps {
   'background-images': Array<BackgroundImageBoard>;
   'background-colors': Array<{prop: string}>;
 }

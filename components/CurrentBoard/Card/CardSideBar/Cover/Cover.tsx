@@ -9,6 +9,7 @@ const Cover: FC = () => {
   //   const db = getDatabase();
   //   set(ref(db, 'card-cover'), covers);
   // };
+
   return (
     <div className='position-relative'>
       <p onClick={(e) => setIsOpen(!isOpen)}> обложка </p>
