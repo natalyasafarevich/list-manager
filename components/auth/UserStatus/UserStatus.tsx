@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getDataUser} from '@/store/data-user/actions';
 import {getDatabase, onValue, ref} from 'firebase/database';
 import {getBoards} from '@/store/board/actions';
+import {updateUserData} from '@/helper/updateUserData';
 
 const UserStatus = () => {
   const [user, setUser] = useState<any>();
@@ -29,13 +30,14 @@ const UserStatus = () => {
         }
       });
     }
-  }, [current_user.uid]);
+  }, [current_user.uid, user]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: UserInfo | null) => {
       if (user) {
         const {displayName, email, phoneNumber, photoURL, uid} = user;
         setUser({displayName, email, phoneNumber, photoURL, uid});
+        updateUserData(`${uid}/`, {email: email});
       }
     });
 

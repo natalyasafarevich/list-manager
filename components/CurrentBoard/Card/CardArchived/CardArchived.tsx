@@ -34,7 +34,7 @@ const CardArchived: FC = () => {
               })),
         )
         .flat();
-      setArchivedCards(archivedCardsArray);
+      setArchivedCards(archivedCardsArray || []);
     }
   }, [cards?.lists]);
   const user = useSelector((state: RootState) => state.userdata);
@@ -58,18 +58,19 @@ const CardArchived: FC = () => {
 
     setIndex((prev: any) => ({...prev, list: listIndex}));
 
-    cards?.lists.map((item: any) => {
-      if (item.id === listId) {
-        item.cards.filter((card: any, i: number) => {
-          if (card.id === cardId) {
-            setIndex((prev: any) => ({
-              ...prev,
-              card: item.cards.indexOf(card),
-            }));
-          }
-        });
-      }
-    });
+    cards?.lists &&
+      cards?.lists.map((item: any) => {
+        if (item.id === listId) {
+          item.cards.filter((card: any, i: number) => {
+            if (card.id === cardId) {
+              setIndex((prev: any) => ({
+                ...prev,
+                card: item.cards.indexOf(card),
+              }));
+            }
+          });
+        }
+      });
 
     dispatch(isArchivedCard(true));
   };

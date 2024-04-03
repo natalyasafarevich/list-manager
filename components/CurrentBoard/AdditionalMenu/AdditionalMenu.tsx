@@ -42,17 +42,6 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
   const [isOpenBg, setIsOpenBg] = useState(false);
   const [isOpenTextColor, setIsOpenTextColor] = useState(false);
 
-  // for text-color
-  // const user =useSelector((state:RootState)=>state.userdata)
-  // const changeTextColor = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const {currentTarget} = e;
-  //   if (currentTarget.checked) {
-  //     updateUserData(`${user.uid}/boards/${boardIndex}`, {
-  //       'text-color': currentTarget.dataset.color,
-  //     });
-  //   }
-  // };
-
   return (
     <>
       <div className='position-absolute top-0 end-0 bg-info text-light p-4 w-25 z-3'>

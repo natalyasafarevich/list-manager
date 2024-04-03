@@ -35,9 +35,15 @@ export interface BackgroundImageBoard {
   user: {link: string; name: string};
 }
 export type ListsProps = {id: string; name: string; isArchive?: boolean};
+
+export type MemberProps = {
+  id: string;
+  role: string;
+};
 export type BoardProps = {
   currentBg: string;
   id: string;
+  members: Array<MemberProps>;
   name: string;
   visibility: string;
   lists?: Array<ListsProps>;

@@ -10,6 +10,7 @@ import BoardHeader from './BoardHeader/BoardHeader';
 import CloseBoardPopup from './CloseBoardPopup/CloseBoardPopup';
 import {getBoardCurrent} from '@/store/board/actions';
 import Members from './Members/Members';
+import {BoardProps} from '@/types/interfaces';
 
 export type PayloadProps = {
   currentBg: string;
@@ -27,10 +28,11 @@ const initialBoard = {
   currentBg: '',
   visibility: '',
   id: '',
+  members: [],
 };
 
 const CurrentBoard: FC = () => {
-  const [currentBoard, setCurrentBoard] = useState<PayloadProps>(initialBoard);
+  const [currentBoard, setCurrentBoard] = useState<BoardProps>(initialBoard);
   const [currentPathname, setCurrentPathname] = useState<string>('');
   const [index, setIndex] = useState<any>();
   const dispatch: AppDispatch = useDispatch();

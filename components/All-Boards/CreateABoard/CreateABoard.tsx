@@ -68,6 +68,7 @@ const CreateABoard: FC = () => {
       name: value,
       visibility: visibility,
       currentBg: currentBg,
+      members: [{id: user.uid, role: 'admin'}],
     };
     setBoards([...boards, newBoard]);
     setIsUpdate(true);
