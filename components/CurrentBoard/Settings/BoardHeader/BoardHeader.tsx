@@ -1,11 +1,12 @@
 import {FC, useEffect, useState} from 'react';
-import {PayloadProps as BoardProps} from '../Board';
+import {PayloadProps as BoardProps} from '../../Board';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import {updateUserData} from '@/helper/updateUserData';
 import ButtonToFavorites from '@/components/ButtonToFavorites/ButtonToFavorites';
 import ProfileCard from '../ProfileCard/ProfileCard';
-import AdditionalMenu from '../AdditionalMenu/AdditionalMenu';
+import AdditionalMenu from '../../AdditionalMenu/AdditionalMenu';
+import {NewMembersProps} from '../../Members/AddMember/AddMember';
 
 interface HeaderBoardProps {
   board: BoardProps;
@@ -14,8 +15,18 @@ interface HeaderBoardProps {
 const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const [value, setValue] = useState('');
   const [isUpdate, setIsUpdate] = useState(false);
-
+  const [members, setMembers] = useState<Array<any>>([]);
+  console.log(members);
   const boardsIndex = useSelector((state: RootState) => state.boards.index);
+  const currentBoard = useSelector(
+    (state: RootState) => state.boards.currentBoards,
+  );
+  useEffect(() => {
+    if (currentBoard?.members) {
+      setMembers((prev) => [...(currentBoard?.members?.slice(1) || [])]);
+    }
+  }, [currentBoard]);
+
   useEffect(() => {
     setValue(board.name);
   }, [board.name]);
@@ -36,6 +47,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
 
   const [isOpenCard, setIsOpenCard] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOpenMember, setIsOpenMember] = useState(false);
 
   return (
     <>
@@ -67,6 +79,36 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                 height: 50,
               }}
             ></div>
+            {members?.map((member, i) => (
+              <div key={i}>
+                <div
+                  onClick={() => setIsOpenMember(!isOpenMember)}
+                  style={{
+                    background: `center/cover no-repeat url(${member?.photo.url})`,
+                    width: 50,
+                    height: 50,
+                  }}
+                ></div>
+
+                {isOpenMember && (
+                  <div className='position-absolute bg-light p-3 w-100 text-dark'>
+                    <button onClick={() => setIsOpenMember(!isOpenMember)}>
+                      close
+                    </button>
+                    <div className='d-flex'>
+                      <img src={member.photo.url || ''} alt='user' />
+                      <div className='m-2'>
+                        <p className=''>{member.email}</p>
+                        <span>{member?.name}</span>
+                        <hr />
+                        <span>{member?.role}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+
             <button className='m-2' onClick={() => setIsMenuOpen(!isMenuOpen)}>
               боковое меню
             </button>

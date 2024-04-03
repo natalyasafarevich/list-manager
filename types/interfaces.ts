@@ -39,13 +39,16 @@ export type ListsProps = {id: string; name: string; isArchive?: boolean};
 export type MemberProps = {
   id: string;
   role: string;
+  public_name?: string;
+  email?: string;
+  mainPhoto?: MainPhotoProps;
 };
 export type BoardProps = {
-  currentBg: string;
-  id: string;
-  members: Array<MemberProps>;
-  name: string;
-  visibility: string;
+  currentBg?: string;
+  id?: string;
+  members?: Array<MemberProps>;
+  name?: string;
+  visibility?: string;
   lists?: Array<ListsProps>;
   description?: string;
   isFavorite?: boolean;
@@ -53,13 +56,21 @@ export type BoardProps = {
   currentColor?: string;
   isCloseBoard?: boolean;
 };
-
+export interface MainPhotoProps {
+  name: string;
+  url: string;
+}
 export interface UserStructure {
   board?: Array<BoardProps>;
   email?: string;
   localTime?: string;
   location?: string;
-  mainPhoto?: {name: string; url: string};
+  mainPhoto?: MainPhotoProps;
   organization?: string;
   public_name?: string;
 }
+
+// export interface MemberProps {
+
+// }
+// {name: user.public_name, email: user.email, photo: user.mainPhoto

@@ -41,7 +41,7 @@ const ProfileCard: FC<ProfileCardProp> = ({setIsOpen}) => {
     <div className=''>
       {setIsOpen && <button onClick={() => setIsOpen(false)}>close</button>}
       <div className='d-flex'>
-        <img src={userData.photoURL.url || user?.photoURL || ''} alt='user' />
+        <img src={userData?.photoURL?.url || user?.photoURL || ''} alt='user' />
         <div className='m-2'>
           <p className=''>{user.displayName}</p>
           <span>{userData?.public_name}</span>

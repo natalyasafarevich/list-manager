@@ -6,8 +6,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import ColumnCreator from './Column/ColumnCreator/ColumnCreator';
 import './Board.css';
 
-import BoardHeader from './BoardHeader/BoardHeader';
-import CloseBoardPopup from './CloseBoardPopup/CloseBoardPopup';
+import BoardHeader from './Settings/BoardHeader/BoardHeader';
+import CloseBoardPopup from './Settings/CloseBoardPopup/CloseBoardPopup';
 import {getBoardCurrent} from '@/store/board/actions';
 import Members from './Members/Members';
 import {BoardProps} from '@/types/interfaces';

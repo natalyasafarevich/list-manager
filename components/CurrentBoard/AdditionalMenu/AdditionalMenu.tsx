@@ -1,6 +1,6 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
-import ProfileCard from '../ProfileCard/ProfileCard';
+import ProfileCard from '../Settings/ProfileCard/ProfileCard';
 import TextEditor from '@/components/TextEditor/TextEditor';
 import {updateUserData} from '@/helper/updateUserData';
 import {useSelector} from 'react-redux';
@@ -9,9 +9,9 @@ import ExpandableContent from '@/components/ExpandableContent/ExpandableContent'
 import ArchivedСolumns from '../Column/ArchivedСolumns/ArchivedСolumns';
 import CardArchived from '../Card/CardArchived/CardArchived';
 import ChangeBackground from '../ChangeBackground/ChangeBackground';
-import CopyBoard from '../CopyBoard/CopyBoard';
-import TextColor from '../TextColor/TextColor';
-import CloseBoard from '../CloseBoard/CloseBoard';
+import CopyBoard from '../Settings/CopyBoard/CopyBoard';
+import TextColor from '../Settings/TextColor/TextColor';
+import CloseBoard from '../Settings/CloseBoard/CloseBoard';
 
 interface AdditionalMenuProps {
   closeMenu: (value: boolean) => void;

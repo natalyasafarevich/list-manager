@@ -5,11 +5,29 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import Link from 'next/link';
 import {BoardProps} from '@/types/interfaces';
+import {fetchBackData} from '@/helper/getFirebaseData';
 
 const AllBoards: FC = () => {
   const [closedBoard, setClosedBoard] = useState<Array<BoardProps>>([]);
+  const user = useSelector((state: RootState) => state.userdata);
   const [openBoard, setOpenBoard] = useState<Array<BoardProps>>([]);
 
+  const [accessedBoard, setAccessedBoard] = useState<any>();
+  const [otherBoard, setOtherBoard] = useState<any>();
+  console.log(otherBoard);
+  useEffect(() => {
+    if (accessedBoard) {
+      fetchBackData(
+        accessedBoard.uid,
+        `/boards/${accessedBoard.boardIndex}/`,
+        setOtherBoard,
+      );
+    }
+  }, [accessedBoard]);
+  console.log(accessedBoard);
+  useEffect(() => {
+    fetchBackData(user.uid, `/access-other-boards`, setAccessedBoard);
+  }, [user]);
   const boards = useSelector((state: RootState) => state.boards.boards);
   useEffect(() => {
     setClosedBoard([]);
@@ -32,15 +50,29 @@ const AllBoards: FC = () => {
         <div className=''>
           <h3>Ваши доски ( созданные)</h3>
           <div className=''>
-            {openBoard.map((item, i) => {
-              return (
+            {otherBoard && (
+              <>
+                otherBoard
                 <Link
                   className='d-block'
-                  href={`board/${item.id.slice(0, 5)}`}
-                  key={i}
+                  href={`board/${otherBoard.id.slice(0, 5)}`}
                 >
-                  <b> {item.name}</b>
+                  eegeg
                 </Link>
+              </>
+            )}
+            <hr />
+            {openBoard.map((item, i) => {
+              return (
+                item.id && (
+                  <Link
+                    className='d-block'
+                    href={`board/${item.id.slice(0, 5)}`}
+                    key={i}
+                  >
+                    <b> {item.name}</b>
+                  </Link>
+                )
               );
             })}
           </div>
@@ -49,13 +81,15 @@ const AllBoards: FC = () => {
           <div className=''>
             {closedBoard.map((item, i) => {
               return (
-                <Link
-                  className='d-block'
-                  href={`board/${item.id.slice(0, 5)}`}
-                  key={i}
-                >
-                  <b> {item.name}</b>
-                </Link>
+                item.id && (
+                  <Link
+                    className='d-block'
+                    href={`board/${item.id.slice(0, 5)}`}
+                    key={i}
+                  >
+                    <b> {item.name}</b>
+                  </Link>
+                )
               );
             })}
           </div>

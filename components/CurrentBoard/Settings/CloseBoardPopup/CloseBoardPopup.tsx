@@ -2,7 +2,7 @@
 import {RootState} from '@/store/store';
 import {FC} from 'react';
 import {useSelector} from 'react-redux';
-import {PayloadProps} from '../Board';
+import {PayloadProps} from '../../Board';
 import {updateUserData} from '@/helper/updateUserData';
 
 interface CloseBoardPopupProps {
