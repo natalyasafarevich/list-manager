@@ -104,6 +104,9 @@ const AddMember: FC = () => {
       setRole(currentTarget.dataset.type);
     }
   };
+  const user_status = useSelector(
+    (state: RootState) => state.userdata.user_status,
+  );
   return (
     <div>
       <input
@@ -112,7 +115,12 @@ const AddMember: FC = () => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <button onClick={addNewMember}>найти</button>
+      <button
+        onClick={addNewMember}
+        disabled={user_status !== 'admin' ? true : false}
+      >
+        найти
+      </button>
       <div className='d-flex'>
         <b> роль:</b>
         <button data-type='admin' onClick={changeRole}>

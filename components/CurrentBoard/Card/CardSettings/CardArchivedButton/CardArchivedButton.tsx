@@ -35,7 +35,9 @@ const CardArchivedButton: FC = () => {
       dispatch(isArchive({isArchive: true}));
     }
   }, [uid, isUpdate]);
-
+  const user_status = useSelector(
+    (state: RootState) => state.userdata.user_status,
+  );
   const archivedCard = () => {
     setIsArchived((prev) => !prev);
     setIsUpdate(true);
@@ -43,7 +45,12 @@ const CardArchivedButton: FC = () => {
   };
   return (
     <div>
-      <p onClick={archivedCard}>архивировать</p>
+      <button
+        onClick={archivedCard}
+        disabled={user_status !== 'admin' ? true : false}
+      >
+        архивировать
+      </button>
     </div>
   );
 };

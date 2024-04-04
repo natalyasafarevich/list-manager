@@ -38,8 +38,8 @@ export interface BackgroundImageBoard {
 export type ListsProps = {id: string; name: string; isArchive?: boolean};
 
 export type MemberProps = {
-  id: string;
-  role: string;
+  id?: string;
+  role?: string;
   public_name?: string;
   email?: string;
   mainPhoto?: MainPhotoProps;
@@ -47,7 +47,8 @@ export type MemberProps = {
 export type BoardProps = {
   currentBg?: string;
   id?: string;
-  members?: Array<MemberProps>;
+  members?: any;
+  //  Array<MemberProps>;
   name?: string;
   visibility?: string;
   lists?: Array<ListsProps>;

@@ -11,6 +11,7 @@ import CloseBoardPopup from './Settings/CloseBoardPopup/CloseBoardPopup';
 import {getBoardCurrent} from '@/store/board/actions';
 import Members from './Members/Members';
 import {BoardProps} from '@/types/interfaces';
+import {getUserStatus} from '@/store/data-user/actions';
 
 export type PayloadProps = {
   currentBg?: string;
@@ -45,6 +46,10 @@ const CurrentBoard: FC = () => {
 
   const {pathname} = useUrl() ?? {};
   const board = useSelector((state: RootState) => state.boards.boards);
+  const user = useSelector((state: RootState) => state.userdata);
+  const user_status = useSelector(
+    (state: RootState) => state.userdata.user_status,
+  );
 
   useEffect(() => {
     const parts = pathname ? pathname.split('/') : [];
@@ -62,36 +67,46 @@ const CurrentBoard: FC = () => {
       }
   }, [board, currentPathname]);
   useEffect(() => {
+    dispatch(getUserStatus(currentBoard.members[user.uid]));
+    // currentBoard.members && user && console.log(currentBoard.members[user.uid as string]);
+  }, [currentBoard]);
+  useEffect(() => {
     if (currentBoard['text-color'] === 'light') {
       setIsLight(true);
       return;
     }
     setIsLight(false);
   }, [currentBoard['text-color']]);
+
   return (
-    <div
-      className={`p-2 ${isLight ? 'light' : ''}`}
-      style={{
-        background: currentBoard.currentBg
-          ? `center/cover no-repeat url(${currentBoard.currentBg || ''} )`
-          : currentBoard.currentColor,
-      }}
-    >
-      <div className='mt-5 '>
-        <Members />
-        {!currentBoard.isCloseBoard ? (
-          <>
-            <BoardHeader board={currentBoard} />
-            <div className='d-flex justify-content-between'>
-              <div className=''>
-                <ColumnCreator currentIndex={index} />
+    <div className=''>
+      <p>
+        role <b>{user_status}</b>
+      </p>
+      <div
+        className={`p-2 ${isLight ? 'light' : ''}`}
+        style={{
+          background: currentBoard.currentBg
+            ? `center/cover no-repeat url(${currentBoard.currentBg || ''} )`
+            : currentBoard.currentColor,
+        }}
+      >
+        <div className='mt-5 '>
+          <Members />
+          {!currentBoard.isCloseBoard ? (
+            <>
+              <BoardHeader board={currentBoard} />
+              <div className='d-flex justify-content-between'>
+                <div className=''>
+                  <ColumnCreator currentIndex={index} />
+                </div>
               </div>
-            </div>
-          </>
-        ) : (
-          // <p>k</p>
-          <CloseBoardPopup board={currentBoard}></CloseBoardPopup>
-        )}
+            </>
+          ) : (
+            // <p>k</p>
+            <CloseBoardPopup board={currentBoard}></CloseBoardPopup>
+          )}
+        </div>
       </div>
     </div>
   );

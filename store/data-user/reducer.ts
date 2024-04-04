@@ -6,6 +6,7 @@ import {
   RESET_DATA_USER,
   UPDATE_LINK,
   UPDATE_PHOTO,
+  USER_STATUS,
 } from './actions';
 
 interface initialStateProps {
@@ -24,6 +25,7 @@ const initialState = {
   photoURL: null,
   providerId: '',
   uid: '',
+  user_status: '',
   dataFB: {
     uid: '',
     boardIndex: 0,
@@ -75,6 +77,12 @@ export const DataUserReducer = (state = initialState, action: ActionsType) => {
       return {
         ...state,
         photoURL: action.payload,
+      };
+    }
+    case USER_STATUS: {
+      return {
+        ...state,
+        user_status: action.payload,
       };
     }
 

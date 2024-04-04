@@ -32,9 +32,17 @@ const ArchiveColumn: FC = () => {
     });
     dispatch(isArchive({isArchive: true}));
   };
+  const user_status = useSelector(
+    (state: RootState) => state.userdata.user_status,
+  );
   return (
     <div>
-      <button onClick={archiveColumn}>архивировать список </button>
+      <button
+        onClick={archiveColumn}
+        disabled={user_status !== 'admin' ? true : false}
+      >
+        архивировать список{' '}
+      </button>
     </div>
   );
 };

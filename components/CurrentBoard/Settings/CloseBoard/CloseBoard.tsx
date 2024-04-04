@@ -17,9 +17,17 @@ const CloseBoard: FC = () => {
       // router.push('/boards');
     }
   };
+  const user_status = useSelector(
+    (state: RootState) => state.userdata.user_status,
+  );
   return (
     <div>
-      <button onClick={closeBoard}>закрыть доску</button>
+      <button
+        onClick={closeBoard}
+        disabled={user_status !== 'admin' ? true : false}
+      >
+        закрыть доску
+      </button>
     </div>
   );
 };
