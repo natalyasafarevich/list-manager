@@ -24,7 +24,7 @@ const AllBoards: FC = () => {
     if (accessedBoard) {
       setOtherBoard([]);
       for (const id in accessedBoard) {
-        // console.log(id);
+        console.log(accessedBoard[id]);
         const starCountRef = ref(db, `boards/${id}`);
         onValue(starCountRef, (snapshot) => {
           const data = snapshot.val();
@@ -53,14 +53,14 @@ const AllBoards: FC = () => {
     setClosedBoard([]);
     setOpenBoard([]);
 
-    if (boards.length)
-      boards.map((board) =>
-        board.isCloseBoard
-          ? setClosedBoard((prev) => [...prev, board])
-          : setOpenBoard((prev) => [...prev, board]),
-      );
+    // if (boards.length)
+    // boards.map((board) =>
+    //   board.isCloseBoard
+    //     ? setClosedBoard((prev) => [...prev, board])
+    //     : setOpenBoard((prev) => [...prev, board]),
+    // );
   }, [boards.length]);
-
+  console.log(otherBoard);
   return (
     <div className='d-block'>
       <button className='d-block btn btn-outline-primary'>создать доску</button>
@@ -71,15 +71,18 @@ const AllBoards: FC = () => {
           <h3>Ваши доски ( созданные)</h3>
           <div className=''>
             {otherBoard &&
-              otherBoard.map((board: any, i: number) => (
-                <Link
-                  key={i}
-                  className='d-block'
-                  href={`board/${board?.id.slice(0, 5)}`}
-                >
-                  {board.name}
-                </Link>
-              ))}
+              otherBoard.map(
+                (board: any, i: number) =>
+                  board.members[user.uid] && (
+                    <Link
+                      key={i}
+                      className='d-block'
+                      href={`board/${board?.id.slice(0, 5)}`}
+                    >
+                      {board.name}
+                    </Link>
+                  ),
+              )}
             <hr />
             {openBoard.map((item, i) => {
               return (

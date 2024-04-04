@@ -2,13 +2,13 @@ import {BoardProps} from '@/types/interfaces';
 import {ActionsType, BOARDS, CURRENT_BOARDS, PayloadProps} from './actions';
 
 type InitialStateType = {
-  boards: Array<PayloadProps>;
+  boards: any;
   index: number;
   currentBoards: BoardProps; // Замените 'any' на тип данных для поля currentBoards, если он не является массивом
 };
 
 const initialState: InitialStateType = {
-  boards: [],
+  boards: {},
   currentBoards: {currentBg: '', id: '', name: '', lists: [], visibility: ''},
   index: 0,
 };

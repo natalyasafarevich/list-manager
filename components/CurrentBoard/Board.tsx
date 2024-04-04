@@ -13,10 +13,10 @@ import Members from './Members/Members';
 import {BoardProps} from '@/types/interfaces';
 
 export type PayloadProps = {
-  currentBg: string;
-  id: string;
-  name: string;
-  visibility: string;
+  currentBg?: string;
+  id?: string;
+  name?: string;
+  visibility?: string;
   lists?: Array<any>;
   isFavorite?: boolean;
   'text-color'?: string;
@@ -43,7 +43,9 @@ const CurrentBoard: FC = () => {
 
   const {pathname} = useUrl() ?? {};
   const board = useSelector((state: RootState) => state.boards.boards);
+  const d = useSelector((state: RootState) => state.boards);
 
+  console.log(d);
   useEffect(() => {
     const parts = pathname ? pathname.split('/') : [];
     const lastPart = parts.length > 0 ? parts[parts.length - 1] : '';
@@ -51,15 +53,20 @@ const CurrentBoard: FC = () => {
   }, [pathname]);
 
   useEffect(() => {
-    if (currentPathname && board)
-      board?.map((item: any, i: any) => {
-        if (!item?.id?.includes(currentPathname)) {
-          return;
-        }
-
-        setIndex(i);
-        setCurrentBoard(item);
-      });
+    // if (currentPathname && board)//
+    for (let key in board) {
+      if (key.includes(currentPathname)) {
+        setIndex(key);
+        setCurrentBoard(board[key]);
+      }
+    }
+    // board?.map((item: any, i: any) => {
+    //   if (!item?.id?.includes(currentPathname)) {
+    //     return;
+    //   }
+    // setIndex(i);
+    // setCurrentBoard(item);
+    // });
   }, [board, currentPathname]);
   const [isLight, setIsLight] = useState(false);
   useEffect(() => {
@@ -90,7 +97,8 @@ const CurrentBoard: FC = () => {
             </div>
           </>
         ) : (
-          <CloseBoardPopup board={currentBoard}></CloseBoardPopup>
+          <p>k</p>
+          // <CloseBoardPopup board={currentBoard}></CloseBoardPopup>
         )}
       </div>
     </div>

@@ -18,13 +18,13 @@ export type DataBoardProp = {
 };
 export type CurrentBoardProp = {
   type: typeof CURRENT_BOARDS;
-  payload: BoardProps;
+  payload: any;
   index: number;
 };
 
 export type ActionsType = DataBoardProp | CurrentBoardProp;
 
-export const getBoards = (data: Array<BoardProps>) => {
+export const getBoards = (data: any) => {
   return {
     type: BOARDS,
     payload: data,

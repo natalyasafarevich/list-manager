@@ -49,6 +49,7 @@ const CreateABoard: FC<CreateABoardProps> = ({isCreated}) => {
       // updateUserData(user.uid, {
       //   boards,
       // });
+      console.log(boards, 'bnjkl;');
       dispatch(getBoards(boards));
 
       setIsUpdate(false);
@@ -114,7 +115,9 @@ const CreateABoard: FC<CreateABoardProps> = ({isCreated}) => {
         name: value,
         visibility: visibility,
         currentBg: currentBg,
-        members: [{id: user.uid, role: 'admin'}],
+        members: {
+          [user.uid]: 'admin', // Правильный синтаксис для создания объекта
+        },
       },
     };
     setBoards({...boards, ...newBoard});

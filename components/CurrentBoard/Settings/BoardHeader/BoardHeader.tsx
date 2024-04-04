@@ -9,21 +9,21 @@ import AdditionalMenu from '../../AdditionalMenu/AdditionalMenu';
 import {NewMembersProps} from '../../Members/AddMember/AddMember';
 
 interface HeaderBoardProps {
-  board: BoardProps;
+  board: any;
 }
 
 const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const [value, setValue] = useState('');
   const [isUpdate, setIsUpdate] = useState(false);
   const [members, setMembers] = useState<Array<any>>([]);
-  console.log(members);
+  // console.log(members);
   const boardsIndex = useSelector((state: RootState) => state.boards.index);
   const currentBoard = useSelector(
     (state: RootState) => state.boards.currentBoards,
   );
   useEffect(() => {
     if (currentBoard?.members) {
-      setMembers((prev) => [...(currentBoard?.members?.slice(1) || [])]);
+      // setMembers((prev) => [...(currentBoard?.members?.slice(1) || [])]);
     }
   }, [currentBoard]);
 

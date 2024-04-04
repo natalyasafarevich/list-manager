@@ -35,7 +35,7 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getBoardCurrent(currentBoard, currentIndex));
+    // dispatch(getBoardCurrent(currentBoard, currentIndex));
   }, [currentBoard]);
 
   useEffect(() => {

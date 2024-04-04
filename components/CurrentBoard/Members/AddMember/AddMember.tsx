@@ -1,12 +1,16 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
-import {getDatabase, onValue, query, ref} from 'firebase/database';
+import {getDatabase, onValue, query, ref, update} from 'firebase/database';
 import firebaseApp, {db} from '@/firebase';
 import 'firebase/auth';
 import {MainPhotoProps, MemberProps, UserStructure} from '@/types/interfaces';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
-import {fetchBackData, getFirebaseData} from '@/helper/getFirebaseData';
+import {
+  fetchBackData,
+  fetchBackDefaultData,
+  getFirebaseData,
+} from '@/helper/getFirebaseData';
 import {updateUserData} from '@/helper/updateUserData';
 
 export interface NewMembersProps extends MemberProps {
@@ -17,11 +21,12 @@ export interface NewMembersProps extends MemberProps {
 
 const AddMember: FC = () => {
   const [isNewMember, setIsNewMember] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('natalyasafarevich@gmail.com');
   const [memberUid, setMemberUid] = useState('');
   const [role, setRole] = useState('member');
-  const [members, setMembers] = useState<Array<MemberProps>>([]);
+  const [members, setMembers] = useState<any>({});
   const [newMembers, setNewMembers] = useState<NewMembersProps>();
+  const [boards, setBoards] = useState<NewMembersProps>();
 
   const boardIndex = useSelector((state: RootState) => state.boards.index);
 
@@ -38,14 +43,18 @@ const AddMember: FC = () => {
   useEffect(() => {
     if (newMembers) {
       console.log(newMembers, 'newMembersnewMembers');
-      const newMember = {
-        id: memberUid,
-        role: role,
-        name: newMembers.public_name,
-        email: newMembers.email,
-        photo: newMembers.mainPhoto,
+      // members: {
+      //   [user.uid]: 'admin', // Правильный синтаксис для создания объекта
+      // },
+      const members = {
+        // memberUid: memberUid,
+        [memberUid]: role,
+        // name: newMembers.public_name,
+        // email: newMembers.email,
+        // photo: newMembers.mainPhoto,
       };
-      setMembers((prev) => [...prev, newMember]);
+
+      setMembers((prev: any) => ({...prev, ...members}));
       setIsNewMember(true);
     }
   }, [newMembers]);
@@ -53,20 +62,29 @@ const AddMember: FC = () => {
   useEffect(() => {
     user &&
       !isNewMember &&
-      fetchBackData(user.uid, `/boards/${boardIndex}/members`, setMembers);
+      fetchBackDefaultData(`/boards/${boardIndex}/members`, setMembers);
+    // fetchBackData(user.uid, `boards/${boardIndex}/members`, setMembers);
   }, [user, boardIndex, isNewMember]);
-  // const current_board
+  console.log(memberUid, 'f');
+
   useEffect(() => {
     if (isNewMember) {
-      updateUserData(`${user.uid}/boards/${boardIndex}`, {members: members});
-      updateUserData(`${memberUid}/access-other-boards`, {
-        uid: user.uid,
-        boardIndex: boardIndex,
-      });
+      update(ref(db, `boards/${boardIndex}`), {members: members});
+
+      const currentBoard = {
+        [boardIndex]: true, // Правильный синтаксис для создания объекта
+      };
+      // updateUserData(`boards/${boardIndex}`, {members: members});
+      updateUserData(`${memberUid}/current-boards`, currentBoard);
       setIsNewMember(false);
     }
   }, [isNewMember]);
-
+  const currentBoard = useSelector(
+    (state: RootState) => state.boards.currentBoards,
+  );
+  // useEffect(() => {
+  //   currentBoard.members && setMembers(currentBoard.members);
+  // }, [currentBoard]);
   const addNewMember = () => {
     if (email) {
       const starCountRef = query(ref(db, 'users/'));
@@ -75,12 +93,22 @@ const AddMember: FC = () => {
 
         for (const uid in data) {
           if (data[uid].email === email) {
-            const isMemberInList = members.some((member) => member.id === uid);
-            if (isMemberInList) {
-              console.log('пользователь уже добавлен');
-              return;
+            // console.log(currentBoard?.members, 'ghjk', uid);
+            for (const key in currentBoard?.members) {
+              console.log(uid === key);
+
+              // const isMemberInList = currentBoard?.members.some(
+              //   (member: any) => member.id === uid,
+              // );
+              // console.log(isMemberInList);
+              if (uid === key) {
+                console.log('пользователь уже добавлен');
+                return;
+              }
+              // console.log(data[uid],'ghjk');
+              // setMembers(data[uid]);
+              setMemberUid(uid);
             }
-            setMemberUid(uid);
             return;
           } else {
             alert('польщователь не найден');

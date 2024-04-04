@@ -21,12 +21,12 @@ const UserStatus = () => {
 
   useEffect(() => {
     if (current_user.uid) {
-      const starCountRef = ref(db, `users/${current_user?.uid}`);
+      const starCountRef = ref(db, `/boards`);
       onValue(starCountRef, (snapshot) => {
         const data = snapshot.val();
-        if (data && data.boards) {
+        if (data) {
           console.log(data.boards);
-          dispatch(getBoards(data.boards));
+          dispatch(getBoards(data));
         }
       });
     }
