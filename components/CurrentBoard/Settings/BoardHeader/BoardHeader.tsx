@@ -2,7 +2,7 @@ import {FC, useEffect, useState} from 'react';
 import {PayloadProps as BoardProps} from '../../Board';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import ButtonToFavorites from '@/components/ButtonToFavorites/ButtonToFavorites';
 import ProfileCard from '../ProfileCard/ProfileCard';
 import AdditionalMenu from '../../AdditionalMenu/AdditionalMenu';
@@ -35,7 +35,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const {uid} = user;
 
   useEffect(() => {
-    isUpdate && updateUserData(`${uid}/boards/${boardsIndex}`, {name: value});
+    isUpdate && updateFirebaseData(`/boards/${boardsIndex}`, {name: value});
     setIsUpdate(false);
   }, [value, isUpdate]);
 

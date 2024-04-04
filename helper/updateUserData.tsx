@@ -10,3 +10,13 @@ export async function updateUserData(userId: string, params: {}) {
     console.error('Error writing data:', error);
   }
 }
+
+export async function updateFirebaseData(path: string, params: {}) {
+  const db = getDatabase(firebaseApp);
+  try {
+    await update(ref(db, path), params);
+    console.log('Data successfully written');
+  } catch (error) {
+    console.error('Error writing data:', error);
+  }
+}

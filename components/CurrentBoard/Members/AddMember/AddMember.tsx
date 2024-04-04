@@ -26,7 +26,7 @@ const AddMember: FC = () => {
   const [role, setRole] = useState('member');
   const [members, setMembers] = useState<any>({});
   const [newMembers, setNewMembers] = useState<NewMembersProps>();
-  const [boards, setBoards] = useState<NewMembersProps>();
+  // const [boards, setBoards] = useState<NewMembersProps>();
 
   const boardIndex = useSelector((state: RootState) => state.boards.index);
 
@@ -42,16 +42,8 @@ const AddMember: FC = () => {
 
   useEffect(() => {
     if (newMembers) {
-      console.log(newMembers, 'newMembersnewMembers');
-      // members: {
-      //   [user.uid]: 'admin', // Правильный синтаксис для создания объекта
-      // },
       const members = {
-        // memberUid: memberUid,
         [memberUid]: role,
-        // name: newMembers.public_name,
-        // email: newMembers.email,
-        // photo: newMembers.mainPhoto,
       };
 
       setMembers((prev: any) => ({...prev, ...members}));
@@ -63,9 +55,7 @@ const AddMember: FC = () => {
     user &&
       !isNewMember &&
       fetchBackDefaultData(`/boards/${boardIndex}/members`, setMembers);
-    // fetchBackData(user.uid, `boards/${boardIndex}/members`, setMembers);
   }, [user, boardIndex, isNewMember]);
-  console.log(memberUid, 'f');
 
   useEffect(() => {
     if (isNewMember) {
@@ -74,7 +64,6 @@ const AddMember: FC = () => {
       const currentBoard = {
         [boardIndex]: true, // Правильный синтаксис для создания объекта
       };
-      // updateUserData(`boards/${boardIndex}`, {members: members});
       updateUserData(`${memberUid}/current-boards`, currentBoard);
       setIsNewMember(false);
     }
@@ -93,20 +82,12 @@ const AddMember: FC = () => {
 
         for (const uid in data) {
           if (data[uid].email === email) {
-            // console.log(currentBoard?.members, 'ghjk', uid);
             for (const key in currentBoard?.members) {
-              console.log(uid === key);
-
-              // const isMemberInList = currentBoard?.members.some(
-              //   (member: any) => member.id === uid,
-              // );
-              // console.log(isMemberInList);
               if (uid === key) {
-                console.log('пользователь уже добавлен');
+                console.log('user exist');
                 return;
               }
-              // console.log(data[uid],'ghjk');
-              // setMembers(data[uid]);
+
               setMemberUid(uid);
             }
             return;
