@@ -6,7 +6,9 @@ interface ButtonToFavoritesProps {
 }
 const ButtonToFavorites: FC<ButtonToFavoritesProps> = ({path, isFavorite}) => {
   const [isAdded, setIsAdded] = useState(false);
+
   const [title, setTitle] = useState('');
+
   useEffect(() => {
     isAdded
       ? setTitle('удалить из избранных')

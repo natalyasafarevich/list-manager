@@ -91,10 +91,22 @@ const CheckLists: FC = () => {
       setIsUpdate(true);
     }
   };
-
+  const user_status = useSelector(
+    (state: RootState) => state.userdata.user_status,
+  );
   return (
     <div className='position-relative'>
-      <p onClick={() => setIsOpen(!isOpen)}> чек лист</p>
+      <p
+        onClick={() => {
+          if (user_status === 'guest') {
+            return;
+          }
+          setIsOpen(!isOpen);
+        }}
+      >
+        {' '}
+        чек лист
+      </p>
       {isOpen && (
         <MiniPopup
           title={'Добавление списка задач'}

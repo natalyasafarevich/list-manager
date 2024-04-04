@@ -19,6 +19,9 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [members, setMembers] = useState<Array<any>>([]);
   const db = getDatabase(firebaseApp);
+  const user_status = useSelector(
+    (state: RootState) => state.userdata.user_status,
+  );
 
   const boardsIndex = useSelector((state: RootState) => state.boards.index);
   const currentBoard = useSelector(
@@ -82,11 +85,14 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                 border: 'none',
                 fontSize: 20,
               }}
+              disabled={user_status !== 'guest' ? false : true}
             />
-            <ButtonToFavorites
-              path={`${uid}/boards/${boardsIndex}`}
-              isFavorite={board.isFavorite || false}
-            />
+            {user_status !== 'guest' && (
+              <ButtonToFavorites
+                path={`${uid}/boards/${boardsIndex}`}
+                isFavorite={board.isFavorite || false}
+              />
+            )}
           </div>
           <div className='d-flex position-relative w-25'>
             {/* <div
@@ -103,9 +109,14 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
               </div>
             ))}
 
-            <button className='m-2' onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              боковое меню
-            </button>
+            {user_status !== 'guest' && (
+              <button
+                className='m-2'
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                боковое меню
+              </button>
+            )}
           </div>
         </div>
       </div>

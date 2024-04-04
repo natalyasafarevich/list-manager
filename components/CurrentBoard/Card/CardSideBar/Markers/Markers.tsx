@@ -81,10 +81,21 @@ const Markers: FC = () => {
   const updateCheckedMarks = (e: string) => {
     getChecked((prev) => [...prev, e]);
   };
-
+  const user_status = useSelector(
+    (state: RootState) => state.userdata.user_status,
+  );
   return (
     <div className='position-relative'>
-      <p onClick={() => setIsOpen(!isOpen)}>метки</p>
+      <p
+        onClick={() => {
+          if (user_status === 'guest') {
+            return;
+          }
+          setIsOpen(!isOpen);
+        }}
+      >
+        метки
+      </p>
       {isOpen && (
         <MiniPopup setIsOpen={(e) => setIsOpen(e)} title='Метки'>
           <div className=''>

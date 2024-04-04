@@ -137,7 +137,9 @@ const TextEditor: FC<TextEditorProps> = ({
     });
   };
 
-  useEffect(() => {}, [isArray, editorHtml]);
+  const user_status = useSelector(
+    (state: RootState) => state.userdata.user_status,
+  );
   return (
     <>
       {isOpen ? (
@@ -170,7 +172,15 @@ const TextEditor: FC<TextEditorProps> = ({
           </div>
         </>
       ) : (
-        <div className='text-primary' onClick={(e) => setIsOpen(!isOpen)}>
+        <div
+          className='text-primary'
+          onClick={(e) => {
+            if (user_status === 'guest') {
+              return;
+            }
+            setIsOpen(!isOpen);
+          }}
+        >
           {!isArray && editorHtml && (
             <div dangerouslySetInnerHTML={{__html: editorHtml}}></div>
           )}
@@ -178,7 +188,11 @@ const TextEditor: FC<TextEditorProps> = ({
 
           {isArray && (
             <>
-              <button className='d-block mt-5' onClick={addComment}>
+              <button
+                className='d-block mt-5'
+                onClick={addComment}
+                disabled={user_status === 'guest'}
+              >
                 добавить comment
               </button>
               {comments?.map((item, key) => {

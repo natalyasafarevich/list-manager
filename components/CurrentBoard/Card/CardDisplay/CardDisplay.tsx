@@ -1,7 +1,7 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
 import CardSettings from '../CardSettings/CardSettings';
-import {AppDispatch} from '@/store/store';
+import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {getColumnInfo} from '@/store/colunm-info/actions';
 import {ColumnCardsProps} from '@/types/interfaces';
@@ -29,6 +29,7 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
     setIsOpenCards(!isOpenCard);
     dispatch(isArchivedCard(card?.isArchived || false));
   };
+
   return (
     <>
       {!card?.isArchived && (

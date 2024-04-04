@@ -84,7 +84,9 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     setIsClose(false);
     // При добавлении карточки открываем компонент
   };
-
+  const user_status = useSelector(
+    (state: RootState) => state.userdata.user_status,
+  );
   return (
     <>
       {!item?.isArchive && (
@@ -113,9 +115,11 @@ const Column: FC<ColumnProps> = ({item, name}) => {
                   return <CardDisplay card={card} item={item} key={i} />;
                 })}
               </div>
-              <button type='button' onClick={addCard}>
-                добавить карточкvу
-              </button>
+              {user_status !== 'guest' && (
+                <button type='button' onClick={addCard}>
+                  добавить карточкvу
+                </button>
+              )}
             </div>
           )}
         </div>
