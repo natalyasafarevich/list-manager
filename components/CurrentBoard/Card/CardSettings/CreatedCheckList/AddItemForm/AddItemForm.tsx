@@ -1,5 +1,5 @@
 import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
-import {fetchBackData} from '@/helper/getFirebaseData';
+import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {
   getListIndex as getCurrentListIndex,
   deleteList as deleteListStore,
@@ -88,9 +88,8 @@ const AddItemForm: FC<Props> = ({
   //receiving data
   useEffect(() => {
     if (user || isUpdateTaskList || check_lists.isDeleteList) {
-      fetchBackData(
-        user.uid,
-        `/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}/check-lists`,
+      fetchBackDefaultData(
+        `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}/check-lists`,
         setTasksFB,
       );
     }

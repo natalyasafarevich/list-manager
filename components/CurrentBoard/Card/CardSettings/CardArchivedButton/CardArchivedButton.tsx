@@ -1,4 +1,4 @@
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {isArchive} from '@/store/column-setting/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
@@ -25,8 +25,8 @@ const CardArchivedButton: FC = () => {
 
   useEffect(() => {
     if (uid && isUpdate) {
-      updateUserData(
-        `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}`,
+      updateFirebaseData(
+        `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}`,
         {
           isArchived: isArchived,
         },

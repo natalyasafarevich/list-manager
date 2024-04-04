@@ -3,12 +3,12 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getColumnInfo} from '@/store/colunm-info/actions';
 import {AppDispatch, RootState} from '@/store/store';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import CreateCard from '../Card/CreateCard/CreateCard';
 import CardDisplay from '../Card/CardDisplay/CardDisplay';
 import NameWithSettingsButton from './NameWithSettingsButton/NameWithSettingsButton';
 
-import {getFirebaseData} from '@/helper/getFirebaseData';
+import {fetchBackDefaultData, getFirebaseData} from '@/helper/getFirebaseData';
 import {CurrentColumnProps} from '@/types/interfaces';
 import {getDataUserForFB} from '@/store/data-user/actions';
 import {getIsOpenClSetting} from '@/store/column-setting/actions';
@@ -34,24 +34,24 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     }
     setCards(item?.cards);
   }, [item]);
-  const isArchived = useSelector(
-    (state: RootState) => state.markers.isCardArchived,
-  );
+  // const isArchived = useSelector(
+  //   (state: RootState) => state.markers.isCardArchived,
+  // );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const columnData = await getFirebaseData(
-          user.uid,
-          `/boards/${current_board.index}/lists/${cardIndex}`,
-        );
-        getUserData(columnData as CurrentColumnProps);
-      } catch (error) {
-        alert(error + 'error in new column');
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   // const fetchData = async () => {
+  //   //   try {
+  //   //     const columnData = await getFirebaseData(
+  //   //       user.uid,
+  //   //       `/boards/${current_board.index}/lists/${cardIndex}`,
+  //   //     );
+  //   //     getUserData(columnData as CurrentColumnProps);
+  //   //   } catch (error) {
+  //   //     alert(error + 'error in new column');
+  //   //   }
+  //   // };
+  //   // fetchData();
+  // }, []);
   const [userData, getUserData] = useState<CurrentColumnProps>();
   useEffect(() => {
     if (userData) {
@@ -65,22 +65,13 @@ const Column: FC<ColumnProps> = ({item, name}) => {
   }, [userData, isSave]);
   useEffect(() => {
     if (isSave) {
-      updateUserData(
-        `${user.uid}/boards/${current_board.index}/lists/${cardIndex}`,
-        {cards},
+      updateFirebaseData(`boards/${current_board.index}/lists/${cardIndex}`, {
+        cards,
+      });
+      fetchBackDefaultData(
+        `/boards/${current_board.index}/lists/${cardIndex}`,
+        getUserData,
       );
-      const fetchData = async () => {
-        try {
-          const columnData = await getFirebaseData(
-            user.uid,
-            `/boards/${current_board.index}/lists/${cardIndex}`,
-          );
-          getUserData(columnData as CurrentColumnProps);
-        } catch (error) {
-          alert(error + 'error in new column');
-        }
-      };
-      fetchData();
     }
     setIsSave(false);
   }, [isSave]);

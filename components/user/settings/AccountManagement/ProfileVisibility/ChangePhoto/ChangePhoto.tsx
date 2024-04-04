@@ -49,7 +49,11 @@ const ChangePhoto = () => {
     }
   };
   const dispatch: AppDispatch = useDispatch();
-  const {photos} = useUserPhotos(user.uid, isUploaded, 'avatar');
+  const {photos} = useUserPhotos(
+    `profile_photos/${user.uid}`,
+    isUploaded,
+    '/avatar',
+  );
   console.log(photos);
   useEffect(() => {
     if (photos[0]) {

@@ -18,7 +18,6 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const [value, setValue] = useState('');
   const [isUpdate, setIsUpdate] = useState(false);
   const [members, setMembers] = useState<Array<any>>([]);
-  console.log(members);
   const db = getDatabase(firebaseApp);
 
   const boardsIndex = useSelector((state: RootState) => state.boards.index);
@@ -90,14 +89,14 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
             />
           </div>
           <div className='d-flex position-relative w-25'>
-            <div
+            {/* <div
               onClick={() => setIsOpenCard(!isOpenCard)}
               style={{
                 background: `center/cover no-repeat url(${user?.photoURL})`,
                 width: 50,
                 height: 50,
               }}
-            ></div>
+            ></div> */}
             {members?.map((member, i) => (
               <div key={i}>
                 <ProfileCard userData={member} key={i} />

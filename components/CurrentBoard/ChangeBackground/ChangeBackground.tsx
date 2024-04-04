@@ -9,8 +9,21 @@ import {getStorage, ref, uploadBytes} from 'firebase/storage';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import useUserPhotos from '@/hooks/useUserPhotos';
-import {updateUserData} from '@/helper/updateUserData';
-
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
+const images = [
+  {
+    urls: 'https://images.unsplash.com/photo-1710032983278-10fc4f0191f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNzEwMjQ1MDkyfA&ixlib=rb-4.0.3&q=80&w=400',
+  },
+  {
+    urls: 'https://images.unsplash.com/photo-1710032983278-10fc4f0191f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNzEwMjQ1MDkyfA&ixlib=rb-4.0.3&q=80&w=400',
+  },
+  {
+    urls: 'https://images.unsplash.com/photo-1710032983278-10fc4f0191f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNzEwMjQ1MDkyfA&ixlib=rb-4.0.3&q=80&w=400',
+  },
+  {
+    urls: 'https://lh3.googleusercontent.com/a/ACg8ocLPXS3rdoDCxFswajaEfs50AMAXUwyqos8IJkEbzVCOo2B4XA=s96-c',
+  },
+];
 export interface BackgroundsProps {
   'background-images': Array<BackgroundImageBoard>;
   'background-colors': Array<{prop: string}>;
@@ -25,13 +38,14 @@ const ChangeBackground: FC = () => {
   });
 
   useEffect(() => {
-    fetchBackDefaultData('/board', setBackgrounds);
+    // updateFirebaseData('board-settings/', {'background-images': images});
+    fetchBackDefaultData('board-settings/', setBackgrounds);
   }, []);
   const db = getDatabase(firebaseApp);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  // const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const user = useSelector((state: RootState) => state.userdata);
   const [isUploaded, setIsUploaded] = useState(false);
-
+  const boardIndex = useSelector((state: RootState) => state.boards.index);
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -39,14 +53,11 @@ const ChangeBackground: FC = () => {
     console.log(file, 'file');
     if (file) {
       const storage = getStorage();
-      const storageRef = ref(
-        storage,
-        `profile_photos/${user.uid}/board/currentBg.jpg`,
-      );
+      const storageRef = ref(storage, `boards/${boardIndex}/currentBg.jpg`);
 
       uploadBytes(storageRef, file)
         .then((snapshot) => {
-          console.log(snapshot);
+          console.log(snapshot, 'snapshot');
           setIsUploaded(true);
         })
         .catch((error) => {
@@ -58,11 +69,11 @@ const ChangeBackground: FC = () => {
         });
     }
   };
-  const {photos} = useUserPhotos(user.uid, isUploaded, 'board');
-  const boardIndex = useSelector((state: RootState) => state.boards.index);
+  const {photos} = useUserPhotos(`boards/${boardIndex}`, isUploaded, '');
+  // console.log(photos);
   useEffect(() => {
     if (isUploaded && photos[0]?.url) {
-      updateUserData(`${user.uid}/boards/${boardIndex}`, {
+      updateFirebaseData(`boards/${boardIndex}`, {
         currentColor: '',
         currentBg: photos[0]?.url,
       });

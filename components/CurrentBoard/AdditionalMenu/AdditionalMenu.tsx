@@ -2,7 +2,7 @@
 import {FC, useEffect, useState} from 'react';
 import ProfileCard from '../Settings/ProfileCard/ProfileCard';
 import TextEditor from '@/components/TextEditor/TextEditor';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import ExpandableContent from '@/components/ExpandableContent/ExpandableContent';
@@ -32,7 +32,7 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
     }
   }, [current_board?.description]);
   useEffect(() => {
-    updateUserData(`${user.uid}/boards/${boardIndex}`, {
+    updateFirebaseData(`boards/${boardIndex}`, {
       description: description,
     });
   }, [description]);

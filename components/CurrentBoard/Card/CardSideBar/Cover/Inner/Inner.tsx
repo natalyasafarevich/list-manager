@@ -1,5 +1,5 @@
 import {fetchBackDefaultData, getDefaultData} from '@/helper/getFirebaseData';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {isCover} from '@/store/card-setting/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
@@ -16,8 +16,8 @@ const Inner: FC = () => {
   const changeCover = (e: React.MouseEvent<HTMLElement>) => {
     const {currentTarget} = e;
 
-    updateUserData(
-      `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}`,
+    updateFirebaseData(
+      `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}`,
       {
         cover: currentTarget.dataset.color,
       },

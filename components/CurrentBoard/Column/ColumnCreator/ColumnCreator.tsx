@@ -1,12 +1,12 @@
 'use client';
 import {FC, createContext, useEffect, useState} from 'react';
 import Column from '../Column';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '@/store/store';
 import {v4 as uuidv4} from 'uuid';
 import {getBoardCurrent} from '@/store/board/actions';
-import {getFirebaseData} from '@/helper/getFirebaseData';
+import {fetchBackDefaultData, getFirebaseData} from '@/helper/getFirebaseData';
 import CardForm from '../../Card/CardForm/CardForm';
 import {
   isCardCreate,
@@ -35,12 +35,8 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(getBoardCurrent(currentBoard, currentIndex));
-  }, [currentBoard]);
-
-  useEffect(() => {
     if (isUpdate) {
-      updateUserData(`${user.uid}/boards/${currentIndex}`, {
+      updateFirebaseData(`boards/${currentIndex}`, {
         lists: currentList,
       });
       setIsUpdate(false);
@@ -68,15 +64,16 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   );
   useEffect(() => {
     if (user.uid) {
-      const fetchData = async () => {
-        try {
-          const userData = await getFirebaseData(user.uid, '/boards');
-          setUserData(userData);
-        } catch (error) {
-          alert(error + 'error in new column');
-        }
-      };
-      fetchData();
+      fetchBackDefaultData('/boards', setUserData);
+      // const fetchData = async () => {
+      //   try {
+      //     const userData = await getFirebaseData(user.uid, '/boards');
+      //     setUserData(userData);
+      //   } catch (error) {
+      //     alert(error + 'error in new column');
+      //   }
+      // };
+      // fetchData();
       dispatch(isCardCreate({isCardCreate: false}));
       dispatch(isDescriptionAdded(false));
       dispatch(isCover(false));

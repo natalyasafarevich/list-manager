@@ -1,5 +1,5 @@
 import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {isTaskUpdate} from '@/store/check-lists/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {CheckListProps} from '@/types/interfaces';
@@ -59,8 +59,8 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
 
   useEffect(() => {
     if (index.list !== null && index.checkbox !== null) {
-      updateUserData(
-        `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${index.list}/tasks/${index.checkbox}`,
+      updateFirebaseData(
+        `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${index.list}/tasks/${index.checkbox}`,
         {
           isChecked: isChecked,
         },
@@ -91,8 +91,8 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
       alert('введите текст');
       return;
     }
-    updateUserData(
-      `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${index.list}/tasks/${index.checkbox}`,
+    updateFirebaseData(
+      `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${index.list}/tasks/${index.checkbox}`,
       {
         title: value,
       },
@@ -108,8 +108,8 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
   };
   useEffect(() => {
     if (isDeleteItem) {
-      updateUserData(
-        `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${index.list}/tasks/${index.checkbox}`,
+      updateFirebaseData(
+        `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${index.list}/tasks/${index.checkbox}`,
         {
           isDelete: true,
         },

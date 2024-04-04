@@ -35,6 +35,8 @@ const CurrentBoard: FC = () => {
   const [currentBoard, setCurrentBoard] = useState<BoardProps>(initialBoard);
   const [currentPathname, setCurrentPathname] = useState<string>('');
   const [index, setIndex] = useState<any>();
+  const [isLight, setIsLight] = useState(false);
+
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -43,9 +45,7 @@ const CurrentBoard: FC = () => {
 
   const {pathname} = useUrl() ?? {};
   const board = useSelector((state: RootState) => state.boards.boards);
-  const d = useSelector((state: RootState) => state.boards);
 
-  console.log(d);
   useEffect(() => {
     const parts = pathname ? pathname.split('/') : [];
     const lastPart = parts.length > 0 ? parts[parts.length - 1] : '';
@@ -53,7 +53,6 @@ const CurrentBoard: FC = () => {
   }, [pathname]);
 
   useEffect(() => {
-    // setCurrentBoard([]);
     if (currentPathname && board)
       for (let key in board) {
         if (key.includes(currentPathname)) {
@@ -61,15 +60,7 @@ const CurrentBoard: FC = () => {
           setCurrentBoard(board[key]);
         }
       }
-    // board?.map((item: any, i: any) => {
-    //   if (!item?.id?.includes(currentPathname)) {
-    //     return;
-    //   }
-    // setIndex(i);
-    // setCurrentBoard(item);
-    // });
   }, [board, currentPathname]);
-  const [isLight, setIsLight] = useState(false);
   useEffect(() => {
     if (currentBoard['text-color'] === 'light') {
       setIsLight(true);
@@ -98,8 +89,8 @@ const CurrentBoard: FC = () => {
             </div>
           </>
         ) : (
-          <p>k</p>
-          // <CloseBoardPopup board={currentBoard}></CloseBoardPopup>
+          // <p>k</p>
+          <CloseBoardPopup board={currentBoard}></CloseBoardPopup>
         )}
       </div>
     </div>

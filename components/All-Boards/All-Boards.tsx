@@ -16,27 +16,20 @@ const AllBoards: FC = () => {
   const db = getDatabase(firebaseApp);
 
   const [accessedBoard, setAccessedBoard] = useState<any>();
-  // console.log(setAccessedBoard);
   const [otherBoard, setOtherBoard] = useState<Array<any>>([]);
-  console.log(otherBoard);
   useEffect(() => {
-    // console.log(accessedBoard, 'fghjkl');
     if (accessedBoard) {
       setOtherBoard([]);
       for (const id in accessedBoard) {
-        console.log(accessedBoard[id]);
         const starCountRef = ref(db, `boards/${id}`);
         onValue(starCountRef, (snapshot) => {
           const data = snapshot.val();
-          if (data) {
+          if (data && !data.isCloseBoard) {
             setOtherBoard((prev: any) => [...prev, data]);
+          } else {
+            setClosedBoard((prev: any) => [...prev, data]);
           }
         });
-        // fetchBackDefaultData(
-        //   // accessedBoard.uid,
-        //   `/boards/${accessedBoard.boardIndex}/`,
-        //   setOtherBoard,
-        // );
       }
     } else {
       console.log(' у вас не доcок');
@@ -52,15 +45,8 @@ const AllBoards: FC = () => {
   useEffect(() => {
     setClosedBoard([]);
     setOpenBoard([]);
-
-    // if (boards.length)
-    // boards.map((board) =>
-    //   board.isCloseBoard
-    //     ? setClosedBoard((prev) => [...prev, board])
-    //     : setOpenBoard((prev) => [...prev, board]),
-    // );
   }, [boards.length]);
-  console.log(otherBoard);
+
   return (
     <div className='d-block'>
       <button className='d-block btn btn-outline-primary'>создать доску</button>
@@ -84,36 +70,24 @@ const AllBoards: FC = () => {
                   ),
               )}
             <hr />
-            {openBoard.map((item, i) => {
-              return (
-                item.id && (
-                  <Link
-                    className='d-block'
-                    href={`board/${item.id.slice(0, 5)}`}
-                    key={i}
-                  >
-                    <b> {item.name}</b>
-                  </Link>
-                )
-              );
-            })}
           </div>
 
           <h3>закрытые доски</h3>
           <div className=''>
-            {closedBoard.map((item, i) => {
-              return (
-                item.id && (
-                  <Link
-                    className='d-block'
-                    href={`board/${item.id.slice(0, 5)}`}
-                    key={i}
-                  >
-                    <b> {item.name}</b>
-                  </Link>
-                )
-              );
-            })}
+            {closedBoard &&
+              closedBoard?.map((item, i) => {
+                return (
+                  item?.id && (
+                    <Link
+                      className='d-block'
+                      href={`board/${item?.id.slice(0, 5)}`}
+                      key={i}
+                    >
+                      <b> {item?.name}</b>
+                    </Link>
+                  )
+                );
+              })}
           </div>
         </div>
       </div>

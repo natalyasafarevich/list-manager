@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 
 interface TextColorProps {
   title: string;
@@ -18,7 +18,7 @@ const TextColor: FC<TextColorProps> = ({title, text}) => {
     const newData = {
       'text-color': text,
     };
-    updateUserData(`${user.uid}/boards/${boardIndex}`, newData);
+    updateFirebaseData(`boards/${boardIndex}`, newData);
   };
 
   return (

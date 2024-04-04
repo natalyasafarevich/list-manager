@@ -1,4 +1,4 @@
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {RootState} from '@/store/store';
 import {useRouter} from 'next/navigation';
 import {FC} from 'react';
@@ -11,7 +11,7 @@ const CloseBoard: FC = () => {
   const closeBoard = () => {
     const isClose = confirm('закрыть доску?');
     if (isClose) {
-      updateUserData(`${user.uid}/boards/${boardIndex}`, {
+      updateFirebaseData(`boards/${boardIndex}`, {
         isCloseBoard: isClose,
       });
       // router.push('/boards');

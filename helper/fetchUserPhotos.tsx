@@ -1,8 +1,8 @@
 import {getStorage, ref, listAll, getDownloadURL} from 'firebase/storage';
 
-const fetchUserPhotos = async (typeOfPhoto: string, userId: string) => {
+const fetchUserPhotos = async (typeOfPhoto: string, path: string) => {
   const storage = getStorage();
-  const userPhotosRef = ref(storage, `profile_photos/${userId}/${typeOfPhoto}`);
+  const userPhotosRef = ref(storage, `${path}${typeOfPhoto}`);
 
   try {
     const photoList = await listAll(userPhotosRef);

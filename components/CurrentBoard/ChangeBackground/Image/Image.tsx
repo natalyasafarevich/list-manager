@@ -1,4 +1,4 @@
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {RootState} from '@/store/store';
 import {BackgroundImageBoard} from '@/types/interfaces';
 import {FC} from 'react';
@@ -11,12 +11,12 @@ const Image: FC<ImageProps> = ({item}) => {
   const boardIndex = useSelector((state: RootState) => state.boards.index);
 
   const changeBg = () => {
-    updateUserData(`${user.uid}/boards/${boardIndex}`, {
-      currentBg: item.urls.full,
+    updateFirebaseData(`boards/${boardIndex}`, {
+      currentBg: item.urls,
       currentColor: '',
     });
   };
-  return <img src={item.urls.small} onClick={changeBg}></img>;
+  return <img src={item.urls} onClick={changeBg}></img>;
 };
 
 export default Image;

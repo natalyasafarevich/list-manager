@@ -1,4 +1,4 @@
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {RootState} from '@/store/store';
 import {redirect} from 'next/navigation';
 import {FC, FormEvent, useEffect, useState} from 'react';
@@ -28,7 +28,9 @@ const CopyBoard: FC = () => {
   }, [title]);
   useEffect(() => {
     if (newBoard && isUpdate) {
-      updateUserData(`${user.uid}/boards/${boards.length}`, newBoard);
+      updateFirebaseData(`boards/${newBoard.id}`, newBoard);
+      updateUserData(`${user.uid}/current-boards`, {[newBoard.id]: true});
+
       redirect(`/board/${newBoard.id.slice(0, 5)}`);
     }
   }, [newBoard, isUpdate]);
@@ -40,10 +42,13 @@ const CopyBoard: FC = () => {
         const {cards, ...listWithoutCards} = list;
         return {...listWithoutCards};
       });
-      const {id, name, ...every} = currentBoard;
+      const {id, name, members, ...every} = currentBoard;
       const newBoard = {
         id: uuidv4(),
         name: title,
+        members: {
+          [user.uid]: true,
+        },
         ...every,
         lists: newLists,
       };
@@ -53,11 +58,14 @@ const CopyBoard: FC = () => {
     } else {
       const newId = uuidv4();
 
-      const {id, name, ...every} = currentBoard;
+      const {id, members, name, ...every} = currentBoard;
 
       const newBoard = {
         id: newId,
         name: title,
+        members: {
+          [user.uid]: true,
+        },
         ...every,
       };
 

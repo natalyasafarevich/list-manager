@@ -3,7 +3,7 @@ import {RootState} from '@/store/store';
 import {FC} from 'react';
 import {useSelector} from 'react-redux';
 import {PayloadProps} from '../../Board';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 
 interface CloseBoardPopupProps {
   board: PayloadProps;
@@ -15,7 +15,7 @@ const CloseBoardPopup: FC<CloseBoardPopupProps> = ({board}) => {
 
   const openBoard = () => {
     console.log(board);
-    updateUserData(`${user.uid}/boards/${boardIndex}`, {isCloseBoard: false});
+    updateFirebaseData(`boards/${boardIndex}`, {isCloseBoard: false});
   };
   return (
     <div className='bg-light text-dark p-3'>

@@ -1,6 +1,6 @@
 'use client';
-import {fetchBackData} from '@/helper/getFirebaseData';
-import {updateUserData} from '@/helper/updateUserData';
+import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {isCopyColumn} from '@/store/column-setting/actions';
 
 import {AppDispatch, RootState} from '@/store/store';
@@ -26,9 +26,8 @@ const CopyColumn: FC<CopyColumnProps> = ({setValue, list, value}) => {
       current_column.id,
     );
 
-    fetchBackData(
-      user.uid,
-      `/boards/${current_board?.index}/lists/${cardIndex}/cards`,
+    fetchBackDefaultData(
+      `boards/${current_board?.index}/lists/${cardIndex}/cards`,
       setCurrentCard,
     );
   }, [user, current_column, current_board]);
@@ -36,8 +35,8 @@ const CopyColumn: FC<CopyColumnProps> = ({setValue, list, value}) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(isCopyColumn({isCopy: true}));
-    updateUserData(
-      `${user.uid}/boards/${current_board?.index}/lists/${current_board?.currentBoards?.lists?.length}/`,
+    updateFirebaseData(
+      `boards/${current_board?.index}/lists/${current_board?.currentBoards?.lists?.length}/`,
       {cards: currentCard, id: uuidv4(), name: value},
     );
   };

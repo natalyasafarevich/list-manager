@@ -3,7 +3,7 @@ import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import AddItemForm from './AddItemForm/AddItemForm';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {getCurrentTask} from '@/store/check-lists/actions';
 import {CheckListProps} from '@/types/interfaces';
 import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
@@ -13,6 +13,8 @@ const CreatedCheckList: FC = () => {
   const [tasks, setTasks] = useState<Array<CheckListProps>>([]);
   const lists = useSelector((state: RootState) => state.check_lists.lists);
   const user = useSelector((state: RootState) => state.userdata);
+  const boardIndex = useSelector((state: RootState) => state.boards.index);
+
   const idList = useSelector((state: RootState) => state.check_lists);
 
   const {uid, dataLink} = user;
@@ -24,8 +26,8 @@ const CreatedCheckList: FC = () => {
 
   useEffect(() => {
     if (tasks.length !== 0 && isPost) {
-      updateUserData(
-        `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${idList.index}`,
+      updateFirebaseData(
+        `boards/${boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${idList.index}`,
         {
           tasks: tasks,
         },
@@ -38,8 +40,8 @@ const CreatedCheckList: FC = () => {
 
   useEffect(() => {
     idList.isDeleteList &&
-      updateUserData(
-        `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${idList.index}`,
+      updateFirebaseData(
+        `boards/${boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${idList.index}`,
         {
           isDelete: idList.isDeleteList,
         },
@@ -50,8 +52,8 @@ const CreatedCheckList: FC = () => {
   };
   const getIsHide = (e: boolean, id: string) => {
     const listIndex = getListIndex(idList.lists, id);
-    updateUserData(
-      `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${listIndex}`,
+    updateFirebaseData(
+      `boards/${boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${listIndex}`,
       {
         isHideCheckedList: e,
       },

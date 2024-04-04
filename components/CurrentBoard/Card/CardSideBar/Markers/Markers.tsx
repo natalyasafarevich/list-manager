@@ -1,6 +1,6 @@
 'use client';
 import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -48,8 +48,8 @@ const Markers: FC = () => {
     //
     if (current_markers.length !== 0) {
       getChecked(current_markers);
-      updateUserData(
-        `${user.uid}/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
+      updateFirebaseData(
+        `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
         {
           markers: current_markers,
         },
@@ -60,9 +60,8 @@ const Markers: FC = () => {
   // get markers
   useEffect(() => {
     if (user)
-      fetchBackData(
-        user.uid,
-        `/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
+      fetchBackDefaultData(
+        `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
         setCard,
       );
   }, [user, user.dataLink.listIndex, checked.length]);

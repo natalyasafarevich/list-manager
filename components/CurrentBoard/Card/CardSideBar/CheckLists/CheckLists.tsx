@@ -4,7 +4,7 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '@/store/store';
 import {v4 as createId} from 'uuid';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {CheckListProps} from '@/types/interfaces';
 import {
   deleteList,
@@ -12,7 +12,7 @@ import {
   isDeleteList,
   isTaskUpdate,
 } from '@/store/check-lists/actions';
-import {fetchBackData} from '@/helper/getFirebaseData';
+import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
 
 const CheckLists: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,9 +40,8 @@ const CheckLists: FC = () => {
     ) {
       dispatch(isDeleteList(false));
 
-      fetchBackData(
-        user.uid,
-        `/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}/check-lists`,
+      fetchBackDefaultData(
+        `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}/check-lists`,
         setCheckFBLists,
       );
     }
@@ -64,8 +63,8 @@ const CheckLists: FC = () => {
 
   useEffect(() => {
     checkLists.length &&
-      updateUserData(
-        `${user.uid}/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
+      updateFirebaseData(
+        `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
         {
           'check-lists': checkLists,
         },
@@ -85,7 +84,7 @@ const CheckLists: FC = () => {
       title: value,
     };
     if (value.length !== 0) {
-      console.log(value);
+      // console.log(value);
       setCheckLists((prev) => [...prev, newList]);
       setIsOpen(!isOpen);
       setValue('');

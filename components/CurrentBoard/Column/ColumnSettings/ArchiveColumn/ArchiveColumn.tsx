@@ -1,5 +1,5 @@
 'use client';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {isArchive} from '@/store/column-setting/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {current} from '@reduxjs/toolkit';
@@ -27,7 +27,7 @@ const ArchiveColumn: FC = () => {
 
   const dispatch: AppDispatch = useDispatch();
   const archiveColumn = () => {
-    updateUserData(`${user.uid}/boards/${boardIndex}/lists/${columnIndex}`, {
+    updateFirebaseData(`boards/${boardIndex}/lists/${columnIndex}`, {
       isArchive: true,
     });
     dispatch(isArchive({isArchive: true}));

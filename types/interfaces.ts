@@ -25,13 +25,14 @@ export type CheckListProps = {
 };
 
 export interface BackgroundImageBoard {
-  urls: {
-    full: string;
-    raw: string;
-    small: string;
-    small_s3: string;
-    thumb: string;
-  };
+  urls: string;
+  //  {
+  //   full: string;
+  //   raw: string;
+  //   small: string;
+  //   small_s3: string;
+  //   thumb: string;
+  // };
   user: {link: string; name: string};
 }
 export type ListsProps = {id: string; name: string; isArchive?: boolean};
