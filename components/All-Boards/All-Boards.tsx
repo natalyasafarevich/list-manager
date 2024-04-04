@@ -5,29 +5,49 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import Link from 'next/link';
 import {BoardProps} from '@/types/interfaces';
-import {fetchBackData} from '@/helper/getFirebaseData';
+import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {getDatabase, onValue, ref} from 'firebase/database';
+import firebaseApp from '@/firebase';
 
 const AllBoards: FC = () => {
   const [closedBoard, setClosedBoard] = useState<Array<BoardProps>>([]);
   const user = useSelector((state: RootState) => state.userdata);
   const [openBoard, setOpenBoard] = useState<Array<BoardProps>>([]);
+  const db = getDatabase(firebaseApp);
 
   const [accessedBoard, setAccessedBoard] = useState<any>();
-  const [otherBoard, setOtherBoard] = useState<any>();
+  // console.log(setAccessedBoard);
+  const [otherBoard, setOtherBoard] = useState<Array<any>>([]);
   console.log(otherBoard);
   useEffect(() => {
+    // console.log(accessedBoard, 'fghjkl');
     if (accessedBoard) {
-      fetchBackData(
-        accessedBoard.uid,
-        `/boards/${accessedBoard.boardIndex}/`,
-        setOtherBoard,
-      );
+      setOtherBoard([]);
+      for (const id in accessedBoard) {
+        // console.log(id);
+        const starCountRef = ref(db, `boards/${id}`);
+        onValue(starCountRef, (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            setOtherBoard((prev: any) => [...prev, data]);
+          }
+        });
+        // fetchBackDefaultData(
+        //   // accessedBoard.uid,
+        //   `/boards/${accessedBoard.boardIndex}/`,
+        //   setOtherBoard,
+        // );
+      }
+    } else {
+      console.log(' у вас не доcок');
     }
   }, [accessedBoard]);
-  console.log(accessedBoard);
+  const [isCreated, setIsCreated] = useState(false);
   useEffect(() => {
-    fetchBackData(user.uid, `/access-other-boards`, setAccessedBoard);
-  }, [user]);
+    (user.uid || isCreated) &&
+      fetchBackData(user.uid, `/current-boards`, setAccessedBoard);
+  }, [user, isCreated]);
+
   const boards = useSelector((state: RootState) => state.boards.boards);
   useEffect(() => {
     setClosedBoard([]);
@@ -46,21 +66,20 @@ const AllBoards: FC = () => {
       <button className='d-block btn btn-outline-primary'>создать доску</button>
 
       <div className='d-flex'>
-        <CreateABoard />
+        <CreateABoard isCreated={(e) => setIsCreated(e)} />
         <div className=''>
           <h3>Ваши доски ( созданные)</h3>
           <div className=''>
-            {otherBoard && (
-              <>
-                otherBoard
+            {otherBoard &&
+              otherBoard.map((board: any, i: number) => (
                 <Link
+                  key={i}
                   className='d-block'
-                  href={`board/${otherBoard.id.slice(0, 5)}`}
+                  href={`board/${board?.id.slice(0, 5)}`}
                 >
-                  eegeg
+                  {board.name}
                 </Link>
-              </>
-            )}
+              ))}
             <hr />
             {openBoard.map((item, i) => {
               return (

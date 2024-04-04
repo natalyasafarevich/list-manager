@@ -14,13 +14,17 @@ import BackgroundCard from './BackgroundBoard/BackgroundBoard';
 import {bg_cards} from '@/variables/default';
 import {getBoards} from '@/store/board/actions';
 
-const CreateABoard: FC = () => {
+interface CreateABoardProps {
+  isCreated: (value: boolean) => void;
+}
+
+const CreateABoard: FC<CreateABoardProps> = ({isCreated}) => {
   const [currentBg, setCurrentBg] = useState<string>(
     'https://images.unsplash.com/photo-1710032983278-10fc4f0191f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNzEwMjQ1MDkyfA&ixlib=rb-4.0.3&q=80&w=400',
   );
   const [value, setValue] = useState<string>('');
   const [visibility, setVisibility] = useState('');
-  const [boards, setBoards] = useState<Array<any>>([]);
+  const [boards, setBoards] = useState<any>({});
   const [bocards, setBoacrds] = useState<Array<any>>([]);
   const [isUpdate, setIsUpdate] = useState(false);
   const user = useSelector((state: RootState) => state.userdata);
@@ -41,9 +45,10 @@ const CreateABoard: FC = () => {
   }, [user.uid]);
   useEffect(() => {
     if (isUpdate) {
-      updateUserData(user.uid, {
-        boards,
-      });
+      update(ref(db, '/'), {boards: boards});
+      // updateUserData(user.uid, {
+      //   boards,
+      // });
       dispatch(getBoards(boards));
 
       setIsUpdate(false);
@@ -57,21 +62,64 @@ const CreateABoard: FC = () => {
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
   };
+
+  const [currentIds, setCurrentIds] = useState<any>({});
+  const [updateUserBoard, setUpdateUserBoard] = useState(false);
+
+  useEffect(() => {
+    if (updateUserBoard && user) {
+      updateUserData(user.uid, {
+        'current-boards': currentIds,
+      });
+      isCreated(false);
+
+      setUpdateUserBoard(false);
+    }
+  }, [updateUserBoard]);
+  useEffect(() => {
+    if (user) {
+      const boards = ref(db, `users/${user.uid}/current-boards/`);
+      onValue(boards, (snapshot) => {
+        const data = snapshot.val();
+
+        if (data) {
+          setCurrentIds((prevData: any) => ({...prevData, ...data}));
+        }
+      });
+      const starCountRef = ref(db, `boards/`);
+      onValue(starCountRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          setBoards(data);
+        }
+      });
+    }
+  }, [user]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (value.length === 0) {
       alert('ВВедите название');
       return;
     }
+    setUpdateUserBoard(true);
+    const id = uuidv4();
+
+    console.log(currentIds);
+    setCurrentIds((prev: any) => ({...prev, [id]: true}));
     const newBoard = {
-      id: uuidv4(),
-      name: value,
-      visibility: visibility,
-      currentBg: currentBg,
-      members: [{id: user.uid, role: 'admin'}],
+      [id]: {
+        owner: user.uid,
+        id: id,
+        name: value,
+        visibility: visibility,
+        currentBg: currentBg,
+        members: [{id: user.uid, role: 'admin'}],
+      },
     };
-    setBoards([...boards, newBoard]);
+    setBoards({...boards, ...newBoard});
     setIsUpdate(true);
+    isCreated(true);
   };
 
   return (
