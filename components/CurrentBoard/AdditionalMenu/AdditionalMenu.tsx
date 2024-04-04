@@ -69,7 +69,7 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
             title={'О доске'}
           >
             <h5>Администраторы доски</h5>
-            <ProfileCard />
+            {/* <ProfileCard /> */}
             <h5 className='mt-2'>Oписание</h5>
             <TextEditor
               title={'о доске'}

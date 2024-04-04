@@ -53,13 +53,14 @@ const CurrentBoard: FC = () => {
   }, [pathname]);
 
   useEffect(() => {
-    // if (currentPathname && board)//
-    for (let key in board) {
-      if (key.includes(currentPathname)) {
-        setIndex(key);
-        setCurrentBoard(board[key]);
+    // setCurrentBoard([]);
+    if (currentPathname && board)
+      for (let key in board) {
+        if (key.includes(currentPathname)) {
+          setIndex(key);
+          setCurrentBoard(board[key]);
+        }
       }
-    }
     // board?.map((item: any, i: any) => {
     //   if (!item?.id?.includes(currentPathname)) {
     //     return;

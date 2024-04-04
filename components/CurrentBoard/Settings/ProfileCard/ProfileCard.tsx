@@ -10,44 +10,60 @@ interface UserDataProps {
 }
 
 interface ProfileCardProp {
-  setIsOpen?: (value: boolean) => void;
+  // setIsOpen?: (value: boolean) => void;
+  userData: any;
 }
-const ProfileCard: FC<ProfileCardProp> = ({setIsOpen}) => {
-  const [userData, setUserData] = useState<UserDataProps>({
-    public_name: '',
-    photoURL: {
-      url: '',
-      name: '',
-    },
-  });
-  const user = useSelector((state: RootState) => state.userdata);
-  const db = getDatabase(firebaseApp);
+const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const user = useSelector((state: RootState) => state.userdata.uid);
+  // ({
+  //   public_name: '',
+  //   photoURL: {
+  //     url: '',
+  //     name: '',
+  //   },
+  // });
+  // const user = useSelector((state: RootState) => state.userdata);
+  // const db = getDatabase(firebaseApp);
 
-  useEffect(() => {
-    if (user.uid) {
-      const starCountRef = ref(db, 'users/' + user.uid);
-      onValue(starCountRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-          setUserData({
-            public_name: data.public_name || '',
-            photoURL: data?.mainPhoto,
-          });
-        }
-      });
-    }
-  }, [user.uid]);
+  // useEffect(() => {
+  //   if (user.uid) {
+  //     const starCountRef = ref(db, 'users/' + user.uid);
+  //     onValue(starCountRef, (snapshot) => {
+  //       const data = snapshot.val();
+  //       if (data) {
+  //         setUserData({
+  //           public_name: data.public_name || '',
+  //           photoURL: data?.mainPhoto,
+  //         });
+  //       }
+  //     });
+  //   }
+  // }, [user.uid]);
   return (
     <div className=''>
-      {setIsOpen && <button onClick={() => setIsOpen(false)}>close</button>}
-      <div className='d-flex'>
-        <img src={userData?.photoURL?.url || user?.photoURL || ''} alt='user' />
-        <div className='m-2'>
-          <p className=''>{user.displayName}</p>
-          <span>{userData?.public_name}</span>
+      <img
+        onClick={() => setIsOpen(true)}
+        src={userData.photo || ''}
+        alt='user'
+      />
+      {isOpen && <button onClick={() => setIsOpen(false)}>close</button>}
+      {isOpen && (
+        <div className='position-absolute bg-light p-3 w-100 text-dark'>
+          <div className='d-flex'>
+            <img src={userData?.photo || ''} alt='user' />
+            <div className='m-2'>
+              <p className=''>{userData?.email}</p>
+              <span>{userData?.name}</span>
+              <span>{userData?.role}</span>
+            </div>
+          </div>
+          {/* {userData.role==='admin' && } */}
+          {userData.id === user && (
+            <Link href='/settings/profile'>управление профилем</Link>
+          )}
         </div>
-      </div>
-      <Link href='/settings/profile'>управление профилем</Link>
+      )}
     </div>
   );
 };
