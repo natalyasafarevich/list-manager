@@ -1,60 +1,49 @@
+'use client';
 import Link from 'next/link';
 import {FC} from 'react';
 import SignOut from '../auth/SignOut/SignOut';
 import Notification from '../Notification/Notification';
+import './Header.scss';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/store';
 
 const Header: FC = () => {
+  const user = useSelector((state: RootState) => state.userdata.uid);
   return (
-    <>
-      <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-        <div className='container-fluid'>
-          <a className='navbar-brand' href='/'>
-            Navbar
-          </a>
-          <button
-            className='navbar-toggler'
-            type='button'
-            data-bs-toggle='collapse'
-            data-bs-target='#navbarSupportedContent'
-            aria-controls='navbarSupportedContent'
-            aria-expanded='false'
-            aria-label='Toggle navigation'
-          >
-            <span className='navbar-toggler-icon'></span>
-          </button>
-          <div className='collapse navbar-collapse' id='navbarSupportedContent'>
-            <ul className='navbar-nav me-auto mb-2 mb-lg-0 d-flex  align-items-center  justify-content-between w-50'>
-              <li className='nav-item'>
-                <Link className='nav-link' href='/user'>
-                  User
-                </Link>
-              </li>{' '}
-              <li className='nav-item'>
-                <Link className='nav-link' href='/registration'>
-                  Registration
-                </Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' href='/boards'>
-                  Boards
-                </Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' href='/log-in'>
-                  Log in
-                </Link>
-              </li>
-              <li>
-                <SignOut></SignOut>
-              </li>
-              <li>
-                <Notification />
-              </li>
-            </ul>
+    <header className='header'>
+      <div className='header__container'>
+        <div className='header__row'>
+          <div className='header__wrap flex'>
+            <Link href='/' className='header__logo logo'></Link>
+
+            {user && (
+              <Link className='header__link' href='/user'>
+                User
+              </Link>
+            )}
+
+            <Link className='header__link' href='/about'>
+              About
+            </Link>
+          </div>
+          {user && (
+            <Link className='header__link' href='/boards'>
+              Boards
+            </Link>
+          )}
+          <div className='header__links flex'>
+            <Link className='header__link' href='/registration'>
+              Register
+            </Link>
+            <Link className='header__link header__link_signIn' href='/log-in'>
+              Sign In
+            </Link>
+            {user && <SignOut></SignOut>}
+            {user && <Notification />}
           </div>
         </div>
-      </nav>
-    </>
+      </div>
+    </header>
   );
 };
 export default Header;
