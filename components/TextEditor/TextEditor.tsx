@@ -174,7 +174,7 @@ const TextEditor: FC<TextEditorProps> = ({
         <div
           className='text-primary'
           onClick={(e) => {
-            if (isLoggedIn) {
+            if (!isLoggedIn) {
               return;
             }
             setIsOpen(!isOpen);
@@ -196,19 +196,30 @@ const TextEditor: FC<TextEditorProps> = ({
               </button>
               {comments?.map((item, key) => {
                 return (
-                  <button key={key} disabled={!isLoggedIn}>
+                  <div key={key}>
                     {item.editDate ? (
                       <span>{item.editDate}(изменнено)</span>
                     ) : (
                       <span>{item.createDate}</span>
                     )}
-
-                    <p
+                    {!isLoggedIn ? (
+                      <p
+                        data-id={item.id}
+                        dangerouslySetInnerHTML={{__html: item.title}}
+                      ></p>
+                    ) : (
+                      <p
+                        data-id={item.id}
+                        onClick={changeComment}
+                        dangerouslySetInnerHTML={{__html: item.title}}
+                      ></p>
+                    )}
+                    {/* <p
                       data-id={item.id}
                       onClick={changeComment}
                       dangerouslySetInnerHTML={{__html: item.title}}
-                    ></p>
-                  </button>
+                    ></p> */}
+                  </div>
                 );
               })}
             </>

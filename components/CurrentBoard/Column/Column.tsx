@@ -10,8 +10,8 @@ import NameWithSettingsButton from './NameWithSettingsButton/NameWithSettingsBut
 
 import {fetchBackDefaultData, getFirebaseData} from '@/helper/getFirebaseData';
 import {CurrentColumnProps} from '@/types/interfaces';
-import {getDataUserForFB} from '@/store/data-user/actions';
 import {getIsOpenClSetting} from '@/store/column-setting/actions';
+import {isCardUpdate} from '@/store/card-setting/actions';
 
 type ColumnProps = {
   item?: {id: string; cards: Array<any>; isArchive: boolean};
@@ -34,25 +34,8 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     }
     setCards(item?.cards);
   }, [item]);
-  // const isArchived = useSelector(
-  //   (state: RootState) => state.markers.isCardArchived,
-  // );
-
-  // useEffect(() => {
-  //   // const fetchData = async () => {
-  //   //   try {
-  //   //     const columnData = await getFirebaseData(
-  //   //       user.uid,
-  //   //       `/boards/${current_board.index}/lists/${cardIndex}`,
-  //   //     );
-  //   //     getUserData(columnData as CurrentColumnProps);
-  //   //   } catch (error) {
-  //   //     alert(error + 'error in new column');
-  //   //   }
-  //   // };
-  //   // fetchData();
-  // }, []);
   const [userData, getUserData] = useState<CurrentColumnProps>();
+
   useEffect(() => {
     if (userData) {
       dispatch(
@@ -63,8 +46,21 @@ const Column: FC<ColumnProps> = ({item, name}) => {
       );
     }
   }, [userData, isSave]);
+  const cardUpdate = useSelector(
+    (state: RootState) => state.card_setting.isUpdate,
+  );
+  useEffect(() => {
+    if (cardUpdate) {
+      fetchBackDefaultData(
+        `/boards/${current_board.index}/lists/${cardIndex}`,
+        getUserData,
+      );
+      dispatch(isCardUpdate(false));
+    }
+  }, [cardUpdate]);
   useEffect(() => {
     if (isSave) {
+      console.log(cardUpdate);
       updateFirebaseData(`boards/${current_board.index}/lists/${cardIndex}`, {
         cards,
       });
@@ -73,6 +69,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
         getUserData,
       );
     }
+    // dispatch(isCardUpdate(false));
     setIsSave(false);
   }, [isSave]);
   // const markers=useSelector((state:RootState))

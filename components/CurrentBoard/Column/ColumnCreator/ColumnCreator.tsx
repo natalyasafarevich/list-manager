@@ -76,10 +76,13 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
     // fetchData();
     // }
   }, []);
+  const cardUpdate = useSelector(
+    (state: RootState) => state.card_setting.isUpdate,
+  );
   useEffect(() => {
-    if (user.uid) {
+    if (user.uid || cardUpdate) {
       fetchBackDefaultData('/boards', setUserData);
-      // const fetchData = async () => {
+      console.log(userData);
       //   try {
       //     const userData = await getFirebaseData(user.uid, '/boards');
       //     setUserData(userData);
@@ -93,6 +96,7 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       dispatch(isCover(false));
     }
   }, [
+    cardUpdate,
     updateCover,
     user.uid,
     isCopy,

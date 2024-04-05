@@ -5,6 +5,7 @@ export const COMMENTS = 'card-setting/COMMENTS';
 export const IS_CREATE_CARD = 'card-setting/IS_CREATE_CARD';
 export const IS_DESCRIPTION_ADDED = 'card-setting/IS_DESCRIPTION_ADDED';
 export const IS_COVER = 'card-setting/IS_COVER';
+export const IS_CARD_UPDATE = 'card-setting/IS_CARD_UPDATE';
 
 export type PayloadProps = {
   isOpen: boolean;
@@ -20,7 +21,8 @@ export type ActionsType =
   | DataCommentProps
   | IsCardCreateProps
   | IsDescriptionAddedProps
-  | IsCoverProps;
+  | IsCoverProps
+  | IsCardUpdateProps;
 
 export const getIsOpenCardSetting = (data: PayloadProps) => {
   return {
@@ -75,6 +77,17 @@ export type IsCoverProps = {
 export const isCover = (data: boolean) => {
   return {
     type: IS_COVER,
+    payload: data,
+  };
+};
+export type IsCardUpdateProps = {
+  type: typeof IS_CARD_UPDATE;
+  payload: boolean;
+};
+
+export const isCardUpdate = (data: boolean) => {
+  return {
+    type: IS_CARD_UPDATE,
     payload: data,
   };
 };

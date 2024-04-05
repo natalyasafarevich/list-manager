@@ -1,13 +1,15 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
 import './CardSettings.css';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '@/store/store';
 import {getListIndex} from '../../Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import {ColumnCardsProps} from '@/types/interfaces';
 import CommentsAndDesc from './CommentsAndDesc/CommentsAndDesc';
 import CardSideBar from '../CardSideBar/CardSideBar';
 import CreatedCheckList from './CreatedCheckList/CreatedCheckList';
+import {updateFirebaseData} from '@/helper/updateUserData';
+import {isCardUpdate} from '@/store/card-setting/actions';
 
 export function getCardIndex(lists: Array<any>, id: string) {
   return lists.findIndex((item) => item.id === id);
@@ -50,8 +52,25 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const closeSetting = () => {
     setIsOpenCard();
   };
-  const user = useSelector((state: RootState) => state.userdata);
+  const [value, setValue] = useState('');
+  const [isReadOnly, setIsReadOnly] = useState(true);
 
+  useEffect(() => {
+    if (card.title) {
+      setValue(card.title);
+    }
+  }, [card.title]);
+  const dispatch: AppDispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.userdata.dataLink);
+  useEffect(() => {
+    if (value.length !== 0 && !isReadOnly) {
+      dispatch(isCardUpdate(true));
+      updateFirebaseData(
+        `boards/${user.boardIndex}/lists/${user.listIndex}/cards/${user.cardIndex}`,
+        {title: value},
+      );
+    }
+  }, [value, isReadOnly]);
   return (
     <div className='card-settings'>
       <div className='card-settings__container'>
@@ -61,13 +80,23 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
           ></div>
         )}
         <div className='d-flex justify-content-between align-items-center'>
-          <span className=''>
-            <b> {card.title}</b>
+          <div className=''>
+            <input
+              type='text'
+              value={value}
+              onChange={(e) => {
+                setIsReadOnly(false);
+                setValue(e.currentTarget.value);
+              }}
+              onFocus={(e) => setIsReadOnly(false)}
+              readOnly={isReadOnly}
+            />
+            {/* <b> {card.title}</b> */}
             <br />
             <span className=''>
               в колонке: <b> {columnName}</b>
             </span>
-          </span>
+          </div>
           <button onClick={closeSetting}>x</button>
         </div>
         <div className=''>
