@@ -27,9 +27,8 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const currentBoard = useSelector(
     (state: RootState) => state.boards.currentBoards,
   );
-  console.log(Object.keys(currentBoard.members).length);
   useEffect(() => {
-    setMembers(['f']);
+    setMembers([]);
     if (currentBoard?.members) {
       for (let uid in currentBoard.members) {
         const starCountRef = query(ref(db, `users/${uid}`));
@@ -49,7 +48,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
         });
       }
     }
-  }, [Object.keys(currentBoard.members).length]);
+  }, [Object.keys(currentBoard?.members).length]);
   useEffect(() => {
     setValue(board.name);
   }, [board.name]);
@@ -91,8 +90,10 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
             />
             {isLoggedIn && (
               <ButtonToFavorites
-                path={`${uid}/boards/${boardsIndex}`}
-                isFavorite={board.isFavorite || false}
+                path={boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''}
+                isFavorite={
+                  (board?.favoriteUid && board?.favoriteUid[user.uid]) || false
+                }
               />
             )}
           </div>

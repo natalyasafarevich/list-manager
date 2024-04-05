@@ -82,7 +82,8 @@ const CurrentBoard: FC = () => {
       }
   }, [board, currentPathname]);
   useEffect(() => {
-    dispatch(getUserStatus(currentBoard.members[user.uid]));
+    currentBoard.members &&
+      dispatch(getUserStatus(currentBoard.members[user.uid]));
   }, [currentBoard]);
 
   useEffect(() => {
