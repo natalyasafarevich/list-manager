@@ -9,6 +9,7 @@ import AdditionalMenu from '../../AdditionalMenu/AdditionalMenu';
 import {NewMembersProps} from '../../Members/AddMember/AddMember';
 import {getDatabase, onValue, query, ref} from 'firebase/database';
 import firebaseApp from '@/firebase';
+import ChangingVisibility from '../ChangingVisibility/ChangingVisibility';
 
 interface HeaderBoardProps {
   board: any;
@@ -89,12 +90,26 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
               disabled={!isLoggedIn}
             />
             {isLoggedIn && (
-              <ButtonToFavorites
-                path={boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''}
-                isFavorite={
-                  (board?.favoriteUid && board?.favoriteUid[user.uid]) || false
-                }
-              />
+              <>
+                <ButtonToFavorites
+                  path={boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''}
+                  isFavorite={
+                    (board?.favoriteUid && board?.favoriteUid[user.uid]) ||
+                    false
+                  }
+                />
+                <div className='justify-content-between__'>
+                  <p onClick={(e) => setIsOpenCard(!isOpenCard)}>
+                    Изменение видимости
+                  </p>
+                  {isOpenCard && (
+                    <div>
+                      <ChangingVisibility type='private' name='private' />
+                      <ChangingVisibility type='public' name='public' />
+                    </div>
+                  )}
+                </div>
+              </>
             )}
           </div>
           <div className='d-flex position-relative w-25'>
