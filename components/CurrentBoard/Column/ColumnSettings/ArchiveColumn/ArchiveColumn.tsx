@@ -1,6 +1,6 @@
 'use client';
-import {updateUserData} from '@/helper/updateUserData';
-import {isArchiveColumn} from '@/store/column-setting/actions';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
+import {isArchive} from '@/store/column-setting/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {current} from '@reduxjs/toolkit';
 import {FC, useEffect, useState} from 'react';
@@ -27,16 +27,22 @@ const ArchiveColumn: FC = () => {
 
   const dispatch: AppDispatch = useDispatch();
   const archiveColumn = () => {
-    console.log(boardIndex);
-
-    updateUserData(`${user.uid}/boards/${boardIndex}/lists/${columnIndex}`, {
+    updateFirebaseData(`boards/${boardIndex}/lists/${columnIndex}`, {
       isArchive: true,
     });
-    dispatch(isArchiveColumn({isArchive: true}));
+    dispatch(isArchive({isArchive: true}));
   };
+  const user_status = useSelector(
+    (state: RootState) => state.userdata.user_status,
+  );
   return (
     <div>
-      <button onClick={archiveColumn}>архивировать список </button>
+      <button
+        onClick={archiveColumn}
+        disabled={user_status !== 'admin' ? true : false}
+      >
+        архивировать список{' '}
+      </button>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 'use client';
-import {getFirebaseData} from '@/helper/getFirebaseData';
-import {updateUserData} from '@/helper/updateUserData';
-import {isArchiveColumn} from '@/store/column-setting/actions';
+import {fetchBackDefaultData, getFirebaseData} from '@/helper/getFirebaseData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
+import {isArchive} from '@/store/column-setting/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -21,16 +21,19 @@ export const fetchData = async (
 const ArchivedСolumns: FC = () => {
   const [allColumns, getAllColumns] = useState<Array<any>>([]);
   const [archivedColumns, getArchivedColumns] = useState<Array<any>>([]);
-  const [archivedIndexColumns, getArchivedIndexColumns] = useState<number>(0);
+  <p>архивированные карточка:</p>;
 
   const user = useSelector((state: RootState) => state.userdata);
   const current_board = useSelector((state: RootState) => state?.boards);
+  const isArchived = useSelector(
+    (state: RootState) => state?.markers.isCardArchived,
+  );
   useEffect(() => {
-    fetchData(user.uid, current_board.index, getAllColumns);
-  }, [user, current_board]);
+    fetchBackDefaultData(`boards/${current_board.index}/lists`, getAllColumns);
+  }, [user, current_board, isArchived]);
+
   useEffect(() => {
-    if (allColumns) {
-  
+    if (allColumns !== null && allColumns.length) {
       let archived = allColumns?.filter((item) => item?.isArchive === true);
       getArchivedColumns(archived);
     }
@@ -38,13 +41,21 @@ const ArchivedСolumns: FC = () => {
 
   const returnToBoard = (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = e.currentTarget.dataset.id;
-
+    console.log(allColumns);
+    for (let key in allColumns) {
+      if (key === id) {
+        // updateFirebaseData(`boards/${boardIndex}/lists/${i}`, {
+        //   isArchive: false,
+        // });
+        // dispatch(isArchive({isArchive: false}));
+      }
+    }
     allColumns.map((item, i) => {
       if (item.id === id) {
-        updateUserData(`${user.uid}/boards/${boardIndex}/lists/${i}`, {
+        updateFirebaseData(`boards/${boardIndex}/lists/${i}`, {
           isArchive: false,
         });
-        dispatch(isArchiveColumn({isArchive: false}));
+        dispatch(isArchive({isArchive: false}));
       }
     });
   };

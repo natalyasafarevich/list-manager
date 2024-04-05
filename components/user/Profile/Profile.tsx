@@ -8,9 +8,7 @@ import SignOut from '@/components/auth/SignOut/SignOut';
 
 const Profile = () => {
   const user = useSelector((state: RootState) => state.userdata);
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user]);
+
   return (
     <div>
       <h1>Hi {user.displayName} + email</h1>

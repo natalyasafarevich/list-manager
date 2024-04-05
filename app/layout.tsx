@@ -24,7 +24,7 @@ export default function RootLayout({
     <ReduxProvider>
       <html lang='en'>
         <body className={inter.className}>
-          <div className='container'>
+          <div className='container position-relative'>
             <UserStatus />
             <Header />
             {children}

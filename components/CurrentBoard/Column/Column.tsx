@@ -3,15 +3,15 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getColumnInfo} from '@/store/colunm-info/actions';
 import {AppDispatch, RootState} from '@/store/store';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import CreateCard from '../Card/CreateCard/CreateCard';
 import CardDisplay from '../Card/CardDisplay/CardDisplay';
 import NameWithSettingsButton from './NameWithSettingsButton/NameWithSettingsButton';
 
-import {getFirebaseData} from '@/helper/getFirebaseData';
+import {fetchBackDefaultData, getFirebaseData} from '@/helper/getFirebaseData';
 import {CurrentColumnProps} from '@/types/interfaces';
-import {getDataUserForFB} from '@/store/data-user/actions';
 import {getIsOpenClSetting} from '@/store/column-setting/actions';
+import {isCardUpdate} from '@/store/card-setting/actions';
 
 type ColumnProps = {
   item?: {id: string; cards: Array<any>; isArchive: boolean};
@@ -34,22 +34,8 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     }
     setCards(item?.cards);
   }, [item]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const columnData = await getFirebaseData(
-          user.uid,
-          `/boards/${current_board.index}/lists/${cardIndex}`,
-        );
-        getUserData(columnData as CurrentColumnProps);
-      } catch (error) {
-        alert(error + 'error in new column');
-      }
-    };
-    fetchData();
-  }, []);
   const [userData, getUserData] = useState<CurrentColumnProps>();
+
   useEffect(() => {
     if (userData) {
       dispatch(
@@ -60,25 +46,30 @@ const Column: FC<ColumnProps> = ({item, name}) => {
       );
     }
   }, [userData, isSave]);
+  const cardUpdate = useSelector(
+    (state: RootState) => state.card_setting.isUpdate,
+  );
+  useEffect(() => {
+    if (cardUpdate) {
+      fetchBackDefaultData(
+        `/boards/${current_board.index}/lists/${cardIndex}`,
+        getUserData,
+      );
+      dispatch(isCardUpdate(false));
+    }
+  }, [cardUpdate]);
   useEffect(() => {
     if (isSave) {
-      updateUserData(
-        `${user.uid}/boards/${current_board.index}/lists/${cardIndex}`,
-        {cards},
+      console.log(cardUpdate);
+      updateFirebaseData(`boards/${current_board.index}/lists/${cardIndex}`, {
+        cards,
+      });
+      fetchBackDefaultData(
+        `/boards/${current_board.index}/lists/${cardIndex}`,
+        getUserData,
       );
-      const fetchData = async () => {
-        try {
-          const columnData = await getFirebaseData(
-            user.uid,
-            `/boards/${current_board.index}/lists/${cardIndex}`,
-          );
-          getUserData(columnData as CurrentColumnProps);
-        } catch (error) {
-          alert(error + 'error in new column');
-        }
-      };
-      fetchData();
     }
+    // dispatch(isCardUpdate(false));
     setIsSave(false);
   }, [isSave]);
   // const markers=useSelector((state:RootState))
@@ -88,9 +79,8 @@ const Column: FC<ColumnProps> = ({item, name}) => {
 
   const addCard = () => {
     setIsClose(false);
-    // При добавлении карточки открываем компонент
   };
-
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
   return (
     <>
       {!item?.isArchive && (
@@ -116,16 +106,14 @@ const Column: FC<ColumnProps> = ({item, name}) => {
             <div>
               <div className='mb-2'>
                 {cards?.map((card: any, i: any) => {
-                  return (
-                    <div className='mt-2 p-2 bg-secondary text-white' key={i}>
-                      <CardDisplay card={card} item={item} />
-                    </div>
-                  );
+                  return <CardDisplay card={card} item={item} key={i} />;
                 })}
               </div>
-              <button type='button' onClick={addCard}>
-                добавить карточкvу
-              </button>
+              {isLoggedIn && (
+                <button type='button' onClick={addCard}>
+                  добавить карточкvу
+                </button>
+              )}
             </div>
           )}
         </div>

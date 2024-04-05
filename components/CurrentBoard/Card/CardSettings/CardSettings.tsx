@@ -1,13 +1,15 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
 import './CardSettings.css';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '@/store/store';
 import {getListIndex} from '../../Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import {ColumnCardsProps} from '@/types/interfaces';
 import CommentsAndDesc from './CommentsAndDesc/CommentsAndDesc';
 import CardSideBar from '../CardSideBar/CardSideBar';
 import CreatedCheckList from './CreatedCheckList/CreatedCheckList';
+import {updateFirebaseData} from '@/helper/updateUserData';
+import {isCardUpdate} from '@/store/card-setting/actions';
 
 export function getCardIndex(lists: Array<any>, id: string) {
   return lists.findIndex((item) => item.id === id);
@@ -41,32 +43,73 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const current_column = useSelector((state: RootState) => state?.column.data);
 
   useEffect(() => {
-    const columnIndex = getListIndex(boardLists, current_column.id);
-    setColumnName(boardLists[columnIndex]?.name);
+    if (boardLists) {
+      const columnIndex = getListIndex(boardLists, current_column.id);
+      setColumnName(boardLists[columnIndex]?.name);
+    }
   }, [current_column, card, boardLists, allComments]);
 
   const closeSetting = () => {
     setIsOpenCard();
   };
+  const [value, setValue] = useState('');
+  const [isReadOnly, setIsReadOnly] = useState(true);
 
+  useEffect(() => {
+    if (card.title) {
+      setValue(card.title);
+    }
+  }, [card.title]);
+  const dispatch: AppDispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.userdata.dataLink);
+  const current_user = useSelector((state: RootState) => state.userdata);
+
+  const isLoggedIn = !!current_user.uid && current_user.user_status !== 'guest';
+
+  useEffect(() => {
+    if (value.length !== 0 && !isReadOnly) {
+      dispatch(isCardUpdate(true));
+      updateFirebaseData(
+        `boards/${user.boardIndex}/lists/${user.listIndex}/cards/${user.cardIndex}`,
+        {title: value},
+      );
+    }
+  }, [value, isReadOnly]);
   return (
     <div className='card-settings'>
       <div className='card-settings__container'>
+        {card.cover && (
+          <div
+            style={{backgroundColor: card.cover, width: '100%', height: '30px'}}
+          ></div>
+        )}
         <div className='d-flex justify-content-between align-items-center'>
-          <span className=''>
-            <b> {card.title}</b>
+          <div className=''>
+            <input
+              type='text'
+              value={value}
+              onChange={(e) => {
+                setIsReadOnly(false);
+                setValue(e.currentTarget.value);
+              }}
+              onFocus={(e) => setIsReadOnly(false)}
+              readOnly={isReadOnly}
+              disabled={!isLoggedIn}
+            />
+            {/* <b> {card.title}</b> */}
             <br />
             <span className=''>
               в колонке: <b> {columnName}</b>
             </span>
-          </span>
+          </div>
           <button onClick={closeSetting}>x</button>
         </div>
         <div className=''>
           <span>метки</span>
           <div className='d-flex align-items-center'>
-            {makers?.map((item) => (
+            {makers?.map((item, i) => (
               <div
+                key={i}
                 className='m-2'
                 style={{width: '50px', height: '10px', background: item}}
               ></div>
@@ -74,7 +117,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
           </div>
         </div>
         <div className='d-flex justify-content-between'>
-          <div className=''>
+          <div className='w-50'>
             <CreatedCheckList></CreatedCheckList>
             <CommentsAndDesc card={card} />
           </div>

@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import ColumnSettings from '../ColumnSettings/ColumnSettings';
 import {getColumnInfo, getCurrentColumn} from '@/store/colunm-info/actions';
 import {getListIndex} from '../ColumnSettings/ArchiveColumn/ArchiveColumn';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {getIsOpenClSetting} from '@/store/column-setting/actions';
 
 interface NameWithSettingsButtonProps {
@@ -32,11 +32,9 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
   // const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   const [isOspen, setsIsOpen] = useState<boolean>(false);
-  // console.log(isCreateNewCard);
+
   const dispatch: AppDispatch = useDispatch();
-  useEffect(() => {
-    // console.log(item);
-  }, [item]);
+
   useEffect(() => {
     if (isOpen) {
       dispatch(getCurrentColumn(item));
@@ -51,21 +49,7 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
   useEffect(() => {
     setIsOpen(false);
   }, []);
-  const isCardOpen = useSelector(
-    (state: RootState) => state.card_setting.isOpen,
-  );
-  // useEffect(() => {
-  //   // console.log(isCardOpen, 'jhgfd');
-  //   if (isCardOpen && item) {
-  //     console.log(item, 'g');
-  //     dispatch(
-  //       getColumnInfo({
-  //         id: item.id,
-  //         cards: item.cards,
-  //       }),
-  //     );
-  //   }
-  // }, [isCardOpen, item]);
+
   const openMenu = () => {
     setIsOpen(!isOpen);
     dispatch(
@@ -80,10 +64,11 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
 
   const changeTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     let index = getListIndex(board.currentBoards.lists, item.id);
-    updateUserData(`${user.uid}/boards/${board.index}/lists/${index}`, {
+    updateFirebaseData(`boards/${board.index}/lists/${index}`, {
       name: e.currentTarget.value,
     });
   };
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
   return (
     <div className=''>
       <div className='d-flex align-items-center justify-content-between'>
@@ -99,9 +84,11 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
             color: 'violet',
           }}
         ></textarea>
-        <button className='btn btn-dark' onClick={openMenu}>
-          ...
-        </button>
+        {isLoggedIn && (
+          <button className='btn btn-dark' onClick={openMenu}>
+            ...
+          </button>
+        )}
       </div>
       <>
         {isOpen && (

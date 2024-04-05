@@ -89,6 +89,7 @@ const RegistrationComponent = () => {
           handleEmailAlreadyInUse();
           break;
         case 'auth/invalid-email':
+          w;
           handleInvalidEmail();
           break;
         case 'auth/missing-password':

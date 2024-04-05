@@ -62,7 +62,7 @@ export type DataIsArchiveColumnProps = {
   type: typeof IS_ARCHIVE_COLUMN;
   payload: IsArchiveColumnProps;
 };
-export const isArchiveColumn = (data: IsArchiveColumnProps) => {
+export const isArchive = (data: IsArchiveColumnProps) => {
   return {
     type: IS_ARCHIVE_COLUMN,
     payload: data,

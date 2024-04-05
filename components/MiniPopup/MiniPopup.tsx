@@ -9,7 +9,7 @@ const MiniPopup: FC<MiniPopupProps> = ({setIsOpen, title, children}) => {
   return (
     <div>
       <div
-        className='position-absolute p-2'
+        className='position-absolute p-2 z-2'
         style={{
           background: 'white',
           width: '200px',

@@ -55,6 +55,6 @@ export const fetchBackData = async (
     const columnData = await getFirebaseData(id, path);
     getUserData(columnData);
   } catch (error) {
-    alert(error + 'error in new column');
+    alert(error + '/fetchBackData/');
   }
 };

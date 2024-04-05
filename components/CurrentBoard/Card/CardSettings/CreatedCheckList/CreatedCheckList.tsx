@@ -2,18 +2,21 @@
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import CheckboxItem from './CheckboxItem/CheckboxItem';
-import AddItemForm, {ListItem} from './AddItemForm/AddItemForm';
-import {updateUserData} from '@/helper/updateUserData';
+import AddItemForm from './AddItemForm/AddItemForm';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {getCurrentTask} from '@/store/check-lists/actions';
+import {CheckListProps} from '@/types/interfaces';
+import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 
 const CreatedCheckList: FC = () => {
   const [isPost, setIsPost] = useState(false);
-  const [tasks, setTasks] = useState<Array<ListItem>>([]);
-
+  const [tasks, setTasks] = useState<Array<CheckListProps>>([]);
   const lists = useSelector((state: RootState) => state.check_lists.lists);
   const user = useSelector((state: RootState) => state.userdata);
+  const boardIndex = useSelector((state: RootState) => state.boards.index);
+
   const idList = useSelector((state: RootState) => state.check_lists);
+
   const {uid, dataLink} = user;
   const dispatch: AppDispatch = useDispatch();
 
@@ -23,38 +26,65 @@ const CreatedCheckList: FC = () => {
 
   useEffect(() => {
     if (tasks.length !== 0 && isPost) {
-      updateUserData(
-        `${uid}/boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${idList.index}`,
+      updateFirebaseData(
+        `boards/${boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${idList.index}`,
         {
           tasks: tasks,
         },
       );
       setIsPost(false);
+
+      return;
     }
   }, [tasks, isPost]);
 
+  useEffect(() => {
+    idList.isDeleteList &&
+      updateFirebaseData(
+        `boards/${boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${idList.index}`,
+        {
+          isDelete: idList.isDeleteList,
+        },
+      );
+  }, [idList]);
   const addNewCheckbox = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
-
+  const getIsHide = (e: boolean, id: string) => {
+    const listIndex = getListIndex(idList.lists, id);
+    updateFirebaseData(
+      `boards/${boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${listIndex}`,
+      {
+        isHideCheckedList: e,
+      },
+    );
+  };
   return (
-    <div>
-      <hr />
+    <div className=''>
       <div className=''>
         {lists?.map((item) => (
-          <AddItemForm
-            item={item}
-            key={item.id}
-            addNewCheckbox={addNewCheckbox}
-            currentValue={(value) => {
-              setIsPost(true);
-              setTasks(value);
-            }}
-          />
+          <div key={item.id}>
+            {item.isDelete ? (
+              <></>
+            ) : (
+              <>
+                <hr />
+                <AddItemForm
+                  isHide={getIsHide}
+                  item={item}
+                  key={item.id}
+                  addNewCheckbox={addNewCheckbox}
+                  currentValue={(value) => {
+                    setIsPost(true);
+                    setTasks(value);
+                  }}
+                />
+                <hr />
+              </>
+            )}
+          </div>
         ))}
       </div>
-
-      <hr />
     </div>
   );
 };

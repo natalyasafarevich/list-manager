@@ -1,4 +1,6 @@
+import {RootState} from '@/store/store';
 import {FC} from 'react';
+import {useSelector} from 'react-redux';
 
 interface CardFormProps {
   components: any[];
@@ -21,6 +23,8 @@ const CardForm: FC<CardFormProps> = ({
   value,
   setIsClick,
 }) => {
+  const user_status = useSelector((state: RootState) => state.userdata);
+  const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
   return (
     <div className='d-flex align-items-start'>
       {components.map((component, i) => (
@@ -64,9 +68,14 @@ const CardForm: FC<CardFormProps> = ({
             </button>
           </form>
         ) : (
-          <button onClick={saveComponents} className='btn btn-outline-primary'>
-            создать список
-          </button>
+          isLoggedIn && (
+            <button
+              onClick={saveComponents}
+              className='btn btn-outline-primary'
+            >
+              создать список
+            </button>
+          )
         )}
       </div>
     </div>

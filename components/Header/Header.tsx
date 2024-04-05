@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import {FC} from 'react';
 import SignOut from '../auth/SignOut/SignOut';
+import Notification from '../Notification/Notification';
 
 const Header: FC = () => {
   return (
@@ -45,6 +46,9 @@ const Header: FC = () => {
               </li>
               <li>
                 <SignOut></SignOut>
+              </li>
+              <li>
+                <Notification />
               </li>
             </ul>
           </div>

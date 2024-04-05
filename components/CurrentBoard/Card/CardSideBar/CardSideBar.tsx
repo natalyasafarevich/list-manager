@@ -1,6 +1,8 @@
 import {FC} from 'react';
 import Markers from './Markers/Markers';
 import CheckLists from './CheckLists/CheckLists';
+import CardArchivedButton from '../CardSettings/CardArchivedButton/CardArchivedButton';
+import Cover from './Cover/Cover';
 
 const CardSideBar: FC = () => {
   return (
@@ -13,6 +15,12 @@ const CardSideBar: FC = () => {
         </li>
         <li>
           <CheckLists />
+        </li>
+        <li>
+          <CardArchivedButton />
+        </li>
+        <li>
+          <Cover />
         </li>
       </ul>
     </div>

@@ -39,7 +39,7 @@ const ColumnSettings: FC<SettingsProps> = ({
   // const dispatch: AppDispatch = useDispatch();
 
   // const archiveColumn = () => {
-  //   dispatch(isArchiveColumn({isArchive: true}));
+  //   dispatch(isArchive({isArchive: true}));
   // };
 
   return (

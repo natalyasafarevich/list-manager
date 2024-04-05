@@ -1,8 +1,8 @@
 'use client';
 import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import TextEditor from '@/components/TextEditor/TextEditor';
-import {fetchBackData} from '@/helper/getFirebaseData';
-import {updateUserData} from '@/helper/updateUserData';
+import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {AppDispatch, RootState} from '@/store/store';
 import {ColumnCardsProps} from '@/types/interfaces';
 import {FC, useEffect, useState} from 'react';
@@ -43,8 +43,8 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
   }, [index]);
   useEffect(() => {
     description &&
-      updateUserData(
-        `${user.uid}/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
+      updateFirebaseData(
+        `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
         {description: description},
       );
   }, [index, description, user, current_board]);
@@ -54,9 +54,8 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
   );
   useEffect(() => {
     if (index.column !== null && index.card !== null) {
-      fetchBackData(
-        user.uid,
-        `/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
+      fetchBackDefaultData(
+        `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
         getCurrentCard,
       );
     }
@@ -93,8 +92,8 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
       index.card !== null &&
       index.card !== -1
     ) {
-      updateUserData(
-        `${user.uid}/boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
+      updateFirebaseData(
+        `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
         {comments: comments},
       );
     }

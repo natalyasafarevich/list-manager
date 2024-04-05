@@ -40,8 +40,9 @@ const ProfileInformation = () => {
     organization: '',
     localTime: '',
     location: '',
+    email: user.email,
   });
-
+  console.log(updateInfo);
   useEffect(() => {
     if (user.uid) {
       // }
@@ -56,6 +57,7 @@ const ProfileInformation = () => {
             organization: data.organization || '',
             localTime: data.localTime || '',
             location: data.location || '',
+            email: user.email,
           });
         }
       });
@@ -64,7 +66,7 @@ const ProfileInformation = () => {
 
   const [generalInfo, setGeneralInfo] = useState({
     displayName: '',
-    email: '',
+    email: user.email,
     phoneNumber: '',
     uid: user.uid || '',
     photoURL: '',
@@ -180,11 +182,11 @@ const ProfileInformation = () => {
           type='text'
           id='phone'
           readOnly
-          value={generalInfo.email}
+          value={user.email as string}
           onChange={(e) =>
-            setGeneralInfo((prevState) => ({
+            setUpdateInfo((prevState) => ({
               ...prevState,
-              email: e.target.value,
+              email: generalInfo.email,
             }))
           }
         />

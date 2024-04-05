@@ -1,33 +1,71 @@
 'use client';
-import {RootState} from '@/store/store';
+import {AppDispatch, RootState} from '@/store/store';
 import {useUrl} from 'nextjs-current-url';
 import {FC, useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import ColumnCreator from './Column/ColumnCreator/ColumnCreator';
-import ArchivedСolumns from './Column/ArchivedСolumns/ArchivedСolumns';
+import './Board.css';
+
+import BoardHeader from './Settings/BoardHeader/BoardHeader';
+import CloseBoardPopup from './Settings/CloseBoardPopup/CloseBoardPopup';
+import {getBoardCurrent, getBoards} from '@/store/board/actions';
+import Members from './Members/Members';
+import {BoardProps} from '@/types/interfaces';
+import {getUserStatus} from '@/store/data-user/actions';
+import {getDatabase, onValue, ref} from 'firebase/database';
+import firebaseApp from '@/firebase';
 
 export type PayloadProps = {
-  currentBg: string;
-  id: string;
-  name: string;
-  visibility: string;
+  currentBg?: string;
+  id?: string;
+  name?: string;
+  type?: string;
   lists?: Array<any>;
+  isFavorite?: boolean;
+  'text-color'?: string;
+  currentColor?: string;
+  isCloseBoard?: boolean;
 };
 const initialBoard = {
   name: '',
   currentBg: '',
-  visibility: '',
+  type: '',
   id: '',
+  members: [],
 };
 
 const CurrentBoard: FC = () => {
-  const [currentBoard, setCurrentBoard] = useState<PayloadProps>(initialBoard);
+  const [currentBoard, setCurrentBoard] = useState<BoardProps>(initialBoard);
   const [currentPathname, setCurrentPathname] = useState<string>('');
   const [index, setIndex] = useState<any>();
+  const [isLight, setIsLight] = useState(false);
 
+  const dispatch: AppDispatch = useDispatch();
+  const db = getDatabase(firebaseApp);
   const {pathname} = useUrl() ?? {};
-  const board = useSelector((state: RootState) => state.boards.boards);
 
+  useEffect(() => {
+    dispatch(getBoardCurrent(currentBoard, index));
+  }, [currentBoard, index]);
+
+  let lastSegment = pathname?.substring(pathname?.lastIndexOf('/') + 1);
+
+  useEffect(() => {
+    const starCountRef = ref(db, `boards/${lastSegment}`);
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+
+      if (data) {
+        setCurrentBoard(data);
+      }
+    });
+  }, [lastSegment]);
+
+  const board = useSelector((state: RootState) => state.boards.boards);
+  const user = useSelector((state: RootState) => state.userdata);
+  const user_status = useSelector(
+    (state: RootState) => state.userdata.user_status,
+  );
   useEffect(() => {
     const parts = pathname ? pathname.split('/') : [];
     const lastPart = parts.length > 0 ? parts[parts.length - 1] : '';
@@ -36,27 +74,58 @@ const CurrentBoard: FC = () => {
 
   useEffect(() => {
     if (currentPathname && board)
-      board?.map((item: any, i: any) => {
-        if (!item?.id?.includes(currentPathname)) {
-          return;
+      for (let key in board) {
+        if (key.includes(currentPathname)) {
+          setIndex(key);
+          setCurrentBoard(board[key]);
         }
-
-        setIndex(i);
-        setCurrentBoard(item);
-      });
+      }
   }, [board, currentPathname]);
+  useEffect(() => {
+    currentBoard.members &&
+      dispatch(getUserStatus(currentBoard.members[user.uid]));
+  }, [currentBoard]);
 
+  useEffect(() => {
+    if (currentBoard['text-color'] === 'light') {
+      setIsLight(true);
+      return;
+    }
+    setIsLight(false);
+  }, [currentBoard['text-color']]);
+  if (!currentBoard.id) {
+    return <> {!currentBoard.id && <h1>Доска закрыта или не создана</h1>}</>;
+  }
   return (
-    <div className='mt-5 '>
-      <ArchivedСolumns />
+    <div className=''>
+      <p>
+        role <b>{user_status}</b>
+      </p>
 
-      <h1 className='text-center'>{currentBoard.name}</h1>
-      <div className='d-flex justify-content-between'>
-        <div className=''>
-          <ColumnCreator currentIndex={index} />
+      <div
+        className={`p-2 ${isLight ? 'light' : ''}`}
+        style={{
+          background: currentBoard.currentBg
+            ? `center/cover no-repeat url(${currentBoard.currentBg || ''} )`
+            : currentBoard.currentColor,
+        }}
+      >
+        <div className='mt-5 '>
+          <Members />
+          {!currentBoard.isCloseBoard ? (
+            <>
+              <BoardHeader board={currentBoard} />
+              <div className='d-flex justify-content-between'>
+                <div className=''>
+                  <ColumnCreator currentIndex={index} />
+                </div>
+              </div>
+            </>
+          ) : (
+            // <p>k</p>
+            <CloseBoardPopup board={currentBoard}></CloseBoardPopup>
+          )}
         </div>
-
-        {/* <ArchiveColumn /> */}
       </div>
     </div>
   );

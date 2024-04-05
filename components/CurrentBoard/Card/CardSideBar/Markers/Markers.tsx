@@ -1,12 +1,9 @@
 'use client';
-import firebaseApp from '@/firebase';
 import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {AppDispatch, RootState} from '@/store/store';
-import {getDatabase, ref, update} from 'firebase/database';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {v4 as uuidv4} from 'uuid';
 import ColorCheckbox from '../ColorCheckbox/ColorCheckbox';
 import {getMarkersCurrent} from '@/store/card-sidebar/actions';
 import {ColumnCardsProps} from '@/types/interfaces';
@@ -46,11 +43,13 @@ const Markers: FC = () => {
   }, [removedItem]);
 
   // update markers
+  // console.log(current_markers);
   useEffect(() => {
-    getChecked(current_markers);
+    //
     if (current_markers.length !== 0) {
-      updateUserData(
-        `${user.uid}/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
+      getChecked(current_markers);
+      updateFirebaseData(
+        `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
         {
           markers: current_markers,
         },
@@ -61,9 +60,8 @@ const Markers: FC = () => {
   // get markers
   useEffect(() => {
     if (user)
-      fetchBackData(
-        user.uid,
-        `/boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
+      fetchBackDefaultData(
+        `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
         setCard,
       );
   }, [user, user.dataLink.listIndex, checked.length]);
@@ -84,9 +82,20 @@ const Markers: FC = () => {
     getChecked((prev) => [...prev, e]);
   };
 
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
+
   return (
     <div className='position-relative'>
-      <p onClick={() => setIsOpen(!isOpen)}>метки</p>
+      <p
+        onClick={() => {
+          if (!isLoggedIn) {
+            return;
+          }
+          setIsOpen(!isOpen);
+        }}
+      >
+        метки
+      </p>
       {isOpen && (
         <MiniPopup setIsOpen={(e) => setIsOpen(e)} title='Метки'>
           <div className=''>

@@ -15,9 +15,9 @@ Quill.register('modules/imageResize', ImageResize);
 
 interface TextEditorProps {
   title: string;
-  getHTML: (value: string) => void;
+  getHTML?: (value: string) => void;
   backDescription?: string;
-  isArray: boolean;
+  isArray?: boolean;
 }
 
 const TextEditor: FC<TextEditorProps> = ({
@@ -82,13 +82,13 @@ const TextEditor: FC<TextEditorProps> = ({
 
         dispatch(getComments(updatedComments));
         setIsOpen(false);
-        getHTML('');
+        getHTML && getHTML('');
         setCurrentTitle(editorHtml);
 
         setIsSave(false);
       } else {
         setIsOpen(false);
-        getHTML(editorHtml);
+        getHTML && getHTML(editorHtml);
         setCurrentTitle(editorHtml);
         setIsSave(false);
       }
@@ -136,8 +136,9 @@ const TextEditor: FC<TextEditorProps> = ({
       editDate: `${hours}:${minutes} ${month}/${day}/${year}`,
     });
   };
+  const user_status = useSelector((state: RootState) => state.userdata);
+  const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
 
-  useEffect(() => {}, [isArray, editorHtml]);
   return (
     <>
       {isOpen ? (
@@ -170,7 +171,15 @@ const TextEditor: FC<TextEditorProps> = ({
           </div>
         </>
       ) : (
-        <div className='text-primary' onClick={(e) => setIsOpen(!isOpen)}>
+        <div
+          className='text-primary'
+          onClick={(e) => {
+            if (!isLoggedIn) {
+              return;
+            }
+            setIsOpen(!isOpen);
+          }}
+        >
           {!isArray && editorHtml && (
             <div dangerouslySetInnerHTML={{__html: editorHtml}}></div>
           )}
@@ -178,7 +187,11 @@ const TextEditor: FC<TextEditorProps> = ({
 
           {isArray && (
             <>
-              <button className='d-block mt-5' onClick={addComment}>
+              <button
+                className='d-block mt-5'
+                onClick={addComment}
+                disabled={!isLoggedIn}
+              >
                 добавить comment
               </button>
               {comments?.map((item, key) => {
@@ -189,12 +202,23 @@ const TextEditor: FC<TextEditorProps> = ({
                     ) : (
                       <span>{item.createDate}</span>
                     )}
-
-                    <p
+                    {!isLoggedIn ? (
+                      <p
+                        data-id={item.id}
+                        dangerouslySetInnerHTML={{__html: item.title}}
+                      ></p>
+                    ) : (
+                      <p
+                        data-id={item.id}
+                        onClick={changeComment}
+                        dangerouslySetInnerHTML={{__html: item.title}}
+                      ></p>
+                    )}
+                    {/* <p
                       data-id={item.id}
                       onClick={changeComment}
                       dangerouslySetInnerHTML={{__html: item.title}}
-                    ></p>
+                    ></p> */}
                   </div>
                 );
               })}

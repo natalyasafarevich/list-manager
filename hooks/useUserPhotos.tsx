@@ -1,7 +1,7 @@
 import fetchUserPhotos from '@/helper/fetchUserPhotos';
 import {useEffect, useState} from 'react';
 
-const useUserPhotos = (userId: string, upload: any) => {
+const useUserPhotos = (userId: string, upload: any, title: string) => {
   const [photos, setPhotos] = useState<Array<any>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,7 +9,7 @@ const useUserPhotos = (userId: string, upload: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedPhotos = await fetchUserPhotos('avatar', userId);
+        const fetchedPhotos = await fetchUserPhotos(title, userId);
         setPhotos(fetchedPhotos);
         setLoading(false);
       } catch (error: any) {
