@@ -1,7 +1,7 @@
 import {FC, useEffect, useState} from 'react';
 import {PayloadProps as BoardProps} from '../../Board';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '@/store/store';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import ButtonToFavorites from '@/components/ButtonToFavorites/ButtonToFavorites';
 import ProfileCard from '../ProfileCard/ProfileCard';
@@ -10,6 +10,7 @@ import {NewMembersProps} from '../../Members/AddMember/AddMember';
 import {getDatabase, onValue, query, ref} from 'firebase/database';
 import firebaseApp from '@/firebase';
 import ChangingVisibility from '../ChangingVisibility/ChangingVisibility';
+import {getMembers} from '@/store/members/actions';
 
 interface HeaderBoardProps {
   board: any;
@@ -28,6 +29,11 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const currentBoard = useSelector(
     (state: RootState) => state.boards.currentBoards,
   );
+
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    members && dispatch(getMembers(members));
+  }, [members]);
   useEffect(() => {
     setMembers([]);
     if (currentBoard?.members) {

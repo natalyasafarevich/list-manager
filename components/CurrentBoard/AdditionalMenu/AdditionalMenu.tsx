@@ -26,6 +26,7 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
   const current_board = useSelector(
     (state: RootState) => state.boards.currentBoards,
   );
+  console.log(current_board.members);
   useEffect(() => {
     if (current_board?.description) {
       setDescriptionBack(current_board.description);
@@ -41,7 +42,8 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
   const [isOpenArchives, setIsOpenArchives] = useState(false);
   const [isOpenBg, setIsOpenBg] = useState(false);
   const [isOpenTextColor, setIsOpenTextColor] = useState(false);
-
+  const members = useSelector((state: RootState) => state.members.members);
+  console.log(members, 'k');
   return (
     <>
       <div className='position-absolute top-0 end-0 bg-info text-light p-4 w-25 z-3'>
@@ -69,7 +71,10 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
             title={'О доске'}
           >
             <h5>Администраторы доски</h5>
-            {/* <ProfileCard /> */}
+            {members.map((member: any, i: number) => (
+              <ProfileCard userData={member} key={i} />
+            ))}
+
             <h5 className='mt-2'>Oписание</h5>
             <TextEditor
               title={'о доске'}

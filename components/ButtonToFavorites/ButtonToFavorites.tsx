@@ -11,9 +11,10 @@ const ButtonToFavorites: FC<ButtonToFavoritesProps> = ({path, isFavorite}) => {
   const user = useSelector((state: RootState) => state.userdata);
   const [title, setTitle] = useState('');
   useEffect(() => {
-    updateFirebaseData(path, {
-      [user.uid]: isAdded,
-    });
+    path &&
+      updateFirebaseData(path, {
+        [user.uid]: isAdded,
+      });
     isAdded
       ? setTitle('удалить из избранных')
       : setTitle('добавить в избранное');

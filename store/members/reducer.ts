@@ -1,80 +1,18 @@
-import {IdTokenResult, User, UserInfo} from 'firebase/auth';
-import {
-  ActionsType,
-  DATA_USER,
-  DATA_USER_FOR_FIREBASE,
-  RESET_DATA_USER,
-  UPDATE_LINK,
-  UPDATE_PHOTO,
-} from './actions';
+import {ActionsType, CURRENT_MEMBERS} from './actions';
 
 interface initialStateProps {
-  displayName: string;
-  email: string;
-  phoneNumber: string;
-  photoURL: string;
-  providerId: string;
-  uid: string;
+  members: any;
 }
 
-const initialState = {
-  displayName: null,
-  email: null,
-  phoneNumber: null,
-  photoURL: null,
-  providerId: '',
-  uid: '',
-  dataFB: {
-    uid: '',
-    boardIndex: 0,
-    cardIndex: 0,
-  },
-  dataLink: {
-    boardIndex: null,
-    listIndex: null,
-    cardIndex: null,
-  },
+const initialState: initialStateProps = {
+  members: [],
 };
-export const DataUserReducer = (state = initialState, action: ActionsType) => {
+export const MembersReducer = (state = initialState, action: ActionsType) => {
   switch (action.type) {
-    case DATA_USER: {
+    case CURRENT_MEMBERS: {
       return {
         ...state,
-        displayName: action.payload.displayName,
-        email: action.payload.email,
-        phoneNumber: action.payload.phoneNumber,
-        photoURL: action.payload.photoURL,
-        providerId: action.payload.providerId,
-        uid: action.payload.uid,
-      };
-    }
-    case RESET_DATA_USER: {
-      return {
-        ...state,
-        displayName: null,
-        email: null,
-        phoneNumber: null,
-        photoURL: null,
-        providerId: '',
-        uid: '',
-      };
-    }
-    case DATA_USER_FOR_FIREBASE: {
-      return {
-        ...state,
-        dataFB: action.payload,
-      };
-    }
-    case UPDATE_LINK: {
-      return {
-        ...state,
-        dataLink: action.payload,
-      };
-    }
-    case UPDATE_PHOTO: {
-      return {
-        ...state,
-        photoURL: action.payload,
+        members: action.payload,
       };
     }
 

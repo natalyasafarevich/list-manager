@@ -6,6 +6,7 @@ import {ColumnSettingReducer} from './column-setting/reducer';
 import {CardSettingReducer} from './card-setting/reducer';
 import {MarkersReducer} from './card-sidebar/reducer';
 import {CheckListsReducer} from './check-lists/reducer';
+import {MembersReducer} from './members/reducer';
 
 export default combineReducers({
   userdata: DataUserReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   card_setting: CardSettingReducer,
   markers: MarkersReducer,
   check_lists: CheckListsReducer,
+  members: MembersReducer,
 });

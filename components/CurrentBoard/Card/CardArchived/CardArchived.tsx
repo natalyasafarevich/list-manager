@@ -1,5 +1,5 @@
 'use client';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {isArchivedCard} from '@/store/card-sidebar/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
@@ -41,8 +41,8 @@ const CardArchived: FC = () => {
 
   useEffect(() => {
     if (index.card !== null && index.list !== null) {
-      updateUserData(
-        `${user.uid}/boards/${boardIndex}/lists/${index.list}/cards/${index.card}`,
+      updateFirebaseData(
+        `boards/${boardIndex}/lists/${index.list}/cards/${index.card}`,
         {
           isArchived: false,
         },
