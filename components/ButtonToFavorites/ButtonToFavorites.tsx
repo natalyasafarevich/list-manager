@@ -23,10 +23,8 @@ const ButtonToFavorites: FC<ButtonToFavoritesProps> = ({path, isFavorite}) => {
   useEffect(() => {
     setIsAdded(isFavorite);
   }, [isFavorite]);
-  console.log(isFavorite, 'isFavorite');
   const addToFavorite = () => {
     setIsAdded(!isAdded);
-    console.log(isAdded, 'isAdded');
   };
   return <button onClick={addToFavorite}>{title}</button>;
 };

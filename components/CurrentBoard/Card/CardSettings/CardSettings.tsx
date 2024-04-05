@@ -62,6 +62,10 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   }, [card.title]);
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state.userdata.dataLink);
+  const current_user = useSelector((state: RootState) => state.userdata);
+
+  const isLoggedIn = !!current_user.uid && current_user.user_status !== 'guest';
+
   useEffect(() => {
     if (value.length !== 0 && !isReadOnly) {
       dispatch(isCardUpdate(true));
@@ -90,6 +94,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
               }}
               onFocus={(e) => setIsReadOnly(false)}
               readOnly={isReadOnly}
+              disabled={!isLoggedIn}
             />
             {/* <b> {card.title}</b> */}
             <br />
