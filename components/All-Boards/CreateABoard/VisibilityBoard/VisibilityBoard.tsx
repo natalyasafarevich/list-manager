@@ -1,25 +1,25 @@
 'use client';
-import {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 interface VisibilityBoardProp {
   currentValue: (e: string) => void;
 }
 const VisibilityBoard: FC<VisibilityBoardProp> = ({currentValue}) => {
-  const [value, setValue] = useState('рабочее пространство');
+  // const [value, setValue] = useState('рабочее пространство');
   useEffect(() => {
-    currentValue('рабочее пространство');
+    currentValue('public');
   }, []);
+  const changeTypeBoard = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const {currentTarget} = e;
+    if (currentTarget.dataset.type) currentValue(currentTarget.dataset.type);
+  };
   return (
     <div>
       <div className='dropdown'>
-        <button
-          className='btn btn-secondary dropdown-toggle'
-          type='button'
-          id='dropdownMenuButton'
-          data-toggle='dropdown'
-          aria-haspopup='true'
-          aria-expanded='false'
-        >
-          рабочее пространство
+        <button data-type='public' type='button' onClick={changeTypeBoard}>
+          публичная
+        </button>
+        <button data-type='private' type='button' onClick={changeTypeBoard}>
+          приватная
         </button>
         {/* <div className='' aria-labelledby='dropdownMenuButton'>
           <a className='dropdown-item' href='/'>

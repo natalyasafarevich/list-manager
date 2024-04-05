@@ -10,7 +10,7 @@ export type PayloadProps = {
   currentBg: string;
   id: string;
   name: string;
-  visibility: string;
+  type: string;
 };
 export type DataBoardProp = {
   type: typeof BOARDS;

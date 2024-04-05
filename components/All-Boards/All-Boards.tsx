@@ -63,7 +63,7 @@ const AllBoards: FC = () => {
                     <Link
                       key={i}
                       className='d-block'
-                      href={`board/${board?.id.slice(0, 5)}`}
+                      href={`board/${board?.id}`}
                     >
                       {board.name}
                     </Link>
@@ -80,7 +80,7 @@ const AllBoards: FC = () => {
                   item?.id && (
                     <Link
                       className='d-block'
-                      href={`board/${item?.id.slice(0, 5)}`}
+                      href={`board/${item?.id}`}
                       key={i}
                     >
                       <b> {item?.name}</b>

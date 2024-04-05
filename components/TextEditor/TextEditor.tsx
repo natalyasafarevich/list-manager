@@ -136,10 +136,9 @@ const TextEditor: FC<TextEditorProps> = ({
       editDate: `${hours}:${minutes} ${month}/${day}/${year}`,
     });
   };
+  const user_status = useSelector((state: RootState) => state.userdata);
+  const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
 
-  const user_status = useSelector(
-    (state: RootState) => state.userdata.user_status,
-  );
   return (
     <>
       {isOpen ? (
@@ -175,7 +174,7 @@ const TextEditor: FC<TextEditorProps> = ({
         <div
           className='text-primary'
           onClick={(e) => {
-            if (user_status === 'guest') {
+            if (isLoggedIn) {
               return;
             }
             setIsOpen(!isOpen);
@@ -191,13 +190,13 @@ const TextEditor: FC<TextEditorProps> = ({
               <button
                 className='d-block mt-5'
                 onClick={addComment}
-                disabled={user_status === 'guest'}
+                disabled={!isLoggedIn}
               >
                 добавить comment
               </button>
               {comments?.map((item, key) => {
                 return (
-                  <div key={key}>
+                  <button key={key} disabled={!isLoggedIn}>
                     {item.editDate ? (
                       <span>{item.editDate}(изменнено)</span>
                     ) : (
@@ -209,7 +208,7 @@ const TextEditor: FC<TextEditorProps> = ({
                       onClick={changeComment}
                       dangerouslySetInnerHTML={{__html: item.title}}
                     ></p>
-                  </div>
+                  </button>
                 );
               })}
             </>

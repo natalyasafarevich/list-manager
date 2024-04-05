@@ -82,11 +82,8 @@ const Column: FC<ColumnProps> = ({item, name}) => {
 
   const addCard = () => {
     setIsClose(false);
-    // При добавлении карточки открываем компонент
   };
-  const user_status = useSelector(
-    (state: RootState) => state.userdata.user_status,
-  );
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
   return (
     <>
       {!item?.isArchive && (
@@ -115,7 +112,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
                   return <CardDisplay card={card} item={item} key={i} />;
                 })}
               </div>
-              {user_status !== 'guest' && (
+              {isLoggedIn && (
                 <button type='button' onClick={addCard}>
                   добавить карточкvу
                 </button>

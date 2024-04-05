@@ -50,7 +50,7 @@ export type BoardProps = {
   members?: any;
   //  Array<MemberProps>;
   name?: string;
-  visibility?: string;
+  type?: string;
   lists?: Array<ListsProps>;
   description?: string;
   isFavorite?: boolean;

@@ -20,17 +20,14 @@ const UserStatus = () => {
   const db = getDatabase(firebaseApp);
 
   useEffect(() => {
-    if (current_user.uid) {
-      const starCountRef = ref(db, `/boards`);
-      onValue(starCountRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-          console.log(data.boards);
-          dispatch(getBoards(data));
-        }
-      });
-    }
-  }, [current_user.uid, user]);
+    const starCountRef = ref(db, `/boards`);
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        dispatch(getBoards(data));
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: UserInfo | null) => {

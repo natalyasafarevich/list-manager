@@ -84,27 +84,25 @@ const CheckLists: FC = () => {
       title: value,
     };
     if (value.length !== 0) {
-      // console.log(value);
       setCheckLists((prev) => [...prev, newList]);
       setIsOpen(!isOpen);
       setValue('');
       setIsUpdate(true);
     }
   };
-  const user_status = useSelector(
-    (state: RootState) => state.userdata.user_status,
-  );
+  const user_status = useSelector((state: RootState) => state.userdata);
+  const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
+
   return (
     <div className='position-relative'>
       <p
         onClick={() => {
-          if (user_status === 'guest') {
+          if (!isLoggedIn) {
             return;
           }
           setIsOpen(!isOpen);
         }}
       >
-        {' '}
         чек лист
       </p>
       {isOpen && (

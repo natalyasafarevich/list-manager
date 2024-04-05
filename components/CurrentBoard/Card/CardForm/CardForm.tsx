@@ -23,9 +23,8 @@ const CardForm: FC<CardFormProps> = ({
   value,
   setIsClick,
 }) => {
-  const user_status = useSelector(
-    (state: RootState) => state.userdata.user_status,
-  );
+  const user_status = useSelector((state: RootState) => state.userdata);
+  const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
   return (
     <div className='d-flex align-items-start'>
       {components.map((component, i) => (
@@ -69,7 +68,7 @@ const CardForm: FC<CardFormProps> = ({
             </button>
           </form>
         ) : (
-          user_status !== 'guest' && (
+          isLoggedIn && (
             <button
               onClick={saveComponents}
               className='btn btn-outline-primary'

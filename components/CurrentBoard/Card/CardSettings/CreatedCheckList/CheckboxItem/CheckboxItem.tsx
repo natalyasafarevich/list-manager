@@ -56,6 +56,7 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
   const {uid, dataLink} = user;
 
   const dispatch: AppDispatch = useDispatch();
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
 
   useEffect(() => {
     if (index.list !== null && index.checkbox !== null) {
@@ -130,6 +131,7 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
             type='checkbox'
             checked={isChecked}
             onChange={checkboxChange}
+            disabled={!isLoggedIn}
           />
 
           <input
@@ -138,8 +140,9 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
             onChange={changeInput}
             onClick={handleClick}
             readOnly={isReadOnly}
+            disabled={!isLoggedIn}
           />
-          <button type='button' onClick={deleteCheckbox}>
+          <button type='button' onClick={deleteCheckbox} disabled={!isLoggedIn}>
             x
           </button>
           {!isReadOnly && (

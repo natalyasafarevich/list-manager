@@ -46,12 +46,7 @@ const CreateABoard: FC<CreateABoardProps> = ({isCreated}) => {
   useEffect(() => {
     if (isUpdate) {
       update(ref(db, '/'), {boards: boards});
-      // updateUserData(user.uid, {
-      //   boards,
-      // });
-      console.log(boards, 'bnjkl;');
       dispatch(getBoards(boards));
-
       setIsUpdate(false);
     }
   }, [isUpdate]);
@@ -106,14 +101,13 @@ const CreateABoard: FC<CreateABoardProps> = ({isCreated}) => {
     setUpdateUserBoard(true);
     const id = uuidv4();
 
-    console.log(currentIds);
     setCurrentIds((prev: any) => ({...prev, [id]: true}));
     const newBoard = {
       [id]: {
         owner: user.uid,
         id: id,
         name: value,
-        visibility: visibility,
+        type: visibility,
         currentBg: currentBg,
         members: {
           [user.uid]: 'admin', // Правильный синтаксис для создания объекта
@@ -150,7 +144,7 @@ const CreateABoard: FC<CreateABoardProps> = ({isCreated}) => {
           <label htmlFor='title'>Заголовок доски</label>
           <input type='text' id='title' value={value} onChange={handleChange} />
         </div>
-        <p className='text-danger'>Настроить и продумать логику</p>
+        {/* <p className='text-danger'>Настроить и продумать логику</p> */}
         <VisibilityBoard currentValue={(e) => setVisibility(e)} />
       </div>
       <button type='submit' className='btn btn-dark'>

@@ -81,14 +81,14 @@ const Markers: FC = () => {
   const updateCheckedMarks = (e: string) => {
     getChecked((prev) => [...prev, e]);
   };
-  const user_status = useSelector(
-    (state: RootState) => state.userdata.user_status,
-  );
+
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
+
   return (
     <div className='position-relative'>
       <p
         onClick={() => {
-          if (user_status === 'guest') {
+          if (!isLoggedIn) {
             return;
           }
           setIsOpen(!isOpen);

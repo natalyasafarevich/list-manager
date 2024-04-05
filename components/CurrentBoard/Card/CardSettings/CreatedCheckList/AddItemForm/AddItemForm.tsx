@@ -130,9 +130,6 @@ const AddItemForm: FC<Props> = ({
   useEffect(() => {
     value.map((item) => {
       if (!item.isChecked || (item.isDelete && item.isChecked)) {
-        // setHideText('');
-        console.log(item.title);
-
         return;
       }
       isHideChecked
@@ -140,6 +137,7 @@ const AddItemForm: FC<Props> = ({
         : setHideText('cкрыть');
     });
   }, [value]);
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
 
   return (
     <>
@@ -151,7 +149,7 @@ const AddItemForm: FC<Props> = ({
           ) : (
             ''
           )}
-          <button onClick={deleteList}>удалить</button>
+          {isLoggedIn && <button onClick={deleteList}>удалить</button>}
         </div>
         <ul className=''>
           {value?.map((checkbox, i) => {
@@ -165,7 +163,11 @@ const AddItemForm: FC<Props> = ({
           })}
         </ul>
 
-        <button type='button' onClick={() => setIsOpen(!isOpen)}>
+        <button
+          type='button'
+          onClick={() => setIsOpen(!isOpen)}
+          disabled={!isLoggedIn}
+        >
           добавить элемент
         </button>
       </div>

@@ -50,6 +50,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const closeSetting = () => {
     setIsOpenCard();
   };
+  const user = useSelector((state: RootState) => state.userdata);
 
   return (
     <div className='card-settings'>

@@ -68,6 +68,7 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
       name: e.currentTarget.value,
     });
   };
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
   return (
     <div className=''>
       <div className='d-flex align-items-center justify-content-between'>
@@ -83,9 +84,11 @@ const NameWithSettingsButton: FC<NameWithSettingsButtonProps> = ({
             color: 'violet',
           }}
         ></textarea>
-        <button className='btn btn-dark' onClick={openMenu}>
-          ...
-        </button>
+        {isLoggedIn && (
+          <button className='btn btn-dark' onClick={openMenu}>
+            ...
+          </button>
+        )}
       </div>
       <>
         {isOpen && (

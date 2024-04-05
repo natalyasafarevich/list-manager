@@ -9,7 +9,7 @@ type InitialStateType = {
 
 const initialState: InitialStateType = {
   boards: {},
-  currentBoards: {currentBg: '', id: '', name: '', lists: [], visibility: ''},
+  currentBoards: {currentBg: '', id: '', name: '', lists: [], type: ''},
   index: 0,
 };
 

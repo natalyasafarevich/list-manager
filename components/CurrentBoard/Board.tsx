@@ -8,16 +8,18 @@ import './Board.css';
 
 import BoardHeader from './Settings/BoardHeader/BoardHeader';
 import CloseBoardPopup from './Settings/CloseBoardPopup/CloseBoardPopup';
-import {getBoardCurrent} from '@/store/board/actions';
+import {getBoardCurrent, getBoards} from '@/store/board/actions';
 import Members from './Members/Members';
 import {BoardProps} from '@/types/interfaces';
 import {getUserStatus} from '@/store/data-user/actions';
+import {getDatabase, onValue, ref} from 'firebase/database';
+import firebaseApp from '@/firebase';
 
 export type PayloadProps = {
   currentBg?: string;
   id?: string;
   name?: string;
-  visibility?: string;
+  type?: string;
   lists?: Array<any>;
   isFavorite?: boolean;
   'text-color'?: string;
@@ -27,7 +29,7 @@ export type PayloadProps = {
 const initialBoard = {
   name: '',
   currentBg: '',
-  visibility: '',
+  type: '',
   id: '',
   members: [],
 };
@@ -39,18 +41,31 @@ const CurrentBoard: FC = () => {
   const [isLight, setIsLight] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
+  const db = getDatabase(firebaseApp);
+  const {pathname} = useUrl() ?? {};
 
   useEffect(() => {
     dispatch(getBoardCurrent(currentBoard, index));
   }, [currentBoard, index]);
 
-  const {pathname} = useUrl() ?? {};
+  let lastSegment = pathname?.substring(pathname?.lastIndexOf('/') + 1);
+
+  useEffect(() => {
+    const starCountRef = ref(db, `boards/${lastSegment}`);
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+
+      if (data) {
+        setCurrentBoard(data);
+      }
+    });
+  }, [lastSegment]);
+
   const board = useSelector((state: RootState) => state.boards.boards);
   const user = useSelector((state: RootState) => state.userdata);
   const user_status = useSelector(
     (state: RootState) => state.userdata.user_status,
   );
-
   useEffect(() => {
     const parts = pathname ? pathname.split('/') : [];
     const lastPart = parts.length > 0 ? parts[parts.length - 1] : '';
@@ -68,8 +83,8 @@ const CurrentBoard: FC = () => {
   }, [board, currentPathname]);
   useEffect(() => {
     dispatch(getUserStatus(currentBoard.members[user.uid]));
-    // currentBoard.members && user && console.log(currentBoard.members[user.uid as string]);
   }, [currentBoard]);
+
   useEffect(() => {
     if (currentBoard['text-color'] === 'light') {
       setIsLight(true);
@@ -77,12 +92,15 @@ const CurrentBoard: FC = () => {
     }
     setIsLight(false);
   }, [currentBoard['text-color']]);
-
+  if (!currentBoard.id) {
+    return <> {!currentBoard.id && <h1>Доска закрыта или не создана</h1>}</>;
+  }
   return (
     <div className=''>
       <p>
         role <b>{user_status}</b>
       </p>
+
       <div
         className={`p-2 ${isLight ? 'light' : ''}`}
         style={{

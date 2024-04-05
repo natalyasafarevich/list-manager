@@ -69,6 +69,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
 
   const [isOpenCard, setIsOpenCard] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isLoggedIn = !!uid && user_status !== 'guest';
 
   return (
     <>
@@ -85,9 +86,9 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                 border: 'none',
                 fontSize: 20,
               }}
-              disabled={user_status !== 'guest' ? false : true}
+              disabled={!isLoggedIn}
             />
-            {user_status !== 'guest' && (
+            {isLoggedIn && (
               <ButtonToFavorites
                 path={`${uid}/boards/${boardsIndex}`}
                 isFavorite={board.isFavorite || false}
@@ -109,7 +110,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
               </div>
             ))}
 
-            {user_status !== 'guest' && (
+            {isLoggedIn && (
               <button
                 className='m-2'
                 onClick={() => setIsMenuOpen(!isMenuOpen)}

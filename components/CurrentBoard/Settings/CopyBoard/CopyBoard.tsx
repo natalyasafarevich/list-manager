@@ -31,7 +31,7 @@ const CopyBoard: FC = () => {
       updateFirebaseData(`boards/${newBoard.id}`, newBoard);
       updateUserData(`${user.uid}/current-boards`, {[newBoard.id]: true});
 
-      redirect(`/board/${newBoard.id.slice(0, 5)}`);
+      redirect(`/board/${newBoard.id}`);
     }
   }, [newBoard, isUpdate]);
 

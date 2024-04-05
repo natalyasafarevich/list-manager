@@ -14,7 +14,6 @@ const CloseBoardPopup: FC<CloseBoardPopupProps> = ({board}) => {
   const boardIndex = useSelector((state: RootState) => state.boards.index);
 
   const openBoard = () => {
-    console.log(board);
     updateFirebaseData(`boards/${boardIndex}`, {isCloseBoard: false});
   };
   return (

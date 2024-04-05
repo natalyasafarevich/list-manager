@@ -7,14 +7,14 @@ import {useSelector} from 'react-redux';
 const covers = ['#4bce97', '#e2b203', '#f87462', '#9f8fef'];
 const Cover: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const user_status = useSelector(
-    (state: RootState) => state.userdata.user_status,
-  );
+  const user = useSelector((state: RootState) => state.userdata);
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
+
   return (
     <div className='position-relative'>
       <p
         onClick={(e) => {
-          if (user_status === 'guest') {
+          if (!isLoggedIn) {
             return;
           }
           setIsOpen(!isOpen);
