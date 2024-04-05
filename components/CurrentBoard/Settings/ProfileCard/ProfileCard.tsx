@@ -1,4 +1,5 @@
 import firebaseApp from '@/firebase';
+import {updateFirebaseData} from '@/helper/updateUserData';
 import {RootState} from '@/store/store';
 import {getDatabase, onValue, ref} from 'firebase/database';
 import Link from 'next/link';
@@ -14,8 +15,37 @@ interface ProfileCardProp {
   userData: any;
 }
 const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state: RootState) => state.userdata.uid);
+  const board = useSelector((state: RootState) => state.boards);
+  const deleteMember = () => {
+    // Проверяем, является ли пользователь администратором
+    if (userData.role === 'admin') {
+      // Проверяем, не является ли текущий пользователь администратором
+      // и не является ли удаляемый пользователь тем же администратором
+      if (userData.id !== user || userData.id !== user) {
+        // Если проверка пройдена, запрашиваем подтверждение
+        let access = confirm('Удалить участника?');
+        // Если подтверждение получено
+        if (access) {
+          // Удаляем участника из доски
+          const {[userData.id]: deletedKey, ...members} =
+            board.currentBoards.members;
+          updateFirebaseData(`boards/${board.index}`, {members: members});
+        }
+      } else {
+        setIsAdmin(true);
+        alert('Вы не можете удалить себя или другого администратора.');
+      }
+    } else {
+      setIsAdmin(true);
+      alert(
+        'Вы не можете удалить участника, так как не являетесь администратором.',
+      );
+    }
+  };
+
   // ({
   //   public_name: '',
   //   photoURL: {
@@ -61,6 +91,9 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
           {/* {userData.role==='admin' && } */}
           {userData.id === user && (
             <Link href='/settings/profile'>управление профилем</Link>
+          )}
+          {userData.role !== 'admin' && (
+            <button onClick={deleteMember}>delete member</button>
           )}
         </div>
       )}
