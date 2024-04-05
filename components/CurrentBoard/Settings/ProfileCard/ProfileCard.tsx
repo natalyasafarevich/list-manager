@@ -21,28 +21,19 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
   const board = useSelector((state: RootState) => state.boards);
   const deleteMember = () => {
     // Проверяем, является ли пользователь администратором
-    if (userData.role === 'admin') {
-      // Проверяем, не является ли текущий пользователь администратором
-      // и не является ли удаляемый пользователь тем же администратором
-      if (userData.id !== user || userData.id !== user) {
-        // Если проверка пройдена, запрашиваем подтверждение
-        let access = confirm('Удалить участника?');
-        // Если подтверждение получено
-        if (access) {
-          // Удаляем участника из доски
-          const {[userData.id]: deletedKey, ...members} =
-            board.currentBoards.members;
-          updateFirebaseData(`boards/${board.index}`, {members: members});
-        }
-      } else {
-        setIsAdmin(true);
-        alert('Вы не можете удалить себя или другого администратора.');
+    if (userData.role !== 'admin') {
+      // Если проверка пройдена, запрашиваем подтверждение
+      let access = confirm('Удалить участника?');
+      // Если подтверждение получено
+      if (access) {
+        // Удаляем участника из доски
+        const {[userData.id]: deletedKey, ...members} =
+          board.currentBoards.members;
+        updateFirebaseData(`boards/${board.index}`, {members: members});
       }
     } else {
       setIsAdmin(true);
-      alert(
-        'Вы не можете удалить участника, так как не являетесь администратором.',
-      );
+      alert('Вы не можете удалить себя или другого администратора.');
     }
   };
 

@@ -56,6 +56,13 @@ const AddMember: FC = () => {
       !isNewMember &&
       fetchBackDefaultData(`/boards/${boardIndex}/members`, setMembers);
   }, [user, boardIndex, isNewMember]);
+  const [notification, setNotification] = useState<any>([]);
+  const [isUpdate, setIsUpdate] = useState(false);
+
+  useEffect(() => {
+    if (isUpdate && memberUid && notification.length) {
+    }
+  }, [isUpdate, memberUid, notification]);
 
   useEffect(() => {
     if (isNewMember) {
@@ -65,6 +72,7 @@ const AddMember: FC = () => {
         [boardIndex]: true, // Правильный синтаксис для создания объекта
       };
       updateUserData(`${memberUid}/current-boards`, currentBoard);
+      updateUserData(`${memberUid}/`, {notification: notification});
       setIsNewMember(false);
     }
   }, [isNewMember]);
@@ -85,14 +93,20 @@ const AddMember: FC = () => {
             for (const key in currentBoard?.members) {
               if (uid === key) {
                 console.log('user exist');
+                setIsUpdate(false);
                 return;
+              } else {
+                const notification = {
+                  message: `пользователь ${user.email} добавил вас на доску   `,
+                  name: currentBoard.name,
+                  link: currentBoard.id,
+                };
+                setNotification((prev: any) => [...prev, notification]);
+                setIsUpdate(true);
+                setMemberUid(uid);
               }
-
-              setMemberUid(uid);
             }
             return;
-          } else {
-            alert('польщователь не найден');
           }
         }
       });
