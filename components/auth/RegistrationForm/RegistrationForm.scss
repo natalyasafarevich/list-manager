@@ -1,0 +1,13 @@
+.auth {
+  padding: 79px 0;
+  height: 100%;
+  &__container {
+    padding: 50px 30px;
+    box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.08);
+    background: var(--secondary-color);
+    margin: 0 auto;
+    border-radius: 40px;
+    max-width: 539px;
+    width: 100%;
+  }
+}

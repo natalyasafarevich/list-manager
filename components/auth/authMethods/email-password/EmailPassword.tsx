@@ -2,8 +2,7 @@
 
 import {handleRegister, isUserExist} from '@/firebase/registration';
 import {useState} from 'react';
-import GoogleSignInComponent from '../google/Google';
-import PhoneSignInComponent from '../phone/Phone.jsx';
+import './EmailPassword.scss';
 import Link from 'next/link';
 
 const RegistrationComponent = () => {
@@ -89,7 +88,6 @@ const RegistrationComponent = () => {
           handleEmailAlreadyInUse();
           break;
         case 'auth/invalid-email':
-          w;
           handleInvalidEmail();
           break;
         case 'auth/missing-password':
@@ -105,42 +103,70 @@ const RegistrationComponent = () => {
   };
 
   return (
-    <>
-      {/* <PhoneSignInComponent />
-      <GoogleSignInComponent /> */}
-      <form onSubmit={handleSubmit}>
-        <h2>Registration</h2>
-        <input
-          type='text'
-          placeholder='Name'
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        {isUserExist && <p>user already exist</p>}
-        {!isEmailCorrect && <h3>wrong email</h3>}
-        <input
-          type='text'
-          placeholder='Email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {/* {!isEqualPassword && <h2>Пароли не совпадают</h2>} */}
-        {isIrregularPassword.isIrregular && <p>{isIrregularPassword.note}</p>}
-        <input
-          type='password'
-          placeholder='Password'
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
-        <input
-          type='password'
-          placeholder='ConfirmPassword'
-          onChange={checkPassword}
-          value={confirmPassword}
-        />
-        <button type='submit'>Register</button>
-      </form>
-    </>
+    <div className='register'>
+      <div className='register__container'>
+        <form onSubmit={handleSubmit}>
+          <div className='register__row flex'>
+            <div className=''>
+              <p className='register__title'>Welcome to Trello</p>{' '}
+              <p className='register__subtitle'>Sign Up</p>
+            </div>
+
+            <p className='register__text'>
+              Have an account? ?<Link href={'/log-in'}>Sign In</Link>
+            </p>
+          </div>
+          <div className='register__column'>
+            <div className='register__box'>
+              <label htmlFor='name' className='register__label'>
+                Enter your full name
+              </label>
+              <input
+                className='register__input'
+                id='name'
+                type='text'
+                placeholder='Full name'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className='register__box'>
+              <label htmlFor='email' className='register__label'>
+                Enter your email address
+              </label>
+              <input
+                className='register__input'
+                id='email'
+                type='email'
+                placeholder='Email address'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {isUserExist && <p className='text-error'>user already exist</p>}
+              {!isEmailCorrect && <p className='text-error'>wrong email</p>}
+            </div>
+
+            {/* {!isEqualPassword && <h2>Пароли не совпадают</h2>} */}
+            {isIrregularPassword.isIrregular && (
+              <p>{isIrregularPassword.note}</p>
+            )}
+            <input
+              type='password'
+              placeholder='Password'
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            />
+            <input
+              type='password'
+              placeholder='ConfirmPassword'
+              onChange={checkPassword}
+              value={confirmPassword}
+            />
+            <button type='submit'>Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 export default RegistrationComponent;

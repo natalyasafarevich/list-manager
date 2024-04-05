@@ -33,7 +33,7 @@ const Header: FC = () => {
           )}
           <div className='header__links flex'>
             <Link className='header__link' href='/registration'>
-              Register
+              Sign Up
             </Link>
             <Link className='header__link header__link_signIn' href='/log-in'>
               Sign In
