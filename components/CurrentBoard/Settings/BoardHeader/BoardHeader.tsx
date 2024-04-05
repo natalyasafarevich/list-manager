@@ -27,9 +27,10 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const currentBoard = useSelector(
     (state: RootState) => state.boards.currentBoards,
   );
+  console.log(Object.keys(currentBoard.members).length);
   useEffect(() => {
+    setMembers(['f']);
     if (currentBoard?.members) {
-      setMembers([]);
       for (let uid in currentBoard.members) {
         const starCountRef = query(ref(db, `users/${uid}`));
         onValue(starCountRef, (snapshot) => {
@@ -48,7 +49,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
         });
       }
     }
-  }, [currentBoard?.members]);
+  }, [Object.keys(currentBoard.members).length]);
   useEffect(() => {
     setValue(board.name);
   }, [board.name]);
