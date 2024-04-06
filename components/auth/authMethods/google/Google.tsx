@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
 import './Google.scss';
+import {useRouter} from 'next/navigation';
 
 const GoogleSignInComponent = () => {
   const [error, setError] = useState(null);
-
+  const router = useRouter();
   const handleGoogleSignIn = async () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
@@ -12,7 +13,8 @@ const GoogleSignInComponent = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log('Google Sign In:', user);
+      router.push('/');
+      // alert('Google Sign In:', user);
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;

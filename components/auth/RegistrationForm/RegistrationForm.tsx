@@ -32,7 +32,7 @@ const RegistrationForm = () => {
 
   return (
     <div className='auth'>
-      <div className='auth__container'>
+      <div className='auth__container auth-container'>
         {methodOfEnter.isEmail && <RegistrationComponent />}
         {methodOfEnter.isPhone && <PhoneSignInComponent />}
         <p className='auth__text'>Or</p>

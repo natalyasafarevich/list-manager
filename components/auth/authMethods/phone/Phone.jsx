@@ -2,12 +2,14 @@ import React, {useState, useEffect} from 'react';
 import './Phone.scss';
 import {getAuth, RecaptchaVerifier, signInWithPhoneNumber} from 'firebase/auth';
 import InputField from '@/components/InputField/InputField';
+import {useRouter} from 'next/navigation';
 
 const PhoneSignInComponent = () => {
   const [isSend, setIsSend] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [error, setError] = useState(null);
+  const router = useRouter();
   const auth = getAuth();
   useEffect(() => {
     window.recaptchaVerifier = new RecaptchaVerifier(
@@ -50,7 +52,7 @@ const PhoneSignInComponent = () => {
       const code = verificationCode;
 
       const confirmationResult = window.confirmationResult;
-
+      router.push('/');
       if (!confirmationResult) {
         throw new Error('Confirmation result is not available');
       }
@@ -80,7 +82,7 @@ const PhoneSignInComponent = () => {
 
   return (
     <div className='register phone-register'>
-      <p className='register__subtitle'>Sign up with phone</p>
+      <p className='register__subtitle'>Sign in with phone</p>
       {!isSend && (
         <>
           <div>

@@ -5,11 +5,13 @@ import {useState} from 'react';
 import './EmailPassword.scss';
 import Link from 'next/link';
 import InputField from '@/components/InputField/InputField';
+import WelcomeHeader from '@/components/WelcomeHeader/WelcomeHeader';
+import {useRouter} from 'next/navigation';
 
 const RegistrationComponent = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-
+  const router = useRouter();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isEmailCorrect, setIsEmailCorrect] = useState(true);
@@ -80,7 +82,7 @@ const RegistrationComponent = () => {
 
     try {
       const user = await handleRegister(email, password, name);
-
+      router.push('/');
       clearForm();
     } catch (error: any) {
       const errorCode = error.code;
@@ -107,16 +109,13 @@ const RegistrationComponent = () => {
     <div className='register'>
       <div className='register__container'>
         <form onSubmit={handleSubmit}>
-          <div className='register__row flex'>
-            <div className=''>
-              <p className='register__title'>Welcome to Trello</p>{' '}
-              <p className='register__subtitle'>Sign Up</p>
-            </div>
+          <WelcomeHeader
+            name='Sign Up'
+            subTitle='Have an account?'
+            text='Sign In'
+            link='log-in'
+          />
 
-            <p className='register__text'>
-              Have an account? <Link href={'/log-in'}>Sign In</Link>
-            </p>
-          </div>
           <div className='register__column'>
             <div className='register__box'>
               <InputField
@@ -170,7 +169,6 @@ const RegistrationComponent = () => {
               Sign up
             </button>
           </div>
-     
         </form>
       </div>
     </div>
