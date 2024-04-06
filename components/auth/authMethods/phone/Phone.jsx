@@ -1,26 +1,20 @@
 import React, {useState, useEffect} from 'react';
+import './Phone.scss';
 import {getAuth, RecaptchaVerifier, signInWithPhoneNumber} from 'firebase/auth';
 import InputField from '@/components/InputField/InputField';
-import './Phone.scss';
 
 const PhoneSignInComponent = () => {
   const [isSend, setIsSend] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [error, setError] = useState(null);
-
+  const auth = getAuth();
   useEffect(() => {
-    const auth = getAuth();
     window.recaptchaVerifier = new RecaptchaVerifier(
       auth,
       'recaptcha-container',
       {
         size: 'normal',
-        // callback: (response) => {
-        //   setTimeout(() => {
-        //     setIsSend(true);
-        //   }, 1000);
-        // },
         'expired-callback': () => {
           console.log('reCAPTCHA expired. Please solve it again.');
         },
@@ -66,8 +60,7 @@ const PhoneSignInComponent = () => {
       setIsSend(true);
       console.log('User signed in successfully');
     } catch (error) {
-      setError(error.message);
-      // setIsSend(false);
+      setError('Wrong code, please try again');
     }
   };
 
@@ -101,15 +94,15 @@ const PhoneSignInComponent = () => {
               value={phoneNumber}
             />
             {error && <p className='text-error'>{error}</p>}
-            <div className='phone-register__recapcha'>
-              <div id='recaptcha-container'></div>
-            </div>
+            {/* <div className='phone-register__recapcha'> */}
+            <div id='recaptcha-container'></div>
+            {/* </div> */}
           </div>
           <button
             className='button-dark phone-register__button'
             onClick={handleSendCode}
           >
-            Отправить код
+            Send code
           </button>
         </>
       )}
@@ -120,11 +113,12 @@ const PhoneSignInComponent = () => {
               We’ve sent an SMS with an activation code to your phone
               <span> {phoneNumber}</span>
             </p>
+
             <div className='phone-register__row'>
               {[...Array(6)].map((_, index) => (
                 <input
                   key={index}
-                  className='register__input'
+                  className={` ${error ? 'input-error' : ''} register__input`}
                   type='text'
                   maxLength='1'
                   autoFocus={index === 0}
@@ -133,11 +127,17 @@ const PhoneSignInComponent = () => {
                 />
               ))}
             </div>
+            {error && (
+              <>
+                {' '}
+                <p className='text-center text-error'>{error}</p>
+                <br />
+              </>
+            )}
           </div>
           <button className='button-dark ' onClick={handleVerifyCode}>
-            Подтвердить код
+            Confirm code
           </button>
-          {error && <p>{error}</p>}
         </>
       )}
     </div>
