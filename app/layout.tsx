@@ -7,6 +7,7 @@ import SignOut from '@/components/auth/SignOut/SignOut';
 import ReduxProvider from '@/providers/ReduxProvider';
 import Link from 'next/link';
 import Header from '@/components/Header/Header';
+import MainHeader from '@/components/MainHeader/MainHeader';
 
 const popins = Poppins({
   subsets: ['latin'], // Здесь можно указать поддерживаемые подмножества
@@ -26,9 +27,10 @@ export default function RootLayout({
     <ReduxProvider>
       <html lang='en'>
         <body className={popins.className}>
+          <MainHeader />
           <div className=''>
             <UserStatus />
-            <Header />
+
             {children}
           </div>
         </body>

@@ -15,22 +15,10 @@ const Header: FC = () => {
         <div className='header__row'>
           <div className='header__wrap flex'>
             <Link href='/' className='header__logo logo'></Link>
-
-            {user && (
-              <Link className='header__link' href='/user'>
-                User
-              </Link>
-            )}
-
             <Link className='header__link' href='/about'>
               About
             </Link>
           </div>
-          {user && (
-            <Link className='header__link' href='/boards'>
-              Boards
-            </Link>
-          )}
           <div className='header__links flex'>
             <Link className='header__link' href='/registration'>
               Sign Up
@@ -38,8 +26,6 @@ const Header: FC = () => {
             <Link className='header__link header__link_signIn' href='/log-in'>
               Sign In
             </Link>
-            {user && <SignOut></SignOut>}
-            {user && <Notification />}
           </div>
         </div>
       </div>
