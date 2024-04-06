@@ -4,12 +4,28 @@
   // .side-bar__container
   height: 100vh;
   width: 100%;
-  max-width: 131px;
+  max-width: 160px;
+
+  &.show {
+    max-width: 220px;
+    .side-bar__link {
+      justify-content: flex-start;
+      span {
+        display: block;
+        opacity: 1;
+        position: relative;
+        left: 0;
+      }
+    }
+  }
   &__container {
     border-radius: 0 20px 20px 0;
     padding: 40px 30px;
     background: #f3f5f9;
     height: 100%;
+
+    display: flex;
+    flex-direction: column;
   }
 
   // .side-bar__logo
@@ -24,8 +40,11 @@
   // .side-bar__column
 
   &__column {
+    flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Устанавливаем высоту равной 100% */
     align-items: center;
     margin-top: 90px;
   }
@@ -33,13 +52,49 @@
   // .side-bar__link
 
   &__link {
+    span {
+      opacity: 0;
+      position: absolute;
+      right: -9px;
+      padding-left: 10px;
+      font-size: 20px;
+      color: #9896a3;
+    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 35px;
+    &.active {
+      background-color: var(--primary-color);
+      border-radius: 50%;
+    }
+    &_board.active::before {
+      background: center/cover no-repeat url("/board-icon-focus.svg");
+    }
     &:hover {
       transform: scale(1.1);
+      span {
+        color: var(--primary-color);
+      }
     }
-    &_board {
-      width: 35px;
-      height: 35px;
-      background: center/cover no-repeat url("/board-icon-unfocus.svg");
+    &::before {
+      content: "";
+      display: block;
+      width: 40px;
+      min-width: 40px;
+      height: 40px;
+    }
+    &_notification::before {
+      background: center/contain no-repeat url("/notification-icon.svg");
+    }
+    &_setting::before {
+      background: center/contain no-repeat url("/setting-icon.svg");
+    }
+    &_board::before {
+      background: center/contain no-repeat url("/board-icon-unfocus.svg");
+    }
+    &_user::before {
+      background: center/contain no-repeat url("/user-icon.svg");
     }
   }
 }
