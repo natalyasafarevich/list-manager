@@ -35,25 +35,35 @@ const RegistrationForm = () => {
       <div className='auth__container'>
         {methodOfEnter.isEmail && <RegistrationComponent />}
         {methodOfEnter.isPhone && <PhoneSignInComponent />}
-        <br /> <GoogleSignInComponent />
-        <br />
-        {!methodOfEnter.isEmail && (
-          <Link
-            href='/registration'
-            onClick={() => setMethodOfEnter({isPhone: false, isEmail: true})}
-          >
-            email & password
-          </Link>
-        )}
-        <br />
-        {!methodOfEnter.isPhone && (
-          <Link
-            href='/registration?sign-in=phone'
-            onClick={() => setMethodOfEnter({isPhone: true, isEmail: false})}
-          >
-            Phone
-          </Link>
-        )}
+        <p className='auth__text'>Or</p>
+        <div className='auth__box flex'>
+          <div className='auth__item'>
+            <GoogleSignInComponent />
+          </div>
+          <div className='auth__item'>
+            {!methodOfEnter.isEmail && (
+              <Link
+                href='/registration'
+                onClick={() =>
+                  setMethodOfEnter({isPhone: false, isEmail: true})
+                }
+              >
+                email & password
+              </Link>
+            )}
+          </div>
+          <div className='auth__item'>
+            {!methodOfEnter.isPhone && (
+              <Link
+                className='auth__link auth__link_phone'
+                href='/registration?sign-in=phone'
+                onClick={() =>
+                  setMethodOfEnter({isPhone: true, isEmail: false})
+                }
+              ></Link>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

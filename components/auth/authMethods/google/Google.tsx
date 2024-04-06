@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
+import './Google.scss';
 
 const GoogleSignInComponent = () => {
   const [error, setError] = useState(null);
@@ -13,7 +14,6 @@ const GoogleSignInComponent = () => {
       const user = result.user;
       console.log('Google Sign In:', user);
     } catch (error: any) {
-      // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
       const email = error.customData ? error.customData.email : null;
@@ -25,9 +25,11 @@ const GoogleSignInComponent = () => {
 
   return (
     <div>
-      {/* <h2>Sign In with Google</h2>   */}
-      <button onClick={handleGoogleSignIn}>Sign In with Google</button>
-      {error && <p style={{color: 'red'}}>{error}</p>}
+      <button className='google-button' onClick={handleGoogleSignIn}>
+        <span className='google-button__icon'></span>
+        <span className='google-button__title'> Sign In with Google</span>
+      </button>
+      {error && <p>{error}</p>}
     </div>
   );
 };

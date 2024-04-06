@@ -4,6 +4,7 @@ import {handleRegister, isUserExist} from '@/firebase/registration';
 import {useState} from 'react';
 import './EmailPassword.scss';
 import Link from 'next/link';
+import InputField from '@/components/InputField/InputField';
 
 const RegistrationComponent = () => {
   const [email, setEmail] = useState('');
@@ -72,7 +73,7 @@ const RegistrationComponent = () => {
       setIsIrregularPassword((prev) => ({
         ...prev,
         isIrregular: true,
-        note: 'Passwords aren` Equal',
+        note: 'Passwords don`t match',
       }));
       return;
     }
@@ -113,57 +114,63 @@ const RegistrationComponent = () => {
             </div>
 
             <p className='register__text'>
-              Have an account? ?<Link href={'/log-in'}>Sign In</Link>
+              Have an account? <Link href={'/log-in'}>Sign In</Link>
             </p>
           </div>
           <div className='register__column'>
             <div className='register__box'>
-              <label htmlFor='name' className='register__label'>
-                Enter your full name
-              </label>
-              <input
+              <InputField
                 className='register__input'
-                id='name'
+                label='Enter your full name'
+                id={'name'}
+                value={name}
                 type='text'
                 placeholder='Full name'
-                value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className='register__box'>
-              <label htmlFor='email' className='register__label'>
-                Enter your email address
-              </label>
-              <input
-                className='register__input'
-                id='email'
+              <InputField
+                className={`${isUserExist || !isEmailCorrect ? 'input-error' : ''} register__input`}
+                label='Enter your email address'
+                id={'email'}
                 type='email'
                 placeholder='Email address'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {isUserExist && <p className='text-error'>user already exist</p>}
-              {!isEmailCorrect && <p className='text-error'>wrong email</p>}
+              {isUserExist && <p className='text-error'>User already exists</p>}
+              {!isEmailCorrect && <p className='text-error'>Wrong email</p>}
             </div>
-
-            {/* {!isEqualPassword && <h2>Пароли не совпадают</h2>} */}
-            {isIrregularPassword.isIrregular && (
-              <p>{isIrregularPassword.note}</p>
-            )}
-            <input
-              type='password'
-              placeholder='Password'
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-            />
-            <input
-              type='password'
-              placeholder='ConfirmPassword'
-              onChange={checkPassword}
-              value={confirmPassword}
-            />
-            <button type='submit'>Register</button>
+            <div className='register__box'>
+              <InputField
+                className={`${isIrregularPassword.isIrregular ? 'input-error' : ''} register__input`}
+                label='Enter your password'
+                id={'password'}
+                type='password'
+                placeholder='Password'
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
+              {isIrregularPassword.isIrregular && (
+                <p className='text-error'>{isIrregularPassword.note}</p>
+              )}
+              <br />
+              <InputField
+                className={`${isIrregularPassword.isIrregular ? 'input-error' : ''} register__input`}
+                label='Repeat your password'
+                id={'confirm-password'}
+                type='password'
+                placeholder='Confirm password'
+                onChange={checkPassword}
+                value={confirmPassword}
+              />
+            </div>
+            <button className='register__button' type='submit'>
+              Sign up
+            </button>
           </div>
+     
         </form>
       </div>
     </div>
