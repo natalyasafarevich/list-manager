@@ -3,7 +3,7 @@
   border-radius: 9px;
   max-width: 298px;
   width: 100%;
-  padding: 15px;
+  padding: clamp(9px, 3vw, 15px);
   display: flex;
   align-items: center;
   justify-content: center;

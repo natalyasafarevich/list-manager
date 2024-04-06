@@ -94,9 +94,9 @@ const PhoneSignInComponent = () => {
               value={phoneNumber}
             />
             {error && <p className='text-error'>{error}</p>}
-            {/* <div className='phone-register__recapcha'> */}
-            <div id='recaptcha-container'></div>
-            {/* </div> */}
+            <div className='phone-register__recapcha'>
+              <div id='recaptcha-container'></div>
+            </div>
           </div>
           <button
             className='button-dark phone-register__button'

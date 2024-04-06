@@ -23,9 +23,30 @@
     }
   }
 }
-// #recaptcha-container {
-//   margin: 32px auto;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// }
+#recaptcha-container {
+  margin: 32px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 575.98px) {
+  .phone-register {
+    &__text {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    &__row {
+      max-width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 0 -2px 34px;
+      .register__input {
+        padding: 20px;
+        width: 46px;
+        height: 46px;
+        margin: 0 2px;
+      }
+    }
+  }
+}
