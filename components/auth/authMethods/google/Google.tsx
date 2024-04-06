@@ -29,7 +29,7 @@ const GoogleSignInComponent = () => {
         <span className='google-button__icon'></span>
         <span className='google-button__title'> Sign In with Google</span>
       </button>
-      {error && <p>{error}</p>}
+      {/* {error && <p>{error}</p>} */}
     </div>
   );
 };

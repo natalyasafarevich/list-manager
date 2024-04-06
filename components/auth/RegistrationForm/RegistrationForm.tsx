@@ -43,12 +43,13 @@ const RegistrationForm = () => {
           <div className='auth__item'>
             {!methodOfEnter.isEmail && (
               <Link
+                className='auth__link '
                 href='/registration'
                 onClick={() =>
                   setMethodOfEnter({isPhone: false, isEmail: true})
                 }
               >
-                email & password
+                Email and Password
               </Link>
             )}
           </div>

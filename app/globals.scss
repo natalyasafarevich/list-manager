@@ -21,6 +21,16 @@ input.input-error {
   border: none;
   outline: 1px solid #ff432a;
 }
+.button-dark {
+  cursor: pointer;
+  width: 100%;
+  background: #1b193f;
+  color: var(--secondary-color);
+  border-radius: 15px;
+  font-weight: 500;
+  box-shadow: 0 4px 19px 0 rgba(63, 71, 45, 0.3);
+  padding: 15px 5px;
+}
 * {
   box-sizing: border-box;
   padding: 0;

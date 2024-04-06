@@ -1,0 +1,31 @@
+.phone-register {
+  &__row {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0 -5px 34px;
+    .register__input {
+      margin: 0 5px;
+      width: 64px;
+      height: 64px;
+      padding: 25px;
+      font-weight: 500;
+      font-size: 24px;
+    }
+  }
+  &__text {
+    width: 70%;
+    color: rgba(0, 0, 0, 0.7);
+    margin-bottom: 35px;
+    line-height: 125%;
+    span {
+      color: var(--primary-color);
+    }
+  }
+}
+#recaptcha-container {
+  margin: 32px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
