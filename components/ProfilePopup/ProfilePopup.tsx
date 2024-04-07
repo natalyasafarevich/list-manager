@@ -4,6 +4,9 @@ import {FC, useEffect, useRef, useState} from 'react';
 import './ProfilePopup.scss';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
+import Link from 'next/link';
+import ChangeTheme from '../ChangeTheme/ChangeTheme';
+import SignOut from '../auth/SignOut/SignOut';
 
 const ProfilePopup: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,8 +38,9 @@ const ProfilePopup: FC = () => {
           background: `center/cover no-repeat url(${user.photoURL})`,
         }}
       ></div>
-      {!isOpen && (
+      {isOpen && (
         <div className='profile-popup__box'>
+          {/* <ChangeTheme /> */}
           <div className='profile-popup__item'>
             <p className='profile-popup__subtitle'>Account</p>
             <div className='profile-popup__row flex'>
@@ -51,9 +55,30 @@ const ProfilePopup: FC = () => {
                 <span>{user.email}</span>
               </p>
             </div>
+            <Link className='profile-popup__link' href={'/settings/profile'}>
+              Account management
+            </Link>
           </div>
-          <div className=''>
+          <div className='profile-popup__setting'>
             <p className='profile-popup__subtitle'>Settings</p>
+            <Link className='profile-popup__link' href={'/settings/security'}>
+              Personal data
+            </Link>
+            <Link className='profile-popup__link' href={'/settings/security'}>
+              Change password
+            </Link>
+
+            <p className='profile-popup__subtitle'>Other</p>
+            {/* !!! создать */}
+            <Link className='profile-popup__link' href={'/notifications'}>
+              Notifications
+            </Link>
+            <Link className='profile-popup__link' href={'/assistance'}>
+              Assistance
+            </Link>
+            <div className='profile-popup__button'>
+              <SignOut />
+            </div>
           </div>
         </div>
       )}
