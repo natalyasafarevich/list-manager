@@ -1,4 +1,4 @@
-
+'use client';
 import {FC, useState} from 'react';
 import axios from 'axios';
 import './DashboardHeader.scss';
@@ -7,8 +7,10 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import Search from '../Search/Search';
 import ProfilePopup from '../ProfilePopup/ProfilePopup';
+import DropDownHeader from '../DropDownHeader/DropDownHeader';
 
 const DashboardHeader: FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className='dashboard-header'>
       <div className='dashboard-header__container '>
@@ -16,9 +18,22 @@ const DashboardHeader: FC = () => {
           <div className='dashboard-header__row'>
             <div className='dashboard-header__box'>
               <Link href={'/'} className='dashboard-header__logo logo'></Link>
-              <Link href={'/boards'} className='dashboard-header__link'>
+              <Link
+                href={'/boards'}
+                className='dashboard-header__link dashboard-header__link'
+              >
                 Boards
               </Link>
+              <div className='dashboard-header__favorite'>
+                <span
+                  className={`dashboard-header__icon flex ${isOpen ? 'active' : ''}`}
+                  onClick={(e) => setIsOpen(!isOpen)}
+                >
+                  Favorites
+                </span>
+                {isOpen && <DropDownHeader />}
+              </div>
+
               <div className='dashboard-header__search'>
                 <Search />
               </div>

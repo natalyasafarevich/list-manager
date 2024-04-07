@@ -62,9 +62,6 @@ const ProfilePopup: FC = () => {
           <div className='profile-popup__setting'>
             <p className='profile-popup__subtitle'>Settings</p>
             <Link className='profile-popup__link' href={'/settings/security'}>
-              Personal data
-            </Link>
-            <Link className='profile-popup__link' href={'/settings/security'}>
               Change password
             </Link>
 

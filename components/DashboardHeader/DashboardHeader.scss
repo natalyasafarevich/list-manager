@@ -39,7 +39,28 @@
       height: 100%;
     }
   }
-
+  &__icon {
+    &.active::after {
+      transform: rotate(90deg);
+    }
+    &::after {
+      margin-left: 5px;
+      content: "";
+      display: block;
+      width: 20px;
+      height: 20px;
+      transform: rotate(270deg);
+      background: no-repeat url("/arrow.svg");
+      background-size: 30px;
+      background-position-x: 50%;
+      background-position-y: 17%;
+    }
+  }
+  &__favorite {
+    cursor: pointer;
+    position: relative;
+    padding-left: 15px;
+  }
   // .dashboard-header__link
   &__search {
     padding: 0 20px;
