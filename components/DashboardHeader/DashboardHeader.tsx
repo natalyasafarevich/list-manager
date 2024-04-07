@@ -5,6 +5,7 @@ import './DashboardHeader.scss';
 import Link from 'next/link';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
+import Search from '../Search/Search';
 
 const DashboardHeader: FC = () => {
   const user = useSelector((state: RootState) => state.userdata);
@@ -18,6 +19,9 @@ const DashboardHeader: FC = () => {
               <Link href={'/boards'} className='dashboard-header__link'>
                 Boards
               </Link>
+              <div className='dashboard-header__search'>
+                <Search />
+              </div>
             </div>
             <div className='dashboard-header__box dashboard-header__box_icons'>
               <button className='dashboard-header__button dashboard-header__button_add'></button>

@@ -1,0 +1,30 @@
+.search {
+  // .search__input
+  &__box {
+    width: 100%;
+    border-radius: 25px;
+    background: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 15px;
+  }
+  &__input {
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    width: 100%;
+  }
+
+  // .search__icon
+
+  &__icon {
+    cursor: pointer;
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: center/contain no-repeat url("/search-outline.svg");
+    margin-left: 10px;
+  }
+}
