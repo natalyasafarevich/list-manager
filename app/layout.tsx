@@ -1,6 +1,8 @@
+// 'use client';
+
 import type {Metadata} from 'next';
 import {Poppins} from 'next/font/google';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.scss';
 import UserStatus from '@/components/auth/UserStatus/UserStatus';
 import SignOut from '@/components/auth/SignOut/SignOut';
@@ -8,7 +10,6 @@ import ReduxProvider from '@/providers/ReduxProvider';
 import Link from 'next/link';
 import Header from '@/components/Header/Header';
 import MainHeader from '@/components/MainHeader/MainHeader';
-
 const popins = Poppins({
   subsets: ['latin'], // Здесь можно указать поддерживаемые подмножества
   weight: ['300', '400', '500'],
@@ -28,9 +29,8 @@ export default function RootLayout({
       <html lang='en'>
         <body className={popins.className}>
           <MainHeader />
-          <div className=''>
+          <div className='wrap'>
             <UserStatus />
-
             {children}
           </div>
         </body>
