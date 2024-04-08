@@ -4,7 +4,7 @@
   --purple-dark-color: #27104e;
 }
 .wrap {
-  padding-left: 160px;
+  // padding-left: 160px;
 }
 .content-wrap {
   max-width: 1920px;
@@ -178,6 +178,19 @@ body {
 input.input-error {
   border: none;
   outline: 1px solid #ff432a;
+}
+.open-menu {
+  box-shadow: 0 4px 19px 0 rgba(63, 71, 45, 0.3);
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  position: fixed;
+  background-color: #f4f4f4;
+  background-image: url("/arrow.svg");
+  background-size: 50px;
+  &.active {
+    transform: rotate(180deg);
+  }
 }
 .button-dark {
   cursor: pointer;

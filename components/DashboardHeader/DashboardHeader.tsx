@@ -20,9 +20,12 @@ const DashboardHeader: FC = () => {
               <Link href={'/'} className='dashboard-header__logo logo'></Link>
               <Link
                 href={'/boards'}
-                className='dashboard-header__link dashboard-header__link'
+                className='dashboard-header__link dashboard-header__link_board'
               >
                 Boards
+              </Link>
+              <Link href={'/templates'} className='dashboard-header__link'>
+                Templates
               </Link>
               <div className='dashboard-header__favorite'>
                 <span
@@ -34,14 +37,15 @@ const DashboardHeader: FC = () => {
                 {isOpen && <DropDownHeader />}
               </div>
 
-              <div className='dashboard-header__search'>
-                <Search />
-              </div>
+              <div className='dashboard-header__search'></div>
             </div>
             <div className='dashboard-header__box dashboard-header__box_icons'>
+              <Search />
               <button className='dashboard-header__button dashboard-header__button_add'></button>
               <button className='dashboard-header__button dashboard-header__button_notification'></button>
+
               <ProfilePopup />
+
               {/* <div
                 className='dashboard-header__user'
                 style={{
