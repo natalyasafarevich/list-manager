@@ -1,6 +1,6 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
-import CreateABoard from './CreateABoard/CreateABoard';
+import CreateBoardForm from './CreateBoardForm/CreateBoardForm';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import Link from 'next/link';
@@ -35,12 +35,14 @@ const AllBoards: FC = () => {
       console.log(' у вас не доcок');
     }
   }, [accessedBoard]);
-  const [isCreated, setIsCreated] = useState(false);
+  // const [isCreated, setIsCreated] = useState(false);
+  // useEffect(() => {
+  //   (user.uid || isCreated) &&
+  //     fetchBackData(user.uid, `/current-boards`, setAccessedBoard);
+  // }, [user, isCreated]);
   useEffect(() => {
-    (user.uid || isCreated) &&
-      fetchBackData(user.uid, `/current-boards`, setAccessedBoard);
-  }, [user, isCreated]);
-
+    user.uid && fetchBackData(user.uid, `/current-boards`, setAccessedBoard);
+  }, [user]);
   const boards = useSelector((state: RootState) => state.boards.boards);
   useEffect(() => {
     setClosedBoard([]);
@@ -49,10 +51,9 @@ const AllBoards: FC = () => {
 
   return (
     <div className='d-block'>
-      <button className='d-block btn btn-outline-primary'>создать доску</button>
+      {/* <button className='d-block btn btn-outline-primary'>создать доску</button> */}
 
       <div className='d-flex'>
-        <CreateABoard isCreated={(e) => setIsCreated(e)} />
         <div className=''>
           <h3>Ваши доски ( созданные)</h3>
           <div className=''>

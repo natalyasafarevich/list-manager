@@ -3,8 +3,19 @@
   --secondary-color: #fff;
   --purple-dark-color: #27104e;
 }
-.wrap {
+.button-close {
+  width: 15px;
+  height: 15px;
+  background: center/contain no-repeat url("/icon-close.svg");
   // padding-left: 160px;
+}
+.padding-2-3 {
+  padding: 20px 30px;
+}
+.medium-content-wrap {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1440px;
 }
 .content-wrap {
   max-width: 1920px;
