@@ -1,10 +1,11 @@
 'use client';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect} from 'react';
+import './VisibilityBoard.scss';
+
 interface VisibilityBoardProp {
   currentValue: (e: string) => void;
 }
 const VisibilityBoard: FC<VisibilityBoardProp> = ({currentValue}) => {
-  // const [value, setValue] = useState('рабочее пространство');
   useEffect(() => {
     currentValue('public');
   }, []);
@@ -13,25 +14,35 @@ const VisibilityBoard: FC<VisibilityBoardProp> = ({currentValue}) => {
     if (currentTarget.dataset.type) currentValue(currentTarget.dataset.type);
   };
   return (
-    <div>
-      <div className='dropdown'>
-        <button data-type='public' type='button' onClick={changeTypeBoard}>
-          публичная
-        </button>
-        <button data-type='private' type='button' onClick={changeTypeBoard}>
-          приватная
-        </button>
-        {/* <div className='' aria-labelledby='dropdownMenuButton'>
-          <a className='dropdown-item' href='/'>
-            рабочее пространство
-          </a>
-          <a className='dropdown-item' href='/'>
-            приватная
-          </a>
-          <a className='dropdown-item' href='/'>
-            публичная
-          </a>
-        </div> */}
+    <div className='visibility'>
+      <div className='visibility__container'>
+        <p className='visibility__title'>Type of board</p>
+        <div className='visibility__box'>
+          <button
+            className='visibility__button'
+            data-type='public'
+            type='button'
+            onClick={changeTypeBoard}
+          >
+            Public
+          </button>
+          <span className='visibility__desc'>
+            The public board can be viewed by everyone.
+          </span>
+        </div>
+        <div className='visibility__box'>
+          <button
+            className='visibility__button'
+            data-type='private'
+            type='button'
+            onClick={changeTypeBoard}
+          >
+            Private
+          </button>
+          <span className='visibility__desc'>
+            The private board can only be viewed by board members.
+          </span>
+        </div>
       </div>
     </div>
   );

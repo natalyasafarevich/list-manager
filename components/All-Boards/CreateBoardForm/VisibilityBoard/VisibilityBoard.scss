@@ -1,0 +1,33 @@
+.visibility {
+  // .visibility__container
+
+  &__container {
+  }
+
+  // .visibility__title
+
+  &__title {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 111%;
+    margin-bottom: 15px;
+  }
+
+  // .visibility__box
+
+  &__box {
+    margin-bottom: 10px;
+  }
+
+  // .visibility__button
+
+  &__button {
+  }
+
+  // .visibility__desc
+
+  &__desc {
+    font-size: 13px;
+    display: block;
+  }
+}
