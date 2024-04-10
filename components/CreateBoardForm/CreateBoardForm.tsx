@@ -107,6 +107,10 @@ const CreateBoardForm: FC<CreateBoardFormProps> = ({
     }
     setUpdateUserBoard(true);
     const id = uuidv4();
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentDay = currentDate.getDate();
+    const currentMonth = currentDate.getMonth() + 1;
 
     setCurrentIds((prev: any) => ({...prev, [id]: true}));
     const newBoard = {
@@ -116,6 +120,7 @@ const CreateBoardForm: FC<CreateBoardFormProps> = ({
         name: value,
         type: visibility,
         currentBg: currentBg,
+        creationDate: `${currentDay}.${currentMonth}.${currentYear}`,
         members: {
           [user.uid]: 'admin',
         },
@@ -126,7 +131,6 @@ const CreateBoardForm: FC<CreateBoardFormProps> = ({
     isCreated && isCreated(true);
     router.push(`/board/${newBoard[id].id}`);
   };
-  // const [isClose, setIsClose] = useState(false);
   return (
     <>
       {isClose && (
