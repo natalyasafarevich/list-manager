@@ -8,6 +8,7 @@ import {BoardProps} from '@/types/interfaces';
 import {fetchBackData} from '@/helper/getFirebaseData';
 import {getDatabase, onValue, ref} from 'firebase/database';
 import firebaseApp from '@/firebase';
+import CreateBoardForm from '../CreateBoardForm/CreateBoardForm';
 
 const BoardsList: FC = () => {
   const [closedBoard, setClosedBoard] = useState<Array<BoardProps>>([]);
@@ -44,11 +45,23 @@ const BoardsList: FC = () => {
     setClosedBoard([]);
     setOpenBoard([]);
   }, [boards.length]);
-  // console.log(boards);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className='boards-list'>
       <div className='boards-list__container padding-2-3'>
-        <p className='boards-list__title'>Your boards</p>
+        <div className='boards-list__row'>
+          <p className='boards-list__title'>Your boards</p>
+          <button className='button-dark' onClick={() => setIsOpen(!isOpen)}>
+            Create a new board
+          </button>
+          <div className='boards-list__form'>
+            <CreateBoardForm
+              setIsOpen={setIsOpen}
+              isClose={isOpen}
+              // currentRef={createBoardFormRefClickOutside}
+            />
+          </div>
+        </div>
         <div className='boards-list__box'>
           {otherBoard &&
             otherBoard.map(

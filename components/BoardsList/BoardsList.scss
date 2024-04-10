@@ -13,15 +13,24 @@
     font-weight: 500;
     font-size: 30px;
     text-transform: uppercase;
-    margin-bottom: 20px;
   }
 
   // .boards-list__box
 
   &__box {
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
     margin: 0 -10px;
+  }
+  &__form {
+    position: absolute;
+    width: max-content;
+    top: 50px;
+    right: 0px;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
   }
 
   // .boards-list__item
@@ -47,7 +56,7 @@
     }
     border: 1px solid #e6e4f0;
     border-radius: 10px;
-    max-width: 248px;
+    max-width: 18%;
     width: 100%;
     box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.08);
     background: var(--secondary-color);
@@ -88,5 +97,16 @@
   &__subtitle {
     font-size: 25px;
     margin: 15px 0;
+  }
+  &__row {
+    position: relative;
+    display: flex;
+    margin-bottom: 30px;
+    align-items: center;
+    justify-content: space-between;
+    .button-dark {
+      padding: 10px;
+      width: max-content;
+    }
   }
 }
