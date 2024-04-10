@@ -32,21 +32,27 @@ const DropDownHeader: FC = () => {
   }, [boards]);
   // console.log(boards);
   return (
-    <div className='dropdown-header' >
+    <div className='dropdown-header'>
       <div className='dropdown-header__container'>
-        {favoriteBoards?.map((board, i) => (
-          <Link
-            href={`/board/${board.id}`}
-            key={i}
-            className='dropdown-header__box flex'
-          >
-            <span
-              className='dropdown-header__bg'
-              style={{background: `center/cover no-repeat url(${board.bg})`}}
-            ></span>
-            <span className='dropdown-header__name'>{board.name}</span>
-          </Link>
-        ))}
+        {favoriteBoards.length ? (
+          favoriteBoards?.map((board, i) => (
+            <Link
+              href={`/board/${board.id}`}
+              key={i}
+              className='dropdown-header__box flex'
+            >
+              <span
+                className='dropdown-header__bg'
+                style={{background: `center/cover no-repeat url(${board.bg})`}}
+              ></span>
+              <span className='dropdown-header__name'>{board.name}</span>
+            </Link>
+          ))
+        ) : (
+          <p className='dropdown-header__desc'>
+            You don`t have favorite boards
+          </p>
+        )}
       </div>
     </div>
   );

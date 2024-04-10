@@ -133,6 +133,7 @@
     position: relative;
   }
   &__form {
+    z-index: 1;
     position: absolute;
     top: 40px;
     right: -30px;

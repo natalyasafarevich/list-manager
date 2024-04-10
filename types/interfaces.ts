@@ -48,7 +48,7 @@ export type BoardProps = {
   currentBg?: string;
   id?: string;
   members?: any;
-  //  Array<MemberProps>;
+  creationDate?: string;
   name?: string;
   type?: string;
   lists?: Array<ListsProps>;

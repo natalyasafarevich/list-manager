@@ -1,0 +1,92 @@
+.boards-list {
+  // .boards-list__container
+
+  &__container {
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  // .boards-list__title
+
+  &__title {
+    font-weight: 500;
+    font-size: 30px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  // .boards-list__box
+
+  &__box {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+  }
+
+  // .boards-list__item
+
+  &__item {
+    position: relative;
+    overflow: hidden;
+    &_closed {
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: var(--primary-color);
+        opacity: 0.2;
+      }
+    }
+    &:hover {
+      transform: scale(1.1);
+    }
+    border: 1px solid #e6e4f0;
+    border-radius: 10px;
+    max-width: 248px;
+    width: 100%;
+    box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.08);
+    background: var(--secondary-color);
+    margin: 0 10px 20px;
+    padding: 10px 10px 20px;
+    color: var(--primary-color);
+    span {
+      display: block;
+    }
+  }
+  &__name {
+    font-weight: 500;
+    font-size: 18px;
+    text-transform: capitalize;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &__type {
+    font-size: 12px;
+    color: #a3a3a3;
+    margin-bottom: 10px;
+  }
+  // .boards-list__date
+
+  &__date {
+    font-weight: 400;
+    font-size: 12px;
+    color: #a3a3a3;
+    text-align: right;
+  }
+  &__bg {
+    width: 100%;
+    height: 112px;
+    border-radius: 6px;
+    margin: 0 0 12px;
+  }
+  &__subtitle {
+    font-size: 25px;
+    margin: 15px 0;
+  }
+}

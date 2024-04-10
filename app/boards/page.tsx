@@ -1,5 +1,5 @@
 'use client';
-import AllBoards from '@/components/All-Boards/All-Boards';
+import BoardsList from '@/components/BoardsList/BoardsList';
 import CreateBoardForm from '@/components/CreateBoardForm/CreateBoardForm';
 // import  from '@/components/CreateBoardForm/CreateBoardForm';
 import DashboardHeader from '@/components/DashboardHeader/DashboardHeader';
@@ -13,7 +13,7 @@ export default function AllBoardsPage() {
       <div className='medium-content-wrap padding-2-3'></div>
       {/* <CreateBoardForm isCreated={(e) => setIsCreated(e)} /> */}
       {/* <h1 className='text-align-center'>BOARDS PAGE</h1> */}
-      {/* <AllBoards /> */}
+      <BoardsList />
     </div>
   );
 }
