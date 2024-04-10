@@ -46,6 +46,16 @@ const BoardsList: FC = () => {
     setOpenBoard([]);
   }, [boards.length]);
   const [isOpen, setIsOpen] = useState(false);
+
+  const [currenBoards, setCurrentBoards] = useState<Array<any>>([]);
+  useEffect(() => {
+    for (let board in boards) {
+      if (boards[board].members[user.uid]) {
+        setCurrentBoards((prev: any) => [...prev, boards[board]]);
+      }
+    }
+  }, [boards]);
+  console.log(boards);
   return (
     <div className='boards-list'>
       <div className='boards-list__container padding-2-3'>
@@ -63,8 +73,8 @@ const BoardsList: FC = () => {
           </div>
         </div>
         <div className='boards-list__box'>
-          {otherBoard &&
-            otherBoard.map(
+          {currenBoards &&
+            currenBoards.map(
               (board: any, i: number) =>
                 board.members[user.uid] && (
                   <Link

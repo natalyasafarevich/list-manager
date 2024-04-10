@@ -7,6 +7,7 @@ import CreateBoardForm from '../CreateBoardForm/CreateBoardForm';
 import './DashboardHeader.scss';
 import useClickOutside from '@/hooks/useClickOutside';
 import FavoriteComponent from '../FavoriteComponent/FavoriteComponent';
+import Notification from '../Notification/Notification';
 
 const DashboardHeader: FC = () => {
   const [isCreated, setIsCreated] = useState(false);
@@ -60,8 +61,10 @@ const DashboardHeader: FC = () => {
                   {/* )} */}
                 </div>
               </div>
-              <button className='dashboard-header__button dashboard-header__button_notification'></button>
-
+              <div className='logo__'>
+                <button className='dashboard-header__button dashboard-header__button_notification'></button>
+                <Notification />
+              </div>
               <ProfilePopup />
             </div>
           </div>

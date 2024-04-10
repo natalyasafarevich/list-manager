@@ -120,10 +120,10 @@ const CreateBoardForm: FC<CreateBoardFormProps> = ({
         name: value,
         type: visibility,
         currentBg: currentBg,
-        creationDate: `${currentDay}.${currentMonth}.${currentYear}`,
         members: {
           [user.uid]: 'admin',
         },
+        creationDate: `${currentDay}.${currentMonth}.${currentYear}`,
       },
     };
     setBoards({...boards, ...newBoard});
