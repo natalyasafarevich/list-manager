@@ -1,16 +1,23 @@
-'use client';
-import {FC, useState} from 'react';
-import axios from 'axios';
-import './DashboardHeader.scss';
+import {FC, useState, useRef} from 'react';
 import Link from 'next/link';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/store/store';
 import Search from '../Search/Search';
 import ProfilePopup from '../ProfilePopup/ProfilePopup';
 import DropDownHeader from '../DropDownHeader/DropDownHeader';
+import CreateBoardForm from '../CreateBoardForm/CreateBoardForm';
+import './DashboardHeader.scss';
+import useClickOutside from '@/hooks/useClickOutside';
+import FavoriteComponent from '../FavoriteComponent/FavoriteComponent';
 
 const DashboardHeader: FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isCreated, setIsCreated] = useState(false);
+  // const createBoardFormRef = useRef<HTMLDivElement>(null);
+
+  const {
+    ref: createBoardFormRefClickOutside,
+    isClose: isCreateBoardFormClose,
+    setIsClose: setIsCreateBoardFormClose,
+  } = useClickOutside<HTMLDivElement>(false, false);
+
   return (
     <div className='dashboard-header'>
       <div className='dashboard-header__container '>
@@ -27,31 +34,35 @@ const DashboardHeader: FC = () => {
               <Link href={'/templates'} className='dashboard-header__link'>
                 Templates
               </Link>
-              <div className='dashboard-header__favorite'>
-                <span
-                  className={`dashboard-header__icon flex ${isOpen ? 'active' : ''}`}
-                  onClick={(e) => setIsOpen(!isOpen)}
-                >
-                  Favorites
-                </span>
-                {isOpen && <DropDownHeader />}
-              </div>
-
+              <FavoriteComponent />
               <div className='dashboard-header__search'></div>
             </div>
             <div className='dashboard-header__box dashboard-header__box_icons'>
               <Search />
-              <button className='dashboard-header__button dashboard-header__button_add'></button>
+              <div
+                className='dashboard-header__board'
+                ref={createBoardFormRefClickOutside}
+              >
+                <button
+                  className='dashboard-header__button dashboard-header__button_add'
+                  onClick={() =>
+                    setIsCreateBoardFormClose(!isCreateBoardFormClose)
+                  }
+                ></button>
+                <div className='dashboard-header__form'>
+                  {/* {isCreateBoardFormClose && ( */}
+                  <CreateBoardForm
+                    setIsOpen={setIsCreateBoardFormClose}
+                    isCreated={setIsCreated}
+                    isClose={isCreateBoardFormClose}
+                    // currentRef={createBoardFormRefClickOutside}
+                  />
+                  {/* )} */}
+                </div>
+              </div>
               <button className='dashboard-header__button dashboard-header__button_notification'></button>
 
               <ProfilePopup />
-
-              {/* <div
-                className='dashboard-header__user'
-                style={{
-                  background: `center/cover no-repeat url(${user.photoURL})`,
-                }}
-              ></div> */}
             </div>
           </div>
         </div>

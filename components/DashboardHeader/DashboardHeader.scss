@@ -13,6 +13,7 @@
     &_icons {
       max-width: 40%;
       justify-content: flex-end;
+      align-items: center;
     }
     display: flex;
     align-items: center;
@@ -125,7 +126,18 @@
       background-position-x: 100%;
     }
   }
-
+  &__board {
+    width: 25px;
+    height: 25px;
+    margin: 0 7.5px;
+    position: relative;
+  }
+  &__form {
+    position: absolute;
+    top: 40px;
+    right: -30px;
+    width: 400px;
+  }
   // .dashboard-header__user
 
   &__user {

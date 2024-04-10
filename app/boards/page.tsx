@@ -1,6 +1,6 @@
 'use client';
 import AllBoards from '@/components/All-Boards/All-Boards';
-import CreateBoardForm from '@/components/All-Boards/CreateBoardForm/CreateBoardForm';
+import CreateBoardForm from '@/components/CreateBoardForm/CreateBoardForm';
 // import  from '@/components/CreateBoardForm/CreateBoardForm';
 import DashboardHeader from '@/components/DashboardHeader/DashboardHeader';
 import {useState} from 'react';
@@ -11,7 +11,7 @@ export default function AllBoardsPage() {
     <div>
       <DashboardHeader />
       <div className='medium-content-wrap padding-2-3'></div>
-      <CreateBoardForm isCreated={(e) => setIsCreated(e)} />
+      {/* <CreateBoardForm isCreated={(e) => setIsCreated(e)} /> */}
       {/* <h1 className='text-align-center'>BOARDS PAGE</h1> */}
       {/* <AllBoards /> */}
     </div>

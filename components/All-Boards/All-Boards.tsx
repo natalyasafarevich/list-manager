@@ -1,6 +1,6 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
-import CreateBoardForm from './CreateBoardForm/CreateBoardForm';
+import CreateBoardForm from '../CreateBoardForm/CreateBoardForm';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import Link from 'next/link';
