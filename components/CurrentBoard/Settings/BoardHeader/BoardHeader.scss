@@ -1,0 +1,98 @@
+.board-header {
+  // .board-header__container
+
+  &__container {
+    padding: 30px 0 15px;
+  }
+
+  // .board-header__row
+
+  &__row {
+    justify-content: space-between;
+  }
+
+  // .board-header__box
+
+  &__box {
+  }
+
+  // .board-header__input
+  &__item {
+    // width: 30px;
+    height: 30px;
+    padding-right: 10px;
+    border-right: 1px solid rgba(151, 151, 151, 0.2941176471);
+  }
+  &__input {
+    max-width: 200px;
+    width: max-content;
+    // width: 100%;
+    font-weight: 500;
+    font-size: 26px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // .board-header__visibility
+
+  &__visibility {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.1);
+    &:hover {
+      color: var(--primary-color);
+      &::before {
+        background-position: right;
+      }
+    }
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 20px;
+      margin-right: 5px;
+      height: 20px;
+      background: left/cover no-repeat url("/type-board-icon.svg");
+    }
+    padding: 0 10px;
+    border-right: 1px solid rgba(151, 151, 151, 0.2941176471);
+  }
+
+  // .board-header__members
+
+  &__members {
+    // max-width: 100px;
+    display: flex;
+  }
+
+  // .board-header__card
+  &__popup {
+    background: var(--secondary-color);
+    border: 1px solid #eff0f6;
+    box-shadow: 0 5px 16px 0 rgba(8, 15, 52, 0.06);
+    border-radius: 15px;
+    padding: 10px;
+    position: absolute;
+    width: 100%;
+    top: 30px;
+    .visibility__box {
+      margin: 0;
+    }
+  }
+  &__card {
+  }
+
+  // .board-header__menu
+
+  &__menu {
+  }
+}
+.flex {
+}

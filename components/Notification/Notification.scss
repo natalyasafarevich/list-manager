@@ -1,0 +1,22 @@
+.notification {
+  // .notification__container
+
+  &__container {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #eff0f6;
+    box-shadow: 0 5px 16px 0 rgba(8, 15, 52, 0.06);
+    border-radius: 34px;
+    padding: 15px;
+  }
+
+  // .notification__box
+
+  &__box {
+  }
+
+  // .notification__text
+
+  &__text {
+  }
+}

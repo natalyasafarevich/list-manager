@@ -36,7 +36,7 @@ const CreateBoardForm: FC<CreateBoardFormProps> = ({
 
   const [isUpdate, setIsUpdate] = useState(false);
   const user = useSelector((state: RootState) => state.userdata);
-  // const [isOpen, setIsOpen] = useState(false);
+
   const router = useRouter();
   const db = getDatabase(firebaseApp);
   const dispatch: AppDispatch = useDispatch();
@@ -127,6 +127,7 @@ const CreateBoardForm: FC<CreateBoardFormProps> = ({
       },
     };
     setBoards({...boards, ...newBoard});
+
     setIsUpdate(true);
     isCreated && isCreated(true);
     router.push(`/board/${newBoard[id].id}`);

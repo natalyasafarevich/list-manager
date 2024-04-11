@@ -26,13 +26,21 @@ const ChangingVisibility: FC<ChangingVisibilityProps> = ({type, name}) => {
     }
   }, [board.currentBoards]);
   return (
-    <div>
-      <>
-        <p data-type={type} onClick={changeVisibility}>
+    <div className='visibility'>
+      <div className={`visibility__box ${isCurrent ? 'active' : ''}`}>
+        <button
+          className='visibility__button'
+          data-type={type}
+          type='button'
+          onClick={changeVisibility}
+        >
           {name}
-          {isCurrent && '---current'}
-        </p>
-      </>
+        </button>
+      </div>
+      {/* <p data-type={type} onClick={changeVisibility}> */}
+      {/* {name} */}
+      {/* </p> */}
+      {/* </> */}
     </div>
   );
 };

@@ -1,39 +1,38 @@
 'use client';
-import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {RootState} from '@/store/store';
 import Link from 'next/link';
 import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
+import './Notification.scss';
+
+interface NotificationType {
+  [key: string]: {
+    id: string;
+    isViewed: boolean;
+    link: string;
+    message: string;
+    name: string;
+  };
+}
 
 const Notification: FC = () => {
-  const [notification, getNotification] = useState<any>();
-  const [isOpen, getIsOpen] = useState(false);
+  const [notification, getNotification] = useState<NotificationType>({});
 
-  // console.log(notification);
-  const user = useSelector((state: RootState) => state.userdata);
-  useEffect(() => {
-    user.uid &&
-      fetchBackDefaultData(`users/${user.uid}/notification`, getNotification);
-  }, [user]);
   return (
-    <div>
-      <button onClick={(e) => getIsOpen(!isOpen)}>open</button>
-      {notification &&
-        notification?.map(
-          (note: any, i: any) =>
-            isOpen && (
-              <p>
-                {note.message}{' '}
-                <Link
-                  href={`/board/${note.link}`}
-                  onClick={(e) => getIsOpen(!isOpen)}
-                >
-                  {' '}
-                  {note.name}
-                </Link>
-              </p>
-            ),
-        )}
+    <div className='notification'>
+      <div className='notification__container'>
+        <div className='notification__box'>
+          {Object.keys(notification).map((key) => (
+            <p key={notification[key].id} className='notification__text'>
+              {notification[key].message}
+              <Link href={`/board/${notification[key].link}`}>
+                {notification[key].name}
+              </Link>
+            </p>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

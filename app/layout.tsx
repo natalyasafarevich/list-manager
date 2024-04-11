@@ -2,7 +2,7 @@
 
 import type {Metadata} from 'next';
 import {Poppins} from 'next/font/google';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.scss';
 import UserStatus from '@/components/auth/UserStatus/UserStatus';
 import SignOut from '@/components/auth/SignOut/SignOut';

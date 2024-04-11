@@ -63,7 +63,7 @@ const DashboardHeader: FC = () => {
               </div>
               <div className='logo__'>
                 <button className='dashboard-header__button dashboard-header__button_notification'></button>
-                <Notification />
+                {/* <Notification /> */}
               </div>
               <ProfilePopup />
             </div>

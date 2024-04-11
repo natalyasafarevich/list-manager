@@ -6,11 +6,12 @@ import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import ButtonToFavorites from '@/components/ButtonToFavorites/ButtonToFavorites';
 import ProfileCard from '../ProfileCard/ProfileCard';
 import AdditionalMenu from '../../AdditionalMenu/AdditionalMenu';
-import {NewMembersProps} from '../../Members/AddMember/AddMember';
 import {getDatabase, onValue, query, ref} from 'firebase/database';
 import firebaseApp from '@/firebase';
 import ChangingVisibility from '../ChangingVisibility/ChangingVisibility';
 import {getMembers} from '@/store/members/actions';
+import './BoardHeader.scss';
+import VisibilityBoard from '@/components/VisibilityBoard/VisibilityBoard';
 
 interface HeaderBoardProps {
   board: any;
@@ -81,66 +82,66 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   return (
     <>
       {isMenuOpen && <AdditionalMenu closeMenu={(e) => setIsMenuOpen(e)} />}
-      <div className='mb-5 bg-black text-bg-danger p-3'>
-        <div className='d-flex justify-content-between'>
-          <div className='d-flex'>
-            <input
-              value={value}
-              onChange={changeTitle}
-              style={{
-                background: 'transparent',
-                color: 'white',
-                border: 'none',
-                fontSize: 20,
-              }}
-              disabled={!isLoggedIn}
-            />
-            {isLoggedIn && (
-              <>
-                <ButtonToFavorites
-                  path={boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''}
-                  isFavorite={
-                    (board?.favoriteUid && board?.favoriteUid[user.uid]) ||
-                    false
-                  }
-                />
-                <div className='justify-content-between__'>
-                  <p onClick={(e) => setIsOpenCard(!isOpenCard)}>
-                    Изменение видимости
-                  </p>
-                  {isOpenCard && (
-                    <div>
-                      <ChangingVisibility type='private' name='private' />
-                      <ChangingVisibility type='public' name='public' />
-                    </div>
-                  )}
+      <div className='board-header'>
+        <div className='board-header__container'>
+          <div className='board-header__row flex'>
+            <div className='board-header__box  flex'>
+              <input
+                maxLength={25}
+                className='board-header__input'
+                value={value}
+                onChange={changeTitle}
+                disabled={!isLoggedIn}
+              />
+              {isLoggedIn && (
+                <div className='flex'>
+                  <div className='board-header__item'>
+                    <ButtonToFavorites
+                      path={
+                        boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''
+                      }
+                      isFavorite={
+                        (board?.favoriteUid && board?.favoriteUid[user.uid]) ||
+                        false
+                      }
+                    />
+                  </div>
+                  <div className='board-header__visibility'>
+                    <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>
+                      {board.type}
+                    </p>
+                    {isOpenCard && (
+                      <div className='board-header__popup'>
+                        <ChangingVisibility type='private' name='private' />
+                        <ChangingVisibility type='public' name='public' />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </>
-            )}
-          </div>
-          <div className='d-flex position-relative w-25'>
-            {/* <div
-              onClick={() => setIsOpenCard(!isOpenCard)}
-              style={{
-                background: `center/cover no-repeat url(${user?.photoURL})`,
-                width: 50,
-                height: 50,
-              }}
-            ></div> */}
-            {members?.map((member, i) => (
-              <div key={i}>
-                <ProfileCard userData={member} key={i} />
-              </div>
-            ))}
+              )}
+            </div>
+            <div className='board-header__members'>
+              <div
+                onClick={() => setIsOpenCard(!isOpenCard)}
+                style={{
+                  background: `center/cover no-repeat url(${user?.photoURL})`,
+                }}
+              ></div>
+              {members?.map((member, i) => (
+                <div className='board-header__card' key={i}>
+                  <ProfileCard userData={member} key={i} />
+                </div>
+              ))}
 
-            {isLoggedIn && (
-              <button
-                className='m-2'
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                боковое меню
-              </button>
-            )}
+              {isLoggedIn && (
+                <button
+                  className='board-header__menu'
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                  Menu
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

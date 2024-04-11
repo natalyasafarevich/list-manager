@@ -65,15 +65,11 @@ const BoardsList: FC = () => {
             Create a new board
           </button>
           <div className='boards-list__form'>
-            <CreateBoardForm
-              setIsOpen={setIsOpen}
-              isClose={isOpen}
-              // currentRef={createBoardFormRefClickOutside}
-            />
+            <CreateBoardForm setIsOpen={setIsOpen} isClose={isOpen} />
           </div>
         </div>
         <div className='boards-list__box'>
-          {currenBoards &&
+          {currenBoards.length ? (
             currenBoards.map(
               (board: any, i: number) =>
                 board.members[user.uid] && (
@@ -96,7 +92,10 @@ const BoardsList: FC = () => {
                     </span>
                   </Link>
                 ),
-            )}
+            )
+          ) : (
+            <p className='boards-list__text'>You don`t have any boards</p>
+          )}
         </div>
         <p className='boards-list__subtitle'>Closed boards</p>
         <div className='boards-list__box'>
