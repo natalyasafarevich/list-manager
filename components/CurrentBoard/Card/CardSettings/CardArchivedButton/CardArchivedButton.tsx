@@ -47,7 +47,7 @@ const CardArchivedButton: FC = () => {
     <div>
       <button
         onClick={archivedCard}
-        disabled={user_status !== 'admin' ? true : false}
+        // disabled={user_status !== 'admin' ? true : false}
       >
         архивировать
       </button>

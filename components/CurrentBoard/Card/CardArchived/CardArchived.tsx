@@ -76,19 +76,21 @@ const CardArchived: FC = () => {
   };
 
   return (
-    <div>
-      <span>архивированные карточки:</span>
+    <div className='archived'>
+      <p className='additional-menu__subtitle'>Archived cards:</p>
+
       {archivedCards &&
         archivedCards?.map((item, i) => (
-          <div key={i} className='bg-secondary p-2'>
-            <p>{item?.title}</p>
+          <div key={i} className='archived__box'>
+            <p className='archived__title'>{item?.title}</p>
             <button
+              className='archived__button button-dark'
               data-cardid={item?.cardId}
               onClick={deleteFromArchive}
               data-id={item?.listId}
               data-index={item?.listIndex}
             >
-              вернуть
+              Return to column
             </button>
           </div>
         ))}

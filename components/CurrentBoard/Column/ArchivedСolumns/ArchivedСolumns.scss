@@ -1,0 +1,32 @@
+.archived {
+  // .archived__box
+
+  &__box {
+    background: #f4f4f4;
+    border-radius: 10px;
+    padding: 7px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  // .archived__title
+
+  &__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // .archived__button
+
+  &__button {
+    margin-top: 10px;
+    padding: 5px;
+  }
+}
+.additional-menu {
+  // .additional-menu__subtitle
+
+  &__subtitle {
+  }
+}

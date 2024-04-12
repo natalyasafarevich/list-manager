@@ -39,7 +39,7 @@ const ArchiveColumn: FC = () => {
     <div>
       <button
         onClick={archiveColumn}
-        disabled={user_status !== 'admin' ? true : false}
+        // disabled={user_status !== 'admin' ? true : false}
       >
         архивировать список{' '}
       </button>

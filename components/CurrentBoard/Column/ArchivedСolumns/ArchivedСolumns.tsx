@@ -5,6 +5,8 @@ import {isArchive} from '@/store/column-setting/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import './ArchivedСolumns.scss';
+
 export const fetchData = async (
   id: string,
   index: number,
@@ -21,7 +23,6 @@ export const fetchData = async (
 const ArchivedСolumns: FC = () => {
   const [allColumns, getAllColumns] = useState<Array<any>>([]);
   const [archivedColumns, getArchivedColumns] = useState<Array<any>>([]);
-  <p>архивированные карточка:</p>;
 
   const user = useSelector((state: RootState) => state.userdata);
   const current_board = useSelector((state: RootState) => state?.boards);
@@ -61,15 +62,19 @@ const ArchivedСolumns: FC = () => {
   };
   const boardIndex = useSelector((state: RootState) => state?.boards.index);
   const dispatch: AppDispatch = useDispatch();
-
   return (
-    <div className='m-2'>
-      <p>архивированные списки:</p>
+    <div className='archived'>
+      <p className='additional-menu__subtitle'>Archived Lists:</p>
+
       {archivedColumns?.map((column, i) => (
-        <div className='d-flex' key={i}>
-          <p className='d-block'>{column.name}</p>
-          <button data-id={column.id} onClick={returnToBoard}>
-            вернуть на доску
+        <div className='archived__box' key={i}>
+          <p className='archived__title'>{column.name}</p>
+          <button
+            data-id={column.id}
+            className='archived__button button-dark'
+            onClick={returnToBoard}
+          >
+            Return to the board
           </button>
         </div>
       ))}

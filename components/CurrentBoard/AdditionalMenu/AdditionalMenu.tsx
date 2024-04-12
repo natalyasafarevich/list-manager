@@ -12,6 +12,7 @@ import ChangeBackground from '../ChangeBackground/ChangeBackground';
 import CopyBoard from '../Settings/CopyBoard/CopyBoard';
 import TextColor from '../Settings/TextColor/TextColor';
 import CloseBoard from '../Settings/CloseBoard/CloseBoard';
+import './AdditionalMenu.scss';
 
 interface AdditionalMenuProps {
   closeMenu: (value: boolean) => void;
@@ -21,7 +22,6 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
   const [description, setDescription] = useState<string>('');
   const [descriptionBack, setDescriptionBack] = useState<string>('');
 
-  const user = useSelector((state: RootState) => state.userdata);
   const boardIndex = useSelector((state: RootState) => state.boards.index);
   const current_board = useSelector(
     (state: RootState) => state.boards.currentBoards,
@@ -43,77 +43,89 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
   const [isOpenBg, setIsOpenBg] = useState(false);
   const [isOpenTextColor, setIsOpenTextColor] = useState(false);
   const members = useSelector((state: RootState) => state.members.members);
-  console.log(members, 'k');
+
+  const [title, setTitle] = useState('Menu');
   return (
     <>
-      <div className='position-absolute top-0 end-0 bg-info text-light p-4 w-25 z-3'>
-        <div className='d-flex justify-content-between align-item-center'>
-          {(isAboutBoardOpen || isOpenArchives || isOpenBg) && (
-            <button
-              onClick={() => {
-                setIsAboutBoardOpen(false); // Для описания доски
-                setIsOpenArchives(false);
-                setIsOpenBg(false);
-              }}
-            >
-              back
-            </button>
-          )}
-
-          <h4>меню</h4>
-          <button onClick={() => closeMenu(false)}>close</button>
-        </div>
-        <hr />
-        <div className='position-relative'>
-          <ExpandableContent
-            setIsOpen={(e) => setIsAboutBoardOpen(e)}
-            isOpen={isAboutBoardOpen}
-            title={'О доске'}
-          >
-            <h5>Администраторы доски</h5>
-            {members.map((member: any, i: number) => (
-              <ProfileCard userData={member} key={i} />
-            ))}
-
-            <h5 className='mt-2'>Oписание</h5>
-            <TextEditor
-              title={'о доске'}
-              isArray={false}
-              backDescription={descriptionBack}
-              getHTML={(e) => setDescription(e)}
-            />
-          </ExpandableContent>
-
-          <ExpandableContent
-            setIsOpen={(e) => setIsOpenArchives(e)}
-            isOpen={isOpenArchives}
-            title={'Архивы'}
-          >
-            <div>
-              <ArchivedСolumns />
-              <CardArchived />
-            </div>
-          </ExpandableContent>
-          <ExpandableContent
-            setIsOpen={(e) => setIsOpenBg(e)}
-            isOpen={isOpenBg}
-            title={'сменить фон'}
-          >
-            <ChangeBackground />
-          </ExpandableContent>
-          <CopyBoard />
-          <div className=''>
-            <p onClick={() => setIsOpenTextColor(!isOpenTextColor)}>
-              Текст доски
-            </p>
-            {isOpenTextColor && (
-              <div className=''>
-                <TextColor title='light' text='light' />
-                <TextColor title='dark' text='dark' />
-              </div>
+      <div className='additional-menu'>
+        <div className='additional-menu__container'>
+          <div className='additional-menu__headline'>
+            {(isAboutBoardOpen || isOpenArchives || isOpenBg) && (
+              <button
+                className='additional-menu__button button-back'
+                onClick={() => {
+                  setTitle('Menu');
+                  setIsAboutBoardOpen(false);
+                  setIsOpenArchives(false);
+                  setIsOpenBg(false);
+                }}
+              ></button>
             )}
+            <p className='additional-menu__title'>{title}</p>
+            <button
+              className='additional-menu__button button-close'
+              onClick={() => closeMenu(false)}
+            ></button>
           </div>
-          <CloseBoard />
+
+          <div className=''>
+            <ExpandableContent
+              setTitle={(e) => setTitle(e)}
+              setIsOpen={(e) => setIsAboutBoardOpen(e)}
+              isOpen={isAboutBoardOpen}
+              title={'About the board'}
+            >
+              <p className='additional-menu__subtitle'>Board members:</p>
+              <div className='flex additional-menu__row'>
+                {members.map((member: any, i: number) => (
+                  <div className='additional-menu__member' key={i}>
+                    <ProfileCard userData={member} />
+                  </div>
+                ))}
+              </div>
+
+              <p className='additional-menu__subtitle'>Description:</p>
+              <TextEditor
+                title={'write some words about the board'}
+                isArray={false}
+                backDescription={descriptionBack}
+                getHTML={(e) => setDescription(e)}
+              />
+            </ExpandableContent>
+
+            <ExpandableContent
+              setTitle={(e) => setTitle(e)}
+              setIsOpen={(e) => setIsOpenArchives(e)}
+              isOpen={isOpenArchives}
+              title={'Archives'}
+            >
+              <div>
+                <ArchivedСolumns />
+                <CardArchived />
+              </div>
+            </ExpandableContent>
+            <ExpandableContent
+              setTitle={(e) => setTitle(e)}
+              setIsOpen={(e) => setIsOpenBg(e)}
+              isOpen={isOpenBg}
+              title={'Change the background'}
+            >
+              <ChangeBackground />
+            </ExpandableContent>
+            <CopyBoard />
+            <div className=''>
+              <p onClick={() => setIsOpenTextColor(!isOpenTextColor)}>
+                Текст доски
+              </p>
+              {isOpenTextColor && (
+                <div className=''>
+                  <TextColor title='light' text='light' />
+                  <TextColor title='dark' text='dark' />
+                </div>
+              )}
+            </div>
+            <CloseBoard />
+          </div>
         </div>
       </div>
     </>

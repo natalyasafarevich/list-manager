@@ -1,0 +1,14 @@
+.text-editor {
+  // .text-editor__row
+
+  &__row {
+    margin: 10px -5px 0;
+  }
+
+  // .text-editor__button
+
+  &__button {
+    padding: 10px;
+    margin: 0 5px;
+  }
+}

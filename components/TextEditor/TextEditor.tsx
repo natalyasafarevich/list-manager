@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {CommentProps} from '../CurrentBoard/Card/CardSettings/CardSettings';
 import {getListIndex} from '../CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import {getComments, isDescriptionAdded} from '@/store/card-setting/actions';
+import './TextEditor.scss';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -140,7 +141,7 @@ const TextEditor: FC<TextEditorProps> = ({
   const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
 
   return (
-    <>
+    <div className='text-editor'>
       {isOpen ? (
         <>
           <ReactQuill
@@ -151,28 +152,28 @@ const TextEditor: FC<TextEditorProps> = ({
             formats={formats}
             bounds={'#root'}
           />
-          <div className='d-flex'>
+          <div className='flex text-editor__row'>
             <button
               type='button'
-              className='btn btn-secondary'
+              className='button-dark text-editor__button'
               onClick={(e) => setIsSave(true)}
             >
-              сохранить
+              Save
             </button>
             <button
               type='button'
-              className='btn btn-secondary'
+              className='button-border text-editor__button'
               onClick={(e) => {
                 setIsSave(true);
               }}
             >
-              отменить
+              cancel
             </button>
           </div>
         </>
       ) : (
         <div
-          className='text-primary'
+          className=''
           onClick={(e) => {
             if (!isLoggedIn) {
               return;
@@ -214,11 +215,6 @@ const TextEditor: FC<TextEditorProps> = ({
                         dangerouslySetInnerHTML={{__html: item.title}}
                       ></p>
                     )}
-                    {/* <p
-                      data-id={item.id}
-                      onClick={changeComment}
-                      dangerouslySetInnerHTML={{__html: item.title}}
-                    ></p> */}
                   </div>
                 );
               })}
@@ -226,7 +222,7 @@ const TextEditor: FC<TextEditorProps> = ({
           )}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

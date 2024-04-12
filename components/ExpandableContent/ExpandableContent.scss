@@ -1,0 +1,25 @@
+.expandable-content {
+  // .expandable-content__title
+
+  &__title {
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+    color: #9896a3;
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+
+  // .expandable-content__box
+
+  &__box {
+    top: 45px;
+    width: 100%;
+    padding: 15px;
+    left: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: var(--secondary-color);
+  }
+}

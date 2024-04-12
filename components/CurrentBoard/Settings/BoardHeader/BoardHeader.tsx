@@ -142,12 +142,12 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                 <div className='board-header__count'>+{members.length - 5}</div>
               )}
               {isLoggedIn && (
-                <button
+                <p
                   className='board-header__menu'
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
                   Menu
-                </button>
+                </p>
               )}
             </div>
           </div>

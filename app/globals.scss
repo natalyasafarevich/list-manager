@@ -9,6 +9,30 @@
   background: center/contain no-repeat url("/icon-close.svg");
   // padding-left: 160px;
 }
+.underline {
+  cursor: pointer;
+  width: max-content;
+  &:hover {
+    &::after {
+      width: 35%;
+      background-color: #97a3b7;
+    }
+  }
+  &::after {
+    content: "";
+    display: block;
+    width: 0px;
+    height: 1px;
+    background-color: transparent;
+    transition: width 0.3s ease;
+  }
+}
+.button-back {
+  width: 25px;
+  height: 25px;
+  background-size: 60px;
+  background: no-repeat url("/back-icon.svg");
+}
 .padding-2-3 {
   padding: 20px 30px;
 }
@@ -271,6 +295,7 @@ input.input-error {
   font-weight: 500;
   padding: 15px 5px;
 }
+
 .button-dark {
   cursor: pointer;
   width: 100%;
@@ -280,6 +305,8 @@ input.input-error {
   font-weight: 500;
   box-shadow: 0 4px 19px 0 rgba(63, 71, 45, 0.3);
   padding: 15px 5px;
+}
+.archive-title {
 }
 
 * {
@@ -385,6 +412,7 @@ a {
 }
 
 button {
+  cursor: pointer;
   outline: none;
   border: none;
 }

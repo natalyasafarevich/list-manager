@@ -1,11 +1,12 @@
 import {FC, ReactNode, useEffect, useState} from 'react';
-import TextEditor from '../TextEditor/TextEditor';
+import './ExpandableContent.scss';
 
 interface ExpandableContent {
   children: ReactNode;
   title: string;
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
+  setTitle: (value: string) => void;
 }
 
 const ExpandableContent: FC<ExpandableContent> = ({
@@ -13,21 +14,24 @@ const ExpandableContent: FC<ExpandableContent> = ({
   title,
   isOpen,
   setIsOpen,
+  setTitle,
 }) => {
   return (
     <>
       {!isOpen && (
-        <div className=''>
-          <p onClick={() => setIsOpen(!isOpen)}>
-            <b> {title}</b>
+        <div className='expandable-content'>
+          <p
+            className='expandable-content__title underline'
+            onClick={() => {
+              setTitle(title);
+              setIsOpen(!isOpen);
+            }}
+          >
+            {title}
           </p>
         </div>
       )}
-      {isOpen && (
-        <div className='position-absolute  bg-black top-0 w-100'>
-          {children}
-        </div>
-      )}
+      {isOpen && <div className='expandable-content__box'>{children}</div>}
     </>
   );
 };
