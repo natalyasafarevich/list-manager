@@ -11,7 +11,6 @@ import firebaseApp from '@/firebase';
 import ChangingVisibility from '../ChangingVisibility/ChangingVisibility';
 import {getMembers} from '@/store/members/actions';
 import './BoardHeader.scss';
-import VisibilityBoard from '@/components/VisibilityBoard/VisibilityBoard';
 
 interface HeaderBoardProps {
   board: any;
@@ -127,12 +126,21 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                   background: `center/cover no-repeat url(${user?.photoURL})`,
                 }}
               ></div>
-              {members?.map((member, i) => (
-                <div className='board-header__card' key={i}>
-                  <ProfileCard userData={member} key={i} />
-                </div>
-              ))}
-
+              <div
+                className={`board-header__users flex ${members.length > 5 ? 'hide' : ''}`}
+              >
+                {members?.map(
+                  (member, i) =>
+                    i < 5 && (
+                      <div className='board-header__card' key={i}>
+                        <ProfileCard userData={member} key={i} />
+                      </div>
+                    ),
+                )}
+              </div>
+              {members.length > 5 && (
+                <div className='board-header__count'>+{members.length - 5}</div>
+              )}
               {isLoggedIn && (
                 <button
                   className='board-header__menu'

@@ -68,7 +68,10 @@
   // .board-header__members
 
   &__members {
-    // max-width: 100px;
+    max-width: 300px;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
     display: flex;
   }
 
@@ -92,6 +95,33 @@
   // .board-header__menu
 
   &__menu {
+    font-size: 20px;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+  }
+  &__users {
+    .profile-card {
+      cursor: pointer;
+      margin-right: -17px;
+    }
+    max-width: 170px;
+    width: 100%;
+    // overflow-x: hidden;
+
+    margin-right: -30px;
+  }
+  &__count {
+    // position: relative;
+    z-index: 1;
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 .flex {
