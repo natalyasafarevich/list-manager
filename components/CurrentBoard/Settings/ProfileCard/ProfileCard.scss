@@ -37,6 +37,26 @@
   &__row {
     margin-bottom: 10px;
   }
+  &__flex {
+    justify-content: space-between;
+  }
+  &__popup {
+    .popup {
+      max-width: 500px;
+    }
+    button {
+      max-width: 48%;
+    }
+    position: absolute;
+    width: 100%;
+    left: 0;
+    height: 100%;
+    background: #0000003d;
+    z-index: 2;
+    top: 0;
+    display: flex;
+    justify-content: center;
+  }
 
   // .profile-card__text
 

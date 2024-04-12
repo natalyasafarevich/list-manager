@@ -261,6 +261,16 @@ input.input-error {
     transform: rotate(180deg);
   }
 }
+.button-border {
+  cursor: pointer;
+  width: 100%;
+  border: 1px solid var(--primary-color);
+  background: transparent;
+  color: var(--primary-color);
+  border-radius: 15px;
+  font-weight: 500;
+  padding: 15px 5px;
+}
 .button-dark {
   cursor: pointer;
   width: 100%;
