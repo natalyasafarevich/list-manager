@@ -26,7 +26,7 @@ const AdditionalMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
   const current_board = useSelector(
     (state: RootState) => state.boards.currentBoards,
   );
-  console.log(current_board.members);
+
   useEffect(() => {
     if (current_board?.description) {
       setDescriptionBack(current_board.description);

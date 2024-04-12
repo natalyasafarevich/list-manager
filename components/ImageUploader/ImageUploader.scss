@@ -1,0 +1,44 @@
+.image-uploader {
+  // .image-uploader__container
+
+  &__container {
+    cursor: pointer;
+    border: 1px dashed #cacaca;
+    border-radius: 6px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+
+  // .image-uploader__title
+
+  &__title {
+    &::before {
+      content: "";
+      display: block;
+      width: 44px;
+      height: 44px;
+      margin: 0 auto 10px;
+      background: no-repeat url("/upload-file.svg");
+    }
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+    display: block;
+  }
+
+  // .image-uploader__input
+
+  &__input {
+    display: none;
+  }
+
+  // .image-uploader__file
+
+  &__file {
+  }
+}
+.custom-file-container {
+}

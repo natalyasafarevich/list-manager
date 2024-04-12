@@ -16,7 +16,7 @@ const Image: FC<ImageProps> = ({item}) => {
       currentColor: '',
     });
   };
-  return <img src={item.urls} onClick={changeBg}></img>;
+  return <img src={`${item.urls}&w=400`} onClick={changeBg}></img>;
 };
 
 export default Image;
