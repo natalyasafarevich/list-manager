@@ -4,16 +4,36 @@
   position: relative;
 
   &__container {
+    position: relative;
   }
 
   // .change-background__box
 
   &__box {
+    display: flex;
+    justify-content: center;
+    margin: 0 -7px 15px;
   }
 
   // .change-background__tab
 
   &__tab {
+    margin: 0 7px;
+  }
+  &__item {
+    position: absolute;
+    background: var(--secondary-color);
+    top: 21%;
+    left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    height: 400px;
+    margin: 0 -7px;
+    overflow-x: scroll;
+    img {
+      cursor: pointer;
+      margin: 0 7px 7px;
+    }
   }
 }
 .flex {

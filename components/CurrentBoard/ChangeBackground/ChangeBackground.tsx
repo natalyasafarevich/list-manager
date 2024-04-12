@@ -69,24 +69,24 @@ const ChangeBackground: FC = () => {
     <div className='change-background'>
       <div className='change-background__container '>
         <div className='change-background__box flex'>
-          <button
-            className='change-background__tab'
+          <p
+            className='change-background__tab underline'
             onClick={(e) => {
               setIsImages(!isImages);
               setIsColors(false);
             }}
           >
             Images
-          </button>
-          <button
-            className='change-background__tab'
+          </p>
+          <p
+            className='change-background__tab underline'
             onClick={(e) => {
               setIsImages(false);
               setIsColors(!isColors);
             }}
           >
             Colors
-          </button>
+          </p>
         </div>
         <ImageUploader />
       </div>
@@ -98,7 +98,7 @@ const ChangeBackground: FC = () => {
         </div>
       )}
       {isImages && (
-        <div style={{height: 300, overflowX: 'hidden', overflowY: 'scroll'}}>
+        <div className='change-background__item'>
           {backgrounds['background-images']?.map((item, i) => (
             <Image key={i} item={item}></Image>
           ))}
