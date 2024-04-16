@@ -10,6 +10,8 @@ export interface ColumnCardsProps {
   markers?: Array<string>;
   isArchived?: boolean;
   cover?: string;
+
+  'check-lists': Array<any>;
 }
 export interface CurrentColumnProps {
   name?: string;

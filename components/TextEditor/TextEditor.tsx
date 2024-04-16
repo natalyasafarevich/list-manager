@@ -9,7 +9,11 @@ import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {CommentProps} from '../CurrentBoard/Card/CardSettings/CardSettings';
 import {getListIndex} from '../CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
-import {getComments, isDescriptionAdded} from '@/store/card-setting/actions';
+import {
+  getComments,
+  isCardUpdate,
+  isDescriptionAdded,
+} from '@/store/card-setting/actions';
 import './TextEditor.scss';
 
 Quill.register('modules/imageResize', ImageResize);
@@ -65,7 +69,9 @@ const TextEditor: FC<TextEditorProps> = ({
     const editDate = `${hours}:${minutes} ${month}/${day}/${year}`;
     if (isSave) {
       if (!isArray && editorHtml) {
-        dispatch(isDescriptionAdded(true));
+        dispatch(isCardUpdate(true));
+
+        // dispatch(isDescriptionAdded(true));
       }
       const commentToUpdate = comments.find(
         (item) => item.id === commentsInfo.id,
@@ -139,7 +145,10 @@ const TextEditor: FC<TextEditorProps> = ({
   };
   const user_status = useSelector((state: RootState) => state.userdata);
   const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
-
+  const saveComments = () => {
+    setIsSave(true);
+    dispatch(isCardUpdate(true));
+  };
   return (
     <div className='text-editor'>
       {isOpen ? (
@@ -156,7 +165,7 @@ const TextEditor: FC<TextEditorProps> = ({
             <button
               type='button'
               className='button-dark text-editor__button'
-              onClick={(e) => setIsSave(true)}
+              onClick={saveComments}
             >
               Save
             </button>

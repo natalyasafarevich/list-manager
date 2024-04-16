@@ -8,6 +8,7 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4 as uuidv4} from 'uuid';
 import {getListIndex} from '../ArchiveColumn/ArchiveColumn';
+import {isCardUpdate} from '@/store/card-setting/actions';
 interface CopyColumnProps {
   setValue: (a: string) => void;
   list: Array<any>;
@@ -34,7 +35,8 @@ const CopyColumn: FC<CopyColumnProps> = ({setValue, list, value}) => {
   useEffect;
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(isCopyColumn({isCopy: true}));
+    dispatch(isCardUpdate(true));
+    // dispatch(isCopyColumn({isCopy: true}));
     updateFirebaseData(
       `boards/${current_board?.index}/lists/${current_board?.currentBoards?.lists?.length}/`,
       {cards: currentCard, id: uuidv4(), name: value},

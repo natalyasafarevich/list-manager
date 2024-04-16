@@ -1,6 +1,6 @@
 import {fetchBackDefaultData, getDefaultData} from '@/helper/getFirebaseData';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
-import {isCover} from '@/store/card-setting/actions';
+import {isCardUpdate, isCover} from '@/store/card-setting/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,7 +22,8 @@ const Inner: FC = () => {
         cover: currentTarget.dataset.color,
       },
     );
-    dispatch(isCover(true));
+    dispatch(isCardUpdate(true));
+    // dispatch(isCover(true));
   };
   return (
     <div>

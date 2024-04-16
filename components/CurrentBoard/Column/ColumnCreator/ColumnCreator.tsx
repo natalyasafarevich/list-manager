@@ -9,6 +9,7 @@ import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import ColumnCreatorForm from '../ColumnCreatorForm/ColumnCreatorForm';
 import {
   isCardCreate,
+  isCardUpdate,
   isCover,
   isDescriptionAdded,
 } from '@/store/card-setting/actions';
@@ -18,6 +19,7 @@ interface NewColumnProps {
 }
 
 const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
+  // console.log('l');
   const [value, setValue] = useState('');
   const [userData, setUserData] = useState<any>(null);
   const [components, setComponents] = useState<Array<any>>([]);
@@ -41,7 +43,7 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       setIsUpdate(false);
     }
   }, [isUpdate, currentList]);
-
+  // console.log('jm');
   useEffect(() => {
     if (userData) {
       // setCurrentBoard(userData[currentIndex]);
@@ -55,12 +57,13 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       }
     }
   }, [userData, currentIndex]);
+  // console.log(userData, currentIndex);
   const current_markers = useSelector(
     (state: RootState) => state.markers.markers,
   );
-  const updateCover = useSelector(
-    (state: RootState) => state.card_setting.isCover,
-  );
+  // const updateCover = useSelector(
+  //   (state: RootState) => state.card_setting.isCover,
+  // );
   useEffect(() => {
     fetchBackDefaultData('/boards', setUserData);
   }, []);
@@ -70,17 +73,18 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   useEffect(() => {
     if (user.uid || cardUpdate) {
       fetchBackDefaultData('/boards', setUserData);
-      dispatch(isCardCreate({isCardCreate: false}));
-      dispatch(isDescriptionAdded(false));
-      dispatch(isCover(false));
+      dispatch(isCardUpdate(false));
+      // dispatch(isCardCreate({isCardCreate: false}));
+      // dispatch(isDescriptionAdded(false));
+      // dispatch(isCover(false));
     }
   }, [
     cardUpdate,
-    updateCover,
+    // updateCover,
     user.uid,
-    isCopy,
-    isCreate.isDescriptionAdded,
-    isCreate.isCardCreate,
+    // isCopy.isCopy,
+    // isCreate.isDescriptionAdded,
+    // isCreate.isCardCreate,
     current_markers,
   ]);
 

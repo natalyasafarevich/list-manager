@@ -1,7 +1,7 @@
 'use client';
 
 import {fetchBackData} from '@/helper/getFirebaseData';
-import {isCardCreate} from '@/store/card-setting/actions';
+import {isCardCreate, isCardUpdate} from '@/store/card-setting/actions';
 import {isCreateCard} from '@/store/column-setting/actions';
 import {getCurrentColumn} from '@/store/colunm-info/actions';
 import {AppDispatch, RootState} from '@/store/store';
@@ -48,10 +48,14 @@ const CreateCard: FC<CreateCardProps> = ({
     setIsSave(true);
     setIsClose(true);
     setValue('');
-    dispatch(isCardCreate({isCardCreate: true}));
+    dispatch(isCardUpdate(true));
+
+    // dispatch(isCardCreate({isCardCreate: true}));
   };
   const handleClose = () => {
-    dispatch(isCardCreate({isCardCreate: false}));
+    dispatch(isCardUpdate(false));
+
+    // dispatch(isCardCreate({isCardCreate: false}));
 
     setIsClose(true);
     setValue('');

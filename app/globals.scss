@@ -3,6 +3,9 @@
   --secondary-color: #fff;
   --purple-dark-color: #27104e;
 }
+body {
+  background: #f7f8fa;
+}
 .default-input {
   border: 1px solid #adadad;
   border-radius: 9px;
@@ -430,7 +433,7 @@ select {
   font-size: inherit;
   font-weight: inherit;
   font-size: 100%;
-  /*to enable resizing for IE*/
+  background: transparent;
 }
 
 a {

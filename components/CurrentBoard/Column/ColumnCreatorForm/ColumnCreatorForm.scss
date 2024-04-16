@@ -15,15 +15,15 @@
 
   &__column {
     margin: 0 12px;
-    max-width: 264px;
+    max-width: 300px;
+    min-width: 300px;
     width: 100%;
-    background-color: red;
   }
 
   // .column-create-form__box
 
   &__box {
-    max-width: 264px;
+    max-width: 300px;
     width: 100%;
     box-shadow: 0 4px 19px 0 rgba(63, 71, 45, 0.3);
     background: var(--secondary-color);

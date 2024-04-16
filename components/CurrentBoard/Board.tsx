@@ -47,7 +47,7 @@ const CurrentBoard: FC = () => {
   useEffect(() => {
     dispatch(getBoardCurrent(currentBoard, index));
   }, [currentBoard, index]);
-
+  console.log(currentBoard);
   let lastSegment = pathname?.substring(pathname?.lastIndexOf('/') + 1);
 
   useEffect(() => {
@@ -63,14 +63,6 @@ const CurrentBoard: FC = () => {
 
   const board = useSelector((state: RootState) => state.boards.boards);
   const user = useSelector((state: RootState) => state.userdata);
-  // const user_status = useSelector(
-  //   (state: RootState) => state.userdata.user_status,
-  // );
-  useEffect(() => {
-    const parts = pathname ? pathname.split('/') : [];
-    const lastPart = parts.length > 0 ? parts[parts.length - 1] : '';
-    setCurrentPathname(lastPart);
-  }, [pathname]);
 
   useEffect(() => {
     if (currentPathname && board)
@@ -80,23 +72,39 @@ const CurrentBoard: FC = () => {
           setCurrentBoard(board[key]);
         }
       }
-  }, [board, currentPathname]);
+    if (pathname) {
+      const parts = pathname ? pathname.split('/') : [];
+      const lastPart = parts.length > 0 ? parts[parts.length - 1] : '';
+      setCurrentPathname(lastPart);
+    }
+  }, [pathname, board, currentPathname]);
+
+  // useEffect(() => {
+  //   if (currentPathname && board)
+  //     for (let key in board) {
+  //       if (key.includes(currentPathname)) {
+  //         setIndex(key);
+  //         setCurrentBoard(board[key]);
+  //       }
+  //     }
+  // }, [board, currentPathname]);
   useEffect(() => {
     currentBoard.members &&
       dispatch(getUserStatus(currentBoard.members[user.uid]));
-  }, [currentBoard]);
-
-  useEffect(() => {
     if (currentBoard['text-color'] === 'light') {
       setIsLightTheme(true);
       return;
+    } else {
+      setIsLightTheme(false);
     }
-    setIsLightTheme(false);
-  }, [currentBoard['text-color']]);
+  }, [currentBoard]);
+
+  // useEffect(() => {}, [currentBoard['text-color']]);
 
   if (!currentBoard.id) {
     return <> {!currentBoard.id && <h1>Доска закрыта или не создана</h1>}</>;
   }
+  console.log(currentBoard.isCloseBoard);
   return (
     <div className='board'>
       <div className='board__container medium-content-wrap plr-3 '>
