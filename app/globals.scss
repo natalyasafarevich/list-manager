@@ -83,9 +83,24 @@ body {
   max-width: 590px;
   width: 100%;
 }
+.close-board-button {
+}
 @media (max-width: 575.98px) {
   .auth-container {
     padding: 30px 20px;
+  }
+}
+.text-color-button {
+  button {
+    width: 100%;
+    text-transform: capitalize;
+    margin-bottom: 5px;
+    &.active,
+    &:hover {
+      cursor: pointer;
+      background: var(--purple-dark-color);
+      color: var(--secondary-color);
+    }
   }
 }
 .visibility {

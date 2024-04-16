@@ -97,3 +97,13 @@ const sortedColors = [
   'linear-gradient(to right, rgb(255, 239, 186), rgb(255, 255, 255))',
   'linear-gradient(to right, rgb(253, 200, 48), rgb(243, 115, 53))',
 ];
+export const schemeText = [
+  {
+    title: 'light',
+    text: 'light',
+  },
+  {
+    title: 'dark',
+    text: 'dark',
+  },
+];

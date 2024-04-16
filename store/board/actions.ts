@@ -1,5 +1,4 @@
 import {BoardProps} from '@/types/interfaces';
-import {UserInfo} from 'firebase/auth'; // Используйте UserInfo, если это возможно
 
 export const BOARDS = 'board/BOARDS';
 export const CURRENT_BOARDS = 'board/CURRENT_BOARDS';

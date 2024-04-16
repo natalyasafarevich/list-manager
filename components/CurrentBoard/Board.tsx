@@ -8,7 +8,7 @@ import './Board.scss';
 
 import BoardHeader from './Settings/BoardHeader/BoardHeader';
 import CloseBoardPopup from './Settings/CloseBoardPopup/CloseBoardPopup';
-import {getBoardCurrent, getBoards} from '@/store/board/actions';
+import {getBoardCurrent} from '@/store/board/actions';
 import Members from './Members/Members';
 import {BoardProps} from '@/types/interfaces';
 import {getUserStatus} from '@/store/data-user/actions';
@@ -111,7 +111,6 @@ const CurrentBoard: FC = () => {
           }
         >
           <div className=''>
-            {/* <Members /> */}
             {!currentBoard.isCloseBoard ? (
               <>
                 <BoardHeader board={currentBoard} />
@@ -122,7 +121,6 @@ const CurrentBoard: FC = () => {
                 </div>
               </>
             ) : (
-              // <p>k</p>
               <CloseBoardPopup board={currentBoard}></CloseBoardPopup>
             )}
           </div>

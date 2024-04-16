@@ -1,11 +1,10 @@
 import {FC, useEffect, useState} from 'react';
-import {PayloadProps as BoardProps} from '../../Board';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '@/store/store';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import ButtonToFavorites from '@/components/ButtonToFavorites/ButtonToFavorites';
 import ProfileCard from '../ProfileCard/ProfileCard';
-import AdditionalMenu from '../../AdditionalMenu/AdditionalMenu';
+import BoardOptionsMenu from '../../BoardOptionsMenu/BoardOptionsMenu';
 import {getDatabase, onValue, query, ref} from 'firebase/database';
 import firebaseApp from '@/firebase';
 import ChangingVisibility from '../ChangingVisibility/ChangingVisibility';
@@ -80,7 +79,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
 
   return (
     <>
-      {isMenuOpen && <AdditionalMenu closeMenu={(e) => setIsMenuOpen(e)} />}
+      {isMenuOpen && <BoardOptionsMenu closeMenu={(e) => setIsMenuOpen(e)} />}
       <div className='board-header'>
         <div className='board-header__container'>
           <div className='board-header__row flex'>
