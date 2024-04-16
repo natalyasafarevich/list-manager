@@ -81,3 +81,19 @@ const images = [
     urls: 'https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?crop=entropy&cs=srgb&fm=jpg&ixid=M3w1ODQ4NDJ8MHwxfHNlYXJjaHw5MHx8bmF0dXJlfGVufDB8fHx8MTcxMjkyNzA4NXww&ixlib=rb-4.0.3&q=85',
   },
 ];
+
+const sortedColors = [
+  'linear-gradient(to right, rgb(241, 39, 17), rgb(245, 175, 25))',
+  'linear-gradient(to right, rgb(0, 65, 106), rgb(228, 229, 230))',
+  'linear-gradient(to right, rgb(51, 77, 80), rgb(203, 202, 165))',
+  'linear-gradient(to right, rgb(101, 78, 163), rgb(234, 175, 200))',
+  'linear-gradient(to right, rgb(127, 127, 213), rgb(134, 168, 231), rgb(145, 234, 228))',
+  'linear-gradient(to right, rgb(0, 180, 219), rgb(0, 131, 176))',
+  'linear-gradient(to right, rgb(41, 128, 185), rgb(109, 213, 250), rgb(255, 255, 255))',
+  'linear-gradient(to right, rgb(41, 128, 185), rgb(109, 213, 250), rgb(255, 255, 255))',
+  'linear-gradient(to right, rgb(168, 255, 120), rgb(120, 255, 214))',
+  'linear-gradient(to right, rgb(198, 255, 221), rgb(251, 215, 134), rgb(247, 121, 125))',
+  'linear-gradient(to right, rgb(238, 156, 167), rgb(255, 221, 225))',
+  'linear-gradient(to right, rgb(255, 239, 186), rgb(255, 255, 255))',
+  'linear-gradient(to right, rgb(253, 200, 48), rgb(243, 115, 53))',
+];

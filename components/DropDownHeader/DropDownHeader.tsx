@@ -6,9 +6,10 @@ import {RootState} from '@/store/store';
 import Link from 'next/link';
 
 interface BoardsProps {
-  bg: string;
   name: string;
   id: string;
+  bgColor?: string;
+  bg?: string;
 }
 
 const DropDownHeader: FC = () => {
@@ -19,9 +20,10 @@ const DropDownHeader: FC = () => {
   useEffect(() => {
     for (const uid in boards) {
       if (boards[uid].favoriteUid && boards[uid].favoriteUid[user.uid]) {
-        setFavoriteBoards((prev: any) => [
+        setFavoriteBoards((prev) => [
           ...prev,
           {
+            bgColor: boards[uid].currentColor,
             bg: boards[uid].currentBg,
             name: boards[uid].name,
             id: boards[uid].id,
@@ -30,7 +32,6 @@ const DropDownHeader: FC = () => {
       }
     }
   }, [boards]);
-  // console.log(boards);
   return (
     <div className='dropdown-header'>
       <div className='dropdown-header__container'>
@@ -43,7 +44,11 @@ const DropDownHeader: FC = () => {
             >
               <span
                 className='dropdown-header__bg'
-                style={{background: `center/cover no-repeat url(${board.bg})`}}
+                style={{
+                  background: board.bg
+                    ? `center/cover no-repeat url(${board.bg})`
+                    : board.bgColor,
+                }}
               ></span>
               <span className='dropdown-header__name'>{board.name}</span>
             </Link>

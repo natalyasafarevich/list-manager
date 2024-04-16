@@ -81,10 +81,11 @@ const BoardsList: FC = () => {
                     <span
                       className='boards-list__bg'
                       style={{
-                        background: `center/cover no-repeat url(${board.currentBg})`,
+                        background: board.currentBg
+                          ? `center/cover no-repeat url(${board.currentBg})`
+                          : board.currentColor,
                       }}
                     ></span>
-
                     <span className='boards-list__name'>{board.name}</span>
                     <span className='boards-list__type'>{board.type}</span>
                     <span className='boards-list__date'>
@@ -109,9 +110,10 @@ const BoardsList: FC = () => {
                     href={`board/${board?.id}`}
                   >
                     <span
-                      className='boards-list__bg'
                       style={{
-                        background: `center/cover no-repeat url(${board.currentBg})`,
+                        background: board.currentBg
+                          ? `center/cover no-repeat url(${board.currentBg})`
+                          : board.currentColor,
                       }}
                     ></span>
 
