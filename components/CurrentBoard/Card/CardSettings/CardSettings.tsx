@@ -1,6 +1,6 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
-import './CardSettings.css';
+import './CardSettings.scss';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '@/store/store';
 import {getListIndex} from '../../Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
@@ -65,14 +65,14 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const current_user = useSelector((state: RootState) => state.userdata);
 
   const isLoggedIn = !!current_user.uid && current_user.user_status !== 'guest';
-
+  console.log(user);
   useEffect(() => {
     if (value.length !== 0 && !isReadOnly) {
-      dispatch(isCardUpdate(true));
       updateFirebaseData(
         `boards/${user.boardIndex}/lists/${user.listIndex}/cards/${user.cardIndex}`,
         {title: value},
       );
+      dispatch(isCardUpdate(true));
     }
   }, [value, isReadOnly]);
   return (
@@ -80,39 +80,52 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
       <div className='card-settings__container'>
         {card.cover && (
           <div
-            style={{backgroundColor: card.cover, width: '100%', height: '30px'}}
+            className='card-settings__cover'
+            style={{backgroundColor: card.cover}}
           ></div>
         )}
-        <div className='d-flex justify-content-between align-items-center'>
-          <div className=''>
-            <input
-              type='text'
-              value={value}
-              onChange={(e) => {
-                setIsReadOnly(false);
-                setValue(e.currentTarget.value);
-              }}
-              onFocus={(e) => setIsReadOnly(false)}
-              readOnly={isReadOnly}
-              disabled={!isLoggedIn}
-            />
-            {/* <b> {card.title}</b> */}
-            <br />
-            <span className=''>
-              в колонке: <b> {columnName}</b>
-            </span>
+        <div className='card-settings__row flex'>
+          <div>
+            <div className='flex'>
+              <input
+                className='card-settings__input'
+                id='name-card'
+                type='text'
+                value={value}
+                onChange={(e) => {
+                  setIsReadOnly(false);
+                  setValue(e.currentTarget.value);
+                }}
+                onFocus={(e) => setIsReadOnly(false)}
+                readOnly={isReadOnly}
+                disabled={!isLoggedIn}
+                maxLength={50}
+              />
+              <label
+                className='card-settings__icon'
+                htmlFor='name-card'
+              ></label>
+            </div>
+            <p className='card-settings__column-text'>
+              In column: <span> {columnName}</span>
+            </p>
           </div>
-          <button onClick={closeSetting}>x</button>
+          <button
+            className='card-settings__button button-close'
+            onClick={closeSetting}
+          ></button>
         </div>
-        <div className=''>
-          <span>метки</span>
-          <div className='d-flex align-items-center'>
+        <div className='card-settings__markers'>
+          <span className='card-settings__subtitle'>Markers</span>
+          <div className='card-settings__box flex'>
             {makers?.map((item, i) => (
               <div
                 key={i}
-                className='m-2'
-                style={{width: '50px', height: '10px', background: item}}
-              ></div>
+                className='card-settings__marker-item'
+                style={{background: item}}
+              >
+                create a text
+              </div>
             ))}
           </div>
         </div>
