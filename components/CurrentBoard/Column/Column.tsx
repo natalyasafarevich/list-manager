@@ -80,7 +80,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
   const addCard = () => {
     setIsClose(false);
   };
-  console.log(isClose);
+  // console.log(isClose);
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
   return (
     <>

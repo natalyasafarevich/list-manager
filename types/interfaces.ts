@@ -11,7 +11,7 @@ export interface ColumnCardsProps {
   isArchived?: boolean;
   cover?: string;
 
-  'check-lists': Array<any>;
+  'check-lists'?: Array<any>;
 }
 export interface CurrentColumnProps {
   name?: string;

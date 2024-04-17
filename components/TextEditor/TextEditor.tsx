@@ -101,7 +101,7 @@ const TextEditor: FC<TextEditorProps> = ({
       }
     }
   }, [isSave, editorHtml]);
-
+  const [prevValue, setPrevValue] = useState('');
   const handleChange = (html: string) => {
     setEditorHtml(html);
   };
@@ -149,11 +149,26 @@ const TextEditor: FC<TextEditorProps> = ({
     setIsSave(true);
     dispatch(isCardUpdate(true));
   };
+
+  const cancelClick = () => {
+    setEditorHtml(prevValue);
+    setIsSave(true);
+  };
+  const editText = () => {
+    if (!isLoggedIn) {
+      return;
+    }
+    setPrevValue(editorHtml);
+
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className='text-editor'>
       {isOpen ? (
-        <>
+        <div className='kkk'>
           <ReactQuill
+            className='editor'
             theme='snow'
             onChange={handleChange}
             value={editorHtml}
@@ -172,26 +187,18 @@ const TextEditor: FC<TextEditorProps> = ({
             <button
               type='button'
               className='button-border text-editor__button'
-              onClick={(e) => {
-                setIsSave(true);
-              }}
+              onClick={cancelClick}
             >
-              cancel
+              Cancel
             </button>
           </div>
-        </>
+        </div>
       ) : (
-        <div
-          className=''
-          onClick={(e) => {
-            if (!isLoggedIn) {
-              return;
-            }
-            setIsOpen(!isOpen);
-          }}
-        >
+        <div className='text-editor__desc' onClick={editText}>
           {!isArray && editorHtml && (
-            <div dangerouslySetInnerHTML={{__html: editorHtml}}></div>
+            <>
+              <div dangerouslySetInnerHTML={{__html: editorHtml}}></div>
+            </>
           )}
           {!isArray && !editorHtml && <span>{currentTitle}</span>}
 

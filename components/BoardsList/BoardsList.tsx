@@ -55,7 +55,7 @@ const BoardsList: FC = () => {
       }
     }
   }, [boards]);
-  console.log(boards);
+  // console.log(boards);
   return (
     <div className='boards-list'>
       <div className='boards-list__container padding-2-3'>

@@ -65,7 +65,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const current_user = useSelector((state: RootState) => state.userdata);
 
   const isLoggedIn = !!current_user.uid && current_user.user_status !== 'guest';
-  console.log(user);
+  // console.log(user);
   useEffect(() => {
     if (value.length !== 0 && !isReadOnly) {
       updateFirebaseData(

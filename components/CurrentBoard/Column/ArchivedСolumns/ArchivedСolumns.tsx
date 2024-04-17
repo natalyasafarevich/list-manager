@@ -42,7 +42,7 @@ const ArchivedСolumns: FC = () => {
 
   const returnToBoard = (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = e.currentTarget.dataset.id;
-    console.log(allColumns);
+    // console.log(<allColumns></allColumns>);
     for (let key in allColumns) {
       if (key === id) {
         // updateFirebaseData(`boards/${boardIndex}/lists/${i}`, {

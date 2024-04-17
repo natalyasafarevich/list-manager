@@ -9,7 +9,6 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getComments} from '@/store/card-setting/actions';
 import {getUpdateLink} from '@/store/data-user/actions';
-import CreatedCheckList from '../CreatedCheckList/CreatedCheckList';
 interface CommentsAndDescProps {
   card: ColumnCardsProps;
 }
@@ -100,21 +99,23 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
   }, [comments, index]);
 
   return (
-    <>
-      <p>oписание</p>
-      <TextEditor
-        isArray={false}
-        backDescription={currentCard?.description as string}
-        getHTML={(e) => setDescription(e)}
-        title='oписание'
-      />
+    <div className='comments-desc'>
+      <div className='comments-desc__container'>
+        <p className='comments-desc__title'>Card description</p>
+        <TextEditor
+          isArray={false}
+          backDescription={currentCard?.description as string}
+          getHTML={(e) => setDescription(e)}
+          title='Write some words'
+        />
 
-      <TextEditor
-        isArray={true}
-        getHTML={(e) => setComment(e)}
-        title={'title'}
-      />
-    </>
+        <TextEditor
+          isArray={true}
+          getHTML={(e) => setComment(e)}
+          title={'title'}
+        />
+      </div>
+    </div>
   );
 };
 export default CommentsAndDesc;

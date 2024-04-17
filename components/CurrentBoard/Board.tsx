@@ -47,7 +47,7 @@ const CurrentBoard: FC = () => {
   useEffect(() => {
     dispatch(getBoardCurrent(currentBoard, index));
   }, [currentBoard, index]);
-  console.log(currentBoard);
+  // console.log(currentBoard);
   let lastSegment = pathname?.substring(pathname?.lastIndexOf('/') + 1);
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const CurrentBoard: FC = () => {
   if (!currentBoard.id) {
     return <> {!currentBoard.id && <h1>Доска закрыта или не создана</h1>}</>;
   }
-  console.log(currentBoard.isCloseBoard);
+  // console.log(currentBoard.isCloseBoard);
   return (
     <div className='board'>
       <div className='board__container medium-content-wrap plr-3 '>
