@@ -80,6 +80,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
   const addCard = () => {
     setIsClose(false);
   };
+  console.log(isClose);
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
   return (
     <>
@@ -94,31 +95,39 @@ const Column: FC<ColumnProps> = ({item, name}) => {
             name={name}
             addNewCard={addCard}
           />
-          {!isClose ? (
-            <CreateCard
-              setCards={setCards}
-              setIsSave={setIsSave}
-              setIsClose={setIsClose}
-              listId={item?.id as string}
-              setCardIndex={setCardIndex}
-            />
-          ) : (
-            <div>
-              {cards?.map((card: any, i: any) => {
-                return (
-                  <div className='column__card' key={i}>
-                    <CardDisplay card={card} item={item} />
-                  </div>
-                );
-              })}
 
-              {isLoggedIn && (
-                <button type='button' onClick={addCard}>
-                  добавить карточкvу
+          {/* ) : ( */}
+          <div>
+            {cards?.map((card: any, i: any) => {
+              return (
+                <div className='column__card' key={i}>
+                  <CardDisplay card={card} item={item} />
+                </div>
+              );
+            })}
+            {!isClose ? (
+              <div className='column__box'>
+                <CreateCard
+                  setCards={setCards}
+                  setIsSave={setIsSave}
+                  setIsClose={setIsClose}
+                  listId={item?.id as string}
+                  setCardIndex={setCardIndex}
+                />
+              </div>
+            ) : (
+              isLoggedIn && (
+                <button
+                  className='column__button'
+                  type='button'
+                  onClick={addCard}
+                >
+                  <span></span>
                 </button>
-              )}
-            </div>
-          )}
+              )
+            )}
+          </div>
+          {/* )} */}
         </div>
       )}
     </>

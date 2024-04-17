@@ -13,6 +13,7 @@ import {
   isTaskUpdate,
 } from '@/store/check-lists/actions';
 import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {isCardUpdate} from '@/store/card-setting/actions';
 
 const CheckLists: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -88,6 +89,7 @@ const CheckLists: FC = () => {
       setIsOpen(!isOpen);
       setValue('');
       setIsUpdate(true);
+      dispatch(isCardUpdate(true));
     }
   };
   const user_status = useSelector((state: RootState) => state.userdata);
