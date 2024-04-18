@@ -1,16 +1,18 @@
 'use client';
-import {formats, modules} from '@/variables/edit';
-import {FC, useEffect, useRef, useState} from 'react';
-import ReactQuill, {Quill} from 'react-quill';
+import {FC, useEffect, useState} from 'react';
+import {Quill} from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
 import {v4 as uuidv4} from 'uuid';
-import 'react-quill/dist/quill.snow.css';
 import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {CommentProps} from '../CurrentBoard/Card/CardSettings/CardSettings';
 import {getListIndex} from '../CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import {getComments, isCardUpdate} from '@/store/card-setting/actions';
 import {formatDate} from '@/helper/formatDate';
+import EditorToolbar from './EditorToolbar/EditorToolbar';
+import EditorContent from './EditorContent/EditorContent';
+import CommentsSection from './CommentsSection/CommentsSection';
+import 'react-quill/dist/quill.snow.css';
 import './TextEditor.scss';
 
 Quill.register('modules/imageResize', ImageResize);
@@ -50,6 +52,7 @@ const TextEditor: FC<TextEditorProps> = ({
 
   const dispatch: AppDispatch = useDispatch();
 
+  //get description from firebase
   useEffect(() => {
     if (firebaseDescription !== undefined) {
       setState((prevState) => ({
@@ -57,11 +60,17 @@ const TextEditor: FC<TextEditorProps> = ({
         editorHtml: firebaseDescription,
       }));
     }
+  }, [firebaseDescription]);
 
+  //get all comments from firebase
+  useEffect(() => {
     if (allComments) {
       setComments(allComments);
     }
+  }, [allComments]);
 
+  //update comments
+  useEffect(() => {
     const editDate = formatDate(new Date());
     if (state.isSave) {
       if (!hasComments && state.editorHtml) {
@@ -75,7 +84,7 @@ const TextEditor: FC<TextEditorProps> = ({
       );
 
       dispatch(getComments(updatedComments));
-      // update states
+
       setState((prevState) => ({
         ...prevState,
         currentTitle: state.editorHtml,
@@ -85,7 +94,7 @@ const TextEditor: FC<TextEditorProps> = ({
 
       getHTML?.(state.editorHtml || '');
     }
-  }, [firebaseDescription, allComments, state.isSave, state.editorHtml]);
+  }, [state.isSave, state.editorHtml]);
 
   const ReactQuillChange = (html: string) => {
     setState((prevState) => ({
@@ -97,10 +106,9 @@ const TextEditor: FC<TextEditorProps> = ({
   // the comment changes
   const changeComment = (e: React.MouseEvent<HTMLElement>) => {
     const {currentTarget} = e;
-    const foundComment = comments.find((item) => item.id === id);
-
     const id = currentTarget?.dataset?.id || '';
 
+    const foundComment = comments.find((item) => item.id === id);
     const commentIndex = getListIndex(comments, id);
 
     setState((prevState) => ({
@@ -171,80 +179,31 @@ const TextEditor: FC<TextEditorProps> = ({
   return (
     <div className='text-editor'>
       {state.isOpen ? (
-        <div className='kkk'>
-          <ReactQuill
-            className='editor'
-            theme='snow'
-            onChange={ReactQuillChange}
-            value={state.editorHtml}
-            modules={modules}
-            formats={formats}
-            bounds={'#root'}
-          />
-          <div className='flex text-editor__row'>
-            <button
-              type='button'
-              className='button-dark text-editor__button'
-              onClick={saveComments}
-            >
-              Save
-            </button>
-            <button
-              type='button'
-              className='button-border text-editor__button'
-              onClick={cancelClick}
-            >
-              Cancel
-            </button>
-          </div>
+        <div className='text-editor__container'>
+          <EditorContent value={state.editorHtml} onChange={ReactQuillChange} />
+          <EditorToolbar onCancel={cancelClick} onSave={saveComments} />
         </div>
       ) : (
-        <div className='text-editor__desc' onClick={editText}>
-          {!hasComments && state.editorHtml && (
-            <>
+        <div className='text-editor__description' onClick={editText}>
+          {!hasComments &&
+            (state.editorHtml ? (
               <div dangerouslySetInnerHTML={{__html: state.editorHtml}}></div>
-            </>
-          )}
-          {!hasComments && !state.editorHtml && (
-            <span>{state.currentTitle}</span>
-          )}
-
-          {hasComments && (
-            <>
-              <button
-                className='d-block mt-5'
-                onClick={addComment}
-                disabled={!isLoggedIn}
-              >
-                добавить comment
-              </button>
-              {comments?.map((item, key) => {
-                return (
-                  <div key={key}>
-                    {item.editDate ? (
-                      <span>{item.editDate}(изменнено)</span>
-                    ) : (
-                      <span>{item.createDate}</span>
-                    )}
-                    {!isLoggedIn ? (
-                      <p
-                        data-id={item.id}
-                        dangerouslySetInnerHTML={{__html: item.title}}
-                      ></p>
-                    ) : (
-                      <p
-                        data-id={item.id}
-                        onClick={changeComment}
-                        dangerouslySetInnerHTML={{__html: item.title}}
-                      ></p>
-                    )}
-                  </div>
-                );
-              })}
-            </>
-          )}
+            ) : (
+              <span>{state.currentTitle}</span>
+            ))}
         </div>
       )}
+      <div className='text-editor__' onClick={editText}>
+        {hasComments && (
+          <CommentsSection
+            addComment={addComment}
+            comments={comments}
+            isLoggedIn={isLoggedIn}
+            changeComment={changeComment}
+            isOpen={state.isOpen}
+          />
+        )}
+      </div>
     </div>
   );
 };

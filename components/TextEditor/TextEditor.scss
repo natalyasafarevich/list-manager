@@ -1,6 +1,13 @@
 .text-editor {
+  &__container {
+    margin-bottom: 15px;
+  }
   // .text-editor__row
-
+  img {
+    object-fit: contain;
+    height: 400px;
+    width: 100%;
+  }
   &__row {
     margin: 10px -5px 0;
   }
@@ -11,7 +18,16 @@
     padding: 10px;
     margin: 0 5px;
   }
-  &__desc + div {
-    background-color: red;
+
+  .ql-toolbar.ql-snow + .ql-container.ql-snow {
+    border: 1px solid #ccc;
+  }
+  .text-editor .ql-toolbar.ql-snow {
+  }
+  .ql-container.ql-snow,
+  .ql-toolbar.ql-snow {
+    margin-top: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
   }
 }

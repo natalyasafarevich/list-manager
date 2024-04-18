@@ -17,6 +17,16 @@ body {
   background: center/contain no-repeat url("/icon-close.svg");
   // padding-left: 160px;
 }
+.text-underline {
+  display: inline-block;
+  &::after {
+    content: "";
+    display: block;
+    height: 1px;
+    width: 50%;
+    background-color: #97a3b7;
+  }
+}
 .underline {
   cursor: pointer;
   width: max-content;
@@ -386,12 +396,12 @@ img {
   border: 0;
 }
 
-em,
-strong,
-th {
-  font-style: normal;
-  font-weight: normal;
-}
+// em,
+// strong,
+// th {
+//   font-style: normal;
+//   font-weight: normal;
+// }
 
 ol,
 ul {

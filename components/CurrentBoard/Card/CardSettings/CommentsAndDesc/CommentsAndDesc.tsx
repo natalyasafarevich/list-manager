@@ -1,7 +1,7 @@
 'use client';
 import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import TextEditor from '@/components/TextEditor/TextEditor';
-import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {AppDispatch, RootState} from '@/store/store';
 import {ColumnCardsProps} from '@/types/interfaces';
@@ -9,6 +9,7 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getComments} from '@/store/card-setting/actions';
 import {getUpdateLink} from '@/store/data-user/actions';
+import './CommentsAndDesc.scss';
 interface CommentsAndDescProps {
   card: ColumnCardsProps;
 }
@@ -23,7 +24,12 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
   const current_column = useSelector((state: RootState) => state?.column.data);
   const [comment, setComment] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-
+  const [currentCard, getCurrentCard] = useState<ColumnCardsProps>({
+    title: '',
+    description: '',
+    id: '',
+    comments: [],
+  });
   const user = useSelector((state: RootState) => state.userdata);
   const boardLists = useSelector(
     (state: RootState) => state.boards.currentBoards.lists,
@@ -82,13 +88,6 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
     }
   }, [card.id, current_column, boardLists]);
 
-  const [currentCard, getCurrentCard] = useState<ColumnCardsProps>({
-    title: '',
-    description: '',
-    id: '',
-    comments: [],
-  });
-
   useEffect(() => {
     dispatch(getComments(currentCard?.comments as []));
   }, [currentCard]);
@@ -111,20 +110,23 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
   return (
     <div className='comments-desc'>
       <div className='comments-desc__container'>
-        <p className='comments-desc__title'>Card description</p>
-
-        <TextEditor
-          hasComments={false}
-          firebaseDescription={currentCard?.description as string}
-          getHTML={(e) => setDescription(e)}
-          title='Write some words'
-        />
-
-        <TextEditor
-          hasComments={true}
-          getHTML={(e) => setComment(e)}
-          title={'title'}
-        />
+        <p className='comments-desc__title flex'>
+          <span className=' text-underline'>Card description</span>
+        </p>
+        <div className='comments-desc__desc-box'>
+          <TextEditor
+            hasComments={false}
+            firebaseDescription={currentCard?.description as string}
+            getHTML={(e) => setDescription(e)}
+            title='Write some words'
+          />
+        </div>
+        <div className='comments-desc__comments-box'>
+          <p className='comments-desc__title flex '>
+            <span className='text-underline'>Comments</span>
+          </p>
+          <TextEditor hasComments={true} getHTML={(e) => e} title={'title'} />
+        </div>
       </div>
     </div>
   );

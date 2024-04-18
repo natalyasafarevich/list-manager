@@ -1,0 +1,63 @@
+.comments-desc {
+  // .comments-desc__container
+
+  &__container {
+  }
+
+  // .comments-desc__title
+
+  &__title {
+    margin-bottom: 10px;
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 15px;
+      background: no-repeat url("/desc-icon.svg");
+    }
+  }
+
+  // .comments-desc__desc-box
+  .icon-comments {
+    ::before {
+      background: no-repeat url("/message-icon.svg");
+      background-size: 40px;
+    }
+  }
+  &__desc-box {
+    .text-editor {
+      &__description {
+        border: 1px solid #ccc;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 15px;
+      }
+    }
+    margin-left: 30px;
+
+    margin-bottom: 20px;
+  }
+
+  // .comments-desc__comments-box
+
+  &__comments-box {
+    .text-editor .ql-container.ql-snow,
+    .text-editor .ql-toolbar.ql-snow {
+      margin: 0;
+    }
+    .text-editor .ql-toolbar.ql-snow + .ql-container.ql-snow {
+      border-top: none;
+      border-radius: 0px 0 5px 5px;
+    }
+    .text-editor .ql-toolbar.ql-snow {
+      border-radius: 4px 4px 0 0;
+      border-bottom: none;
+    }
+    .ql-snow.ql-toolbar button.ql-image {
+      display: none;
+    }
+  }
+}
+.text-underline {
+}

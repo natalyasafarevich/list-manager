@@ -41,8 +41,8 @@ const AboutBoardSection: FC<AboutBoardSectionProps> = ({
       <p className='additional-menu__subtitle'>Description:</p>
       <TextEditor
         title={'write some words about the board'}
-        isArray={false}
-        backDescription={descriptionBack}
+        hasComments={false}
+        firebaseDescription={descriptionBack}
         getHTML={(e) => setDescription(e)}
       />
     </ExpandableContent>
