@@ -1,6 +1,6 @@
 'use client';
 import {formats, modules} from '@/variables/edit';
-import {FC, useEffect, useState} from 'react';
+import {FC, useEffect, useRef, useState} from 'react';
 import ReactQuill, {Quill} from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
 import {v4 as uuidv4} from 'uuid';
@@ -9,11 +9,8 @@ import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {CommentProps} from '../CurrentBoard/Card/CardSettings/CardSettings';
 import {getListIndex} from '../CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
-import {
-  getComments,
-  isCardUpdate,
-  isDescriptionAdded,
-} from '@/store/card-setting/actions';
+import {getComments, isCardUpdate} from '@/store/card-setting/actions';
+import {formatDate} from '@/helper/formatDate';
 import './TextEditor.scss';
 
 Quill.register('modules/imageResize', ImageResize);
@@ -21,157 +18,165 @@ Quill.register('modules/imageResize', ImageResize);
 interface TextEditorProps {
   title: string;
   getHTML?: (value: string) => void;
-  backDescription?: string;
-  isArray?: boolean;
+  firebaseDescription?: string;
+  hasComments?: boolean;
 }
 
 const TextEditor: FC<TextEditorProps> = ({
   title,
   getHTML,
-  backDescription,
-  isArray,
+  firebaseDescription,
+  hasComments,
 }) => {
-  const [isSave, setIsSave] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentTitle, setCurrentTitle] = useState(title);
-  const [editorHtml, setEditorHtml] = useState('');
-  const [comments, setComments] = useState<Array<CommentProps>>([]);
-  const [commentsInfo, setCommentsInfo] = useState({
-    id: '',
-    index: 0,
-    editDate: '',
+  const [state, setState] = useState({
+    prevValue: '',
+    isSave: false,
+    isOpen: false,
+    currentTitle: title,
+    editorHtml: '',
+    commentsInfo: {id: '', index: 0, editDate: ''},
   });
+  const [comments, setComments] = useState<Array<CommentProps>>([]);
 
+  const updateState = (newState: Partial<typeof state>) => {
+    setState((prevState) => ({...prevState, ...newState}));
+  };
   const allComments = useSelector(
     (state: RootState) => state.card_setting.comments,
   );
+  const user_status = useSelector((state: RootState) => state.userdata);
+
+  const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
 
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
+    if (firebaseDescription !== undefined) {
+      setState((prevState) => ({
+        ...prevState,
+        editorHtml: firebaseDescription,
+      }));
+    }
+
     if (allComments) {
       setComments(allComments);
     }
-  }, [allComments]);
 
-  useEffect(() => {
-    if (backDescription !== undefined) {
-      setEditorHtml(backDescription);
-    }
-  }, [backDescription]);
-  useEffect(() => {
-    const date = new Date();
-    const year = date.getFullYear() % 100;
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const editDate = `${hours}:${minutes} ${month}/${day}/${year}`;
-    if (isSave) {
-      if (!isArray && editorHtml) {
+    const editDate = formatDate(new Date());
+    if (state.isSave) {
+      if (!hasComments && state.editorHtml) {
         dispatch(isCardUpdate(true));
-
-        // dispatch(isDescriptionAdded(true));
       }
-      const commentToUpdate = comments.find(
-        (item) => item.id === commentsInfo.id,
+      // find a comment which needs to update
+      const updatedComments = comments.map((item) =>
+        item.id === state.commentsInfo.id
+          ? {...item, title: state.editorHtml, editDate}
+          : item,
       );
-      if (commentToUpdate) {
-        const updatedComment = {
-          ...commentToUpdate,
-          title: editorHtml,
-          editDate,
-        };
 
-        const updatedComments = comments.map((item) =>
-          item.id === commentsInfo.id ? updatedComment : item,
-        );
+      dispatch(getComments(updatedComments));
+      // update states
+      setState((prevState) => ({
+        ...prevState,
+        currentTitle: state.editorHtml,
+        isOpen: false,
+        isSave: false,
+      }));
 
-        dispatch(getComments(updatedComments));
-        setIsOpen(false);
-        getHTML && getHTML('');
-        setCurrentTitle(editorHtml);
-
-        setIsSave(false);
-      } else {
-        setIsOpen(false);
-        getHTML && getHTML(editorHtml);
-        setCurrentTitle(editorHtml);
-        setIsSave(false);
-      }
+      getHTML?.(state.editorHtml || '');
     }
-  }, [isSave, editorHtml]);
-  const [prevValue, setPrevValue] = useState('');
-  const handleChange = (html: string) => {
-    setEditorHtml(html);
+  }, [firebaseDescription, allComments, state.isSave, state.editorHtml]);
+
+  const ReactQuillChange = (html: string) => {
+    setState((prevState) => ({
+      ...prevState,
+      editorHtml: html,
+    }));
   };
 
+  // the comment changes
   const changeComment = (e: React.MouseEvent<HTMLElement>) => {
     const {currentTarget} = e;
-    const id = currentTarget?.dataset?.id || '';
-    const commentIndex = getListIndex(comments, id);
-    setCommentsInfo((prev) => ({
-      ...prev,
-      id: id,
-      index: commentIndex as number,
-    }));
     const foundComment = comments.find((item) => item.id === id);
-    if (foundComment) {
-      setEditorHtml(foundComment.title);
-    }
+
+    const id = currentTarget?.dataset?.id || '';
+
+    const commentIndex = getListIndex(comments, id);
+
+    setState((prevState) => ({
+      ...prevState,
+      commentsInfo: {
+        id: id,
+        index: commentIndex as number,
+        editDate: '',
+      },
+    }));
+
+    foundComment &&
+      setState((prevState) => ({
+        ...prevState,
+        editorHtml: foundComment.title,
+      }));
   };
-
+  // add a new comment
   const addComment = () => {
-    setEditorHtml('');
-    const date = new Date();
-    const year = date.getFullYear() % 100;
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-
+    const editDate = formatDate(new Date());
     const newId = uuidv4();
     const newComment: CommentProps = {
       id: newId,
       title: '',
-      createDate: `${hours}:${minutes} ${month}/${day}/${year}`,
+      createDate: editDate,
     };
+
     setComments((prevComments) => [...prevComments, newComment]);
-    setCommentsInfo({
-      id: newId,
-      index: comments.length,
-      editDate: `${hours}:${minutes} ${month}/${day}/${year}`,
-    });
+
+    setState((prevState) => ({
+      ...prevState,
+      editorHtml: '',
+      commentsInfo: {
+        id: newId,
+        index: comments.length,
+        editDate: editDate,
+      },
+    }));
   };
-  const user_status = useSelector((state: RootState) => state.userdata);
-  const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
+  // save the edited comment
   const saveComments = () => {
-    setIsSave(true);
+    setState((prevState) => ({
+      ...prevState,
+      isSave: true,
+    }));
     dispatch(isCardUpdate(true));
   };
-
   const cancelClick = () => {
-    setEditorHtml(prevValue);
-    setIsSave(true);
+    setState((prevState) => ({
+      ...prevState,
+      editorHtml: state.prevValue,
+      isSave: true,
+    }));
   };
+
+  // edit text
   const editText = () => {
     if (!isLoggedIn) {
       return;
     }
-    setPrevValue(editorHtml);
-
-    setIsOpen(!isOpen);
+    updateState({prevValue: state.editorHtml});
+    setState((prevState) => ({
+      ...prevState,
+      isOpen: !prevState.isOpen,
+    }));
   };
 
   return (
     <div className='text-editor'>
-      {isOpen ? (
+      {state.isOpen ? (
         <div className='kkk'>
           <ReactQuill
             className='editor'
             theme='snow'
-            onChange={handleChange}
-            value={editorHtml}
+            onChange={ReactQuillChange}
+            value={state.editorHtml}
             modules={modules}
             formats={formats}
             bounds={'#root'}
@@ -195,14 +200,16 @@ const TextEditor: FC<TextEditorProps> = ({
         </div>
       ) : (
         <div className='text-editor__desc' onClick={editText}>
-          {!isArray && editorHtml && (
+          {!hasComments && state.editorHtml && (
             <>
-              <div dangerouslySetInnerHTML={{__html: editorHtml}}></div>
+              <div dangerouslySetInnerHTML={{__html: state.editorHtml}}></div>
             </>
           )}
-          {!isArray && !editorHtml && <span>{currentTitle}</span>}
+          {!hasComments && !state.editorHtml && (
+            <span>{state.currentTitle}</span>
+          )}
 
-          {isArray && (
+          {hasComments && (
             <>
               <button
                 className='d-block mt-5'

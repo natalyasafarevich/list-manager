@@ -12,6 +12,13 @@ import {getUpdateLink} from '@/store/data-user/actions';
 interface CommentsAndDescProps {
   card: ColumnCardsProps;
 }
+export const stripHtmlTags = (html: string) => {
+  // Создаем регулярное выражение для поиска HTML-тегов
+  const regex = /(<([^>]+)>)/gi;
+  // Заменяем HTML-теги на пустую строку
+  return html.replace(regex, '');
+};
+
 const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
   const current_column = useSelector((state: RootState) => state?.column.data);
   const [comment, setComment] = useState<string>('');
@@ -40,11 +47,14 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
       dispatch(getUpdateLink(link));
     }
   }, [index]);
+
   useEffect(() => {
+    let textWithoutTags = stripHtmlTags(description);
+    // console.log(textWithoutTags.length);
     description &&
       updateFirebaseData(
         `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
-        {description: description},
+        {description: textWithoutTags.length ? description : ''},
       );
   }, [index, description, user, current_board]);
 
@@ -102,15 +112,16 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
     <div className='comments-desc'>
       <div className='comments-desc__container'>
         <p className='comments-desc__title'>Card description</p>
+
         <TextEditor
-          isArray={false}
-          backDescription={currentCard?.description as string}
+          hasComments={false}
+          firebaseDescription={currentCard?.description as string}
           getHTML={(e) => setDescription(e)}
           title='Write some words'
         />
 
         <TextEditor
-          isArray={true}
+          hasComments={true}
           getHTML={(e) => setComment(e)}
           title={'title'}
         />
