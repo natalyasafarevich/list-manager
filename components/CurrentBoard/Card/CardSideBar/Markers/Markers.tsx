@@ -100,7 +100,7 @@ const Markers: FC = () => {
         </p>
         {isOpen && (
           <MiniPopup setIsOpen={(e) => setIsOpen(e)} title='Tags'>
-            <div className='tags__'>
+            <div className='tags__box'>
               {markers?.map((item, i) => (
                 <ColorCheckbox
                   key={i}

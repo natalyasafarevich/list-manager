@@ -5,6 +5,10 @@ export type PayloadProps = {
   id: string;
   color: string;
 };
+// export type MarkerProps = {
+//   id: string;
+//   color: string;
+// };
 
 export type DataMarkersProps = {
   type: typeof MARKERS;
