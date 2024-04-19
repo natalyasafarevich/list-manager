@@ -196,19 +196,20 @@ const TextEditor: FC<TextEditorProps> = ({
             ))}
         </div>
       )}
-      <div className='text-editor__' onClick={editText}>
-        {hasComments &&
-          !state.isOpen &&
-          ююю(
-            <CommentsSection
-              addComment={addComment}
-              comments={comments}
-              isLoggedIn={isLoggedIn}
-              changeComment={changeComment}
-              isOpen={state.isOpen}
-            />,
-          )}
-      </div>
+      <p>mdvdv</p>
+      <p>mdvdv</p>
+
+      {/* <div className='text-editor__' onClick={editText}>
+        {(hasComments && !state.isOpen) &&(
+          <CommentsSection
+            addComment={addComment}
+            comments={comments}
+            isLoggedIn={isLoggedIn}
+            changeComment={changeComment}
+            isOpen={state.isOpen}
+          />
+        )}
+      </div> */}
     </div>
   );
 };
