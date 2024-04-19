@@ -71,11 +71,7 @@ const CommentsSection: FC<CommentsSectionProps> = ({
                       className='comments-section__content'
                       data-id={comment.id}
                       data-info={'edit'}
-                      onClick={
-                        comment.owner == user.uid
-                          ? changeComment
-                          : () => setOpen(false)
-                      }
+                      onClick={changeComment}
                       dangerouslySetInnerHTML={{__html: comment.title}}
                     ></div>
                     <span className='comments-section__date'>
