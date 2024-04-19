@@ -8,6 +8,7 @@ import ColorCheckbox from '../ColorCheckbox/ColorCheckbox';
 import {getMarkersCurrent} from '@/store/card-sidebar/actions';
 import {ColumnCardsProps} from '@/types/interfaces';
 import MiniPopup from '@/components/MiniPopup/MiniPopup';
+import './Markers.scss';
 
 interface MarkersFirebaseProps {
   color: string;
@@ -43,7 +44,6 @@ const Markers: FC = () => {
   }, [removedItem]);
 
   // update markers
-  // console.log(current_markers);
   useEffect(() => {
     //
     if (current_markers.length !== 0) {
@@ -85,31 +85,34 @@ const Markers: FC = () => {
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
 
   return (
-    <div className='position-relative'>
-      <p
-        onClick={() => {
-          if (!isLoggedIn) {
-            return;
-          }
-          setIsOpen(!isOpen);
-        }}
-      >
-        метки
-      </p>
-      {isOpen && (
-        <MiniPopup setIsOpen={(e) => setIsOpen(e)} title='Метки'>
-          <div className=''>
-            {markers?.map((item, i) => (
-              <ColorCheckbox
-                key={i}
-                data={item}
-                addedID={updateCheckedMarks}
-                removeID={(e) => getRemovedItem(e)}
-              />
-            ))}
-          </div>
-        </MiniPopup>
-      )}
+    <div className='tags'>
+      <div className='tags__container'>
+        <p
+          className='tags__title card-sidebar-title underline'
+          onClick={() => {
+            if (!isLoggedIn) {
+              return;
+            }
+            setIsOpen(!isOpen);
+          }}
+        >
+          Tags
+        </p>
+        {isOpen && (
+          <MiniPopup setIsOpen={(e) => setIsOpen(e)} title='Tags'>
+            <div className='tags__'>
+              {markers?.map((item, i) => (
+                <ColorCheckbox
+                  key={i}
+                  data={item}
+                  addedID={updateCheckedMarks}
+                  removeID={(e) => getRemovedItem(e)}
+                />
+              ))}
+            </div>
+          </MiniPopup>
+        )}
+      </div>
     </div>
   );
 };

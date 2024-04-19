@@ -1,0 +1,30 @@
+.mini-popup {
+  // .mini-popup__container
+
+  &__container {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  // .mini-popup__row
+
+  &__row {
+    justify-content: flex-end;
+  }
+
+  // .mini-popup__title
+
+  &__title {
+  }
+
+  // .mini-popup__button
+
+  &__button {
+  }
+
+  // .mini-popup__content
+
+  &__content {
+  }
+}

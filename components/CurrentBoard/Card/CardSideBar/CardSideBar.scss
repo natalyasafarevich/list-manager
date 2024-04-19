@@ -1,0 +1,21 @@
+.card-sidebar {
+  // .card-sidebar__container
+
+  &__container {
+    padding-top: 50px;
+  }
+
+  // .card-sidebar__title
+
+  &__title {
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  // .card-sidebar__item
+
+  &__item {
+    margin-bottom: 12px;
+  }
+}

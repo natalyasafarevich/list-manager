@@ -17,6 +17,11 @@ body {
   background: center/contain no-repeat url("/icon-close.svg");
   // padding-left: 160px;
 }
+.card-sidebar-title {
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+  color: #9896a3;
+}
 .text-underline {
   display: inline-block;
   &::after {

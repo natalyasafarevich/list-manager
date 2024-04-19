@@ -3,26 +3,26 @@ import Markers from './Markers/Markers';
 import CheckLists from './CheckLists/CheckLists';
 import CardArchivedButton from '../CardSettings/CardArchivedButton/CardArchivedButton';
 import Cover from './Cover/Cover';
+import './CardSideBar.scss';
 
 const CardSideBar: FC = () => {
   return (
-    <div>
-      <p>Добавить на карточку:</p>
-      <ul>
-        <li>Участники</li>
-        <li>
+    <div className='card-sidebar'>
+      <div className='card-sidebar__container'>
+        <p className='card-sidebar__title'>Addition:</p>
+        <div className='card-sidebar__item'>
           <Markers />
-        </li>
-        <li>
+        </div>
+        <div className='card-sidebar__item'>
           <CheckLists />
-        </li>
-        <li>
-          <CardArchivedButton />
-        </li>
-        <li>
+        </div>
+        <div className='card-sidebar__item'>
           <Cover />
-        </li>
-      </ul>
+        </div>
+        <div className='card-sidebar__item'>
+          <CardArchivedButton />
+        </div>
+      </div>
     </div>
   );
 };
