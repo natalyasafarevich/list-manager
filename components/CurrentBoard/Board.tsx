@@ -107,6 +107,7 @@ const CurrentBoard: FC = () => {
   // console.log(currentBoard.isCloseBoard);
   return (
     <div className='board'>
+      {/* <Members /> */}
       <div className='board__container medium-content-wrap plr-3 '>
         <div
           className={` ${isLightTheme ? 'theme-light' : ''}`}

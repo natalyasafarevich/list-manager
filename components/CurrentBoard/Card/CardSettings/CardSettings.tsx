@@ -20,10 +20,12 @@ type CardSettingsProps = {
   setIsOpenCard: () => void;
 };
 export interface CommentProps {
-  editDate?: string;
   title: string;
   id: string;
   createDate: string;
+  photoUrl: string;
+  name: string;
+  editDate?: string;
 }
 const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const [columnName, setColumnName] = useState<string>('');

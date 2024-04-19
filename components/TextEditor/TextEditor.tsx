@@ -134,6 +134,8 @@ const TextEditor: FC<TextEditorProps> = ({
       id: newId,
       title: '',
       createDate: editDate,
+      photoUrl: user_status.photoURL as string,
+      name: user_status.displayName as string,
     };
 
     setComments((prevComments) => [...prevComments, newComment]);
@@ -169,9 +171,10 @@ const TextEditor: FC<TextEditorProps> = ({
     if (!isLoggedIn) {
       return;
     }
-    updateState({prevValue: state.editorHtml});
+
     setState((prevState) => ({
       ...prevState,
+      prevValue: state.editorHtml,
       isOpen: !prevState.isOpen,
     }));
   };
@@ -194,15 +197,17 @@ const TextEditor: FC<TextEditorProps> = ({
         </div>
       )}
       <div className='text-editor__' onClick={editText}>
-        {hasComments && (
-          <CommentsSection
-            addComment={addComment}
-            comments={comments}
-            isLoggedIn={isLoggedIn}
-            changeComment={changeComment}
-            isOpen={state.isOpen}
-          />
-        )}
+        {hasComments &&
+          !state.isOpen &&
+          ююю(
+            <CommentsSection
+              addComment={addComment}
+              comments={comments}
+              isLoggedIn={isLoggedIn}
+              changeComment={changeComment}
+              isOpen={state.isOpen}
+            />,
+          )}
       </div>
     </div>
   );
