@@ -10,7 +10,6 @@
   transform: translate(-50%, -50%);
   overflow-x: hidden;
   display: flex;
-  // align-items: center;
   justify-content: center;
   padding: 25px;
   // .card-settings__container
@@ -19,11 +18,12 @@
     height: max-content;
     color: var(--primary-color);
     background-color: var(--secondary-color);
-    width: 50%;
+    width: 60%;
     border-radius: 15px;
-    // height: 100%;
     position: relative;
     padding: 20px;
+    display: flex;
+    justify-content: space-between;
   }
 
   // .card-settings__cover
@@ -70,11 +70,14 @@
   &__button {
     width: 25px;
     height: 25px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
   }
-
-  // .card-settings__markers
-
-  &__markers {
+  &__content {
+    width: 75%;
+  }
+  &__menu {
   }
 
   // .card-settings__subtitle

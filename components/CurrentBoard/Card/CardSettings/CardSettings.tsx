@@ -21,6 +21,7 @@ type CardSettingsProps = {
 };
 export interface CommentProps {
   title: string;
+  owner: string;
   id: string;
   createDate: string;
   photoUrl: string;
@@ -80,65 +81,65 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   return (
     <div className='card-settings'>
       <div className='card-settings__container'>
-        {card.cover && (
-          <div
-            className='card-settings__cover'
-            style={{backgroundColor: card.cover}}
-          ></div>
-        )}
-        <div className='card-settings__row flex'>
-          <div>
-            <div className='flex'>
-              <input
-                className='card-settings__input'
-                id='name-card'
-                type='text'
-                value={value}
-                onChange={(e) => {
-                  setIsReadOnly(false);
-                  setValue(e.currentTarget.value);
-                }}
-                onFocus={(e) => setIsReadOnly(false)}
-                readOnly={isReadOnly}
-                disabled={!isLoggedIn}
-                maxLength={50}
-              />
-              <label
-                className='card-settings__icon'
-                htmlFor='name-card'
-              ></label>
-            </div>
-            <p className='card-settings__column-text'>
-              In column: <span> {columnName}</span>
-            </p>
-          </div>
-          <button
-            className='card-settings__button button-close'
-            onClick={closeSetting}
-          ></button>
-        </div>
-        <div className='card-settings__markers'>
-          <span className='card-settings__subtitle'>Markers</span>
-          <div className='card-settings__box flex'>
-            {makers?.map((item, i) => (
-              <div
-                key={i}
-                className='card-settings__marker-item'
-                style={{background: item}}
-              >
-                create a text
+        <button
+          className='card-settings__button button-close'
+          onClick={closeSetting}
+        ></button>
+        <div className='card-settings__content'>
+          {card.cover && (
+            <div
+              className='card-settings__cover'
+              style={{backgroundColor: card.cover}}
+            ></div>
+          )}
+          <div className='card-settings__row flex'>
+            <div>
+              <div className='flex'>
+                <input
+                  className='card-settings__input'
+                  id='name-card'
+                  type='text'
+                  value={value}
+                  onChange={(e) => {
+                    setIsReadOnly(false);
+                    setValue(e.currentTarget.value);
+                  }}
+                  onFocus={(e) => setIsReadOnly(false)}
+                  readOnly={isReadOnly}
+                  disabled={!isLoggedIn}
+                  maxLength={50}
+                />
+                <label
+                  className='card-settings__icon'
+                  htmlFor='name-card'
+                ></label>
               </div>
-            ))}
+              <p className='card-settings__column-text'>
+                In column: <span> {columnName}</span>
+              </p>
+            </div>
           </div>
-        </div>
-        <div className='d-flex justify-content-between'>
-          <div className='w-50'>
+          <div className='card-settings__markers'>
+            <span className='card-settings__subtitle'>Markers</span>
+            <div className='card-settings__box flex'>
+              {makers?.map((item, i) => (
+                <div
+                  key={i}
+                  className='card-settings__marker-item'
+                  style={{background: item}}
+                >
+                  create a text
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
             <CreatedCheckList></CreatedCheckList>
             <CommentsAndDesc card={card} />
           </div>
-          <div className='w-25'>
-            <CardSideBar />
-          </div>
+        </div>
+        <div className='card-settings__menu'>
+          <CardSideBar />
         </div>
       </div>
     </div>

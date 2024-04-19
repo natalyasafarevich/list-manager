@@ -1,6 +1,12 @@
 .text-editor {
   &__container {
     margin-bottom: 15px;
+    position: relative;
+    // display: flex;
+  }
+
+  .text-editor__box {
+    display: none;
   }
   // .text-editor__row
   img {
@@ -11,12 +17,29 @@
   &__row {
     margin: 10px -5px 0;
   }
-
+  .editor {
+    width: 93%;
+  }
   // .text-editor__button
 
   &__button {
-    padding: 10px;
+    padding: 8px 15px;
+    width: max-content;
     margin: 0 5px;
+    /* margin-right: auto; */
+    margin-left: auto;
+    &__send {
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      right: 10px;
+      bottom: 50px;
+      z-index: 1;
+      display: block;
+      width: 20px;
+      height: 20px;
+      background: no-repeat url(/send-message-icon.svg);
+    }
   }
 
   .ql-toolbar.ql-snow + .ql-container.ql-snow {

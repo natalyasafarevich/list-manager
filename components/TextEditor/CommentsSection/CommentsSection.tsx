@@ -9,21 +9,22 @@ interface CommentsSectionProps {
   comments: Array<any>;
   changeComment: (e: React.MouseEvent<HTMLElement>) => void;
   isLoggedIn: boolean;
-  addComment: () => void;
+  setOpen: (a: boolean) => void;
   isOpen: boolean;
 }
 const CommentsSection: FC<CommentsSectionProps> = ({
   comments,
   changeComment,
   isLoggedIn,
-  addComment,
+  setOpen,
   isOpen,
 }) => {
   const user = useSelector((state: RootState) => state.userdata);
+
   return (
     <div className='comments-section'>
       <div className='comments-section__container'>
-        {isLoggedIn && !isOpen && (
+        {/* {isLoggedIn && !isOpen && (
           <div className='comments-section__row flex'>
             <div
               className='comments-section__image'
@@ -31,11 +32,12 @@ const CommentsSection: FC<CommentsSectionProps> = ({
                 background: `center/cover no-repeat url(${user.photoURL})`,
               }}
             ></div>
+
             <p className='comments-section__button' onClick={addComment}>
-              Write a comment
+              Add comments
             </p>
           </div>
-        )}
+        )} */}
         <div className='comments-section__items'>
           {comments.map((comment, index) => (
             <div className='comments-section__box' key={index}>
@@ -48,27 +50,37 @@ const CommentsSection: FC<CommentsSectionProps> = ({
                   ></div>
                 </div>
               ) : (
-                <div className='comments-section__flex flex'>
-                  <div
-                    className='comments-section__image'
-                    style={{
-                      background: `center/cover no-repeat url(${comment.photoUrl})`,
-                    }}
-                  ></div>
+                <div className=''>
+                  <div className='comments-section__flex flex'>
+                    <div
+                      className='comments-section__image'
+                      style={{
+                        background: `center/cover no-repeat url(${comment.photoUrl})`,
+                      }}
+                    ></div>
+                    <p className='comments-section__name'>{comment.name}</p>
+                  </div>
                   <div className='comments-section__info'>
-                    <p className='comments-section__name'>
+                    {/* <p className='comments-section__name'>
                       {comment.name}
                       <span className='comments-section__date'>
                         ({comment.createDate})
                       </span>
-                    </p>
+                    </p> */}
                     <div
                       className='comments-section__content'
                       data-id={comment.id}
                       data-info={'edit'}
-                      onClick={changeComment}
+                      onClick={
+                        comment.owner == user.uid
+                          ? changeComment
+                          : () => setOpen(false)
+                      }
                       dangerouslySetInnerHTML={{__html: comment.title}}
                     ></div>
+                    <span className='comments-section__date'>
+                      {comment.createDate}
+                    </span>
                   </div>
                 </div>
               )}

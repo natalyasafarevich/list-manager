@@ -8,6 +8,7 @@
 
   &__title {
     margin-bottom: 10px;
+
     &::before {
       content: "";
       display: inline-block;
@@ -42,17 +43,51 @@
   // .comments-desc__comments-box
 
   &__comments-box {
+    .text-editor__box {
+      display: block;
+    }
+    p:nth-child(1) {
+      span {
+        display: flex;
+        flex-direction: row-reverse;
+        &::before {
+          content: attr(data-quantity);
+          color: #ffffff;
+          font-size: 10px;
+          background: rgb(152, 150, 163);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 7px;
+          width: max-content;
+          padding: 0px 9px;
+          position: relative;
+          left: 4px;
+          top: -9px;
+          height: 20px;
+        }
+      }
+    }
+    .ql-editor {
+      padding-right: 32px;
+    }
     .text-editor .ql-container.ql-snow,
     .text-editor .ql-toolbar.ql-snow {
       margin: 0;
     }
     .text-editor .ql-toolbar.ql-snow + .ql-container.ql-snow {
-      border-top: none;
-      border-radius: 0px 0 5px 5px;
+      border: none;
+      color: #c4c7ce;
+      background-color: #f3f5f7;
+      border-radius: 10px;
+      width: 100%;
+      font-weight: 200;
+      color: var(--primary-color);
     }
     .text-editor .ql-toolbar.ql-snow {
       border-radius: 4px 4px 0 0;
       border-bottom: none;
+      display: none;
     }
     .ql-snow.ql-toolbar button.ql-image {
       display: none;

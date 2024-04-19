@@ -14,6 +14,7 @@ import EditorContent from './EditorContent/EditorContent';
 import CommentsSection from './CommentsSection/CommentsSection';
 import 'react-quill/dist/quill.snow.css';
 import './TextEditor.scss';
+import {stripHtmlTags} from '../CurrentBoard/Card/CardSettings/CommentsAndDesc/CommentsAndDesc';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -97,6 +98,10 @@ const TextEditor: FC<TextEditorProps> = ({
   }, [state.isSave, state.editorHtml]);
 
   const ReactQuillChange = (html: string) => {
+    let textWithoutTags = stripHtmlTags(html);
+    if (!textWithoutTags.length) {
+      return;
+    }
     setState((prevState) => ({
       ...prevState,
       editorHtml: html,
@@ -126,6 +131,7 @@ const TextEditor: FC<TextEditorProps> = ({
         editorHtml: foundComment.title,
       }));
   };
+  // console.log(comments);
   // add a new comment
   const addComment = () => {
     const editDate = formatDate(new Date());
@@ -133,12 +139,11 @@ const TextEditor: FC<TextEditorProps> = ({
     const newComment: CommentProps = {
       id: newId,
       title: '',
+      owner: user_status.uid,
       createDate: editDate,
       photoUrl: user_status.photoURL as string,
       name: user_status.displayName as string,
     };
-
-    setComments((prevComments) => [...prevComments, newComment]);
 
     setState((prevState) => ({
       ...prevState,
@@ -149,9 +154,22 @@ const TextEditor: FC<TextEditorProps> = ({
         editDate: editDate,
       },
     }));
+    // if (!newComment.title.length) {
+    //   return;
+    // }
+    setComments((prevComments) => [...prevComments, newComment]);
   };
   // save the edited comment
   const saveComments = () => {
+    let textWithoutTags = stripHtmlTags(state.editorHtml);
+    if (!textWithoutTags.length) {
+      setState((prevState) => ({
+        ...prevState,
+        isOpen: false,
+        isSave: false,
+      }));
+      return;
+    }
     setState((prevState) => ({
       ...prevState,
       isSave: true,
@@ -161,13 +179,15 @@ const TextEditor: FC<TextEditorProps> = ({
   const cancelClick = () => {
     setState((prevState) => ({
       ...prevState,
-      editorHtml: state.prevValue,
-      isSave: true,
+      editorHtml: '',
+      isSave: false,
+      isOpen: false,
     }));
   };
 
   // edit text
   const editText = () => {
+    // let textWithoutTags = stripHtmlTags(description);
     if (!isLoggedIn) {
       return;
     }
@@ -183,7 +203,32 @@ const TextEditor: FC<TextEditorProps> = ({
     <div className='text-editor'>
       {state.isOpen ? (
         <div className='text-editor__container'>
-          <EditorContent value={state.editorHtml} onChange={ReactQuillChange} />
+          <div className='flex'>
+            {hasComments && (
+              <>
+                <div
+                  className='comments-section__image'
+                  style={{
+                    background: `center/cover no-repeat url(${user_status.photoURL})`,
+                  }}
+                ></div>
+                <button
+                  type='button'
+                  className='text-editor__button text-editor__button__send'
+                  onClick={saveComments}
+                ></button>
+                {/* <button
+                  type='button'
+                  className='button-close text-editor__button'
+                  onClick={cancelClick}
+                ></button> */}
+              </>
+            )}
+            <EditorContent
+              value={state.editorHtml}
+              onChange={ReactQuillChange}
+            />
+          </div>
           <EditorToolbar onCancel={cancelClick} onSave={saveComments} />
         </div>
       ) : (
@@ -196,20 +241,38 @@ const TextEditor: FC<TextEditorProps> = ({
             ))}
         </div>
       )}
-      <p>mdvdv</p>
-      <p>mdvdv</p>
+      <div className='text-editor__box' onClick={editText}>
+        {isLoggedIn && !state.isOpen && (
+          <div className='comments-section__row flex'>
+            <div
+              className='comments-section__image'
+              style={{
+                background: `center/cover no-repeat url(${user_status.photoURL})`,
+              }}
+            ></div>
 
-      {/* <div className='text-editor__' onClick={editText}>
-        {(hasComments && !state.isOpen) &&(
+            <p className='comments-section__button' onClick={addComment}>
+              Add comments
+            </p>
+          </div>
+        )}
+
+        {hasComments && !state.isOpen && (
           <CommentsSection
-            addComment={addComment}
+            // addComment={addComment}
             comments={comments}
             isLoggedIn={isLoggedIn}
             changeComment={changeComment}
             isOpen={state.isOpen}
+            setOpen={(e) =>
+              setState((prevState) => ({
+                ...prevState,
+                isOpen: e,
+              }))
+            }
           />
         )}
-      </div> */}
+      </div>
     </div>
   );
 };

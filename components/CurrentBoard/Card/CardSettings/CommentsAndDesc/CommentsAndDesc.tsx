@@ -123,7 +123,12 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
         </div>
         <div className='comments-desc__comments-box'>
           <p className='comments-desc__title flex '>
-            <span className='text-underline'>Comments</span>
+            <span
+              className='text-underline'
+              data-quantity={comments?.length || 0}
+            >
+              Comments
+            </span>
           </p>
           <TextEditor hasComments={true} getHTML={(e) => e} title={'title'} />
         </div>
