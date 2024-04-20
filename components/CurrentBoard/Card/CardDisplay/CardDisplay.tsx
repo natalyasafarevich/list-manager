@@ -32,9 +32,7 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
     setIsOpenCards(!isOpenCard);
     dispatch(isArchivedCard(card?.isArchived || false));
   };
-  useEffect(() => {
-    console.log(card);
-  }, [card]);
+
   return (
     <div className='card-display'>
       <div className='card-display__container'>

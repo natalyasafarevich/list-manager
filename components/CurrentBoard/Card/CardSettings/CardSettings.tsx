@@ -127,7 +127,9 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
                   key={i}
                   className='card-settings__marker-item'
                   style={{background: makers[key].color}}
-                ></div>
+                >
+                  {makers[key].text}
+                </div>
               ))}
             </div>
           </div>

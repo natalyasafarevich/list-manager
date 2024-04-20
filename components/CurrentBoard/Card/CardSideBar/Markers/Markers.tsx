@@ -55,28 +55,42 @@ const Markers: FC = () => {
   const [removedItem, getRemovedItem] = useState<string>('');
   const [markers, getMarkers] = useState<any>({});
   const [isOpen, setIsOpen] = useState(false);
-  console.log(checked);
+
+  const [customMarkers, getCustomMarkers] = useState<any>({});
+
   const user = useSelector((state: RootState) => state.userdata);
   const current_markers = useSelector(
     (state: RootState) => state.markers.markers,
   );
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
 
   const dispatch: AppDispatch = useDispatch();
+
+  // if custom marker is created
+  useEffect(() => {
+    if (Object.keys(customMarkers).length) {
+      updateFirebaseData('card-settings-data', {
+        'custom-markers': {[user.uid]: customMarkers},
+      });
+    }
+  }, [customMarkers]);
 
   // get all default markers
   useEffect(() => {
     if (user) {
       // updateFirebaseData('card-settings-data', {markers: marker});
       fetchBackDefaultData('card-settings-data/markers', getMarkers);
+      fetchBackDefaultData(
+        `card-settings-data/custom-markers/${user.uid}`,
+        getCustomMarkers,
+      );
     }
   }, [user]);
 
   useEffect(() => {
     if (removedItem) {
       const updatedChecked = {...checked};
-      // Удаляем элемент из копии объекта
       delete updatedChecked[removedItem];
-      // const updatedArray = checked.filter((item: any) => item !== removedItem);
       getChecked(updatedChecked);
     }
   }, [removedItem]);
@@ -117,15 +131,24 @@ const Markers: FC = () => {
     }
   }, [checked, card]);
 
-  const updateCheckedMarks = (value: string, text: any, id: any) => {
+  const updateCheckedMarks = (
+    value: string,
+    text: any,
+    id: any,
+    isCustom?: boolean,
+  ) => {
     getChecked((prev: any) => ({
       ...prev,
       [id]: {color: value, text: text, id: id},
     }));
+    if (isCustom) {
+      getCustomMarkers((prev: any) => ({
+        ...prev,
+        [id]: {color: value, text: text, id: id},
+      }));
+    }
   };
-  console.log(markers);
-  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
-  console.log(markers);
+
   return (
     <div className='tags'>
       <div className='tags__container'>
@@ -142,11 +165,20 @@ const Markers: FC = () => {
         </p>
         {!isOpen && (
           <MiniPopup setIsOpen={(e) => setIsOpen(e)} title='Tags'>
-            {/* <CustomMarker /> */}
+            <CustomMarker updateCheckedMarks={updateCheckedMarks} />
             {Object.keys(markers)?.map((item, i) => (
               <div className='tags__box' key={i}>
                 <ColorCheckbox
                   data={markers[item]}
+                  addedID={updateCheckedMarks}
+                  removeID={(e) => getRemovedItem(e)}
+                />
+              </div>
+            ))}
+            {Object.keys(customMarkers)?.map((item, i) => (
+              <div className='tags__box' key={i}>
+                <ColorCheckbox
+                  data={customMarkers[item]}
                   addedID={updateCheckedMarks}
                   removeID={(e) => getRemovedItem(e)}
                 />

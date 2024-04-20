@@ -19,7 +19,6 @@ const ColorCheckbox: FC<ColorCheckboxProps> = ({data, addedID, removeID}) => {
 
   useEffect(() => {
     for (let key in currentMarkers) {
-      console.log('key', currentMarkers);
       if (key === data.id) {
         setIsChecked(true);
       }
@@ -31,13 +30,12 @@ const ColorCheckbox: FC<ColorCheckboxProps> = ({data, addedID, removeID}) => {
     const id = e.target.dataset.id;
     if (id) {
       if (checkbox) {
-        addedID(id, '', data.id);
+        addedID(id, data.text || '', data.id);
       } else {
         removeID(data.id);
       }
     }
   };
-  console.log('data', data);
   return (
     <div className='color-checkbox'>
       <input
@@ -55,7 +53,9 @@ const ColorCheckbox: FC<ColorCheckboxProps> = ({data, addedID, removeID}) => {
         style={{
           background: data.color,
         }}
-      ></label>
+      >
+        {data?.text}
+      </label>
     </div>
   );
 };
