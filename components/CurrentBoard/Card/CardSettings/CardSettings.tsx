@@ -31,7 +31,7 @@ export interface CommentProps {
 const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const [columnName, setColumnName] = useState<string>('');
   const [allComments, setAllComment] = useState<Array<CommentProps>>([]);
-  const [makers, setMarkers] = useState<Array<string>>([]);
+  const [makers, setMarkers] = useState<any>({});
 
   const current_markers = useSelector(
     (state: RootState) => state.markers.markers,
@@ -122,14 +122,12 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
           <div className='card-settings__markers'>
             <span className='card-settings__subtitle'>Markers</span>
             <div className='card-settings__box flex'>
-              {makers?.map((item, i) => (
+              {Object.keys(makers).map((key, i) => (
                 <div
                   key={i}
                   className='card-settings__marker-item'
-                  style={{background: item}}
-                >
-                  create a text
-                </div>
+                  style={{background: makers[key].color}}
+                ></div>
               ))}
             </div>
           </div>

@@ -1,0 +1,21 @@
+.tags {
+  // .tags__container
+
+  &__container {
+  }
+
+  // .tags__title
+
+  &__title {
+  }
+
+  // .tags__box
+
+  &__box:not(:last-of-type) {
+    margin-bottom: 10px;
+  }
+  &__button {
+    margin-top: 25px;
+    padding: 5px;
+  }
+}

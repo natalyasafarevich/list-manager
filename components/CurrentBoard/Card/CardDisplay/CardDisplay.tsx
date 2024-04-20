@@ -28,7 +28,7 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
   }, [isOpenCard]);
 
   const openCard = () => {
-    dispatch(getMarkersCurrent([]));
+    dispatch(getMarkersCurrent({}));
     setIsOpenCards(!isOpenCard);
     dispatch(isArchivedCard(card?.isArchived || false));
   };
@@ -52,13 +52,13 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
               ></div>
             )}
             <div className='card-display__row'>
-              {card?.markers?.map((item, i) => (
+              {/* {card?.markers?.map((item, i) => (
                 <div
                   key={i}
                   className='card-display__markers'
                   style={{width: '50px', height: '10px', background: item}}
                 ></div>
-              ))}
+              ))} */}
             </div>
             <div className='card-display__row'>
               {card['check-lists'] && (

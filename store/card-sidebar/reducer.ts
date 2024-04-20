@@ -1,12 +1,12 @@
 import {ActionsType, IS_ARCHIVED, MARKERS, PayloadProps} from './actions';
 
 interface initialStateProps {
-  markers: Array<string>;
+  markers: any;
   isCardArchived: boolean;
 }
 
 const initialState: initialStateProps = {
-  markers: [],
+  markers: {},
   isCardArchived: false,
 };
 
