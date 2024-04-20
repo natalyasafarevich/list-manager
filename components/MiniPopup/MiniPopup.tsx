@@ -10,6 +10,7 @@ const MiniPopup: FC<MiniPopupProps> = ({setIsOpen, title, children}) => {
     <div className='mini-popup'>
       <div className='mini-popup__container'>
         <div className='mini-popup__row flex '>
+          <p className='mini-popup__title'>{title}</p>
           <button
             className='mini-popup__button button-close'
             onClick={() => setIsOpen(false)}

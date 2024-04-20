@@ -38,10 +38,11 @@
     align-items: flex-start;
   }
   &__marker-item {
-    padding: 5px 15px;
+    padding: 0px 14px;
     border-radius: 20px;
     color: var(--secondary-color);
-    margin: 0 5px;
+    margin: 0 5px 5px;
+    min-width: 70px;
   }
   &__column-text {
     margin: 5px 0 15px;
@@ -92,6 +93,8 @@
 
   &__box {
     margin: 0 -5px 15px;
+    align-items: stretch;
+    flex-wrap: wrap;
   }
 
   // .card-settings__marker-item

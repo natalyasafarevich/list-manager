@@ -148,7 +148,7 @@ const Markers: FC = () => {
       }));
     }
   };
-
+  const [isCustomTag, setIsCustomTag] = useState(false);
   return (
     <div className='tags'>
       <div className='tags__container'>
@@ -163,29 +163,45 @@ const Markers: FC = () => {
         >
           Tags
         </p>
-        {!isOpen && (
-          <MiniPopup setIsOpen={(e) => setIsOpen(e)} title='Tags'>
-            <CustomMarker updateCheckedMarks={updateCheckedMarks} />
-            {Object.keys(markers)?.map((item, i) => (
-              <div className='tags__box' key={i}>
-                <ColorCheckbox
-                  data={markers[item]}
-                  addedID={updateCheckedMarks}
-                  removeID={(e) => getRemovedItem(e)}
+
+        {isOpen && (
+          <div className='tags__popup'>
+            <MiniPopup setIsOpen={(e) => setIsOpen(e)} title='Tags'>
+              {isCustomTag ? (
+                <CustomMarker
+                  isOpen={(state) => setIsCustomTag(state)}
+                  updateCheckedMarks={updateCheckedMarks}
                 />
-              </div>
-            ))}
-            {Object.keys(customMarkers)?.map((item, i) => (
-              <div className='tags__box' key={i}>
-                <ColorCheckbox
-                  data={customMarkers[item]}
-                  addedID={updateCheckedMarks}
-                  removeID={(e) => getRemovedItem(e)}
-                />
-              </div>
-            ))}
-            <button className='tags__button button-border'>Create a tag</button>
-          </MiniPopup>
+              ) : (
+                <>
+                  {Object.keys(markers)?.map((item, i) => (
+                    <div className='tags__box' key={i}>
+                      <ColorCheckbox
+                        data={markers[item]}
+                        addedID={updateCheckedMarks}
+                        removeID={(e) => getRemovedItem(e)}
+                      />
+                    </div>
+                  ))}
+                  {Object.keys(customMarkers)?.map((item, i) => (
+                    <div className='tags__box' key={i}>
+                      <ColorCheckbox
+                        data={customMarkers[item]}
+                        addedID={updateCheckedMarks}
+                        removeID={(e) => getRemovedItem(e)}
+                      />
+                    </div>
+                  ))}
+                  <button
+                    className='tags__button button-border'
+                    onClick={(_e) => setIsCustomTag(!isCustomTag)}
+                  >
+                    Create a tag
+                  </button>
+                </>
+              )}
+            </MiniPopup>
+          </div>
         )}
       </div>
     </div>

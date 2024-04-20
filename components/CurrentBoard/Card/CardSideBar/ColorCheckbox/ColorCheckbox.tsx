@@ -48,7 +48,7 @@ const ColorCheckbox: FC<ColorCheckboxProps> = ({data, addedID, removeID}) => {
         checked={isChecked}
       />
       <label
-        className='color-checkbox__label'
+        className='color-checkbox__label default-tags'
         htmlFor={data.id}
         style={{
           background: data.color,

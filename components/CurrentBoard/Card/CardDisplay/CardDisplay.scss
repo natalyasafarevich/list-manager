@@ -70,7 +70,16 @@
 
   &__markers {
     border-radius: 16px;
-    height: 20px;
+    min-height: 20px;
+    min-width: 50px;
+    width: max-content;
+    font-size: 11px;
+    text-align: center;
+    color: var(--secondary-color);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 0 5px;
   }
   &__icon {

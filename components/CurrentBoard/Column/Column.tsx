@@ -72,7 +72,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     }
     setIsSave(false);
   }, [isSave]);
-  // console.log(isSave, cardUpdate);
+  console.log(cards, cardUpdate);
   useEffect(() => {
     dispatch(getIsOpenClSetting({isOpen: false}));
   }, []);

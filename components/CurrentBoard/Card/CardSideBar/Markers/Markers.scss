@@ -2,11 +2,16 @@
   // .tags__container
 
   &__container {
+    position: relative;
   }
 
   // .tags__title
 
-  &__title {
+  &__popup {
+    z-index: 1;
+    min-width: 237px;
+    position: absolute;
+    width: 100%;
   }
 
   // .tags__box

@@ -7,7 +7,7 @@ export interface ColumnCardsProps {
   id: string;
   description?: string;
   comments: Array<string>;
-  markers?: Array<string>;
+  markers?: any;
   isArchived?: boolean;
   cover?: string;
 

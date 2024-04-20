@@ -15,7 +15,7 @@ export type CardDisplayProps = {
 
 const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
   const [isOpenCard, setIsOpenCards] = useState(false);
-
+  console.log(card.markers, 'cards');
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
     setIsOpenCards(!isOpenCard);
     dispatch(isArchivedCard(card?.isArchived || false));
   };
-
+  const {markers} = card;
   return (
     <div className='card-display'>
       <div className='card-display__container'>
@@ -50,13 +50,18 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
               ></div>
             )}
             <div className='card-display__row'>
-              {/* {card?.markers?.map((item, i) => (
-                <div
-                  key={i}
-                  className='card-display__markers'
-                  style={{width: '50px', height: '10px', background: item}}
-                ></div>
-              ))} */}
+              {markers &&
+                Object.keys(markers)?.map((item: any, i) => (
+                  <div
+                    key={i}
+                    className='card-display__markers default-tags'
+                    style={{
+                      background: markers[item].color,
+                    }}
+                  >
+                    {markers[item]?.text}
+                  </div>
+                ))}
             </div>
             <div className='card-display__row'>
               {card['check-lists'] && (

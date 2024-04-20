@@ -1,26 +1,39 @@
 .mini-popup {
   // .mini-popup__container
-
   &__container {
-    border: 1px solid #ccc;
+    // border: 1px solid #ccc;
+    background: #ffffff;
+    border: 1px solid #eff0f6;
+    box-shadow: 0 5px 16px 0 rgba(8, 15, 52, 0.06);
+    border-radius: 34px;
     border-radius: 8px;
+    position: relative;
     padding: 10px;
   }
 
   // .mini-popup__row
 
   &__row {
-    justify-content: flex-end;
+    position: relative;
+    justify-content: center;
+    margin-bottom: 15px;
   }
 
   // .mini-popup__title
 
   &__title {
+    font-size: 15px;
+    text-align: center;
   }
 
   // .mini-popup__button
 
   &__button {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 
   // .mini-popup__content
