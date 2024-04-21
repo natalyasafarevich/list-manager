@@ -3,9 +3,10 @@ import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import AddItemForm from './AddItemForm/AddItemForm';
-import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData} from '@/helper/updateUserData';
 import {getCurrentTask} from '@/store/check-lists/actions';
 import {CheckListProps} from '@/types/interfaces';
+import './CreatedCheckList.scss';
 
 const CreatedCheckList: FC = () => {
   const [isPost, setIsPost] = useState(false);
@@ -49,27 +50,19 @@ const CreatedCheckList: FC = () => {
   };
 
   return (
-    <div className=''>
-      <div className=''>
+    <div className='created-checklist'>
+      <div className='created-checklist__container'>
         {Object.keys(lists)?.map((item: any) => (
-          <div key={lists[item].id}>
-            {lists[item].isDelete ? (
-              <></>
-            ) : (
-              <>
-                <hr />
-                <AddItemForm
-                  isHide={getIsHide}
-                  item={lists[item]}
-                  key={lists[item].id}
-                  currentValue={(value) => {
-                    setIsPost(true);
-                    setTasks(value);
-                  }}
-                />
-                <hr />
-              </>
-            )}
+          <div className='created-checklist__item' key={lists[item].id}>
+            <AddItemForm
+              isHide={getIsHide}
+              item={lists[item]}
+              key={lists[item].id}
+              currentValue={(value) => {
+                setIsPost(true);
+                setTasks(value);
+              }}
+            />
           </div>
         ))}
       </div>

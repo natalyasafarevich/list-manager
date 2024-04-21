@@ -1,25 +1,18 @@
-// import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
-import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {
   getListIndex as getCurrentListIndex,
-  deleteList as deleteListStore,
   isDeleteList,
   isTaskUpdate,
 } from '@/store/check-lists/actions';
 import {AppDispatch, RootState} from '@/store/store';
-import React, {
-  useState,
-  useRef,
-  ChangeEvent,
-  FormEvent,
-  FC,
-  useEffect,
-} from 'react';
+import React, {useState, ChangeEvent, FormEvent, FC, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4 as createId} from 'uuid';
 import CheckboxItem from '../CheckboxItem/CheckboxItem';
 import {CheckListProps} from '@/types/interfaces';
 import {updateFirebaseData} from '@/helper/updateUserData';
+import './AddItemForm.scss';
+
 export interface ListTasksProps {
   title: string;
   id: string;
@@ -166,44 +159,56 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
         return;
       }
       isHideChecked
-        ? setHideText('показать отмеченные')
-        : setHideText('cкрыть');
+        ? setHideText('Show checked item')
+        : setHideText('Hide checked item');
     });
   }, [value]);
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
 
   return (
-    <>
-      <div className=''>
-        <div className='d-flex align-items-center justify-content-between'>
-          <span>{item.title}</span>
-          {Object.keys(value).length && hideText ? (
-            <button onClick={hideChecked}>{hideText}</button>
-          ) : (
-            ''
-          )}
-          {isLoggedIn && <button onClick={deleteList}>удалить</button>}
+    <div className='checkbox-form'>
+      <div className='checkbox-form__container'>
+        <div className='checkbox-form__row flex'>
+          <p className='checkbox-form__title  text-underline'>{item.title}</p>
+          <div className='checkbox-form__btns flex'>
+            {Object.keys(value).length && hideText ? (
+              <button
+                className='checkbox-form__button button-light-blue'
+                onClick={hideChecked}
+              >
+                {hideText}
+              </button>
+            ) : (
+              ''
+            )}
+            {isLoggedIn && (
+              <button
+                className='checkbox-form__button button-shade-gray'
+                onClick={deleteList}
+              >
+                Delete
+              </button>
+            )}
+          </div>
         </div>
-        <ul className=''>
+        <div className='checkbox-form__items'>
           {Object.keys(value)?.map((checkbox: any, i: any) => {
             if (isHideChecked && value[checkbox].isChecked) {
               return;
-            }
-            if (value[checkbox].isDelete) {
-              return null;
             }
             return (
               <CheckboxItem key={i} listId={item.id} item={value[checkbox]} />
             );
           })}
-        </ul>
+        </div>
 
         <button
           type='button'
+          className='button-shade-gray checkbox-form__button checkbox-form__button-add'
           onClick={() => setIsOpen(!isOpen)}
           disabled={!isLoggedIn}
         >
-          добавить элемент
+          Add a new element
         </button>
       </div>
       {isOpen && (
@@ -211,17 +216,24 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
           <div className=''>
             <input
               type='text'
+              className=''
               value={valueInput}
               onChange={handleInputChange}
             />
           </div>
-          <button type='submit'>добавить</button>
-          <button type='button' onClick={() => setIsOpen(false)}>
-            отмена
+          <button type='submit' className='checkbox-form__button button-dark'>
+            Add
+          </button>
+          <button
+            type='button'
+            className='button-border checkbox-form__button'
+            onClick={() => setIsOpen(false)}
+          >
+            Cancel
           </button>
         </form>
       )}
-    </>
+    </div>
   );
 };
 

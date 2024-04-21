@@ -134,8 +134,9 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
             </div>
           </div>
           <div>
-            <CreatedCheckList></CreatedCheckList>
-            <CommentsAndDesc card={card} />
+            <CommentsAndDesc card={card}>
+              <CreatedCheckList />
+            </CommentsAndDesc>
           </div>
         </div>
         <div className='card-settings__menu'>

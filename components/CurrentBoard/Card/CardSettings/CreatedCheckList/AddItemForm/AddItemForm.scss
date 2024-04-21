@@ -1,0 +1,35 @@
+.checkbox-form {
+  // .checkbox-form__container
+
+  &__container {
+    padding: 20px 0 30px;
+  }
+
+  // .checkbox-form__row
+
+  &__row {
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  &__btns {
+    margin: 0 -5px;
+    button {
+      margin: 0 5px;
+    }
+  }
+  // .checkbox-form__title
+
+  &__button {
+    padding: 8px;
+  }
+  &__button-add {
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  // .checkbox-form__items
+
+  &__items {
+    margin-bottom: 15px;
+  }
+}

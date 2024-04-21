@@ -5,22 +5,22 @@ import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {AppDispatch, RootState} from '@/store/store';
 import {ColumnCardsProps} from '@/types/interfaces';
-import {FC, useEffect, useState} from 'react';
+import {FC, ReactNode, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getComments} from '@/store/card-setting/actions';
 import {getUpdateLink} from '@/store/data-user/actions';
 import './CommentsAndDesc.scss';
+import CreatedCheckList from '../CreatedCheckList/CreatedCheckList';
 interface CommentsAndDescProps {
   card: ColumnCardsProps;
+  children: ReactNode;
 }
 export const stripHtmlTags = (html: string) => {
-  // Создаем регулярное выражение для поиска HTML-тегов
   const regex = /(<([^>]+)>)/gi;
-  // Заменяем HTML-теги на пустую строку
   return html.replace(regex, '');
 };
 
-const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
+const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
   const current_column = useSelector((state: RootState) => state?.column.data);
   const [comment, setComment] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -121,6 +121,7 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card}) => {
             title='Write some words'
           />
         </div>
+        <div>{children}</div>
         <div className='comments-desc__comments-box'>
           <p className='comments-desc__title flex '>
             <span

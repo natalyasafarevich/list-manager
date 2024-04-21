@@ -17,6 +17,25 @@ body {
   border-radius: 9px;
   width: 100%;
 }
+.button-light-blue {
+  background: linear-gradient(134deg, #18a1cc 0%, #92d1ff 100%);
+  color: var(--secondary-color);
+  font-weight: 600;
+  border-radius: 15px;
+  min-width: 100px;
+  padding: 15px 5px;
+}
+.button-shade-gray {
+  &:hover {
+    color: var(--primary-color);
+  }
+  background: #e8e8e8;
+  color: #a8aaaf;
+  font-weight: 600;
+  border-radius: 15px;
+  min-width: 100px;
+  padding: 15px 5px;
+}
 .button-close {
   width: 15px;
   height: 15px;
