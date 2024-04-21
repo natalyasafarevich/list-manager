@@ -6,6 +6,12 @@
 body {
   background: #f7f8fa;
 }
+.mini-popup-container {
+  z-index: 1;
+  min-width: 237px;
+  position: absolute;
+  width: 100%;
+}
 .default-input {
   border: 1px solid #adadad;
   border-radius: 9px;

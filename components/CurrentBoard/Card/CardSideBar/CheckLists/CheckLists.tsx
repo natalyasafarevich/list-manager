@@ -14,12 +14,13 @@ import {
 } from '@/store/check-lists/actions';
 import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {isCardUpdate} from '@/store/card-setting/actions';
+import './CheckLists.scss';
 
 const CheckLists: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
 
-  const [value, setValue] = useState('check list');
+  const [value, setValue] = useState('');
   const [checkLists, setCheckLists] = useState<Array<CheckListProps>>([]);
   const [checkFBLists, setCheckFBLists] = useState<any>([]);
 
@@ -95,37 +96,44 @@ const CheckLists: FC = () => {
   const user_status = useSelector((state: RootState) => state.userdata);
   const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
 
+  const handelClick = () => {
+    if (!isLoggedIn) {
+      return;
+    }
+    setIsOpen(!isOpen);
+  };
   return (
-    <div className='position-relative'>
-      <p
-        onClick={() => {
-          if (!isLoggedIn) {
-            return;
-          }
-          setIsOpen(!isOpen);
-        }}
-      >
-        чек лист
-      </p>
-      {isOpen && (
-        <MiniPopup
-          title={'Добавление списка задач'}
-          setIsOpen={(e) => setIsOpen(e)}
-        >
-          <form onSubmit={handleSubmit}>
-            <label htmlFor='name'>название</label>
-            <input
-              // placeholder='check list'
-              className='w-100'
-              id='name'
-              type='text'
-              value={value}
-              onChange={(e) => setValue(e.currentTarget.value)}
-            />
-            <button type='submit'>добавить</button>
-          </form>
-        </MiniPopup>
-      )}
+    <div className='checklist'>
+      <div className='checklist__container '>
+        <p className='card-sidebar-title underline' onClick={handelClick}>
+          Checklist
+        </p>
+        {!isOpen && (
+          <div className='mini-popup-container'>
+            <MiniPopup
+              title={'Adding a checklist'}
+              setIsOpen={(e) => setIsOpen(e)}
+            >
+              <form onSubmit={handleSubmit}>
+                <label className='checklist__label' htmlFor='checklist-name'>
+                  Title
+                </label>
+                <input
+                  className='checklist__input default-input'
+                  id='checklist-name'
+                  type='text'
+                  placeholder='Add a checklist name'
+                  value={value}
+                  onChange={(e) => setValue(e.currentTarget.value)}
+                />
+                <button type='submit' className='button-dark checklist__button'>
+                  Create a checklist
+                </button>
+              </form>
+            </MiniPopup>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
