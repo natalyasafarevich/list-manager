@@ -33,7 +33,7 @@ export type ListIdProps = {
   payload: number;
 };
 
-export const getListIndex = (data: number) => {
+export const getListIndex = (data: string) => {
   return {
     type: CHECK_LIST_INDEX,
     payload: data,

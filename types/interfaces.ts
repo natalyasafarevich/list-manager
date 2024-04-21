@@ -19,9 +19,10 @@ export interface CurrentColumnProps {
   cards: Array<ColumnCardsProps>;
 }
 export type CheckListProps = {
+  order: any;
   id: string;
   title: string;
-  tasks?: Array<any>;
+  tasks?: any;
   isDelete?: boolean;
   isHideCheckedList?: boolean;
 };

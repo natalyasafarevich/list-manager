@@ -33,7 +33,6 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   useEffect(() => {
     members && dispatch(getMembers(members));
   }, [members]);
-  console.log(Object.keys(currentBoard?.members).length);
   useEffect(() => {
     setMembers([]);
     if (currentBoard?.members) {

@@ -1,4 +1,4 @@
-import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
+// import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {
   getListIndex as getCurrentListIndex,
@@ -19,6 +19,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {v4 as createId} from 'uuid';
 import CheckboxItem from '../CheckboxItem/CheckboxItem';
 import {CheckListProps} from '@/types/interfaces';
+import {updateFirebaseData} from '@/helper/updateUserData';
 export interface ListTasksProps {
   title: string;
   id: string;
@@ -28,34 +29,27 @@ export interface ListTasksProps {
 
 interface Props {
   item: CheckListProps;
-  addNewCheckbox: (e: any) => void;
   isHide: (value: boolean, id: string) => void;
   currentValue: (e: any) => void;
 }
 
-const AddItemForm: FC<Props> = ({
-  item,
-  addNewCheckbox,
-  currentValue,
-  isHide,
-}) => {
+const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [value, setValue] = useState<Array<ListTasksProps>>([]);
+  const [valueInput, setInputValue] = useState('');
+  const [value, setValue] = useState<any>({});
   const [tasksFB, setTasksFB] = useState<Array<CheckListProps>>();
 
-  const lists = useSelector((state: RootState) => state.check_lists.lists);
+  const idList = useSelector((state: RootState) => state.check_lists);
   const user = useSelector((state: RootState) => state.userdata);
 
-  const inputValue = useRef<HTMLInputElement>(null);
   const dispatch: AppDispatch = useDispatch();
 
   // assigning the current value of the input
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (inputValue.current) {
-      inputValue.current.value = e.target.value;
-    }
+    setInputValue(e.target.value);
   };
+
   useEffect(() => {
     item?.isHideCheckedList && setIsHideChecked(item?.isHideCheckedList);
   }, [item.isHideCheckedList]);
@@ -72,54 +66,89 @@ const AddItemForm: FC<Props> = ({
   const isUpdateTaskList = useSelector(
     (state: RootState) => state.check_lists.isTaskUpdate,
   );
-  const check_lists = useSelector((state: RootState) => state.check_lists);
 
   //receiving tasks from the server and saving them
   useEffect(() => {
     if (tasksFB) {
-      const current_task = tasksFB.filter((task: any) => task.id === item.id);
-      const isHide = tasksFB.filter((task: any) => task.isHideCheckedList);
-      isHide[0]?.isHideCheckedList &&
-        isHide[0]?.isDelete &&
-        setIsHideChecked(isHide[0].isHideCheckedList);
-      current_task[0]?.tasks && setValue(current_task[0]?.tasks);
+      for (let key in tasksFB) {
+        if (key === item.id) {
+          if (tasksFB[key].tasks) {
+            const sortedTasks = Object.values(tasksFB[key].tasks).sort(
+              (a: any, b: any) => a.order - b.order,
+            );
+
+            const sortedTasksObject = sortedTasks.reduce(
+              (acc: any, task: any) => {
+                acc[task.id] = task;
+                return acc;
+              },
+              {},
+            );
+            setValue(sortedTasksObject);
+          }
+        }
+        if (tasksFB[key].tasks) {
+          for (const taskId in tasksFB[key].tasks) {
+            const item = tasksFB[key].tasks[taskId];
+          }
+          // setIsHideChecked(tasksFB[key].isHideCheckedList);
+        }
+      }
     }
   }, [tasksFB]);
+
   //receiving data
   useEffect(() => {
-    if (user || isUpdateTaskList || check_lists.isDeleteList) {
+    if (user) {
       fetchBackDefaultData(
         `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}/check-lists`,
         setTasksFB,
       );
     }
-  }, [user, isUpdateTaskList, check_lists, isHideChecked]);
+  }, [user, isUpdateTaskList]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (inputValue?.current?.value.length === 0) {
+    if (valueInput.length === 0) {
       alert('заполните поле');
       return;
     }
-    if (inputValue?.current) {
-      const newValue = {
-        title: inputValue?.current?.value,
-        id: createId(),
-      };
-      setValue((prevValue) => [...prevValue, newValue]);
 
-      addNewCheckbox(e);
+    if (valueInput) {
+      const id = createId();
+      const order = Object.keys(value).length + 1;
+
+      setValue((prevValue: any) => {
+        const newValue = {
+          ...prevValue,
+          [id]: {
+            title: valueInput,
+            id: id,
+            order: order,
+          },
+        };
+        return newValue;
+      });
+      setInputValue('');
       dispatch(isTaskUpdate(true));
       setIsOpen(false);
       setIsUpdate(true);
 
-      const itemIndex = getListIndex(lists, item.id);
-      dispatch(getCurrentListIndex(itemIndex));
+      dispatch(getCurrentListIndex(item.id));
     }
   };
+  // delete task
   const deleteList = () => {
-    const itemIndex = getListIndex(lists, item.id);
-    dispatch(getCurrentListIndex(itemIndex));
+    const updatedTasks = {...tasksFB};
+    delete updatedTasks[idList.index];
+
+    updateFirebaseData(
+      `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
+      {
+        'check-lists': updatedTasks,
+      },
+    );
+    dispatch(getCurrentListIndex(item.id));
     dispatch(isDeleteList(true));
   };
 
@@ -127,9 +156,13 @@ const AddItemForm: FC<Props> = ({
     setIsHideChecked(!isHideChecked);
     isHide(!isHideChecked, item.id);
   };
+
   useEffect(() => {
-    value.map((item) => {
-      if (!item.isChecked || (item.isDelete && item.isChecked)) {
+    Object.keys(value).map((item) => {
+      if (
+        !value[item].isChecked ||
+        (value[item].isDelete && value[item].isChecked)
+      ) {
         return;
       }
       isHideChecked
@@ -144,7 +177,7 @@ const AddItemForm: FC<Props> = ({
       <div className=''>
         <div className='d-flex align-items-center justify-content-between'>
           <span>{item.title}</span>
-          {value.length && hideText ? (
+          {Object.keys(value).length && hideText ? (
             <button onClick={hideChecked}>{hideText}</button>
           ) : (
             ''
@@ -152,14 +185,16 @@ const AddItemForm: FC<Props> = ({
           {isLoggedIn && <button onClick={deleteList}>удалить</button>}
         </div>
         <ul className=''>
-          {value?.map((checkbox, i) => {
-            if (isHideChecked && checkbox.isChecked) {
+          {Object.keys(value)?.map((checkbox: any, i: any) => {
+            if (isHideChecked && value[checkbox].isChecked) {
               return;
             }
-            if (checkbox.isDelete) {
+            if (value[checkbox].isDelete) {
               return null;
             }
-            return <CheckboxItem key={i} listId={item.id} item={checkbox} />;
+            return (
+              <CheckboxItem key={i} listId={item.id} item={value[checkbox]} />
+            );
           })}
         </ul>
 
@@ -174,7 +209,11 @@ const AddItemForm: FC<Props> = ({
       {isOpen && (
         <form onSubmit={handleSubmit} data-id={item.id}>
           <div className=''>
-            <input type='text' ref={inputValue} onChange={handleInputChange} />
+            <input
+              type='text'
+              value={valueInput}
+              onChange={handleInputChange}
+            />
           </div>
           <button type='submit'>добавить</button>
           <button type='button' onClick={() => setIsOpen(false)}>

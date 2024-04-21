@@ -15,7 +15,6 @@ export type CardDisplayProps = {
 
 const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
   const [isOpenCard, setIsOpenCards] = useState(false);
-  console.log(card.markers, 'cards');
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {

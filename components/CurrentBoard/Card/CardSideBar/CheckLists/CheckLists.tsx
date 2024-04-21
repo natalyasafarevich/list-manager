@@ -4,15 +4,14 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '@/store/store';
 import {v4 as createId} from 'uuid';
-import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
-import {CheckListProps} from '@/types/interfaces';
+import {updateFirebaseData} from '@/helper/updateUserData';
 import {
   deleteList,
   getCheckLists,
   isDeleteList,
   isTaskUpdate,
 } from '@/store/check-lists/actions';
-import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {isCardUpdate} from '@/store/card-setting/actions';
 import './CheckLists.scss';
 
@@ -21,25 +20,16 @@ const CheckLists: FC = () => {
   const [isUpdate, setIsUpdate] = useState(false);
 
   const [value, setValue] = useState('');
-  const [checkLists, setCheckLists] = useState<Array<CheckListProps>>([]);
-  const [checkFBLists, setCheckFBLists] = useState<any>([]);
-
+  const [checkLists, setCheckLists] = useState<any>({});
+  const [checkFBLists, setCheckFBLists] = useState<any>({});
   const user = useSelector((state: RootState) => state.userdata);
-  const isUpdateTaskList = useSelector(
-    (state: RootState) => state.check_lists.isTaskUpdate,
-  );
-  const idList = useSelector((state: RootState) => state.check_lists);
+  const user_status = useSelector((state: RootState) => state.userdata);
+  const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
 
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    if (
-      isUpdateTaskList === true ||
-      idList.isDeleteList ||
-      checkLists.length !== checkFBLists?.length ||
-      idList.current_tasks.isCreate ||
-      user.uid
-    ) {
+    if (user.uid) {
       dispatch(isDeleteList(false));
 
       fetchBackDefaultData(
@@ -47,24 +37,20 @@ const CheckLists: FC = () => {
         setCheckFBLists,
       );
     }
-  }, [
-    user,
-    idList.current_tasks.isCreate,
-    isUpdateTaskList,
-    idList.isDeleteList,
-  ]);
+  }, [user]);
 
   useEffect(() => {
-    if (checkFBLists?.length > 0) {
-      dispatch(isTaskUpdate(false));
-      setCheckLists(checkFBLists);
-      dispatch(getCheckLists(checkFBLists));
-      dispatch(deleteList(checkFBLists));
-    }
+    if (checkFBLists)
+      if (Object.keys(checkFBLists)?.length > 0) {
+        dispatch(isTaskUpdate(false));
+        setCheckLists(checkFBLists);
+        dispatch(getCheckLists(checkFBLists));
+        dispatch(deleteList(checkFBLists));
+      }
   }, [checkFBLists]);
 
   useEffect(() => {
-    checkLists.length &&
+    Object.keys(checkLists).length &&
       updateFirebaseData(
         `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
         {
@@ -75,26 +61,25 @@ const CheckLists: FC = () => {
   }, [isUpdate]);
 
   useEffect(() => {
-    if (checkLists.length > 0) {
+    if (Object.keys(checkLists).length > 0) {
       dispatch(getCheckLists(checkLists));
     }
   }, [checkLists]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const id = createId();
     const newList = {
-      id: createId(),
-      title: value,
+      [id]: {id: id, title: value},
     };
     if (value.length !== 0) {
-      setCheckLists((prev) => [...prev, newList]);
+      setCheckLists((prev: any) => ({...prev, ...newList}));
       setIsOpen(!isOpen);
       setValue('');
       setIsUpdate(true);
       dispatch(isCardUpdate(true));
     }
   };
-  const user_status = useSelector((state: RootState) => state.userdata);
-  const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
 
   const handelClick = () => {
     if (!isLoggedIn) {
@@ -108,7 +93,7 @@ const CheckLists: FC = () => {
         <p className='card-sidebar-title underline' onClick={handelClick}>
           Checklist
         </p>
-        {!isOpen && (
+        {isOpen && (
           <div className='mini-popup-container'>
             <MiniPopup
               title={'Adding a checklist'}
