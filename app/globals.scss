@@ -17,6 +17,17 @@ body {
   border-radius: 9px;
   width: 100%;
 }
+.button-more {
+  width: 24px;
+  height: 24px;
+  background: left/cover no-repeat url("/more-icon.svg");
+  background-size: 44px;
+  transition: none;
+  &.active,
+  &:hover {
+    background-position: right;
+  }
+}
 .button-light-blue {
   background: linear-gradient(134deg, #18a1cc 0%, #92d1ff 100%);
   color: var(--secondary-color);

@@ -68,11 +68,12 @@ const Markers: FC = () => {
 
   // if custom marker is created
   useEffect(() => {
-    if (Object.keys(customMarkers).length) {
-      updateFirebaseData('card-settings-data', {
-        'custom-markers': {[user.uid]: customMarkers},
-      });
-    }
+    if (customMarkers)
+      if (Object.keys(customMarkers).length) {
+        updateFirebaseData('card-settings-data', {
+          'custom-markers': {[user.uid]: customMarkers},
+        });
+      }
   }, [customMarkers]);
 
   // get all default markers

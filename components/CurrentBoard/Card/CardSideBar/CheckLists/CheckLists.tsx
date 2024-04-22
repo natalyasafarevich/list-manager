@@ -23,30 +23,34 @@ const CheckLists: FC = () => {
   const [checkLists, setCheckLists] = useState<any>({});
   const [checkFBLists, setCheckFBLists] = useState<any>({});
   const user = useSelector((state: RootState) => state.userdata);
+  const cardIsUpdate = useSelector(
+    (state: RootState) => state.check_lists.isTaskUpdate,
+  );
   const user_status = useSelector((state: RootState) => state.userdata);
   const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
-
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (user.uid) {
-      dispatch(isDeleteList(false));
-
       fetchBackDefaultData(
         `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}/check-lists`,
         setCheckFBLists,
       );
+      // dispatch(isDeleteList(false));
+      // dispatch(isCardUpdate(false));
     }
-  }, [user]);
+  }, [user, cardIsUpdate]);
 
   useEffect(() => {
-    if (checkFBLists)
+    if (checkFBLists) {
       if (Object.keys(checkFBLists)?.length > 0) {
         dispatch(isTaskUpdate(false));
         setCheckLists(checkFBLists);
         dispatch(getCheckLists(checkFBLists));
-        dispatch(deleteList(checkFBLists));
       }
+    } else {
+      setCheckLists({});
+    }
   }, [checkFBLists]);
 
   useEffect(() => {
@@ -74,6 +78,7 @@ const CheckLists: FC = () => {
     };
     if (value.length !== 0) {
       setCheckLists((prev: any) => ({...prev, ...newList}));
+      console.log(checkFBLists, checkLists, 'checkFBLists');
       setIsOpen(!isOpen);
       setValue('');
       setIsUpdate(true);

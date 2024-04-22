@@ -1,10 +1,13 @@
 import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
-import {isTaskUpdate} from '@/store/check-lists/actions';
+import {getCheckLists, isTaskUpdate} from '@/store/check-lists/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import React, {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListTasksProps} from '../AddItemForm/AddItemForm';
+import './CheckboxItem.scss';
+import {CheckListProps} from '@/types/interfaces';
+import MiniPopup from '@/components/MiniPopup/MiniPopup';
 
 interface CheckboxItemProps {
   item: ListTasksProps;
@@ -17,15 +20,21 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [isUpdate, setIsUpdate] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [toggleText, setToggleText] = useState('');
 
   useEffect(() => {
     setValue(item.title);
     if (item.isChecked) {
       setIsChecked(true);
+      setToggleText('Unchecked item');
+    } else {
+      setToggleText('Checked item');
     }
   }, [item]);
 
   const user = useSelector((state: RootState) => state.userdata);
+  const checkLists = useSelector((state: RootState) => state.check_lists);
+
   const {dataLink} = user;
 
   const dispatch: AppDispatch = useDispatch();
@@ -80,40 +89,111 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
     setIsReadOnly(!isReadOnly);
     setInitialValue(value);
   };
+  const [updatedTasks, setUpdatedTasks] = useState<{
+    [taskId: string]: ListTasksProps;
+  } | null>(null);
+  const deleteTask = () => {
+    const tasks = {...checkLists.lists[listId as any].tasks};
+    delete tasks[item.id as any];
+    setUpdatedTasks(tasks);
+  };
 
+  useEffect(() => {
+    if (updatedTasks) {
+      setIsOpenSetting(!isOpenSetting);
+      updateFirebaseData(
+        `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${listId}`,
+        {tasks: updatedTasks || {}},
+      );
+      dispatch(isTaskUpdate(true));
+    }
+  }, [updatedTasks]);
+  const [isOpenSetting, setIsOpenSetting] = useState(false);
   return (
-    <div>
-      {!item.isDelete && (
-        <form action='' onSubmit={handleSubmit}>
-          <input
-            id={item.id}
-            type='checkbox'
-            checked={isChecked}
-            onChange={checkboxChange}
-            disabled={!isLoggedIn}
-          />
+    <div className='check-list-item'>
+      {/* {!item.isDelete && ( */}
+      <form className='check-list-item__form' onSubmit={handleSubmit}>
+        <input
+          className='check-list-item__checkbox'
+          id={item.id}
+          type='checkbox'
+          checked={isChecked}
+          onChange={checkboxChange}
+          disabled={!isLoggedIn}
+        />
+        <textarea
+          className='check-list-item__value'
+          value={value}
+          onChange={changeInput as any}
+          onClick={handleClick}
+          readOnly={isReadOnly}
+          disabled={!isLoggedIn}
+        ></textarea>
 
-          <input
-            className='m-1'
-            value={value}
-            onChange={changeInput}
-            onClick={handleClick}
-            readOnly={isReadOnly}
+        <button
+          type='button'
+          onClick={(_e) => setIsOpenSetting(!isOpenSetting)}
+          className='button-more'
+        ></button>
+        {isOpenSetting && (
+          <div className='check-list-item__popup'>
+            <MiniPopup
+              title='Task configuration '
+              setIsOpen={(e) => setIsOpenSetting(e)}
+            >
+              <input
+                type='button'
+                onClick={checkboxChange as any}
+                className='check-list-item__change button-light-blue'
+                value={toggleText}
+              ></input>
+              <button
+                type='button'
+                onClick={deleteTask}
+                className='check-list-item__button button-shade-gray'
+                disabled={!isLoggedIn}
+              >
+                Delete task
+              </button>
+            </MiniPopup>
+          </div>
+        )}
+        {/* <button
+            type='button'
+            onClick={deleteTask}
+            className='button-close check-list-item__button'
             disabled={!isLoggedIn}
-          />
-          <button type='button' disabled={!isLoggedIn}>
-            x
-          </button>
+          ></button>
           {!isReadOnly && (
-            <div className='d-flex'>
-              <button type='submit'>сохранить</button>
-              <button type='button' onClick={closeEditItem}>
-                close
+            <div className='check-list-item__row flex'>
+              <button className='button-dark' type='submit'>
+                Save
+              </button>
+              <button
+                className='button-border'
+                type='button'
+                onClick={closeEditItem}
+              >
+                Cancel
               </button>
             </div>
-          )}
-        </form>
-      )}
+          )} */}
+        {!isReadOnly && (
+          <div className='check-list-item__row flex'>
+            <button className='button-dark' type='submit'>
+              Save
+            </button>
+            <button
+              className='button-border'
+              type='button'
+              onClick={closeEditItem}
+            >
+              Cancel
+            </button>
+          </div>
+        )}
+      </form>
+      {/* )} */}
     </div>
   );
 };

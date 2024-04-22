@@ -28,8 +28,21 @@
   }
 
   // .checkbox-form__items
-
+  &__item {
+    &:last-of-type:after {
+      content: none;
+    }
+    &::after {
+      content: "";
+      width: 1px;
+      height: 20px;
+      display: block;
+      background: #a8a8a8;
+      margin-left: 8px;
+    }
+  }
   &__items {
+    padding-left: 20px;
     margin-bottom: 15px;
   }
 }

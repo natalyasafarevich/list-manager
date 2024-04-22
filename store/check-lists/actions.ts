@@ -21,7 +21,7 @@ export type DataCheckListProps = {
   payload: Array<CheckListProps>;
 };
 
-export const getCheckLists = (data: Array<CheckListProps>) => {
+export const getCheckLists = (data: Array<CheckListProps> | {}) => {
   return {
     type: CHECK_LISTS,
     payload: data,

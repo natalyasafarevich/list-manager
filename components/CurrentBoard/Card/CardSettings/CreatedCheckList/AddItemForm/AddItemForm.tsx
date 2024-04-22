@@ -1,5 +1,6 @@
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {
+  getCheckLists,
   getListIndex as getCurrentListIndex,
   isDeleteList,
   isTaskUpdate,
@@ -12,6 +13,7 @@ import CheckboxItem from '../CheckboxItem/CheckboxItem';
 import {CheckListProps} from '@/types/interfaces';
 import {updateFirebaseData} from '@/helper/updateUserData';
 import './AddItemForm.scss';
+import {isCardUpdate} from '@/store/card-setting/actions';
 
 export interface ListTasksProps {
   title: string;
@@ -59,7 +61,7 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
   const isUpdateTaskList = useSelector(
     (state: RootState) => state.check_lists.isTaskUpdate,
   );
-
+  console.log(tasksFB, 'tasksFB');
   //receiving tasks from the server and saving them
   useEffect(() => {
     if (tasksFB) {
@@ -77,6 +79,8 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
               },
               {},
             );
+            console.log(sortedTasksObject, 'k');
+            // dispatch(getCheckLists(sortedTasksObject  ));
             setValue(sortedTasksObject);
           }
         }
@@ -85,8 +89,14 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
             const item = tasksFB[key].tasks[taskId];
           }
           // setIsHideChecked(tasksFB[key].isHideCheckedList);
+        } else if (!tasksFB[key].tasks) {
+          console.log(tasksFB[key], 'jjfjjfvfjjfjjfvfjjfjjfvf');
         }
       }
+    } else {
+      setValue({});
+      dispatch(getCurrentListIndex('0'));
+      dispatch(getCheckLists({}));
     }
   }, [tasksFB]);
 
@@ -131,6 +141,7 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
     }
   };
   // delete task
+  // console.log(tasksFB);
   const deleteList = () => {
     const updatedTasks = {...tasksFB};
     delete updatedTasks[idList.index];
@@ -143,6 +154,7 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
     );
     dispatch(getCurrentListIndex(item.id));
     dispatch(isDeleteList(true));
+    dispatch(isCardUpdate(true));
   };
 
   const hideChecked = () => {
@@ -164,7 +176,7 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
     });
   }, [value]);
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
-
+  console.log('valuevaluevaluevalue', value);
   return (
     <div className='checkbox-form'>
       <div className='checkbox-form__container'>
@@ -181,14 +193,15 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
             ) : (
               ''
             )}
-            {isLoggedIn && (
-              <button
-                className='checkbox-form__button button-shade-gray'
-                onClick={deleteList}
-              >
-                Delete
-              </button>
-            )}
+            {/* {isLoggedIn && ( */}
+            <button
+              type='button'
+              className='checkbox-form__button button-shade-gray'
+              onClick={deleteList}
+            >
+              Deleted
+            </button>
+            {/* )} */}
           </div>
         </div>
         <div className='checkbox-form__items'>
@@ -197,7 +210,9 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
               return;
             }
             return (
-              <CheckboxItem key={i} listId={item.id} item={value[checkbox]} />
+              <div className='checkbox-form__item' key={i}>
+                <CheckboxItem listId={item.id} item={value[checkbox]} />
+              </div>
             );
           })}
         </div>
