@@ -1,4 +1,5 @@
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
+import {isCardUpdate} from '@/store/card-setting/actions';
 import {isArchive} from '@/store/column-setting/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
@@ -32,7 +33,7 @@ const CardArchivedButton: FC = () => {
         },
       );
       setIsUpdate(false);
-      dispatch(isArchive({isArchive: true}));
+      dispatch(isCardUpdate(true));
     }
   }, [uid, isUpdate]);
   const user_status = useSelector(
@@ -41,17 +42,12 @@ const CardArchivedButton: FC = () => {
   const archivedCard = () => {
     setIsArchived((prev) => !prev);
     setIsUpdate(true);
-    dispatch(isArchive({isArchive: true}));
+    dispatch(isCardUpdate(true));
   };
   return (
-    <div>
-      <button
-        onClick={archivedCard}
-        // disabled={user_status !== 'admin' ? true : false}
-      >
-        архивировать
-      </button>
-    </div>
+    <button className='button-dark' onClick={archivedCard}>
+      Archive
+    </button>
   );
 };
 

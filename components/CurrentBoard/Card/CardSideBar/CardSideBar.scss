@@ -17,5 +17,11 @@
 
   &__item {
     margin-bottom: 12px;
+    &.archived {
+      margin-top: 25px;
+      button {
+        padding: 5px;
+      }
+    }
   }
 }

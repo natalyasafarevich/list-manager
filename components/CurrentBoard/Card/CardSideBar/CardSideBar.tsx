@@ -19,7 +19,7 @@ const CardSideBar: FC = () => {
         <div className='card-sidebar__item'>
           <Cover />
         </div>
-        <div className='card-sidebar__item'>
+        <div className='card-sidebar__item archived'>
           <CardArchivedButton />
         </div>
       </div>
