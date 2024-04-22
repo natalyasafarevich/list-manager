@@ -61,7 +61,6 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
   const isUpdateTaskList = useSelector(
     (state: RootState) => state.check_lists.isTaskUpdate,
   );
-  console.log(tasksFB, 'tasksFB');
   //receiving tasks from the server and saving them
   useEffect(() => {
     if (tasksFB) {
@@ -216,7 +215,35 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
             );
           })}
         </div>
-
+      </div>
+      {isOpen ? (
+        <form onSubmit={handleSubmit} data-id={item.id}>
+          <div>
+            <label htmlFor='new-item' className='checkbox-form__label'>
+              Title
+            </label>
+            <input
+              id='new-item'
+              type='text'
+              className='default-input checkbox-form__input'
+              value={valueInput}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className='checkbox-form__flex flex'>
+            <button type='submit' className='checkbox-form__button button-dark'>
+              Add
+            </button>
+            <button
+              type='button'
+              className='button-border checkbox-form__button'
+              onClick={() => setIsOpen(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      ) : (
         <button
           type='button'
           className='button-shade-gray checkbox-form__button checkbox-form__button-add'
@@ -225,28 +252,6 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
         >
           Add a new element
         </button>
-      </div>
-      {isOpen && (
-        <form onSubmit={handleSubmit} data-id={item.id}>
-          <div className=''>
-            <input
-              type='text'
-              className=''
-              value={valueInput}
-              onChange={handleInputChange}
-            />
-          </div>
-          <button type='submit' className='checkbox-form__button button-dark'>
-            Add
-          </button>
-          <button
-            type='button'
-            className='button-border checkbox-form__button'
-            onClick={() => setIsOpen(false)}
-          >
-            Cancel
-          </button>
-        </form>
       )}
     </div>
   );

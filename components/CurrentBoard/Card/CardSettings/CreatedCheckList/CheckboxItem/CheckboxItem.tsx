@@ -98,16 +98,16 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
     setUpdatedTasks(tasks);
   };
 
-  useEffect(() => {
-    if (updatedTasks) {
-      setIsOpenSetting(!isOpenSetting);
-      updateFirebaseData(
-        `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${listId}`,
-        {tasks: updatedTasks || {}},
-      );
-      dispatch(isTaskUpdate(true));
-    }
-  }, [updatedTasks]);
+  // useEffect(() => {
+  //   if (updatedTasks) {
+  //     setIsOpenSetting(!isOpenSetting);
+  //     updateFirebaseData(
+  //       `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${listId}`,
+  //       {tasks: updatedTasks},
+  //     );
+  //     dispatch(isTaskUpdate(true));
+  //   }
+  // }, [updatedTasks]);
   const [isOpenSetting, setIsOpenSetting] = useState(false);
   return (
     <div className='check-list-item'>

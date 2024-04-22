@@ -2,7 +2,7 @@
   // .checkbox-form__container
 
   &__container {
-    padding: 20px 0 30px;
+    padding: 20px 0 10px;
   }
 
   // .checkbox-form__row
@@ -44,5 +44,33 @@
   &__items {
     padding-left: 20px;
     margin-bottom: 15px;
+  }
+
+  &__label {
+    font-size: 12px;
+  }
+
+  // .checkbox-form__input
+
+  &__input {
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+
+  // .checkbox-form__flex
+
+  &__flex {
+    margin: 0 -5px;
+    button {
+      padding: 5px;
+      max-width: 100px;
+      width: 100%;
+      margin: 0 5px;
+    }
+  }
+
+  // .checkbox-form__button
+
+  &__button {
   }
 }
