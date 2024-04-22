@@ -1,0 +1,16 @@
+.cover-inner {
+  // .cover-inner__row
+
+  &__row {
+    margin: 0 -5px;
+    flex-wrap: wrap;
+  }
+
+  // .cover-inner__item
+
+  &__item {
+    margin: 0 5px 5px;
+    width: 20%;
+    height: 32px;
+  }
+}
