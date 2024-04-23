@@ -222,7 +222,9 @@ body {
   }
 
   // .visibility__title
-
+  &__name {
+    display: block;
+  }
   &__title {
     // font-weight: 500;
     font-size: 16px;
@@ -235,15 +237,42 @@ body {
   &__box {
     margin-bottom: 10px;
     padding: 5px;
+    display: flex;
+    &_public::before {
+      content: "";
+      display: inline-block;
+      width: 15px;
+      min-width: 15px;
+      height: 15px;
+      margin-right: 5px;
+      background: no-repeat url("/visibility-icon.svg");
+      background-position-x: 33%;
+    }
+    &_private::before {
+      content: "";
+      display: inline-block;
+      width: 15px;
+      min-width: 15px;
+      height: 15px;
+      margin-right: 5px;
+      background: no-repeat url("/visibility-icon.svg");
+    }
+    &_public.active::before {
+      background-position-x: 100%;
+    }
+    &_private.active::before {
+      background-position-x: 66%;
+    }
     &.active {
       background: #eff0f6;
       border-radius: 5px;
       padding: 5px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      // display: flex;
+      // align-items: center;
+      // justify-content: space-between;
       &::after {
         content: "";
+        margin-left: auto;
         display: block;
         width: 20px;
         height: 20px;

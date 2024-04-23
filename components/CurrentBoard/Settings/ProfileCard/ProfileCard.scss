@@ -13,6 +13,7 @@
   // .profile-card__image
 
   &__image {
+    border: 2px solid var(--secondary-color);
     background: red;
     border-radius: 50px;
     width: 50px;

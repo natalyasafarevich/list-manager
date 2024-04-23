@@ -1,7 +1,7 @@
 'use client';
 import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
-import {isCopyColumn} from '@/store/column-setting/actions';
+import './CopyColumn.scss';
 
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
@@ -15,7 +15,12 @@ interface CopyColumnProps {
   setIsOpen: (value: boolean) => void;
   setCloseMenu: (value: boolean) => void;
 }
-const CopyColumn: FC<CopyColumnProps> = ({setValue, value, setIsOpen,setCloseMenu}) => {
+const CopyColumn: FC<CopyColumnProps> = ({
+  setValue,
+  value,
+  setIsOpen,
+  setCloseMenu,
+}) => {
   const user = useSelector((state: RootState) => state.userdata);
   const current_board = useSelector((state: RootState) => state.boards);
   const current_column = useSelector((state: RootState) => state.column.data);

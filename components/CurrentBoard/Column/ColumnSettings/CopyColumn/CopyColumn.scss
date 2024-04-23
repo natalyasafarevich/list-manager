@@ -1,0 +1,22 @@
+.copy-column {
+  // .copy-column__label
+
+  &__label {
+  }
+
+  // .copy-column__input
+
+  &__input {
+    padding: 2px 5px;
+  }
+
+  // .copy-column__row
+
+  &__row {
+    margin: 10px -2.5px 0;
+    button {
+      margin: 0 2.5px;
+      padding: 7px;
+    }
+  }
+}

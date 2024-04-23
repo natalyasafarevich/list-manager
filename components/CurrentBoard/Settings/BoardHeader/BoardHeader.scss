@@ -14,6 +14,7 @@
   // .board-header__box
 
   &__box {
+    width: 100%;
   }
 
   // .board-header__input
@@ -23,9 +24,8 @@
     border-right: 1px solid rgba(151, 151, 151, 0.2941176471);
   }
   &__input {
-    max-width: 200px;
-    width: max-content;
-    // width: 100%;
+    max-width: 385px;
+    width: 100%;
     font-weight: 500;
     font-size: 26px;
     cursor: pointer;
@@ -45,11 +45,15 @@
     align-items: center;
     font-weight: 400;
     font-size: 18px;
-    color: rgba(0, 0, 0, 0.1);
+    font-weight: 500;
+    // font-size: 11px;
+    line-height: 145%;
+    color: #98a2b2;
+    text-transform: capitalize;
     &:hover {
-      color: var(--primary-color);
+      // color: var(--primary-color);
       &::before {
-        background-position: right;
+        // background-position: right;
       }
     }
     &::before {
@@ -58,7 +62,18 @@
       width: 20px;
       margin-right: 5px;
       height: 20px;
-      background: left/cover no-repeat url("/type-board-icon.svg");
+      background: left/cover no-repeat url("/lock.svg");
+    }
+    &.active::after {
+      transform: rotate(180deg);
+    }
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 20px;
+      margin-left: 5px;
+      height: 20px;
+      background: center/cover no-repeat url("/keyboard_arrow_down.svg");
     }
     padding: 0 10px;
     border-right: 1px solid rgba(151, 151, 151, 0.2941176471);
@@ -82,7 +97,8 @@
     border-radius: 15px;
     padding: 10px;
     position: absolute;
-    width: 100%;
+    width: 250px;
+    z-index: 1;
     top: 30px;
     .visibility__box {
       margin: 0;
@@ -95,20 +111,20 @@
 
   &__menu {
     font-size: 20px;
-    background: transparent;
-    padding: 0;
+    background: center/cover no-repeat url("/setting-button.svg");
+    width: 40px;
+    height: 40px;
+    // padding: 0;
     cursor: pointer;
   }
   &__users {
+    justify-content: end;
     .profile-card {
       cursor: pointer;
       margin-right: -17px;
     }
     max-width: 170px;
     width: 100%;
-    // overflow-x: hidden;
-
-    margin-right: -30px;
   }
   &__count {
     // position: relative;

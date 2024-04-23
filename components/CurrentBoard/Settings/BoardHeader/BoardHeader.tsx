@@ -104,14 +104,22 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                       }
                     />
                   </div>
-                  <div className='board-header__visibility'>
+                  <div className={`board-header__visibility ${isOpenCard?'active':''}`}>
                     <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>
                       {board.type}
                     </p>
                     {isOpenCard && (
                       <div className='board-header__popup'>
-                        <ChangingVisibility type='private' name='private' />
-                        <ChangingVisibility type='public' name='public' />
+                        <ChangingVisibility
+                          text='Only collaborators can see this'
+                          type='private'
+                          name='private'
+                        />
+                        <ChangingVisibility
+                          text='Anyone can see'
+                          type='public'
+                          name='public'
+                        />
                       </div>
                     )}
                   </div>
@@ -145,7 +153,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                   className='board-header__menu'
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
-                  Menu
+                  {/* Menu */}
                 </p>
               )}
             </div>

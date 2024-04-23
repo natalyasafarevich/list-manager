@@ -7,9 +7,14 @@ import {useSelector} from 'react-redux';
 interface ChangingVisibilityProps {
   type: string;
   name: string;
+  text: string;
 }
 
-const ChangingVisibility: FC<ChangingVisibilityProps> = ({type, name}) => {
+const ChangingVisibility: FC<ChangingVisibilityProps> = ({
+  type,
+  name,
+  text,
+}) => {
   const [isCurrent, setIsCurrent] = useState(false);
   const board = useSelector((state: RootState) => state.boards);
   const changeVisibility = (e: React.MouseEvent<HTMLElement>) => {
@@ -27,14 +32,17 @@ const ChangingVisibility: FC<ChangingVisibilityProps> = ({type, name}) => {
   }, [board.currentBoards]);
   return (
     <div className='visibility'>
-      <div className={`visibility__box ${isCurrent ? 'active' : ''}`}>
+      <div
+        className={`visibility__box ${isCurrent ? 'active' : ''}  visibility__box_${type}`}
+      >
         <button
           className='visibility__button'
           data-type={type}
           type='button'
           onClick={changeVisibility}
         >
-          {name}
+          <span className='visibility__name'>{name}</span>
+          <span className='visibility__desc '>{text}</span>
         </button>
       </div>
       {/* <p data-type={type} onClick={changeVisibility}> */}

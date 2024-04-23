@@ -4,6 +4,7 @@
   max-width: 280px;
   width: 100%;
   top: 90px;
+  z-index: 1;
   height: 500px;
   // .additional-menu__container
   &__subtitle {
@@ -17,7 +18,7 @@
     background: #ffffff;
     border: 1px solid #eff0f6;
     box-shadow: 0 5px 16px 0 rgba(8, 15, 52, 0.06);
-    border-radius: 34px;
+    border-radius: 10px;
     padding: 15px;
     display: flex;
     flex-direction: column;
