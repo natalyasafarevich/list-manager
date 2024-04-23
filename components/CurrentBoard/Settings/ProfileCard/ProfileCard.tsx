@@ -91,7 +91,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
                 <div
                   className='profile-card__image'
                   style={{
-                    background: `center/cover no-repeat no-repeat url(${userData.photo})`,
+                    background: `center/cover no-repeat no-repeat url(${userData.photo || '/default-image.svg'})`,
                   }}
                 ></div>
                 <p className='profile-card__text'>
