@@ -47,6 +47,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
       );
     }
   }, [userData, isSave]);
+  console.log(userData, 'userData');
   const cardUpdate = useSelector(
     (state: RootState) => state.card_setting.isUpdate,
   );
@@ -56,6 +57,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
         `/boards/${current_board.index}/lists/${cardIndex}`,
         getUserData,
       );
+      console.log('jjjj');
       dispatch(isCardUpdate(false));
     }
   }, [cardUpdate]);
@@ -85,10 +87,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
   return (
     <>
       {!item?.isArchive && (
-        <div
-          className='m-2 border rounded p-3 bg-light text-dark position-relative '
-          data-id={item?.id}
-        >
+        <div className='column ' data-id={item?.id}>
           <ColumnHeader
             item={item}
             listIndex={cardIndex}
@@ -96,8 +95,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
             addNewCard={addCard}
           />
 
-          {/* ) : ( */}
-          <div>
+          <div className='column__info'>
             {cards?.map((card: any, i: any) => {
               return (
                 <div className='column__card' key={i}>

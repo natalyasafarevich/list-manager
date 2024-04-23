@@ -30,3 +30,11 @@
   background: var(--secondary-color);
   box-shadow: 0 4px 19px 0 rgba(63, 71, 45, 0.1);
 }
+.column {
+  margin: 0 12px;
+  max-width: 300px;
+  min-width: 300px;
+  width: 100%;
+}
+.column__info {
+}

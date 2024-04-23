@@ -80,18 +80,19 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   }, [value, isReadOnly]);
   return (
     <div className='card-settings'>
-      <div className='card-settings__container'>
+      <div
+        className='card-settings__container'
+        style={{background: card?.cover}}
+      >
         <button
           className='card-settings__button button-close'
           onClick={closeSetting}
         ></button>
         <div className='card-settings__content'>
-          {card.cover && (
-            <div
+          {/* <div
               className='card-settings__cover'
               style={{backgroundColor: card.cover}}
-            ></div>
-          )}
+            ></div> */}
           <div className='card-settings__row flex'>
             <div>
               <div className='flex'>

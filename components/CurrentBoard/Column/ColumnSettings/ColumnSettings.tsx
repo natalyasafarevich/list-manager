@@ -6,6 +6,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import CopyColumn from './CopyColumn/CopyColumn';
 import {ColumnCardsProps} from '@/types/interfaces';
 import ArchiveColumn from './ArchiveColumn/ArchiveColumn';
+import './ColumnSettings.scss';
+import MiniPopup from '@/components/MiniPopup/MiniPopup';
+import EditTitle from './EditTitle/EditTitle';
 
 type SettingsProps = {
   setIsOpen: () => void;
@@ -22,67 +25,73 @@ const ColumnSettings: FC<SettingsProps> = ({
   const [isCopy, setIsCopy] = useState(false);
   const [cards, getCards] = useState<Array<ColumnCardsProps>>([]);
   const [value, setValue] = useState<string>('');
-  const [title, setTitle] = useState('Действия со списком');
+  const [title, setTitle] = useState('Options');
   const current_column = useSelector((state: RootState) => state.column.data);
-
-  useEffect(() => {
-    isCopy ? setTitle('копирование списка') : setTitle('Действия со списком');
-  }, [isCopy]);
+  const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
     setValue(current_title as string);
   }, [current_title]);
+
   useEffect(() => {
     current_column.cards && getCards((prev: any) => [...current_column.cards]);
   }, [current_column.cards]);
-  // console.log(current_column);
-  // const dispatch: AppDispatch = useDispatch();
-
-  // const archiveColumn = () => {
-  //   dispatch(isArchive({isArchive: true}));
-  // };
-
+  const addNewCardLocal = () => {
+    addNewCard();
+    setIsOpen();
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth',
+    });
+  };
   return (
-    <div className='position-absolute z-3 rounded-3 bg-warning-subtle card w-100  top-0 start-100 p-2'>
-      <div className='d-flex justify-content-between align-items-center mb-1'>
-        {isCopy && (
-          <button
-            onClick={() => {
-              setIsCopy(!isCopy);
-            }}
-          >
-            back
-          </button>
-        )}
-        <span>{title}</span>
-        <button type='button' onClick={setIsOpen}>
-          x
-        </button>
-      </div>
-
-      {!isCopy && (
-        <>
-          <div className=''>
-            <button onClick={addNewCard}>Добавить карточку</button>
+    <div className='column-settings'>
+      <div className='column-settings__container'>
+        <MiniPopup title='' setIsOpen={setIsOpen}>
+          <div className='column-settings__row flex'>
+            <p className='column-settings__title'>{title}</p>
           </div>
-          <div className=''>
-            <br />
-            <button
+          <div className='column-settings__content'>
+            <div className='column-settings__box'>
+              <p
+                className='column-settings__item icon icon-edit'
+                onClick={(e) => setIsEdit(!isEdit)}
+              >
+                Edit
+              </p>
+
+              {isEdit && (
+                <div className='column-settings__popup'>
+                  <EditTitle setIsOpen={(e) => setIsEdit(e)} />
+                </div>
+              )}
+            </div>
+            <p
+              className='column-settings__item icon icon-plus'
+              onClick={addNewCardLocal}
+            >
+              Add a new card
+            </p>
+            <p
+              className='column-settings__item icon icon-copy'
               onClick={() => {
                 setIsCopy(!isCopy);
               }}
             >
-              копирование списка
-            </button>
-            <br />
-            <br />
+              Copy column
+            </p>
+            {isCopy && (
+              <CopyColumn
+                setCloseMenu={(e) => setIsOpen()}
+                setIsOpen={(e) => setIsCopy(e)}
+                value={value}
+                setValue={(e) => setValue(e)}
+              />
+            )}
             <ArchiveColumn />
           </div>
-        </>
-      )}
-      {isCopy && (
-        <CopyColumn value={value} list={cards} setValue={(e) => setValue(e)} />
-      )}
+        </MiniPopup>
+      </div>
     </div>
   );
 };

@@ -5,9 +5,50 @@
 }
 body {
   background: #f7f8fa;
+  // scrollbar-width: thin;
+  // scrollbar-color: #7a7a7a86 transparent;
 }
-.button-archived {
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #7a7a7a86 transparent;
 }
+
+/* Работает в Chrome, Edge и Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #7a7a7a86;
+  border-radius: 20px;
+  border: 3px solid transparent;
+}
+.icon {
+  display: flex;
+  align-items: center;
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    background: no-repeat url("/setting-column-icons.svg");
+  }
+  &-copy::before {
+    background-position-x: 100%;
+  }
+  &-archive::before {
+    background-position-x: 33%;
+  }
+  &-plus::before {
+    background-position-x: 66%;
+  }
+}
+//icons
 .mini-popup-container {
   z-index: 1;
   min-width: 237px;
@@ -104,6 +145,11 @@ body {
 }
 .plr-3 {
   padding: 0 30px;
+}
+.large-content-wrap {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1920px;
 }
 .medium-content-wrap {
   width: 100%;

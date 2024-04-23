@@ -9,15 +9,17 @@
   &__row {
     align-items: flex-start;
     margin: 0 -12px;
+    overflow-x: scroll;
+    padding-bottom: 35px;
   }
 
   // .column-create-form__column
 
   &__column {
-    margin: 0 12px;
-    max-width: 300px;
-    min-width: 300px;
-    width: 100%;
+    // margin: 0 12px;
+    // max-width: 300px;
+    // min-width: 300px;
+    // width: 100%;
   }
 
   // .column-create-form__box

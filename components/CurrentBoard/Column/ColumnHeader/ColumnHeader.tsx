@@ -11,10 +11,10 @@ import {getIsOpenClSetting} from '@/store/column-setting/actions';
 import './ColumnHeader.scss';
 
 interface NameWithSettingsButtonProps {
-  name?: string;
   addNewCard: () => void;
   listIndex: number;
   item: any;
+  name?: string;
 }
 
 const ColumnHeader: FC<NameWithSettingsButtonProps> = ({
@@ -23,9 +23,17 @@ const ColumnHeader: FC<NameWithSettingsButtonProps> = ({
   item,
 }) => {
   const isCreateNewCard = useSelector((state: RootState) => state.cl_setting);
+  const isUpdate = useSelector(
+    (state: RootState) => state.card_setting.isUpdate,
+  );
+
   const [isOpen, setIsOpen] = useState<boolean>(
     isCreateNewCard.isOpen || false,
   );
+  const [textareaName, setTexareaName] = useState('');
+  useEffect(() => {
+    name && setTexareaName(name);
+  }, [name]);
   const board = useSelector((state: RootState) => state.boards);
   const user = useSelector((state: RootState) => state.userdata);
 
@@ -43,7 +51,7 @@ const ColumnHeader: FC<NameWithSettingsButtonProps> = ({
     } else {
       dispatch(getIsOpenClSetting({isOpen: false}));
     }
-  }, [isOpen, dispatch, item]);
+  }, [isOpen, dispatch, item, isUpdate]);
 
   const openMenu = () => {
     setIsOpen(!isOpen);
@@ -55,13 +63,6 @@ const ColumnHeader: FC<NameWithSettingsButtonProps> = ({
     );
   };
 
-  const changeTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    let index = getListIndex(board.currentBoards.lists, item.id);
-    updateFirebaseData(`boards/${board.index}/lists/${index}`, {
-      name: e.currentTarget.value,
-    });
-  };
-
   return (
     <div className='column-header'>
       <div className='column-header__container'>
@@ -69,8 +70,8 @@ const ColumnHeader: FC<NameWithSettingsButtonProps> = ({
           <div className='column-header__textarea'>
             <textarea
               maxLength={25}
-              defaultValue={name}
-              onChange={changeTitle}
+              defaultValue={textareaName}
+              readOnly
             ></textarea>
           </div>
           {isLoggedIn && (

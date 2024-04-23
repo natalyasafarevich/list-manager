@@ -39,6 +39,7 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
       <div className='card-display__container'>
         {!card?.isArchived && (
           <div
+            style={{background: card?.cover}}
             onClick={openCard}
             className='card-display__box'
             data-cover={card.cover}
@@ -67,7 +68,7 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
             <div className='card-display__row'>
               {card['check-lists'] && (
                 <span className='card-display__icon card-display__icon_check'>
-                  {card['check-lists'].length}
+                  {Object.keys(card['check-lists']).length}
                 </span>
               )}{' '}
               {card.comments && (

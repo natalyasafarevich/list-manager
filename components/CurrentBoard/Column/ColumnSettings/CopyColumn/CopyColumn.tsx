@@ -11,16 +11,18 @@ import {getListIndex} from '../ArchiveColumn/ArchiveColumn';
 import {isCardUpdate} from '@/store/card-setting/actions';
 interface CopyColumnProps {
   setValue: (a: string) => void;
-  list: Array<any>;
   value: string;
+  setIsOpen: (value: boolean) => void;
+  setCloseMenu: (value: boolean) => void;
 }
-const CopyColumn: FC<CopyColumnProps> = ({setValue, list, value}) => {
+const CopyColumn: FC<CopyColumnProps> = ({setValue, value, setIsOpen,setCloseMenu}) => {
   const user = useSelector((state: RootState) => state.userdata);
   const current_board = useSelector((state: RootState) => state.boards);
   const current_column = useSelector((state: RootState) => state.column.data);
 
   const [currentCard, setCurrentCard] = useState();
   const dispatch: AppDispatch = useDispatch();
+
   useEffect(() => {
     const cardIndex = getListIndex(
       current_board?.currentBoards?.lists,
@@ -36,25 +38,38 @@ const CopyColumn: FC<CopyColumnProps> = ({setValue, list, value}) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(isCardUpdate(true));
-    // dispatch(isCopyColumn({isCopy: true}));
     updateFirebaseData(
       `boards/${current_board?.index}/lists/${current_board?.currentBoards?.lists?.length}/`,
       {cards: currentCard, id: uuidv4(), name: value},
     );
+    setCloseMenu(false);
   };
   return (
-    <>
+    <div className='copy-column'>
       <form onSubmit={handleSubmit}>
-        <label htmlFor='name'>Название</label>
+        <label htmlFor='name' className='copy-column__label'>
+          Title
+        </label>
         <input
-          name=''
+          className='default-input copy-column__input'
           id='name'
           value={value}
           onChange={(e) => setValue(e.currentTarget.value)}
         />
-        <button type='submit'>save</button>
+        <div className=' copy-column__row flex'>
+          <button type='submit' className='button-dark'>
+            save
+          </button>
+          <button
+            type='button'
+            className='button-border'
+            onClick={(e) => setIsOpen(false)}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
-    </>
+    </div>
   );
 };
 

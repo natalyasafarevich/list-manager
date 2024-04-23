@@ -38,12 +38,12 @@ const ArchiveColumn: FC = () => {
   );
   return (
     <div>
-      <button
+      <p
+        className='column-settings__item icon icon-archive'
         onClick={archiveColumn}
-        // disabled={user_status !== 'admin' ? true : false}
       >
-        архивировать список{' '}
-      </button>
+        Archive
+      </p>
     </div>
   );
 };

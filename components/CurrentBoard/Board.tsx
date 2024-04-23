@@ -108,7 +108,7 @@ const CurrentBoard: FC = () => {
   return (
     <div className='board'>
       {/* <Members /> */}
-      <div className='board__container medium-content-wrap plr-3 '>
+      <div className='board__container  large-content-wrap plr-3  '>
         <div
           className={` ${isLightTheme ? 'theme-light' : ''}`}
           style={
