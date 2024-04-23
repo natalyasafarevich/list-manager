@@ -47,7 +47,6 @@ const Column: FC<ColumnProps> = ({item, name}) => {
       );
     }
   }, [userData, isSave]);
-  console.log(userData, 'userData');
   const cardUpdate = useSelector(
     (state: RootState) => state.card_setting.isUpdate,
   );
@@ -57,7 +56,6 @@ const Column: FC<ColumnProps> = ({item, name}) => {
         `/boards/${current_board.index}/lists/${cardIndex}`,
         getUserData,
       );
-      console.log('jjjj');
       dispatch(isCardUpdate(false));
     }
   }, [cardUpdate]);

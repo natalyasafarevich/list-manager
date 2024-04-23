@@ -65,19 +65,20 @@ const ArchivedСolumns: FC = () => {
   return (
     <div className='archived'>
       <p className='additional-menu__subtitle'>Archived Lists:</p>
-
-      {archivedColumns?.map((column, i) => (
-        <div className='archived__box' key={i}>
-          <p className='archived__title'>{column.name}</p>
-          <button
-            data-id={column.id}
-            className='archived__button button-dark'
-            onClick={returnToBoard}
-          >
-            Return to the board
-          </button>
-        </div>
-      ))}
+      <div className='archived__content'>
+        {archivedColumns?.map((column, i) => (
+          <div className='archived__box' key={i}>
+            <p className='archived__title'>{column.name}</p>
+            <button
+              data-id={column.id}
+              className='archived__button button-dark'
+              onClick={returnToBoard}
+            >
+              Return to the board
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

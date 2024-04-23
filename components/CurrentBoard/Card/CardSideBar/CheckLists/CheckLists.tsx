@@ -78,7 +78,6 @@ const CheckLists: FC = () => {
     };
     if (value.length !== 0) {
       setCheckLists((prev: any) => ({...prev, ...newList}));
-      console.log(checkFBLists, checkLists, 'checkFBLists');
       setIsOpen(!isOpen);
       setValue('');
       setIsUpdate(true);

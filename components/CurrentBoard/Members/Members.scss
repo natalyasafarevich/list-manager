@@ -1,0 +1,30 @@
+.new-members {
+  // .new-members__container
+
+  &__container {
+    position: relative;
+  }
+
+  // .new-members__button
+
+  &__button {
+    margin-left: 8px;
+    width: 50px;
+    height: 50px;
+    background: center/cover no-repeat url("/add-button-icon.svg");
+    &:hover,
+    &:focus {
+      background: center/cover no-repeat url("/add-button-active-icon.svg");
+    }
+  }
+
+  // .new-members__popup
+
+  &__popup {
+    width: max-content;
+    max-width: 300px;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+  }
+}

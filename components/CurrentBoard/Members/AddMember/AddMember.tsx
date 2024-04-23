@@ -1,5 +1,5 @@
 'use client';
-import {FC, useEffect, useState} from 'react';
+import {FC, FormEvent, useEffect, useState} from 'react';
 import {getDatabase, onValue, query, ref, update} from 'firebase/database';
 import firebaseApp, {db} from '@/firebase';
 import 'firebase/auth';
@@ -9,21 +9,24 @@ import {RootState} from '@/store/store';
 import {v4 as createId} from 'uuid';
 import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {updateUserData} from '@/helper/updateUserData';
+import './AddMember.scss';
+import {Value} from 'react-quill';
 
 export interface NewMembersProps extends MemberProps {
   public_name: string;
   email: string;
   mainPhoto: MainPhotoProps;
 }
-
-const AddMember: FC = () => {
+interface AddMemberProps {
+  setIsOpen: (Value: boolean) => void;
+}
+const AddMember: FC<AddMemberProps> = ({setIsOpen}) => {
   const [isNewMember, setIsNewMember] = useState(false);
-  const [email, setEmail] = useState('natalyasafarevich@gmail.com');
+  const [email, setEmail] = useState('');
   const [memberUid, setMemberUid] = useState('');
   const [role, setRole] = useState('member');
   const [members, setMembers] = useState<any>({});
   const [newMembers, setNewMembers] = useState<NewMembersProps>();
-  // const [boards, setBoards] = useState<NewMembersProps>();
 
   const boardIndex = useSelector((state: RootState) => state.boards.index);
 
@@ -53,12 +56,8 @@ const AddMember: FC = () => {
       !isNewMember &&
       fetchBackDefaultData(`/boards/${boardIndex}/members`, setMembers);
   }, [user, boardIndex, isNewMember]);
-  // console.log(notification, '  console.log(notification);');
   const [isUpdate, setIsUpdate] = useState(false);
-  // const user = useSelector((state: RootState) => state.userdata);
-  useEffect(() => {
-    // memberUid && console.log();
-  }, [memberUid]);
+
   useEffect(() => {
     if (isUpdate && memberUid && notification.length) {
       updateUserData(`${memberUid}/`, {notification: notification});
@@ -73,7 +72,7 @@ const AddMember: FC = () => {
       update(ref(db, `boards/${boardIndex}`), {members: members});
 
       const currentBoard = {
-        [boardIndex]: true, // Правильный синтаксис для создания объекта
+        [boardIndex]: true,
       };
       updateUserData(`${memberUid}/current-boards`, currentBoard);
       setIsNewMember(false);
@@ -82,10 +81,9 @@ const AddMember: FC = () => {
   const currentBoard = useSelector(
     (state: RootState) => state.boards.currentBoards,
   );
-  // useEffect(() => {
-  //   currentBoard.members && setMembers(currentBoard.members);
-  // }, [currentBoard]);
-  const addNewMember = () => {
+  const [error, setError] = useState('');
+  const addNewMember = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (email) {
       const starCountRef = query(ref(db, 'users/'));
       onValue(starCountRef, (snapshot) => {
@@ -95,17 +93,11 @@ const AddMember: FC = () => {
           if (data[uid].email === email) {
             for (const key in currentBoard?.members) {
               if (uid === key) {
-                console.log('user exist');
+                setError('User has already been  added');
                 setIsUpdate(false);
                 return;
               } else {
-                // const notification = {
-                //   id: id,
-                //   message: `пользователь ${user.email} добавил вас на доску `,
-                //   isViewed: false,
-                //   name: currentBoard.name,
-                //   link: currentBoard.id,
-                // };
+                setError('');
                 setNotification((prevNotification: any) => {
                   const id = createId();
                   const newNotification = {
@@ -120,17 +112,22 @@ const AddMember: FC = () => {
 
                 setIsUpdate(true);
                 setMemberUid(uid);
+                setTimeout(() => {
+                  setIsOpen(false);
+                }, 1000);
+                //
               }
             }
-            return;
+          } else {
+            setError('User is not found');
           }
         }
       });
     }
   };
-  const changeRole = (e: React.MouseEvent<HTMLElement>) => {
+  const changeRole = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {currentTarget} = e;
-    if (currentTarget.dataset.type) {
+    if (currentTarget.checked && currentTarget.dataset.type) {
       setRole(currentTarget.dataset.type);
     }
   };
@@ -138,31 +135,73 @@ const AddMember: FC = () => {
     (state: RootState) => state.userdata.user_status,
   );
   return (
-    <div>
-      <input
-        type='email'
-        placeholder='Введите email'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <button
-        onClick={addNewMember}
-        disabled={user_status !== 'admin' ? true : false}
-      >
-        найти
-      </button>
-      <div className='d-flex'>
-        <b> роль:</b>
-        <button data-type='admin' onClick={changeRole}>
-          админ
+    <div className='adding-members'>
+      <form action='' onSubmit={addNewMember}>
+        <input
+          type='email'
+          className='default-input adding-members__input'
+          placeholder='Write email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <p className='text-error'>{error}</p>
+        <div className='adding-members__info'>
+          <p className='adding-members__title '>Role:</p>
+          <div className='adding-members__box'>
+            <input
+              type='radio'
+              id='admin'
+              className='adding-members__radio'
+              data-type='admin'
+              name='role'
+              onChange={changeRole}
+            />
+
+            <label htmlFor='admin' className='adding-members__label'>
+              Admin
+              <span>The administrator has full access to the board</span>
+            </label>
+          </div>
+          <div className='adding-members__box'>
+            <input
+              type='radio'
+              className='adding-members__radio'
+              id='member'
+              data-type='member'
+              name='role'
+              onChange={changeRole}
+              defaultChecked
+            />
+            <label htmlFor='member' className='adding-members__label'>
+              Member
+              <span>The member can add tasks, comment them</span>
+            </label>
+          </div>
+          <div className='adding-members__box'>
+            <input
+              type='radio'
+              id='guest'
+              className='adding-members__radio'
+              data-type='guest'
+              name='role'
+              onChange={changeRole}
+            />
+            <label htmlFor='guest' className='adding-members__label'>
+              Guest
+              <span>
+                The guest can only view tasks and comments without being able to
+                change them or add new items
+              </span>
+            </label>
+          </div>
+        </div>
+        <button
+          className='button-dark adding-members__button'
+          disabled={user_status !== 'admin' ? true : false}
+        >
+          Add
         </button>
-        <button data-type='member' onClick={changeRole}>
-          участник
-        </button>
-        <button data-type='guest' onClick={changeRole}>
-          гость
-        </button>
-      </div>
+      </form>
     </div>
   );
 };

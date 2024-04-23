@@ -78,7 +78,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
             className='profile-card__image'
             onClick={() => setIsOpen(true)}
             style={{
-              background: `center/cover no-repeat url(${userData.photo}), red`,
+              background: `center/cover no-repeat url(${userData?.photo || '/default-image.svg'})`,
             }}
           ></div>
           {isOpen && (

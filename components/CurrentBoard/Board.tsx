@@ -99,12 +99,9 @@ const CurrentBoard: FC = () => {
     }
   }, [currentBoard]);
 
-  // useEffect(() => {}, [currentBoard['text-color']]);
-
   if (!currentBoard.id) {
     return <> {!currentBoard.id && <h1>Доска закрыта или не создана</h1>}</>;
   }
-  // console.log(currentBoard.isCloseBoard);
   return (
     <div className='board'>
       {/* <Members /> */}

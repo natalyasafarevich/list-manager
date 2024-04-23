@@ -78,8 +78,6 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
               },
               {},
             );
-            console.log(sortedTasksObject, 'k');
-            // dispatch(getCheckLists(sortedTasksObject  ));
             setValue(sortedTasksObject);
           }
         }
@@ -89,7 +87,6 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
           }
           // setIsHideChecked(tasksFB[key].isHideCheckedList);
         } else if (!tasksFB[key].tasks) {
-          console.log(tasksFB[key], 'jjfjjfvfjjfjjfvfjjfjjfvf');
         }
       }
     } else {
@@ -175,7 +172,6 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
     });
   }, [value]);
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
-  console.log('valuevaluevaluevalue', value);
   return (
     <div className='checkbox-form'>
       <div className='checkbox-form__container'>

@@ -10,7 +10,11 @@
   }
 
   // .archived__title
-
+  &__content {
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
   &__title {
     white-space: nowrap;
     overflow: hidden;

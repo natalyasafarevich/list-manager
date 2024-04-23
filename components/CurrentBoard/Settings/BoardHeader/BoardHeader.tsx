@@ -10,6 +10,7 @@ import firebaseApp from '@/firebase';
 import ChangingVisibility from '../ChangingVisibility/ChangingVisibility';
 import {getMembers} from '@/store/members/actions';
 import './BoardHeader.scss';
+import Members from '../../Members/Members';
 
 interface HeaderBoardProps {
   board: any;
@@ -91,40 +92,6 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                 onChange={changeTitle}
                 disabled={!isLoggedIn}
               />
-              {isLoggedIn && (
-                <div className='flex'>
-                  <div className='board-header__item'>
-                    <ButtonToFavorites
-                      path={
-                        boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''
-                      }
-                      isFavorite={
-                        (board?.favoriteUid && board?.favoriteUid[user.uid]) ||
-                        false
-                      }
-                    />
-                  </div>
-                  <div className={`board-header__visibility ${isOpenCard?'active':''}`}>
-                    <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>
-                      {board.type}
-                    </p>
-                    {isOpenCard && (
-                      <div className='board-header__popup'>
-                        <ChangingVisibility
-                          text='Only collaborators can see this'
-                          type='private'
-                          name='private'
-                        />
-                        <ChangingVisibility
-                          text='Anyone can see'
-                          type='public'
-                          name='public'
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
             </div>
             <div className='board-header__members'>
               <div
@@ -148,6 +115,8 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
               {members.length > 5 && (
                 <div className='board-header__count'>+{members.length - 5}</div>
               )}
+              <Members />
+
               {isLoggedIn && (
                 <p
                   className='board-header__menu'
@@ -157,6 +126,44 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                 </p>
               )}
             </div>
+          </div>
+          <div className='board-header__info flex'>
+            {isLoggedIn && (
+              <div className='flex'>
+                <div
+                  className={`board-header__visibility ${isOpenCard ? 'active' : ''}`}
+                >
+                  <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>
+                    {board.type}
+                  </p>
+                  {isOpenCard && (
+                    <div className='board-header__popup'>
+                      <ChangingVisibility
+                        text='Only collaborators can see this'
+                        type='private'
+                        name='private'
+                      />
+                      <ChangingVisibility
+                        text='Anyone can see'
+                        type='public'
+                        name='public'
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className='board-header__item'>
+                  {/* <ButtonToFavorites
+                    path={
+                      boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''
+                    }
+                    isFavorite={
+                      (board?.favoriteUid && board?.favoriteUid[user.uid]) ||
+                      false
+                    }
+                  /> */}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -16,9 +16,6 @@ export type CardDisplayProps = {
 const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
   const [isOpenCard, setIsOpenCards] = useState(false);
   const dispatch: AppDispatch = useDispatch();
-  const idList = useSelector((state: RootState) => state.check_lists);
-  const user = useSelector((state: RootState) => state.userdata);
-  console.log(idList, 'kefef');
   useEffect(() => {
     dispatch(
       getColumnInfo({
