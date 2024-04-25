@@ -10,6 +10,8 @@ import {getStorage, ref, uploadBytes} from 'firebase/storage';
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
+import './ChangePhoto.scss';
+
 const ChangePhoto = () => {
   const [file, setFile] = useState<any>(null);
   const [photo, setPhoto] = useState<any>();
@@ -54,26 +56,27 @@ const ChangePhoto = () => {
     isUploaded,
     '/avatar',
   );
-  console.log(photos);
   useEffect(() => {
     if (photos[0]) {
       updateUserData(user.uid, {mainPhoto: photos[0]});
-      dispatch(getUpdatePhoto(photos[0].url));
+      console.log(photos[0].url);
+      // dispatch(getUpdatePhoto(photos[0].url));
     }
   }, [photos]);
   useEffect(() => {
     setPhoto(photos[0]);
   }, [photos, photo]);
   return (
-    <div className='container '>
-      <h3 className='text-secondary'>Загрузка новой фотографии</h3>
-      <img
-        src={photo?.url ? photo.url : user.photoURL}
-        alt=''
-        width={100}
-        height={100}
-      />
-      <input type='file' onChange={handleChange} />
+    <div className='change-photo'>
+      {/* <div
+        className='change-photo__img'
+        style={{background: `url(${photo?.url ? photo.url : user.photoURL})`}}
+      ></div> */}
+      <label
+        htmlFor='photo'
+        className='image-uploader__container custom-file-container'
+      ></label>
+      <input id='photo' type='file' onChange={handleChange} />
       <button onClick={handleUpload}>Загрузить</button>
     </div>
   );

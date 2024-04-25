@@ -1,3 +1,5 @@
+'use client';
+import DashboardHeader from '@/components/DashboardHeader/DashboardHeader';
 import Link from 'next/link';
 
 export default function RootLayout({
@@ -7,8 +9,9 @@ export default function RootLayout({
 }>) {
   return (
     <>
+      <DashboardHeader />
       <div className='d-flex mt-5 justify-content-center mb-4'>
-        <Link
+        {/* <Link
           className='m-2 d-block nav-link text-success'
           href={'/settings/profile'}
         >
@@ -19,7 +22,7 @@ export default function RootLayout({
         </Link>
         <Link className='m-2 d-block text-success' href={'/settings/email'}>
           Электронная почта
-        </Link>
+        </Link> */}
       </div>
       {children}
     </>

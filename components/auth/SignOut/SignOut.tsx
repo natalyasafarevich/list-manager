@@ -9,9 +9,9 @@ import './SignOut.scss';
 const SignOut = () => {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state.userdata);
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  // useEffect(() => {
+  //   console.log(user);
+  // }, [user]);
   const handleSignOut = async () => {
     try {
       const auth = getAuth();

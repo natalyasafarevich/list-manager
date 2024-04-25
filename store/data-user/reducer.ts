@@ -3,6 +3,7 @@ import {
   ActionsType,
   DATA_USER,
   DATA_USER_FOR_FIREBASE,
+  DATA_USER_FROM_FIREBASE,
   RESET_DATA_USER,
   UPDATE_LINK,
   UPDATE_PHOTO,
@@ -36,6 +37,7 @@ const initialState = {
     listIndex: null,
     cardIndex: null,
   },
+  user_data: {},
 };
 export const DataUserReducer = (state = initialState, action: ActionsType) => {
   switch (action.type) {
@@ -85,7 +87,12 @@ export const DataUserReducer = (state = initialState, action: ActionsType) => {
         user_status: action.payload,
       };
     }
-
+    case DATA_USER_FROM_FIREBASE: {
+      return {
+        ...state,
+        user_data: action.payload,
+      };
+    }
     default:
       return state;
   }

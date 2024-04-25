@@ -1,4 +1,4 @@
-import {RootState} from '@/store/store';
+import {AppDispatch, RootState} from '@/store/store';
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {getAuth} from 'firebase/auth';
@@ -7,6 +7,8 @@ import firebaseApp from '@/firebase';
 import {profileUpdate} from '@/helper/updateProfile';
 import {updateUserData} from '@/helper/updateUserData';
 import {geLocation} from '@/helper/geLocation';
+import {getUserInfo} from '@/store/data-user/actions';
+import {useDispatch} from 'react-redux';
 
 const ProfileInformation = () => {
   const user = useSelector((state: RootState) => state.userdata);
@@ -42,7 +44,8 @@ const ProfileInformation = () => {
     location: '',
     email: user.email,
   });
-  console.log(updateInfo);
+  const dispatch: AppDispatch = useDispatch();
+  const [isUpdated, setIsUpdated] = useState(false);
   useEffect(() => {
     if (user.uid) {
       // }
@@ -51,6 +54,9 @@ const ProfileInformation = () => {
         const data = snapshot.val();
         // получение данных юзера
         if (data) {
+          console.log(data);
+          // dispatch(getUserInfo(updateInfo));
+          setIsUpdated(true);
           setUpdateInfo({
             public_name: data.public_name || '',
             position: data.position || '',
@@ -83,7 +89,7 @@ const ProfileInformation = () => {
         photoURL: user.photoURL || '',
       }));
     }
-  }, [user]);
+  }, [user.displayName]);
   const db = getDatabase(firebaseApp);
 
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
@@ -94,17 +100,15 @@ const ProfileInformation = () => {
     });
     alert('данные успешно  обновлены');
   };
-  // useEffect(() => {
-  //   if (auth?.currentUser)
-  //     sendEmailVerification(auth.currentUser).then(() => {
-  //       console.log('gggg');
-  //       // ...
-  //     });
-  // }, []);
+  useEffect(() => {
+    if (isUpdated) {
+      dispatch(getUserInfo(updateInfo));
+    }
+  }, [isUpdated]);
   //обновление email (нельзя без подтверждения email)
-
-  // }
-
+  const st = useSelector((state: RootState) => state.userdata);
+  // // }
+  // console.log(st.user_data);
   return (
     <form onSubmit={handleSubmit} className='container'>
       <div className=''>

@@ -1,0 +1,30 @@
+.basic-info {
+  // .basic-info__title
+
+  &__title {
+    font-size: 38px;
+    margin-bottom: 41px;
+  }
+
+  // .basic-info__row
+
+  &__row {
+    margin: 0 auto;
+    justify-content: center;
+  }
+
+  // .basic-info__box
+
+  &__box {
+    &:last-of-type {
+      padding: 0 0 0 100px;
+      border-left: 1px solid #e6e6e6;
+    }
+    padding: 0 100px 0 0;
+  }
+
+  // .basic-info__subtitle
+
+  &__subtitle {
+  }
+}

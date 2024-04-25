@@ -3,6 +3,8 @@ import {UserInfo} from 'firebase/auth';
 export const DATA_USER = 'data-user/DATA_USER';
 export const RESET_DATA_USER = 'data-user/RESET_DATA_USER';
 export const DATA_USER_FOR_FIREBASE = 'data-user/DATA_USER_FOR_FIREBASE';
+export const DATA_USER_FROM_FIREBASE = 'data-user/DATA_USER_FROM_FIREBASE';
+
 export const UPDATE_LINK = 'data-user/UPDATE_LINK';
 export const UPDATE_PHOTO = 'data-user/UPDATE_PHOTO';
 export const USER_STATUS = 'data-user/USER_STATUS';
@@ -20,7 +22,8 @@ export type ActionsType =
   | DataUserFirebaseProp
   | UpdateLinkProp
   | UpdatePhotoProp
-  | UserStatusProp;
+  | UserStatusProp
+  | UserInfoProp;
 
 export const getDataUser = (data: any) => {
   return {
@@ -91,6 +94,19 @@ export type UserStatusProp = {
 export const getUserStatus = (data: string) => {
   return {
     type: USER_STATUS,
+    payload: data,
+  };
+};
+//!!
+interface UserInfoProps {}
+export type UserInfoProp = {
+  type: typeof DATA_USER_FROM_FIREBASE;
+  payload: any;
+};
+
+export const getUserInfo = (data: any) => {
+  return {
+    type: DATA_USER_FROM_FIREBASE,
     payload: data,
   };
 };

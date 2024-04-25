@@ -1,4 +1,3 @@
-'use client';
 import DashboardHeader from '@/components/DashboardHeader/DashboardHeader';
 import Header from '@/components/Header/Header';
 import {AccountManagement} from '@/components/user/settings/AccountManagement/AccountManagement';
@@ -6,8 +5,10 @@ import {AccountManagement} from '@/components/user/settings/AccountManagement/Ac
 export default function AdditionSettings() {
   return (
     <div>
-      <DashboardHeader />
-      <AccountManagement />
+      {/* <DashboardHeader /> */}
+      <div className='medium-content-wrap'>
+        <AccountManagement />
+      </div>
     </div>
   );
 }
