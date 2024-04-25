@@ -1,0 +1,44 @@
+.completion-form {
+  // .completion-form__container
+
+  &__container {
+    border-radius: 48px;
+    max-width: 1339px;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 6px 54px 0 rgba(20, 20, 43, 0.07);
+    background: var(--secondary-color);
+    padding: 80px 20px;
+  }
+  &__wrap {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  // .completion-form__title
+
+  &__title {
+    text-align: center;
+    font-weight: 700;
+    font-size: 29px;
+    line-height: 135%;
+    span {
+      display: block;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 167%;
+      color: #6f6c90;
+      margin: 10px 0 45px;
+    }
+  }
+
+  // .completion-form__box
+
+  &__box {
+  }
+
+  // .completion-form__item
+
+  &__item {
+  }
+}

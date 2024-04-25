@@ -34,7 +34,13 @@ const UserStatus = () => {
       if (user) {
         const {displayName, email, phoneNumber, photoURL, uid} = user;
         setUser({displayName, email, phoneNumber, photoURL, uid});
-        updateUserData(`${uid}/`, {email: email});
+        // console.log(user, 'ghjkl;lkjhg');
+        updateUserData(`${uid}/`, {
+          email: email,
+          phoneNumber: phoneNumber,
+          displayName: displayName,
+          photoURL: photoURL,
+        });
       }
     });
 

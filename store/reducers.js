@@ -7,8 +7,10 @@ import {CardSettingReducer} from './card-setting/reducer';
 import {MarkersReducer} from './card-sidebar/reducer';
 import {CheckListsReducer} from './check-lists/reducer';
 import {MembersReducer} from './members/reducer';
+import {AuthReducer} from './auth/redcer';
 
 export default combineReducers({
+  auth: AuthReducer,
   userdata: DataUserReducer,
   boards: DataBoardReducer,
   column: ColumnReducer,

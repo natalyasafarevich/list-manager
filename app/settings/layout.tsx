@@ -11,7 +11,7 @@ export default function RootLayout({
     <>
       <DashboardHeader />
       <div className='d-flex mt-5 justify-content-center mb-4'>
-        {/* <Link
+        <Link
           className='m-2 d-block nav-link text-success'
           href={'/settings/profile'}
         >
@@ -22,7 +22,7 @@ export default function RootLayout({
         </Link>
         <Link className='m-2 d-block text-success' href={'/settings/email'}>
           Электронная почта
-        </Link> */}
+        </Link>
       </div>
       {children}
     </>

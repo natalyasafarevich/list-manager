@@ -72,7 +72,7 @@ const ProfileInformation = () => {
 
   const [generalInfo, setGeneralInfo] = useState({
     displayName: '',
-    email: user.email,
+    // email: user.email,
     phoneNumber: '',
     uid: user.uid || '',
     photoURL: '',
@@ -83,7 +83,7 @@ const ProfileInformation = () => {
       setGeneralInfo((prev) => ({
         ...prev,
         displayName: user.displayName || '',
-        email: user.email || '',
+        // email: user.email || '',
         phoneNumber: user.phoneNumber || '',
         uid: user.uid,
         photoURL: user.photoURL || '',
@@ -182,7 +182,7 @@ const ProfileInformation = () => {
       </div>
       <div className=''>
         <label htmlFor='phone'>email</label>
-        <input
+        {/* <input
           type='text'
           id='phone'
           readOnly
@@ -193,7 +193,7 @@ const ProfileInformation = () => {
               email: generalInfo.email,
             }))
           }
-        />
+        /> */}
       </div>
       <div className=''>
         <label htmlFor='uid'>uid</label>
