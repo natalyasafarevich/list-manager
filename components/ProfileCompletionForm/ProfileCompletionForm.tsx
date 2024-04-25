@@ -1,8 +1,11 @@
-import {FC} from 'react';
+'use client';
+import {FC, useState} from 'react';
 import './ProfileCompletionForm.scss';
 import Step1Form from './Step1Form/Step1Form';
+import Step2Form from './Step2Form/Step2Form';
 
 const ProfileCompletionForm: FC = () => {
+  const [isFirstStepReady, setIsFirstStepReady] = useState(false);
   return (
     <div className='completion-form'>
       <div className='completion-form__container'>
@@ -15,11 +18,15 @@ const ProfileCompletionForm: FC = () => {
               you with relevant content and services.
             </span>
           </p>
-          <form className='completion-form__box'>
-            <div className='completion-form__item'>
-              <Step1Form />
-            </div>
-          </form>
+          {/* <form className='completion-form__box'> */}
+          <div className='completion-form__item'>
+            {!isFirstStepReady ? (
+              <Step1Form isReady={(e) => setIsFirstStepReady(e)} />
+            ) : (
+              <Step2Form />
+            )}
+          </div>
+          {/* </form> */}
         </div>
       </div>
     </div>

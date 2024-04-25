@@ -1,10 +1,14 @@
 'use client';
-import {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import './Step1Form.scss';
 import {useSelector} from 'react-redux';
-import {RootState} from '@/store/store';
-// import CustomInput from '../CustomInput/CustomInput';
-interface BasicInfo {
+import {AppDispatch, RootState} from '@/store/store';
+import {useDispatch} from 'react-redux';
+import {getBasicUserData} from '@/store/auth/actions';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {updateFirebaseData} from '@/helper/updateUserData';
+
+export interface BasicUserInfo {
   fullName: string;
   publicName: string;
   email: string;
@@ -12,17 +16,20 @@ interface BasicInfo {
   isEmailExist: boolean;
   isPhoneExist: boolean;
 }
-const Step1Form: FC = () => {
-  const [inputs, setInputs] = useState<BasicInfo>({
-    fullName: '',
-    publicName: '',
-    email: '',
-    phoneNumber: '',
-    isEmailExist: false,
-    isPhoneExist: false,
-  });
+
+interface Step1FormProps {
+  isReady: (value: boolean) => void;
+}
+const Step1Form: FC<Step1FormProps> = ({isReady}) => {
+  const [inputs, setInputs] = useState<BasicUserInfo>({} as BasicUserInfo);
+  const [userNames, setUserNames] = useState<Array<string> | null>(null);
+  const [error, setError] = useState('');
+
+  const dispatch: AppDispatch = useDispatch();
+
   const user = useSelector((state: RootState) => state.userdata);
 
+  useEffect(() => {}, [user]);
   useEffect(() => {
     setInputs((prev) => ({
       ...prev,
@@ -32,26 +39,41 @@ const Step1Form: FC = () => {
       isEmailExist: user.email ? true : false,
       isPhoneExist: user.phoneNumber ? true : false,
     }));
+    user.uid && fetchBackDefaultData('user-names', setUserNames);
   }, [user]);
-
-  const [error, setError] = useState('');
 
   const checkPublicName = (e: React.FormEvent<HTMLInputElement>) => {
     const {currentTarget} = e;
-    const value = currentTarget.value;
-    const regex = /^[a-zA-Z0-9_.]+$/;
-    if (!regex.test(value)) {
-      setError('Use only letters, numbers, dots, and underscores (_)');
-      return;
-    }
-    setError('');
     setInputs((prev) => ({
       ...prev,
       publicName: currentTarget.value,
     }));
   };
+  const changePhone = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value.replace(/\D/g, '');
+    setInputs((prev) => ({
+      ...prev,
+      phoneNumber: value,
+    }));
+  };
+
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const regex = /^[a-zA-Z0-9_.]+$/;
+    if (!regex.test(inputs.publicName)) {
+      setError(`Use only letters, numbers, dots, and underscores (_)`);
+      return;
+    }
+    if (userNames?.includes(inputs.publicName)) {
+      setError(`Public name already exists`);
+      return;
+    }
+    setError('');
+    dispatch(getBasicUserData(inputs));
+    isReady(true);
+  };
   return (
-    <div className='step-form '>
+    <form className='step-form' onSubmit={submitForm}>
       <div className='step-form__container  '>
         <div className='auth-container'>
           <p className='step-form__subtitle'>
@@ -78,7 +100,7 @@ const Step1Form: FC = () => {
             </div>
             <div className='step-form__box'>
               <label htmlFor={'public-name'} className='step-form__label'>
-                Public name
+                Public name *
               </label>
               <input
                 type='public-name'
@@ -86,6 +108,7 @@ const Step1Form: FC = () => {
                 id='text'
                 value={inputs.publicName}
                 onChange={checkPublicName}
+                required
               />
               <p className='text-error'>{error}</p>
             </div>
@@ -112,16 +135,14 @@ const Step1Form: FC = () => {
                 Phone
               </label>
               <input
+                minLength={9}
+                maxLength={11}
                 type='phone'
                 className='default-input'
                 id='text'
+                placeholder='(123) 456 - 7890'
                 value={inputs.phoneNumber}
-                onChange={(e) =>
-                  setInputs((prev) => ({
-                    ...prev,
-                    phoneNumber: e.target.value,
-                  }))
-                }
+                onChange={changePhone}
                 readOnly={inputs.isPhoneExist}
               />
             </div>
@@ -129,7 +150,7 @@ const Step1Form: FC = () => {
         </div>
       </div>
       <button className='button-dark'>Next step</button>
-    </div>
+    </form>
   );
 };
 
