@@ -33,8 +33,8 @@ const Step2Form: FC<Step2FormProps> = ({isReady}) => {
     <form className='step-form' onSubmit={submitSecondStep}>
       <div className='auth-container'>
         <p className='step-form__subtitle'>
-          Contact details
-          <span>Enter your contact details</span>
+          Additional information
+          <span>Enter information about yourself</span>
         </p>
         <div className='step-form__user'>
           <ChangePhoto />
@@ -65,6 +65,7 @@ const Step2Form: FC<Step2FormProps> = ({isReady}) => {
           <p className='step-form__label'>Write some words about yourself</p>
           <textarea
             name=''
+            defaultValue={inputs.aboutYourSelf}
             className='step-form__textarea'
             onChange={(e) =>
               setInputs((prev) => ({
@@ -72,9 +73,7 @@ const Step2Form: FC<Step2FormProps> = ({isReady}) => {
                 aboutYourSelf: e.target.value,
               }))
             }
-          >
-            {inputs.aboutYourSelf}
-          </textarea>
+          ></textarea>
         </div>
       </div>
       <button className='button-dark'>Submit</button>

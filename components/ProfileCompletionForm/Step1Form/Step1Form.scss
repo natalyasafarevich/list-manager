@@ -58,4 +58,10 @@
     border-radius: 5px;
     border: 1px solid #ccccd0;
   }
+  button {
+    display: block;
+    width: 100%;
+    max-width: 150px;
+    margin: 15px 0 0 auto;
+  }
 }

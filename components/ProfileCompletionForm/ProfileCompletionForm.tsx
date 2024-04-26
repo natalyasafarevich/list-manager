@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {useRouter} from 'next/navigation';
 
 const ProfileCompletionForm: FC = () => {
   const [isFirstStepReady, setIsFirstStepReady] = useState(false);
@@ -15,7 +16,7 @@ const ProfileCompletionForm: FC = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const user = useSelector((state: RootState) => state.userdata.uid);
   const data = useSelector((state: RootState) => state.auth);
-
+  const router = useRouter();
   const [userNames, setUserNames] = useState<Array<string>>([]);
   useEffect(() => {
     if (isSecondStepReady) {
@@ -32,9 +33,10 @@ const ProfileCompletionForm: FC = () => {
     if (isSubmit) {
       updateFirebaseData('/user-names', {all: userNames});
       setIsSubmit(false);
+      router.push('/boards', {scroll: true});
     }
   }, [isSubmit]);
-  console.log(userNames);
+
   useEffect(() => {
     fetchBackDefaultData('/user-names/all', setUserNames);
   }, []);
@@ -50,7 +52,6 @@ const ProfileCompletionForm: FC = () => {
               you with relevant content and services.
             </span>
           </p>
-          {/* <form className='completion-form__box'> */}
           <div className='completion-form__item'>
             {!isFirstStepReady ? (
               <Step1Form isReady={(e) => setIsFirstStepReady(e)} />

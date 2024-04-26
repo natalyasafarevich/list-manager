@@ -114,9 +114,10 @@ const Step1Form: FC<Step1FormProps> = ({isReady}) => {
             </div>
             <div className='step-form__box'>
               <label htmlFor={'email'} className='step-form__label'>
-                Email
+                Email *
               </label>
               <input
+                required
                 type='email'
                 className='default-input'
                 id='email'
@@ -144,6 +145,7 @@ const Step1Form: FC<Step1FormProps> = ({isReady}) => {
                 value={inputs.phoneNumber}
                 onChange={changePhone}
                 readOnly={inputs.isPhoneExist}
+                required={inputs.isPhoneExist}
               />
             </div>
           </div>

@@ -79,7 +79,6 @@ const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
       handleUpload();
     }
   }, [file]);
-  console.log(currentImg);
   return (
     <div className='change-photo'>
       <input

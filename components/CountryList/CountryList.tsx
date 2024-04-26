@@ -43,10 +43,11 @@ const CountryList: FC<CountryListProps> = ({getCountry}) => {
         </div>
         {isOpen && (
           <div className='country-list__box'>
-            {countries.map((country) => (
+            {countries.map((country, i) => (
               <div
+                key={i}
                 className='country-list__item'
-                onClick={(e_) => {
+                onClick={(_e) => {
                   setIsOpen(!isOpen);
                   setTitle(country.name);
                 }}
