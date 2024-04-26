@@ -52,7 +52,7 @@ const PhoneSignInComponent = () => {
       const code = verificationCode;
 
       const confirmationResult = window.confirmationResult;
-      router.push('/');
+      router.push('/complete-profile');
       if (!confirmationResult) {
         throw new Error('Confirmation result is not available');
       }

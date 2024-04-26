@@ -23,7 +23,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
   const [cardIndex, setCardIndex] = useState<number>(0);
   const [cards, setCards] = useState<any>([]);
   const [isSave, setIsSave] = useState(false);
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const current_board = useSelector((state: RootState) => state?.boards);
   const dispatch: AppDispatch = useDispatch();
 

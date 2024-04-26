@@ -23,7 +23,9 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
   const [isDelete, setIsDelete] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const user = useSelector((state: RootState) => state.userdata.uid);
+  const user = useSelector(
+    (state: RootState) => state.userdata.current_info.uid,
+  );
   const board = useSelector((state: RootState) => state.boards);
   useEffect(() => {
     if (isDelete) {

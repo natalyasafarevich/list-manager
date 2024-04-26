@@ -35,7 +35,7 @@ const CreateBoardForm: FC<CreateBoardFormProps> = ({
   const [boards, setBoards] = useState<any>({});
 
   const [isUpdate, setIsUpdate] = useState(false);
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
 
   const router = useRouter();
   const db = getDatabase(firebaseApp);

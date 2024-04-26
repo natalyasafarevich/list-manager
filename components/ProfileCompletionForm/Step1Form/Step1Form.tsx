@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux';
 import {getBasicUserData} from '@/store/auth/actions';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {updateFirebaseData} from '@/helper/updateUserData';
+import UserStatus from '@/components/auth/UserStatus/UserStatus';
 
 export interface BasicUserInfo {
   fullName: string;
@@ -28,8 +29,9 @@ const Step1Form: FC<Step1FormProps> = ({isReady}) => {
   const dispatch: AppDispatch = useDispatch();
 
   const user = useSelector((state: RootState) => state.userdata);
+  console.log(user);
 
-  useEffect(() => {}, [user]);
+  // useEffect(() => {}, [user]);
   useEffect(() => {
     setInputs((prev) => ({
       ...prev,
@@ -79,11 +81,11 @@ const Step1Form: FC<Step1FormProps> = ({isReady}) => {
           <p className='step-form__subtitle'>
             Contact details
             <span>Enter your contact details</span>
-          </p>
+          </p>{' '}
           <div className='step-form__row'>
             <div className='step-form__box'>
               <label htmlFor={'full-name'} className='step-form__label'>
-                Name
+                Full Name
               </label>
               <input
                 type='text'

@@ -58,7 +58,7 @@ const Markers: FC = () => {
 
   const [customMarkers, getCustomMarkers] = useState<any>({});
 
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const current_markers = useSelector(
     (state: RootState) => state.markers.markers,
   );

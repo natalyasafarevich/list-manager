@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 
 const BasicInfo = () => {
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const users = useSelector((state: RootState) => state.userdata);
   // console.log(users);
   return (

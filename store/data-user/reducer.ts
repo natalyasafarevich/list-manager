@@ -20,6 +20,8 @@ interface initialStateProps {
 }
 
 const initialState = {
+  main_info: {},
+  current_info: {},
   displayName: null,
   email: null,
   phoneNumber: null,
@@ -44,12 +46,7 @@ export const DataUserReducer = (state = initialState, action: ActionsType) => {
     case DATA_USER: {
       return {
         ...state,
-        displayName: action.payload.displayName,
-        email: action.payload.email,
-        phoneNumber: action.payload.phoneNumber,
-        photoURL: action.payload.photoURL,
-        providerId: action.payload.providerId,
-        uid: action.payload.uid,
+        current_info: action.payload,
       };
     }
     case RESET_DATA_USER: {

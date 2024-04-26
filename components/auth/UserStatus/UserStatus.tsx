@@ -10,15 +10,18 @@ import {getDataUser} from '@/store/data-user/actions';
 import {getDatabase, onValue, ref} from 'firebase/database';
 import {getBoards} from '@/store/board/actions';
 import {updateUserData} from '@/helper/updateUserData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 
 const UserStatus = () => {
   const [user, setUser] = useState<any>();
 
   const dispatch: AppDispatch = useDispatch();
   const current_user = useSelector((state: RootState) => state.userdata);
+  const sf = useSelector((state: RootState) => state);
+
+  console.log(sf);
   const auth = getAuth(firebaseApp);
   const db = getDatabase(firebaseApp);
-
   useEffect(() => {
     const starCountRef = ref(db, `/boards`);
     onValue(starCountRef, (snapshot) => {
@@ -34,7 +37,8 @@ const UserStatus = () => {
       if (user) {
         const {displayName, email, phoneNumber, photoURL, uid} = user;
         setUser({displayName, email, phoneNumber, photoURL, uid});
-        // console.log(user, 'ghjkl;lkjhg');
+
+        // dispatch(getDataUser({displayName, email, phoneNumber, photoURL, uid}));
         updateUserData(`${uid}/`, {
           email: email,
           phoneNumber: phoneNumber,
@@ -46,13 +50,16 @@ const UserStatus = () => {
 
     return () => unsubscribe();
   }, [auth]);
-
+  const [data, setData] = useState<any>();
+  useEffect(() => {
+    if (data) {
+      dispatch(getDataUser(data));
+    }
+  }, [data]);
   useEffect(() => {
     if (user) {
       console.log('Пользователь вошел:', user);
-      dispatch(getDataUser({...user}));
-
-      // route.push(`/user?id=${user.uid.slice(0, 8)}`);
+      fetchBackDefaultData(`/users/${user.uid}`, setData);
     } else {
       console.log('Пользователь не вошел.');
     }

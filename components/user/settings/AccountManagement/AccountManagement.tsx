@@ -36,7 +36,7 @@ async function writeUserData(
 
 export const AccountManagement = () => {
   const router = useParams();
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   useEffect(() => {
     if (user) {
       // writeUserData(

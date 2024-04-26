@@ -29,7 +29,7 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   const [isClick, setIsClick] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const isCopy = useSelector((state: RootState) => state.cl_setting);
   const isCreate = useSelector((d: RootState) => d.card_setting);
 

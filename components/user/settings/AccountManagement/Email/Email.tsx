@@ -6,7 +6,9 @@ import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
 const Email = () => {
-  const default_email = useSelector((state: RootState) => state.userdata.email);
+  const default_email = useSelector(
+    (state: RootState) => state.userdata.current_info.email,
+  );
   const [email, setEmail] = useState<string>('');
   useEffect(() => {
     setEmail(default_email as string);

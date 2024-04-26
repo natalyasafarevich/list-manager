@@ -11,7 +11,7 @@ export const USER_STATUS = 'data-user/USER_STATUS';
 
 export type DataUserProp = {
   type: typeof DATA_USER;
-  payload: UserInfo;
+  payload: any;
 };
 export type ResetDataUserProp = {
   type: typeof RESET_DATA_USER;
@@ -110,3 +110,15 @@ export const getUserInfo = (data: any) => {
     payload: data,
   };
 };
+
+// export type UserAdditionalInfo= {
+//   type: typeof DATA_USER_FROM_FIREBASE;
+//   payload: any;
+// };
+
+// export const getUserInfo = (data: any) => {
+//   return {
+//     type: DATA_USER_FROM_FIREBASE,
+//     payload: data,
+//   };
+// };

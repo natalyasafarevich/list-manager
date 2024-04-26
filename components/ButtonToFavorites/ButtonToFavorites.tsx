@@ -10,7 +10,7 @@ interface ButtonToFavoritesProps {
 }
 const ButtonToFavorites: FC<ButtonToFavoritesProps> = ({path, isFavorite}) => {
   const [isAdded, setIsAdded] = useState(false);
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   useEffect(() => {
     path &&
       updateFirebaseData(path, {

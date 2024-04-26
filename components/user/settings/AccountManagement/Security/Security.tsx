@@ -14,7 +14,7 @@ const Security: FC = () => {
   const users = auth.currentUser;
   console.log(users);
   // const credential = EmailAuthProvider.credential(users.email, 'currentPassword');
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   return (
     <div className='d-flex flex-md-column align-items-center w-100'>
       <h1>Безопасность</h1>

@@ -14,15 +14,19 @@ const ProfileCompletionForm: FC = () => {
   const [isSecondStepReady, setIsSecondStepReady] = useState(false);
 
   const [isSubmit, setIsSubmit] = useState(false);
-  const user = useSelector((state: RootState) => state.userdata.uid);
+  const user = useSelector(
+    (state: RootState) => state.userdata.current_info.uid,
+  );
   const data = useSelector((state: RootState) => state.auth);
   const router = useRouter();
   const [userNames, setUserNames] = useState<Array<string>>([]);
   useEffect(() => {
     if (isSecondStepReady) {
       updateUserData(`${user}`, {
-        ...data.first_step_data,
-        ...data.second_step_data,
+        'main-info': {
+          ...data.first_step_data,
+          ...data.second_step_data,
+        },
       });
       setUserNames((prev) => [...prev, data.first_step_data.publicName]);
       setIsSubmit(true);

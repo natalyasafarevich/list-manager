@@ -14,7 +14,7 @@ const CopyBoard: FC = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const currentBoard = useSelector(
     (state: RootState) => state.boards.currentBoards,
   );

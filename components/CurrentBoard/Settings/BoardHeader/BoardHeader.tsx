@@ -60,7 +60,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
     setValue(board.name);
   }, [board.name]);
 
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const {uid} = user;
 
   useEffect(() => {

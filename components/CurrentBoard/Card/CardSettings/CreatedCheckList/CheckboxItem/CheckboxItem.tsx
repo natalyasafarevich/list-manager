@@ -32,7 +32,7 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
     }
   }, [item]);
 
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const checkLists = useSelector((state: RootState) => state.check_lists);
 
   const {dataLink} = user;

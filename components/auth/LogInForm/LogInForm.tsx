@@ -1,7 +1,8 @@
 'use client';
 import React, {useEffect, useState} from 'react';
-import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
+import {getAuth} from 'firebase/auth';
 import firebaseApp from '@/firebase';
+import {useRouter} from 'next/navigation';
 
 import Link from 'next/link';
 import {useSearchParams} from 'next/navigation';
@@ -17,7 +18,7 @@ const LoginComponent = () => {
     isPhone: false,
     isEmail: true,
   });
-
+  const router = useRouter();
   const searchParams = useSearchParams();
   useEffect(() => {
     const params = searchParams.get('method');
@@ -38,13 +39,8 @@ const LoginComponent = () => {
     e.preventDefault();
 
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      const user = userCredential.user;
       clearForm();
+      router.push('/boards');
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;

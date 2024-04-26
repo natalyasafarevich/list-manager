@@ -35,7 +35,7 @@ const ColumnHeader: FC<NameWithSettingsButtonProps> = ({
     name && setTexareaName(name);
   }, [name]);
   const board = useSelector((state: RootState) => state.boards);
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
 
   const isLoggedIn = useMemo(
     () => !!user.uid && user.user_status !== 'guest',

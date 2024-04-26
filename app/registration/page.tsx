@@ -11,7 +11,9 @@ import {useSelector} from 'react-redux';
 
 export default function Registration() {
   // const router = useRouter();
-  const isUser = useSelector((state: RootState) => state.userdata.uid);
+  const isUser = useSelector(
+    (state: RootState) => state.userdata.current_info.uid,
+  );
   // useRedirectToProfile(isUser);
   // useEffect(() => {
   //   isUser && router.push(`/user?id=${isUser}`);

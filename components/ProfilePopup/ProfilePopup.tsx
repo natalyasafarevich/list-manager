@@ -7,8 +7,7 @@ import SignOut from '../auth/SignOut/SignOut';
 import useClickOutside from '@/hooks/useClickOutside';
 
 const ProfilePopup: FC = () => {
-  const user = useSelector((state: RootState) => state.userdata);
-
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const {ref, isClose, setIsClose} = useClickOutside<HTMLDivElement>(
     true,
     true,
@@ -20,7 +19,7 @@ const ProfilePopup: FC = () => {
         onClick={() => setIsClose(!isClose)} // Обновлено
         className='dashboard-header__user'
         style={{
-          background: `center/cover no-repeat url(${user.photoURL})`,
+          background: `center/cover no-repeat url(${user?.mainPhoto?.url})`,
         }}
       ></div>
       {!isClose && (
@@ -31,7 +30,7 @@ const ProfilePopup: FC = () => {
               <div
                 className='profile-popup__user'
                 style={{
-                  background: `center/cover no-repeat url(${user.photoURL})`,
+                  background: `center/cover no-repeat url(${user?.mainPhoto?.url})`,
                 }}
               ></div>
               <p className='profile-popup__name'>

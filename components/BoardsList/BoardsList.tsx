@@ -12,11 +12,12 @@ import CreateBoardForm from '../CreateBoardForm/CreateBoardForm';
 
 const BoardsList: FC = () => {
   const [closedBoard, setClosedBoard] = useState<Array<BoardProps>>([]);
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const [openBoard, setOpenBoard] = useState<Array<BoardProps>>([]);
   const db = getDatabase(firebaseApp);
 
   const [accessedBoard, setAccessedBoard] = useState<any>();
+
   const [otherBoard, setOtherBoard] = useState<Array<any>>([]);
   useEffect(() => {
     if (accessedBoard) {
@@ -54,7 +55,8 @@ const BoardsList: FC = () => {
         setCurrentBoards((prev: any) => [...prev, boards[board]]);
       }
     }
-  }, [boards]);
+  }, [boards, user]);
+  console.log(currenBoards);
   return (
     <div className='boards-list'>
       <div className='boards-list__container padding-2-3'>

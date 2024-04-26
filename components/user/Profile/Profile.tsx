@@ -7,7 +7,7 @@ import ChangeTheme from '../ChangeTheme/ChangeTheme';
 import SignOut from '@/components/auth/SignOut/SignOut';
 
 const Profile = () => {
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
 
   return (
     <div>

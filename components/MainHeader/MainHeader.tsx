@@ -4,9 +4,13 @@ import Header from '../Header/Header';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import SideBar from '../SideBar/SideBar';
+import {useUserData} from '@/hooks/useUserData';
 
 const MainHeader: FC = () => {
-  const user = useSelector((state: RootState) => state.userdata.uid);
+  const user = useSelector(
+    (state: RootState) => state.userdata.current_info.uid,
+  );
+  console.log(user);
   if (user) {
     return (
       <div>

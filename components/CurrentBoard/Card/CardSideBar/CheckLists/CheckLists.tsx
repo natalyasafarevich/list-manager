@@ -22,7 +22,7 @@ const CheckLists: FC = () => {
   const [value, setValue] = useState('');
   const [checkLists, setCheckLists] = useState<any>({});
   const [checkFBLists, setCheckFBLists] = useState<any>({});
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const cardIsUpdate = useSelector(
     (state: RootState) => state.check_lists.isTaskUpdate,
   );

@@ -8,7 +8,7 @@ const covers = ['#4bce97', '#e2b203', '#f87462', '#9f8fef'];
 
 const Cover: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
 
   return (

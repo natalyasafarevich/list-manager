@@ -8,7 +8,9 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 
 const Header: FC = () => {
-  const user = useSelector((state: RootState) => state.userdata.uid);
+  const user = useSelector(
+    (state: RootState) => state.userdata.current_info.uid,
+  );
   return (
     <header className='header'>
       <div className='header__container'>

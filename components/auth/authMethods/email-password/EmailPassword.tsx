@@ -7,6 +7,10 @@ import Link from 'next/link';
 import InputField from '@/components/InputField/InputField';
 import WelcomeHeader from '@/components/WelcomeHeader/WelcomeHeader';
 import {useRouter} from 'next/navigation';
+import {getDataUser} from '@/store/data-user/actions';
+import {AppDispatch} from '@/store/store';
+import {useDispatch} from 'react-redux';
+import {updateFirebaseData} from '@/helper/updateUserData';
 
 const RegistrationComponent = () => {
   const [email, setEmail] = useState('');
@@ -49,7 +53,7 @@ const RegistrationComponent = () => {
   const handleInvalidEmail = () => {
     setIsEmailCorrect(false);
   };
-
+  const dispatch: AppDispatch = useDispatch();
   const handleMissingPassword = () => {
     setIsIrregularPassword((prev) => ({
       ...prev,
@@ -82,7 +86,15 @@ const RegistrationComponent = () => {
 
     try {
       const user = await handleRegister(email, password, name);
-      router.push('/');
+
+      const user_info = {
+        displayName: user.displayName,
+        email: user.email,
+        uid: user.uid,
+        photoURL: user.photoURL,
+      };
+      updateFirebaseData(`users/${user.uid}`, user_info);
+      router.push('/complete-profile');
       clearForm();
     } catch (error: any) {
       const errorCode = error.code;

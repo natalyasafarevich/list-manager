@@ -19,7 +19,7 @@ const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
   const [photo, setPhoto] = useState<any>();
   const [isUploaded, setIsUploaded] = useState(false);
   const [error, setError] = useState('');
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = (e.target as any).files[0];
@@ -28,7 +28,7 @@ const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
 
   const handleUpload = () => {
     setIsUploaded(false);
-    console.log(file.type);
+    // console.log(file.type);
     if (!file.type.startsWith('image/')) {
       setError(
         `The selected file is not an image or has an unsupported format. 
@@ -62,7 +62,12 @@ const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
     isUploaded,
     '/avatar',
   );
-  const [currentImg, setCurrentImg] = useState<any>();
+  const [currentImg, setCurrentImg] = useState<any>({
+    url: '/default-image.svg',
+  });
+  useEffect(() => {
+    currentImg.currentImg && uploadedPhoto && uploadedPhoto(currentImg.url);
+  }, [uploadedPhoto]);
   useEffect(() => {
     if (photos[0]) {
       updateUserData(user.uid, {mainPhoto: photos[0]});
@@ -71,7 +76,8 @@ const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
 
   useEffect(() => {
     setPhoto(photos[0]);
-    user && fetchBackDefaultData(`users/${user.uid}/mainPhoto/`, setCurrentImg);
+    photo &&
+      fetchBackDefaultData(`users/${user.uid}/mainPhoto/`, setCurrentImg);
   }, [photos, photo, isUploaded]);
 
   useEffect(() => {

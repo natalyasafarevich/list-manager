@@ -62,7 +62,7 @@ const CurrentBoard: FC = () => {
   }, [lastSegment]);
 
   const board = useSelector((state: RootState) => state.boards.boards);
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
 
   useEffect(() => {
     if (currentPathname && board)

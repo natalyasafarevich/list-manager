@@ -37,7 +37,7 @@ const CardArchived: FC = () => {
       setArchivedCards(archivedCardsArray || []);
     }
   }, [cards?.lists]);
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
 
   useEffect(() => {
     if (index.card !== null && index.list !== null) {

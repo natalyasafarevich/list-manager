@@ -10,6 +10,9 @@ import ReduxProvider from '@/providers/ReduxProvider';
 import Link from 'next/link';
 import Header from '@/components/Header/Header';
 import MainHeader from '@/components/MainHeader/MainHeader';
+import {useUserData} from '@/hooks/useUserData';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/store';
 const popins = Poppins({
   subsets: ['latin'], // Здесь можно указать поддерживаемые подмножества
   weight: ['300', '400', '500'],

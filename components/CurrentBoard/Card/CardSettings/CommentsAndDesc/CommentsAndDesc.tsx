@@ -30,7 +30,7 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
     id: '',
     comments: [],
   });
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const boardLists = useSelector(
     (state: RootState) => state.boards.currentBoards.lists,
   );

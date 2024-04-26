@@ -11,7 +11,7 @@ import {getUserInfo} from '@/store/data-user/actions';
 import {useDispatch} from 'react-redux';
 
 const ProfileInformation = () => {
-  const user = useSelector((state: RootState) => state.userdata);
+  const user = useSelector((state: RootState) => state.userdata.current_info);
   const [userLocation, setUserLocation] = useState();
   const [time, setTime] = useState('');
   const date = new Date();
