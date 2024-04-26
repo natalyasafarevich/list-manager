@@ -5,17 +5,18 @@ import {
   BASIC_USER_INFO,
   GOOGLE_PROVIDER,
 } from './actions';
+import {InputsProps} from '@/components/ProfileCompletionForm/Step2Form/Step2Form';
 
 type InitialStateType = {
   isGoogleProvider: boolean;
   first_step_data: BasicUserInfo;
-  second_step_data: any;
+  second_step_data: InputsProps;
 };
 
 const initialState: InitialStateType = {
   isGoogleProvider: false,
   first_step_data: {} as BasicUserInfo,
-  second_step_data: {},
+  second_step_data: {} as InputsProps,
 };
 
 export const AuthReducer = (state = initialState, action: ActionsType) => {

@@ -1,11 +1,43 @@
 'use client';
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import './ProfileCompletionForm.scss';
 import Step1Form from './Step1Form/Step1Form';
 import Step2Form from './Step2Form/Step2Form';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/store';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 
 const ProfileCompletionForm: FC = () => {
   const [isFirstStepReady, setIsFirstStepReady] = useState(false);
+  const [isSecondStepReady, setIsSecondStepReady] = useState(false);
+
+  const [isSubmit, setIsSubmit] = useState(false);
+  const user = useSelector((state: RootState) => state.userdata.uid);
+  const data = useSelector((state: RootState) => state.auth);
+
+  const [userNames, setUserNames] = useState<Array<string>>([]);
+  useEffect(() => {
+    if (isSecondStepReady) {
+      updateUserData(`${user}`, {
+        ...data.first_step_data,
+        ...data.second_step_data,
+      });
+      setUserNames((prev) => [...prev, data.first_step_data.publicName]);
+      setIsSubmit(true);
+      setIsSecondStepReady(false);
+    }
+  }, [isSecondStepReady]);
+  useEffect(() => {
+    if (isSubmit) {
+      updateFirebaseData('/user-names', {all: userNames});
+      setIsSubmit(false);
+    }
+  }, [isSubmit]);
+  console.log(userNames);
+  useEffect(() => {
+    fetchBackDefaultData('/user-names/all', setUserNames);
+  }, []);
   return (
     <div className='completion-form'>
       <div className='completion-form__container'>
@@ -23,10 +55,9 @@ const ProfileCompletionForm: FC = () => {
             {!isFirstStepReady ? (
               <Step1Form isReady={(e) => setIsFirstStepReady(e)} />
             ) : (
-              <Step2Form />
+              <Step2Form isReady={(e) => setIsSecondStepReady(e)} />
             )}
           </div>
-          {/* </form> */}
         </div>
       </div>
     </div>

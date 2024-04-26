@@ -39,7 +39,7 @@ const Step1Form: FC<Step1FormProps> = ({isReady}) => {
       isEmailExist: user.email ? true : false,
       isPhoneExist: user.phoneNumber ? true : false,
     }));
-    user.uid && fetchBackDefaultData('user-names', setUserNames);
+    user.uid && fetchBackDefaultData('user-names/all', setUserNames);
   }, [user]);
 
   const checkPublicName = (e: React.FormEvent<HTMLInputElement>) => {

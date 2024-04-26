@@ -1,4 +1,5 @@
 import {BasicUserInfo} from '@/components/ProfileCompletionForm/Step1Form/Step1Form';
+import {InputsProps} from '@/components/ProfileCompletionForm/Step2Form/Step2Form';
 
 export const GOOGLE_PROVIDER = 'auth/GOOGLE_PROVIDER';
 export const BASIC_USER_INFO = 'auth/BASIC_USER_INFO';
@@ -35,10 +36,10 @@ export const getBasicUserData = (data: BasicUserInfo) => {
 
 type AdditionalUserDataProps = {
   type: typeof ADDITIONAL_USER_INFO;
-  payload: any;
+  payload: InputsProps;
 };
 
-export const getAdditionalUserData = (data: any) => {
+export const getAdditionalUserData = (data: InputsProps) => {
   return {
     type: ADDITIONAL_USER_INFO,
     payload: data,

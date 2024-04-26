@@ -18,9 +18,7 @@ const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
   const [file, setFile] = useState<any>(null);
   const [photo, setPhoto] = useState<any>();
   const [isUploaded, setIsUploaded] = useState(false);
-  const [error, setError] = useState(
-    'An error occurred while loading profile photo',
-  );
+  const [error, setError] = useState('');
   const user = useSelector((state: RootState) => state.userdata);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
