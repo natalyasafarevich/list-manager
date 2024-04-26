@@ -1,0 +1,72 @@
+.country-list {
+  // .country-list__container
+
+  &__container {
+    position: relative;
+  }
+
+  // .country-list__title
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &.active::after {
+      transform: rotate(90deg);
+    }
+    &:hover::after {
+      opacity: 1;
+    }
+    &::after {
+      content: "";
+      width: 20px;
+      height: 20px;
+      display: block;
+      background: no-repeat url("/arrow.svg");
+      transform: rotate(270deg);
+      background-size: 34px;
+      background-position-y: -7px;
+      background-position-x: -7px;
+      opacity: 0.5;
+    }
+    padding: 12px;
+    border: 0.86px solid #eff0f6;
+    border-radius: 40px;
+    box-shadow: 0 2px 5px 0 rgba(19, 18, 66, 0.07);
+    cursor: pointer;
+    position: relative;
+  }
+
+  // .country-list__box
+
+  &__box {
+    background: var(--secondary-color);
+    width: 100%;
+    position: absolute;
+    padding: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 rgba(19, 18, 66, 0.07);
+    height: 200px;
+    overflow: hidden;
+    overflow-y: scroll;
+    margin-top: 15px;
+  }
+
+  // .country-list__flag
+  &__item {
+    &:hover {
+      background: rgba(19, 18, 66, 0.07);
+    }
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+  }
+  &__flag {
+    display: block;
+    margin-right: 10px;
+    width: 30px;
+    height: 15px;
+  }
+}
