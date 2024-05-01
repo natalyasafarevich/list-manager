@@ -38,6 +38,7 @@
     align-items: flex-start;
   }
   &__marker-item {
+    min-height: 20px;
     padding: 0px 14px;
     border-radius: 20px;
     color: var(--secondary-color);

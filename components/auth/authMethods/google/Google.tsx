@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
 import './Google.scss';
 import {useRouter} from 'next/navigation';
@@ -6,10 +6,29 @@ import {useDispatch} from 'react-redux';
 import {AppDispatch, RootState} from '@/store/store';
 import {isSingInWithGoogle} from '@/store/auth/actions';
 import {useSelector} from 'react-redux';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 
 const GoogleSignInComponent = () => {
   const u = useSelector((state: RootState) => state.auth.isGoogleProvider);
   // console.log(u);
+  const [currentUser, setCurrentUser] = useState<any>();
+  const [isExist, setIsExist] = useState<any>();
+
+  useEffect(() => {
+    currentUser?.uid &&
+      fetchBackDefaultData(`users/${currentUser?.uid}`, setIsExist);
+  }, [currentUser?.uid]);
+
+  useEffect(() => {
+    if (currentUser) {
+      if (isExist) {
+        router.push('/boards');
+      } else {
+        router.push('/complete-profile');
+      }
+    }
+  }, [isExist, currentUser]);
+
   const dispatch: AppDispatch = useDispatch();
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -21,7 +40,8 @@ const GoogleSignInComponent = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       dispatch(isSingInWithGoogle(true));
-      router.push('/complete-profile');
+      setCurrentUser(user);
+      // router.push('/complete-profile');
       console.log('Google Sign In:', user);
     } catch (error: any) {
       // dispatch(isSingInWithGoogle(false));

@@ -4,12 +4,25 @@ import {InputsProps} from '@/components/ProfileCompletionForm/Step2Form/Step2For
 export const GOOGLE_PROVIDER = 'auth/GOOGLE_PROVIDER';
 export const BASIC_USER_INFO = 'auth/BASIC_USER_INFO';
 export const ADDITIONAL_USER_INFO = 'auth/ADDITIONAL_USER_INFO';
+export const USERS_NICKNAMES = 'auth/USERS_NICKNAMES';
 
 export type ActionsType =
   | GoogleProviderProps
   | BasicUserDataProps
-  | AdditionalUserDataProps;
+  | AdditionalUserDataProps
+  | UserNamesProps;
 
+type UserNamesProps = {
+  type: typeof USERS_NICKNAMES;
+  payload: string[];
+};
+
+export const getUserNames = (data: string[]) => {
+  return {
+    type: USERS_NICKNAMES,
+    payload: data,
+  };
+};
 type GoogleProviderProps = {
   type: typeof GOOGLE_PROVIDER;
   payload: any;

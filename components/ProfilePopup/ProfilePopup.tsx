@@ -8,7 +8,7 @@ import useClickOutside from '@/hooks/useClickOutside';
 
 const ProfilePopup: FC = () => {
   const user = useSelector((state: RootState) => state.userdata);
-
+  console.log(user);
   const {ref, isClose, setIsClose} = useClickOutside<HTMLDivElement>(
     true,
     true,

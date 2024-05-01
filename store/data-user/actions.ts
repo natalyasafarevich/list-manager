@@ -23,11 +23,24 @@ export type ActionsType =
   | UpdateLinkProp
   | UpdatePhotoProp
   | UserStatusProp
-  | UserInfoProp;
+  | UserInfoProp
+  | AdditionalInfoProps;
 
 export const getDataUser = (data: any) => {
   return {
     type: DATA_USER,
+    payload: data,
+  };
+};
+export const ADDITIONAL_INFO = 'data-user/ADDITIONAL_INFO';
+
+export type AdditionalInfoProps = {
+  type: typeof ADDITIONAL_INFO;
+  payload: any;
+};
+export const getAdditionalInfo = (data: any) => {
+  return {
+    type: ADDITIONAL_INFO,
     payload: data,
   };
 };

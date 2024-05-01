@@ -29,7 +29,10 @@ const Step1Form: FC<Step1FormProps> = ({isReady}) => {
 
   const user = useSelector((state: RootState) => state.userdata);
 
-  useEffect(() => {}, [user]);
+  useEffect(() => {
+    if (user) {
+    }
+  }, [user]);
   useEffect(() => {
     setInputs((prev) => ({
       ...prev,

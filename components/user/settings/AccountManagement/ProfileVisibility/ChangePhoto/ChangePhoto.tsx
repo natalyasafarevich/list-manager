@@ -63,17 +63,28 @@ const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
     '/avatar',
   );
   const [currentImg, setCurrentImg] = useState<any>();
+  console.log(user, 'photos');
+
   useEffect(() => {
-    if (photos[0]) {
+    if (photos[0] && isUploaded) {
+      console.log('hiiihii');
       updateUserData(user.uid, {mainPhoto: photos[0]});
     }
+  }, [photo, isUploaded]);
+  useEffect(() => {
+    setPhoto(photos[0]);
   }, [photos]);
 
+  // useEffect(() => {
+  //   if (photo) {
+  //     setCurrentImg(photo);
+  //   }
+  // }, [photo]);
   useEffect(() => {
     setPhoto(photos[0]);
     user && fetchBackDefaultData(`users/${user.uid}/mainPhoto/`, setCurrentImg);
-  }, [photos, photo, isUploaded]);
-
+  }, [isUploaded, user, photo]);
+  console.log(isUploaded);
   useEffect(() => {
     if (file) {
       handleUpload();
@@ -91,7 +102,7 @@ const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
         <span
           className='change-photo__img'
           style={{
-            background: `center/cover no-repeat url(${currentImg?.url || user.photoURL})`,
+            background: `center/cover no-repeat url(${currentImg?.url || '/default-image.svg'})`,
           }}
         ></span>
       </label>

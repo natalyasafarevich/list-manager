@@ -6,30 +6,35 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 
 const BasicInfo = () => {
-  const user = useSelector((state: RootState) => state.userdata);
-  const users = useSelector((state: RootState) => state.userdata);
-  // console.log(users);
+  // const user = useSelector((state: RootState) => state.auth.user_names);
+  const user_data = useSelector(
+    (state: RootState) => state.userdata.additional_info,
+  );
+  // console.log(user, 'j');
   return (
     <div className='basic-info'>
-      <p className='basic-info__title'> Settings</p>
+      {/* <p className='basic-info__title'> Settings</p> */}
       <div className='basic-info__row flex'>
         <div className='basic-info__box'>
           <p className='basic-info__subtitle'>Profile</p>
-          <div
-            className='basic-info__img'
-            style={{background: `url(${user.photoURL}})`}}
-          ></div>
+          <div className='basic-info__avatar'>
+            <ChangePhoto />
+          </div>
           <p className='basic-info__name'>
-            {user.displayName}
-            {/* <span>{user.}</span> */}
+            {user_data?.fullName}
+            <span>{user_data?.position}</span>
           </p>
-
-          <ChangePhoto />
+          <p className='basic-info__country'>{user_data?.country}</p>
         </div>
 
         <div className='basic-info__box'>
-          {/* <h2 className='basic-info__subtitle'>Основная информация профиля</h2> */}
-          <ProfileInformation></ProfileInformation>
+          <div className='basic-info__row basic-info__row-between flex'>
+            <p className='basic-info__subtitle basic-info__subtitle-black'>
+              BASIC INFO
+            </p>
+            <button className='btn-edit' onClick={(_e) => {}}></button>
+          </div>
+          <ProfileInformation />
         </div>
       </div>
     </div>

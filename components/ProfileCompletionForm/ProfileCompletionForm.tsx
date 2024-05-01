@@ -4,10 +4,12 @@ import './ProfileCompletionForm.scss';
 import Step1Form from './Step1Form/Step1Form';
 import Step2Form from './Step2Form/Step2Form';
 import {useSelector} from 'react-redux';
-import {RootState} from '@/store/store';
+import {AppDispatch, RootState} from '@/store/store';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {useRouter} from 'next/navigation';
+import {useDispatch} from 'react-redux';
+import {getUserNames} from '@/store/auth/actions';
 
 const ProfileCompletionForm: FC = () => {
   const [isFirstStepReady, setIsFirstStepReady] = useState(false);
@@ -18,11 +20,17 @@ const ProfileCompletionForm: FC = () => {
   const data = useSelector((state: RootState) => state.auth);
   const router = useRouter();
   const [userNames, setUserNames] = useState<Array<string>>([]);
+  // const dispatch: AppDispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(getUserNames(userNames));
+  // }, [userNames]);
   useEffect(() => {
     if (isSecondStepReady) {
       updateUserData(`${user}`, {
-        ...data.first_step_data,
-        ...data.second_step_data,
+        'additional-info': {
+          ...data.first_step_data,
+          ...data.second_step_data,
+        },
       });
       setUserNames((prev) => [...prev, data.first_step_data.publicName]);
       setIsSubmit(true);

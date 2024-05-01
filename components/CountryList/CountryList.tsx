@@ -9,8 +9,9 @@ interface CountriesProps {
 
 interface CountryListProps {
   getCountry: (value: string) => void;
+  currentCountry?: string;
 }
-const CountryList: FC<CountryListProps> = ({getCountry}) => {
+const CountryList: FC<CountryListProps> = ({getCountry, currentCountry}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [countries, setCountries] = useState<Array<CountriesProps>>([]);
@@ -39,7 +40,7 @@ const CountryList: FC<CountryListProps> = ({getCountry}) => {
           className={`country-list__title ${isOpen ? 'active' : ''}`}
           onClick={(e) => setIsOpen(!isOpen)}
         >
-          {title || 'Select your country'}
+          {title || currentCountry || 'Select your country'}
         </div>
         {isOpen && (
           <div className='country-list__box'>

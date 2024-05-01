@@ -6,16 +6,19 @@ import {useRouter} from 'next/navigation';
 import firebaseApp from '@/firebase';
 import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch, useSelector} from 'react-redux';
-import {getDataUser} from '@/store/data-user/actions';
+import {getAdditionalInfo, getDataUser} from '@/store/data-user/actions';
 import {getDatabase, onValue, ref} from 'firebase/database';
 import {getBoards} from '@/store/board/actions';
 import {updateUserData} from '@/helper/updateUserData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {getUserNames} from '@/store/auth/actions';
 
 const UserStatus = () => {
   const [user, setUser] = useState<any>();
 
   const dispatch: AppDispatch = useDispatch();
   const current_user = useSelector((state: RootState) => state.userdata);
+
   const auth = getAuth(firebaseApp);
   const db = getDatabase(firebaseApp);
 
@@ -34,7 +37,7 @@ const UserStatus = () => {
       if (user) {
         const {displayName, email, phoneNumber, photoURL, uid} = user;
         setUser({displayName, email, phoneNumber, photoURL, uid});
-        // console.log(user, 'ghjkl;lkjhg');
+
         updateUserData(`${uid}/`, {
           email: email,
           phoneNumber: phoneNumber,
@@ -46,12 +49,26 @@ const UserStatus = () => {
 
     return () => unsubscribe();
   }, [auth]);
-
+  const [additionalInfo, setAdditionalInfo] = useState<any>();
+  useEffect(() => {
+    dispatch(getAdditionalInfo(additionalInfo));
+  }, [additionalInfo]);
+  const [userNames, setUserNames] = useState<Array<string>>([]);
+  // const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserNames(userNames));
+  }, [userNames]);
   useEffect(() => {
     if (user) {
       console.log('Пользователь вошел:', user);
       dispatch(getDataUser({...user}));
-
+      fetchBackDefaultData(
+        `/users/${user.uid}/additional-info`,
+        setAdditionalInfo,
+      );
+      fetchBackDefaultData('/user-names/all', setUserNames);
+      // console.log(user, 'kkokfoe');
+      // getAdditionalInfo
       // route.push(`/user?id=${user.uid.slice(0, 8)}`);
     } else {
       console.log('Пользователь не вошел.');

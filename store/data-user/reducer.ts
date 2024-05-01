@@ -1,5 +1,6 @@
 import {IdTokenResult, User, UserInfo} from 'firebase/auth';
 import {
+  ADDITIONAL_INFO,
   ActionsType,
   DATA_USER,
   DATA_USER_FOR_FIREBASE,
@@ -20,6 +21,7 @@ interface initialStateProps {
 }
 
 const initialState = {
+  additional_info: null,
   displayName: null,
   email: null,
   phoneNumber: null,
@@ -91,6 +93,12 @@ export const DataUserReducer = (state = initialState, action: ActionsType) => {
       return {
         ...state,
         user_data: action.payload,
+      };
+    }
+    case ADDITIONAL_INFO: {
+      return {
+        ...state,
+        additional_info: action.payload,
       };
     }
     default:

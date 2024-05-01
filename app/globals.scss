@@ -51,6 +51,12 @@ body {
   &-plus::before {
     background-position-x: 66%;
   }
+  &-error::before {
+    background: center/cover no-repeat url("/icon-error.svg");
+  }
+  &-success::before {
+    background: center/cover no-repeat url("/icon-success.svg");
+  }
 }
 //icons
 .mini-popup-container {
@@ -462,7 +468,12 @@ input.input-error {
   font-weight: 500;
   padding: 15px 5px;
 }
-
+.btn-edit {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: center / cover no-repeat url(/icon-edit.svg);
+}
 .button-dark {
   cursor: pointer;
   width: 100%;
