@@ -117,42 +117,40 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
               )}
               <Members />
 
-              {isLoggedIn && (
-                <p
-                  className='board-header__menu'
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                >
-                  {/* Menu */}
-                </p>
-              )}
+              {/* {isLoggedIn && ( */}
+              <p
+                className='board-header__menu'
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {/* Menu */}
+              </p>
+              {/* )} */}
             </div>
           </div>
           <div className='board-header__info flex'>
-            {isLoggedIn && (
-              <div className='flex'>
-                <div
-                  className={`board-header__visibility ${isOpenCard ? 'active' : ''}`}
-                >
-                  <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>
-                    {board.type}
-                  </p>
-                  {isOpenCard && (
-                    <div className='board-header__popup'>
-                      <ChangingVisibility
-                        text='Only collaborators can see this'
-                        type='private'
-                        name='private'
-                      />
-                      <ChangingVisibility
-                        text='Anyone can see'
-                        type='public'
-                        name='public'
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className='board-header__item'>
-                  {/* <ButtonToFavorites
+            {/* {isLoggedIn && ( */}
+            <div className='flex'>
+              <div
+                className={`board-header__visibility ${isOpenCard ? 'active' : ''}`}
+              >
+                <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>{board.type}</p>
+                {isOpenCard && (
+                  <div className='board-header__popup'>
+                    <ChangingVisibility
+                      text='Only collaborators can see this'
+                      type='private'
+                      name='private'
+                    />
+                    <ChangingVisibility
+                      text='Anyone can see'
+                      type='public'
+                      name='public'
+                    />
+                  </div>
+                )}
+              </div>
+              <div className='board-header__item'>
+                {/* <ButtonToFavorites
                     path={
                       boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''
                     }
@@ -161,9 +159,9 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                       false
                     }
                   /> */}
-                </div>
               </div>
-            )}
+            </div>
+            {/* // )} */}
           </div>
         </div>
       </div>

@@ -22,16 +22,17 @@ const CheckLists: FC = () => {
   const [value, setValue] = useState('');
   const [checkLists, setCheckLists] = useState<any>({});
   const [checkFBLists, setCheckFBLists] = useState<any>({});
-  const user = useSelector((state: RootState) => state.userdata.current_info);
+  const user = useSelector((state: RootState) => state.userdata);
   const cardIsUpdate = useSelector(
     (state: RootState) => state.check_lists.isTaskUpdate,
   );
   const user_status = useSelector((state: RootState) => state.userdata);
-  const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
+  const isLoggedIn =
+    !!user_status.current_info.uid && user_status.user_status !== 'guest';
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    if (user.uid) {
+    if (user.current_info.uid) {
       fetchBackDefaultData(
         `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}/check-lists`,
         setCheckFBLists,
@@ -86,9 +87,9 @@ const CheckLists: FC = () => {
   };
 
   const handelClick = () => {
-    if (!isLoggedIn) {
-      return;
-    }
+    // if (!isLoggedIn) {
+    //   return;
+    // }
     setIsOpen(!isOpen);
   };
   return (

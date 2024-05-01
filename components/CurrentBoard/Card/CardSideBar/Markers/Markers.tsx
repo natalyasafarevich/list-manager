@@ -58,11 +58,11 @@ const Markers: FC = () => {
 
   const [customMarkers, getCustomMarkers] = useState<any>({});
 
-  const user = useSelector((state: RootState) => state.userdata.current_info);
+  const user = useSelector((state: RootState) => state.userdata);
   const current_markers = useSelector(
     (state: RootState) => state.markers.markers,
   );
-  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
+  const isLoggedIn = !!user.current_info.uid && user.user_status !== 'guest';
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -71,7 +71,7 @@ const Markers: FC = () => {
     if (customMarkers)
       if (Object.keys(customMarkers).length) {
         updateFirebaseData('card-settings-data', {
-          'custom-markers': {[user.uid]: customMarkers},
+          'custom-markers': {[user.current_info.uid]: customMarkers},
         });
       }
   }, [customMarkers]);
@@ -82,7 +82,7 @@ const Markers: FC = () => {
       // updateFirebaseData('card-settings-data', {markers: marker});
       fetchBackDefaultData('card-settings-data/markers', getMarkers);
       fetchBackDefaultData(
-        `card-settings-data/custom-markers/${user.uid}`,
+        `card-settings-data/custom-markers/${user.current_info.uid}`,
         getCustomMarkers,
       );
     }
@@ -156,9 +156,9 @@ const Markers: FC = () => {
         <p
           className='tags__title card-sidebar-title underline'
           onClick={() => {
-            if (!isLoggedIn) {
-              return;
-            }
+            // if (!isLoggedIn) {
+            //   return;
+            // }
             setIsOpen(!isOpen);
           }}
         >

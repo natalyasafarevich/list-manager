@@ -16,9 +16,9 @@ const Cover: FC = () => {
       <p
         className='card-sidebar-title underline'
         onClick={(e) => {
-          if (!isLoggedIn) {
-            return;
-          }
+          // if (!isLoggedIn) {
+          //   return;
+          // }
           setIsOpen(!isOpen);
         }}
       >

@@ -244,7 +244,7 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
           type='button'
           className='button-shade-gray checkbox-form__button checkbox-form__button-add'
           onClick={() => setIsOpen(!isOpen)}
-          disabled={!isLoggedIn}
+          // disabled={!isLoggedIn}
         >
           Add a new element
         </button>

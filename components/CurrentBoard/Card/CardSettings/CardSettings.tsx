@@ -106,7 +106,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
                   }}
                   onFocus={(e) => setIsReadOnly(false)}
                   readOnly={isReadOnly}
-                  disabled={!isLoggedIn}
+                  // disabled={!isLoggedIn}
                   maxLength={50}
                 />
                 <label

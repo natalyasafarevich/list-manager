@@ -75,14 +75,14 @@ const ColumnCreatorForm: FC<CardFormProps> = ({
                 </div>
               </form>
             ) : (
-              isLoggedIn && (
-                <p
-                  onClick={saveComponents}
-                  className='column-create-form__button'
-                >
-                  Create a list
-                </p>
-              )
+              // isLoggedIn && (
+              <p
+                onClick={saveComponents}
+                className='column-create-form__button'
+              >
+                Create a list
+              </p>
+              // )
             )}
           </div>
         </div>

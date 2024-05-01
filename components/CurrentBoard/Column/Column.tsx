@@ -112,15 +112,15 @@ const Column: FC<ColumnProps> = ({item, name}) => {
                 />
               </div>
             ) : (
-              isLoggedIn && (
-                <button
-                  className='column__button'
-                  type='button'
-                  onClick={addCard}
-                >
-                  <span></span>
-                </button>
-              )
+              // isLoggedIn && (
+              <button
+                className='column__button'
+                type='button'
+                onClick={addCard}
+              >
+                <span></span>
+              </button>
+              // )
             )}
           </div>
           {/* )} */}

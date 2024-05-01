@@ -48,8 +48,9 @@ const TextEditor: FC<TextEditorProps> = ({
     (state: RootState) => state.card_setting.comments,
   );
   const user_status = useSelector((state: RootState) => state.userdata);
-
-  const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
+  console.log(user_status);
+  const isLoggedIn =
+    !!user_status.current_info.uid && user_status.user_status !== 'guest';
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -139,10 +140,10 @@ const TextEditor: FC<TextEditorProps> = ({
     const newComment: CommentProps = {
       id: newId,
       title: '',
-      owner: user_status.uid,
+      owner: user_status.current_info.uid,
       createDate: editDate,
       photoUrl: user_status.photoURL as string,
-      name: user_status.displayName as string,
+      name: user_status.displayName as any,
     };
 
     setState((prevState) => ({
@@ -188,9 +189,9 @@ const TextEditor: FC<TextEditorProps> = ({
   // edit text
   const editText = () => {
     // let textWithoutTags = stripHtmlTags(description);
-    if (!isLoggedIn) {
-      return;
-    }
+    // if (!isLoggedIn) {
+    //   return;
+    // }
 
     setState((prevState) => ({
       ...prevState,
@@ -247,7 +248,7 @@ const TextEditor: FC<TextEditorProps> = ({
             <div
               className='comments-section__image'
               style={{
-                background: `center/cover no-repeat url(${user_status.photoURL})`,
+                background: `center/cover no-repeat url(${user_status?.photoURL})`,
               }}
             ></div>
 

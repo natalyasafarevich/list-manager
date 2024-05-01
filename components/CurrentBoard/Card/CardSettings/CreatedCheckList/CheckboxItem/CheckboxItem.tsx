@@ -119,7 +119,7 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
           type='checkbox'
           checked={isChecked}
           onChange={checkboxChange}
-          disabled={!isLoggedIn}
+          // disabled={!isLoggedIn}
         />
         <textarea
           className='check-list-item__value'
@@ -127,7 +127,7 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
           onChange={changeInput as any}
           onClick={handleClick}
           readOnly={isReadOnly}
-          disabled={!isLoggedIn}
+          // disabled={!isLoggedIn}
         ></textarea>
 
         <button
@@ -151,7 +151,7 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
                 type='button'
                 onClick={deleteTask}
                 className='check-list-item__button button-shade-gray'
-                disabled={!isLoggedIn}
+                // disabled={!isLoggedIn}
               >
                 Delete task
               </button>
