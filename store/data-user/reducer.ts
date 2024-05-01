@@ -7,8 +7,8 @@ import {
   DATA_USER_FROM_FIREBASE,
   RESET_DATA_USER,
   UPDATE_LINK,
-  UPDATE_PHOTO,
   USER_STATUS,
+  USER_UPDATED,
 } from './actions';
 
 interface initialStateProps {
@@ -25,7 +25,8 @@ const initialState = {
   displayName: null,
   email: null,
   phoneNumber: null,
-  photoURL: null,
+  isUpdate: false,
+  photoURL: '',
   providerId: '',
   uid: '',
   user_status: '',
@@ -77,10 +78,10 @@ export const DataUserReducer = (state = initialState, action: ActionsType) => {
         dataLink: action.payload,
       };
     }
-    case UPDATE_PHOTO: {
+    case USER_UPDATED: {
       return {
         ...state,
-        photoURL: action.payload,
+        isUpdate: action.payload,
       };
     }
     case USER_STATUS: {

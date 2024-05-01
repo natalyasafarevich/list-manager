@@ -1,26 +1,24 @@
-import firebaseApp from '@/firebase';
-import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {profileUpdate} from '@/helper/updateProfile';
 import {updateUserData} from '@/helper/updateUserData';
 import useUserPhotos from '@/hooks/useUserPhotos';
-import {getUpdatePhoto} from '@/store/data-user/actions';
 import {AppDispatch, RootState} from '@/store/store';
-import {getAuth} from 'firebase/auth';
 import {getStorage, ref, uploadBytes} from 'firebase/storage';
 import {FC, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-
+import {useSelector} from 'react-redux';
 import './ChangePhoto.scss';
-interface ChangePhotoProps {
-  uploadedPhoto?: (img: string) => void;
-}
-const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
-  const [file, setFile] = useState<any>(null);
-  const [photo, setPhoto] = useState<any>();
-  const [isUploaded, setIsUploaded] = useState(false);
-  const [error, setError] = useState('');
-  const user = useSelector((state: RootState) => state.userdata);
+import {useDispatch} from 'react-redux';
+import {isUserUpdated} from '@/store/data-user/actions';
 
+const ChangePhoto: FC = () => {
+  const [error, setError] = useState('');
+  const [isUploaded, setIsUploaded] = useState(false);
+  const [file, setFile] = useState<any>(null);
+  const [currentImg, setCurrentImg] = useState<any>();
+  const [photo, setPhoto] = useState<any>();
+
+  const user = useSelector((state: RootState) => state.userdata);
+  const dispatch: AppDispatch = useDispatch();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = (e.target as any).files[0];
     setFile(selectedFile);
@@ -28,7 +26,7 @@ const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
 
   const handleUpload = () => {
     setIsUploaded(false);
-    console.log(file.type);
+
     if (!file.type.startsWith('image/')) {
       setError(
         `The selected file is not an image or has an unsupported format. 
@@ -46,6 +44,7 @@ const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
       uploadBytes(storageRef, file)
         .then(() => {
           setIsUploaded(true);
+          dispatch(isUserUpdated(true));
           profileUpdate(user.uid, {
             photoURL: photo?.url,
           });
@@ -62,12 +61,9 @@ const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
     isUploaded,
     '/avatar',
   );
-  const [currentImg, setCurrentImg] = useState<any>();
-  console.log(user, 'photos');
 
   useEffect(() => {
     if (photos[0] && isUploaded) {
-      console.log('hiiihii');
       updateUserData(user.uid, {mainPhoto: photos[0]});
     }
   }, [photo, isUploaded]);
@@ -75,21 +71,17 @@ const ChangePhoto: FC<ChangePhotoProps> = ({uploadedPhoto}) => {
     setPhoto(photos[0]);
   }, [photos]);
 
-  // useEffect(() => {
-  //   if (photo) {
-  //     setCurrentImg(photo);
-  //   }
-  // }, [photo]);
   useEffect(() => {
     setPhoto(photos[0]);
     user && fetchBackDefaultData(`users/${user.uid}/mainPhoto/`, setCurrentImg);
   }, [isUploaded, user, photo]);
-  console.log(isUploaded);
+
   useEffect(() => {
     if (file) {
       handleUpload();
     }
   }, [file]);
+
   return (
     <div className='change-photo'>
       <input

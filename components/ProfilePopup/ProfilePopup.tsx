@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import {FC, useEffect, useState} from 'react';
 import './ProfilePopup.scss';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
@@ -8,7 +8,11 @@ import useClickOutside from '@/hooks/useClickOutside';
 
 const ProfilePopup: FC = () => {
   const user = useSelector((state: RootState) => state.userdata);
-  console.log(user);
+  const [avatar, setAvatar] = useState('');
+  console.log(user?.photoURL, 'user?.photoURL ');
+  useEffect(() => {
+    setAvatar(user?.photoURL || '');
+  }, [user?.photoURL, user.isUpdate]);
   const {ref, isClose, setIsClose} = useClickOutside<HTMLDivElement>(
     true,
     true,
@@ -20,7 +24,7 @@ const ProfilePopup: FC = () => {
         onClick={() => setIsClose(!isClose)} // Обновлено
         className='dashboard-header__user'
         style={{
-          background: `center/cover no-repeat url(${user.photoURL})`,
+          background: `center/cover no-repeat url(${avatar})`,
         }}
       ></div>
       {!isClose && (
@@ -31,7 +35,7 @@ const ProfilePopup: FC = () => {
               <div
                 className='profile-popup__user'
                 style={{
-                  background: `center/cover no-repeat url(${user.photoURL})`,
+                  background: `center/cover no-repeat url(${avatar})`,
                 }}
               ></div>
               <p className='profile-popup__name'>

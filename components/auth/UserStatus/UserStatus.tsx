@@ -6,7 +6,11 @@ import {useRouter} from 'next/navigation';
 import firebaseApp from '@/firebase';
 import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch, useSelector} from 'react-redux';
-import {getAdditionalInfo, getDataUser} from '@/store/data-user/actions';
+import {
+  getAdditionalInfo,
+  getDataUser,
+  isUserUpdated,
+} from '@/store/data-user/actions';
 import {getDatabase, onValue, ref} from 'firebase/database';
 import {getBoards} from '@/store/board/actions';
 import {updateUserData} from '@/helper/updateUserData';
@@ -52,28 +56,30 @@ const UserStatus = () => {
   const [additionalInfo, setAdditionalInfo] = useState<any>();
   useEffect(() => {
     dispatch(getAdditionalInfo(additionalInfo));
+    console.log(additionalInfo, 'additionalInfo');
   }, [additionalInfo]);
   const [userNames, setUserNames] = useState<Array<string>>([]);
   // const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserNames(userNames));
   }, [userNames]);
+
   useEffect(() => {
-    if (user) {
+    if (user || current_user.isUpdate) {
+      // console.log(user?.isUploaded);
       console.log('Пользователь вошел:', user);
       dispatch(getDataUser({...user}));
+      // console.log(current_user?.isUpdate, user, ';user');
       fetchBackDefaultData(
         `/users/${user.uid}/additional-info`,
         setAdditionalInfo,
       );
       fetchBackDefaultData('/user-names/all', setUserNames);
-      // console.log(user, 'kkokfoe');
-      // getAdditionalInfo
-      // route.push(`/user?id=${user.uid.slice(0, 8)}`);
+      dispatch(isUserUpdated(false));
     } else {
       console.log('Пользователь не вошел.');
     }
-  }, [user]);
+  }, [user, current_user.isUpdate]);
 
   return <div></div>;
 };
