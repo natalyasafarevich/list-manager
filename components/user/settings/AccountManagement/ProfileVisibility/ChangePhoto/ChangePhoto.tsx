@@ -15,6 +15,7 @@ const ChangePhoto: FC = () => {
   const [isUploaded, setIsUploaded] = useState(false);
   const [file, setFile] = useState<any>(null);
   const [currentImg, setCurrentImg] = useState<any>();
+
   const [photo, setPhoto] = useState<any>();
 
   const user = useSelector((state: RootState) => state.userdata);
@@ -40,14 +41,13 @@ const ChangePhoto: FC = () => {
         storage,
         `profile_photos/${user.uid}/avatar/main-photo.jpg`,
       );
+
       setError('');
       uploadBytes(storageRef, file)
         .then(() => {
           setIsUploaded(true);
-          dispatch(isUserUpdated(true));
-          profileUpdate(user.uid, {
-            photoURL: photo?.url,
-          });
+
+          profileUpdate(`${user.uid}/additional-info/mainPhoto`, photo?.url);
         })
         .catch((error) => {
           setIsUploaded(false);
@@ -64,7 +64,8 @@ const ChangePhoto: FC = () => {
 
   useEffect(() => {
     if (photos[0] && isUploaded) {
-      updateUserData(user.uid, {mainPhoto: photos[0]});
+      dispatch(isUserUpdated(true));
+      updateUserData(`${user.uid}/additional-info/mainPhoto`, photos[0]);
     }
   }, [photo, isUploaded]);
   useEffect(() => {
@@ -73,7 +74,11 @@ const ChangePhoto: FC = () => {
 
   useEffect(() => {
     setPhoto(photos[0]);
-    user && fetchBackDefaultData(`users/${user.uid}/mainPhoto/`, setCurrentImg);
+    user &&
+      fetchBackDefaultData(
+        `users/${user.uid}/additional-info/mainPhoto/`,
+        setCurrentImg,
+      );
   }, [isUploaded, user, photo]);
 
   useEffect(() => {

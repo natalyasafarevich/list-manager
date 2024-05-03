@@ -9,10 +9,11 @@ import useClickOutside from '@/hooks/useClickOutside';
 const ProfilePopup: FC = () => {
   const user = useSelector((state: RootState) => state.userdata);
   const [avatar, setAvatar] = useState('');
-  console.log(user?.photoURL, 'user?.photoURL ');
+
   useEffect(() => {
-    setAvatar(user?.photoURL || '');
-  }, [user?.photoURL, user.isUpdate]);
+    setAvatar(user?.additional_info?.mainPhoto?.url || '');
+    console.log(user.additional_info, 'user?.photoURL ');
+  }, [user?.additional_info?.mainPhoto?.url]);
   const {ref, isClose, setIsClose} = useClickOutside<HTMLDivElement>(
     true,
     true,
@@ -24,7 +25,7 @@ const ProfilePopup: FC = () => {
         onClick={() => setIsClose(!isClose)} // Обновлено
         className='dashboard-header__user'
         style={{
-          background: `center/cover no-repeat url(${avatar})`,
+          background: `center/cover no-repeat url(${user?.additional_info?.mainPhoto?.url})`,
         }}
       ></div>
       {!isClose && (

@@ -31,6 +31,7 @@ const ProfileInformation = () => {
     country: '',
     email: '',
     aboutYourSelf: '',
+    mainPhoto: '',
   });
 
   const fields: any[] = [

@@ -63,24 +63,30 @@ const UserStatus = () => {
   useEffect(() => {
     dispatch(getUserNames(userNames));
   }, [userNames]);
-
   useEffect(() => {
-    if (user || current_user.isUpdate) {
-      // console.log(user?.isUploaded);
-      console.log('Пользователь вошел:', user);
-      dispatch(getDataUser({...user}));
-      // console.log(current_user?.isUpdate, user, ';user');
+    // if
+    user &&
       fetchBackDefaultData(
-        `/users/${user.uid}/additional-info`,
+        `/users/${user?.uid}/additional-info`,
         setAdditionalInfo,
       );
+    dispatch(isUserUpdated(false));
+  }, [user, current_user.isUpdate]);
+  useEffect(() => {
+    console.group(user);
+    if (user || current_user.isUpdate) {
+      // console.log(user?.isUploaded);
+      console.log('Пользователь вошелscssccs:', user);
+      dispatch(getDataUser({...user}));
+      // console.log(current_user?.isUpdate, user, ';user');
+
       fetchBackDefaultData('/user-names/all', setUserNames);
-      dispatch(isUserUpdated(false));
+      // dispatch(isUserUpdated(false));
     } else {
       console.log('Пользователь не вошел.');
     }
   }, [user, current_user.isUpdate]);
-
+  console.log(current_user.isUpdate);
   return <div></div>;
 };
 
