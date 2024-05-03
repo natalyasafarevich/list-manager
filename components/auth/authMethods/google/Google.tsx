@@ -21,7 +21,8 @@ const GoogleSignInComponent = () => {
 
   useEffect(() => {
     if (currentUser) {
-      if (isExist) {
+      if (isExist?.additional_info) {
+        console.log(isExist, 'isExist');
         router.push('/boards');
       } else {
         router.push('/complete-profile');

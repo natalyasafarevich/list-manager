@@ -10,11 +10,19 @@ import './ChangePhoto.scss';
 import {useDispatch} from 'react-redux';
 import {isUserUpdated} from '@/store/data-user/actions';
 
-const ChangePhoto: FC = () => {
+interface ChangePhotoProps {
+  getCurrentImg?: (value: string) => void;
+}
+
+const ChangePhoto: FC<ChangePhotoProps> = ({getCurrentImg}) => {
   const [error, setError] = useState('');
   const [isUploaded, setIsUploaded] = useState(false);
   const [file, setFile] = useState<any>(null);
   const [currentImg, setCurrentImg] = useState<any>();
+
+  useEffect(() => {
+    getCurrentImg && getCurrentImg(currentImg );
+  }, [currentImg]);
 
   const [photo, setPhoto] = useState<any>();
 

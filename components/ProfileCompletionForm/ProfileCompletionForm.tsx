@@ -10,6 +10,7 @@ import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {useRouter} from 'next/navigation';
 import {useDispatch} from 'react-redux';
 import {getUserNames} from '@/store/auth/actions';
+import {getAdditionalInfo} from '@/store/data-user/actions';
 
 const ProfileCompletionForm: FC = () => {
   const [isFirstStepReady, setIsFirstStepReady] = useState(false);
@@ -24,6 +25,7 @@ const ProfileCompletionForm: FC = () => {
   // useEffect(() => {
   //   dispatch(getUserNames(userNames));
   // }, [userNames]);
+
   useEffect(() => {
     if (isSecondStepReady) {
       updateUserData(`${user}`, {
@@ -37,14 +39,21 @@ const ProfileCompletionForm: FC = () => {
       setIsSecondStepReady(false);
     }
   }, [isSecondStepReady]);
+  const [additionalInfo, setAdditionalInfo] = useState<any>();
   useEffect(() => {
     if (isSubmit) {
       updateFirebaseData('/user-names', {all: userNames});
       setIsSubmit(false);
-      router.push('/boards', {scroll: true});
+      fetchBackDefaultData(`/users/${user}/additional-info`, setAdditionalInfo);
     }
   }, [isSubmit]);
-
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    if (additionalInfo) {
+      dispatch(getAdditionalInfo(additionalInfo));
+      router.push('/boards', {scroll: true});
+    }
+  }, [additionalInfo]);
   useEffect(() => {
     fetchBackDefaultData('/user-names/all', setUserNames);
   }, []);

@@ -141,7 +141,7 @@ const TextEditor: FC<TextEditorProps> = ({
       title: '',
       owner: user_status.uid,
       createDate: editDate,
-      photoUrl: user_status.photoURL as string,
+      photoUrl: user_status.additional_info.mainPhoto.url as string,
       name: user_status.displayName as string,
     };
 
@@ -209,7 +209,7 @@ const TextEditor: FC<TextEditorProps> = ({
                 <div
                   className='comments-section__image'
                   style={{
-                    background: `center/cover no-repeat url(${user_status.photoURL})`,
+                    background: `center/cover no-repeat url(${user_status.additional_info.mainPhoto.url})`,
                   }}
                 ></div>
                 <button
@@ -247,7 +247,7 @@ const TextEditor: FC<TextEditorProps> = ({
             <div
               className='comments-section__image'
               style={{
-                background: `center/cover no-repeat url(${user_status.photoURL})`,
+                background: `center/cover no-repeat url(${user_status.additional_info.mainPhoto.url || '/default-image.svg'})`,
               }}
             ></div>
 

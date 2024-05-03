@@ -11,6 +11,7 @@ export interface InputsProps {
   country: string;
   position: string;
   aboutYourSelf: string;
+  mainPhoto: any;
 }
 interface Step2FormProps {
   isReady: (value: boolean) => void;
@@ -20,6 +21,7 @@ const Step2Form: FC<Step2FormProps> = ({isReady}) => {
     country: '',
     position: '',
     aboutYourSelf: '',
+    mainPhoto: '',
   });
 
   const dispatch: AppDispatch = useDispatch();
@@ -37,7 +39,11 @@ const Step2Form: FC<Step2FormProps> = ({isReady}) => {
           <span>Enter information about yourself</span>
         </p>
         <div className='step-form__user'>
-          <ChangePhoto />
+          <ChangePhoto
+            getCurrentImg={(e) =>
+              setInputs((prev) => ({...prev, mainPhoto: e}))
+            }
+          />
         </div>
 
         <div className='step-form__item'>

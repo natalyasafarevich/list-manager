@@ -11,7 +11,7 @@ const ProfilePopup: FC = () => {
   const [avatar, setAvatar] = useState('');
 
   useEffect(() => {
-    setAvatar(user?.additional_info?.mainPhoto?.url || '');
+    setAvatar(user?.additional_info?.mainPhoto?.url || '/default-image.svg');
     console.log(user.additional_info, 'user?.photoURL ');
   }, [user?.additional_info?.mainPhoto?.url]);
   const {ref, isClose, setIsClose} = useClickOutside<HTMLDivElement>(
@@ -25,7 +25,7 @@ const ProfilePopup: FC = () => {
         onClick={() => setIsClose(!isClose)} // Обновлено
         className='dashboard-header__user'
         style={{
-          background: `center/cover no-repeat url(${user?.additional_info?.mainPhoto?.url})`,
+          background: `center/cover no-repeat url(${user?.additional_info?.mainPhoto?.url || '/default-image.svg'})`,
         }}
       ></div>
       {!isClose && (
