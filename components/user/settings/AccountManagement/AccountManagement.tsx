@@ -11,6 +11,7 @@ import Email from './Email/Email';
 import BasicInfo from './ProfileVisibility/BasicInfo';
 import Security from './Security/Security';
 import './AccountManagement.scss';
+import DeleteAccount from './Security/DeleteAccount/DeleteAccount';
 
 // запись данных
 async function writeUserData(
@@ -62,6 +63,7 @@ export const AccountManagement = () => {
           {router.slug === 'security' && <Security />}
           {router.slug === 'profile' && <BasicInfo />}
           {router.slug === 'email' && <Email />}
+          {router.slug === 'delete-account' && <DeleteAccount />}
           {/*не работает*/}
           {/* <Email /> */}
         </div>

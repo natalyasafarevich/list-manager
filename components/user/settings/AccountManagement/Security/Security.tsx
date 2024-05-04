@@ -30,9 +30,6 @@ const Security: FC = () => {
         <div className='security__box'>
           <ChangingPassword />
         </div>
-        <div className='security__box'>
-          <DeleteAccount />
-        </div>
       </div>{' '}
     </div>
   );

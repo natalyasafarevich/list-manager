@@ -25,6 +25,12 @@ export default function RootLayout({
         <Link className='m-2 d-block text-success' href={'/settings/email'}>
           Электронная почта
         </Link>
+        <Link
+          className='m-2 d-block text-success'
+          href={'/settings/delete-account'}
+        >
+          Delete Account
+        </Link>
       </div>
       {children}
     </>
