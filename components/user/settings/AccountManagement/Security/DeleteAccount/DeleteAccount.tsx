@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import firebaseApp from '@/firebase';
 import {ResetDataUser} from '@/store/data-user/actions';
 import {
@@ -9,37 +9,56 @@ import {
 } from 'firebase/auth';
 import {useDispatch} from 'react-redux';
 import './DeleteAccount.scss';
-function promptForCredentials() {
-  const email = prompt('Enter your email:');
-  const password = prompt('Enter your password:');
-  return EmailAuthProvider.credential(email as string, password as string);
-}
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/store';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {updateFirebaseData} from '@/helper/updateUserData';
+import {useRouter} from 'next/navigation';
+
 const DeleteAccount: FC = () => {
+  const [users, setUsers] = useState<any>({});
   const [error, setError] = useState('');
   const auth = getAuth(firebaseApp);
-  const dispatch = useDispatch();
+  useEffect(() => {
+    fetchBackDefaultData('users', setUsers);
+  }, []);
   const user = auth.currentUser;
-  console.log(user, 'useruser');
+
+  const user_data = useSelector((state: RootState) => state.userdata);
+  console.log(user_data, 'start');
+  const dispatch = useDispatch();
   //   var credential = EmailAuthProvider.credential(
   //     .email,
   //     userProvidedPassword
   // );
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+  });
+  const router = useRouter();
+  const deleteAccount = () => {
+    const credential = EmailAuthProvider.credential(data.email, data.password);
 
-  const deleteUser = () => {
-    let result = confirm('Удалить аккаунт? ');
-    const credential = promptForCredentials();
-    console.log(credential);
-    result &&
-      reauthenticateWithCredential(user as User, credential)
-        .then(() => {
-          setError('');
-          console.log('dccsd');
-        })
-        .catch((error: any) => {
-          setError('Email or password is invalid ');
-          // An error ocurred
-          // ...
-        });
+    reauthenticateWithCredential(user as User, credential)
+      .then(() => {
+        setError('');
+        user
+          ?.delete()
+          .then(() => {
+            const updatedUsers = {...users};
+            delete updatedUsers[user_data.uid];
+            updateFirebaseData('/users', updatedUsers);
+            dispatch(ResetDataUser());
+            router.push('/');
+          })
+
+          .catch((error) => {
+            console.log(error.code);
+          });
+      })
+      .catch(() => {
+        setError('Email or password is invalid ');
+      });
     // user
     //   ?.delete()
     //   .then(() => {
@@ -61,6 +80,10 @@ const DeleteAccount: FC = () => {
           <input
             id='Email'
             type='text'
+            value={data.email}
+            onChange={(e) =>
+              setData((prev) => ({...prev, email: e.target.value}))
+            }
             placeholder='Email*'
             className='default-input delete-account__input'
           />
@@ -68,6 +91,10 @@ const DeleteAccount: FC = () => {
           <input
             id='Password'
             type='password'
+            value={data.password}
+            onChange={(e) =>
+              setData((prev) => ({...prev, password: e.target.value}))
+            }
             placeholder='Password*'
             className='default-input delete-account__input'
           />
@@ -79,7 +106,7 @@ const DeleteAccount: FC = () => {
           sure that you have saved any important data before proceeding. If you
           have any doubts, you can always cancel the deletion process.
         </p>
-        <button onClick={deleteUser} className='delete-account__button'>
+        <button onClick={deleteAccount} className='delete-account__button'>
           Delete Account
         </button>
       </div>
