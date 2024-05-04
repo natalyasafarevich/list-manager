@@ -1,0 +1,33 @@
+.security {
+  // .security__container
+
+  &__container {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  // .security__title
+
+  &__title {
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 30px;
+    font-weight: 800;
+  }
+  &__text {
+    margin-bottom: 20px;
+    display: block;
+
+    span:nth-child(1) {
+      border-bottom: 1px solid #97a3b7;
+      // text-decoration: underline;
+    }
+  }
+  // .security__box
+
+  &__box {
+  }
+}
