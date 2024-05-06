@@ -9,9 +9,9 @@ const MainHeader: FC = () => {
   const user = useSelector((state: RootState) => state.userdata.uid);
   if (user) {
     return (
-      <div>
-        <SideBar />
-      </div>
+      // <div>
+      <SideBar />
+      // </div>
     );
   }
   return (

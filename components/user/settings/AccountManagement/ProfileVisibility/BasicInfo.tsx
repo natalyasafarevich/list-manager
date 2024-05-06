@@ -32,7 +32,6 @@ const BasicInfo = () => {
             <p className='basic-info__subtitle basic-info__subtitle-black'>
               BASIC INFO
             </p>
-            <button className='btn-edit' onClick={(_e) => {}}></button>
           </div>
           <ProfileInformation />
         </div>

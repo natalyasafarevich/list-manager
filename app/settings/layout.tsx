@@ -12,26 +12,6 @@ export default function RootLayout({
   return (
     <>
       <DashboardHeader />
-      <div className='d-flex mt-5 justify-content-center mb-4'>
-        <Link
-          className='m-2 d-block nav-link text-success'
-          href={'/settings/profile'}
-        >
-          Профиль и видимость
-        </Link>
-        <Link className='m-2 d-block text-success' href={'/settings/security'}>
-          Безопасность
-        </Link>
-        <Link className='m-2 d-block text-success' href={'/settings/email'}>
-          Электронная почта
-        </Link>
-        <Link
-          className='m-2 d-block text-success'
-          href={'/settings/delete-account'}
-        >
-          Delete Account
-        </Link>
-      </div>
       {children}
     </>
   );

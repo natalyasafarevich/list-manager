@@ -66,7 +66,7 @@ const ProfileInformation = () => {
     {
       label: 'Phone',
       value: generalInfo?.phoneNumber || '',
-      readOnly: !!generalInfo?.phoneNumber,
+      // readOnly: generalInfo?.phoneNumber.length === 9,
       setValue: (value: string) => {
         setIsChanged(true);
         setGeneralInfo((prevState) => ({...prevState, phoneNumber: value}));
@@ -166,12 +166,13 @@ const ProfileInformation = () => {
       <textarea
         className='profile-information__textarea'
         defaultValue={generalInfo?.aboutYourSelf}
-        onChange={(e) =>
+        onChange={(e) => {
+          setIsChanged(true);
           setGeneralInfo((prevState) => ({
             ...prevState,
             aboutYourSelf: e.target.value,
-          }))
-        }
+          }));
+        }}
       ></textarea>
       {isChanged && (
         <button
