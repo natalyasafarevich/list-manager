@@ -8,50 +8,63 @@ import {
   reauthenticateWithCredential,
 } from 'firebase/auth';
 import {useDispatch} from 'react-redux';
-import './DeleteAccount.scss';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
-import {updateFirebaseData} from '@/helper/updateUserData';
 import {useRouter} from 'next/navigation';
+import {getDatabase, ref, set, update} from 'firebase/database';
+import PopupMessage from '@/components/PopupMessage/PopupMessage';
+import './DeleteAccount.scss';
 
 const DeleteAccount: FC = () => {
   const [users, setUsers] = useState<any>({});
   const [error, setError] = useState('');
   const auth = getAuth(firebaseApp);
-  useEffect(() => {
-    fetchBackDefaultData('users', setUsers);
-  }, []);
-  const user = auth.currentUser;
-
-  const user_data = useSelector((state: RootState) => state.userdata);
-  console.log(user_data, 'start');
-  const dispatch = useDispatch();
-  //   var credential = EmailAuthProvider.credential(
-  //     .email,
-  //     userProvidedPassword
-  // );
+  const [isDelete, setIsDelete] = useState(false);
+  const [newUsers, setNewUsers] = useState<any>(null);
   const [data, setData] = useState({
     email: '',
     password: '',
   });
-  const router = useRouter();
-  const deleteAccount = () => {
-    const credential = EmailAuthProvider.credential(data.email, data.password);
 
+  const user_data = useSelector((state: RootState) => state.userdata);
+
+  const dispatch = useDispatch();
+  const db = getDatabase(firebaseApp);
+  const user = auth.currentUser;
+  const router = useRouter();
+
+  // getting all users
+  useEffect(() => {
+    fetchBackDefaultData('users', setUsers);
+  }, []);
+
+  // post new users
+  useEffect(() => {
+    if (newUsers && user_data.uid) {
+      set(ref(db, 'users/'), newUsers);
+    }
+  }, [newUsers]);
+
+  const deleteAccount = () => {
+    const updatedUsers = {...users};
+    delete updatedUsers[user_data.uid];
+    setNewUsers(updatedUsers);
+
+    const credential = EmailAuthProvider.credential(data.email, data.password);
+    // if email and password are right,  delete account
     reauthenticateWithCredential(user as User, credential)
       .then(() => {
-        setError('');
         user
           ?.delete()
           .then(() => {
-            const updatedUsers = {...users};
-            delete updatedUsers[user_data.uid];
-            updateFirebaseData('/users', updatedUsers);
+            setData({email: '', password: ''});
             dispatch(ResetDataUser());
-            router.push('/');
+            setIsDelete(true);
+            setTimeout(() => {
+              router.push('/');
+            }, 4000);
           })
-
           .catch((error) => {
             console.log(error.code);
           });
@@ -59,18 +72,16 @@ const DeleteAccount: FC = () => {
       .catch(() => {
         setError('Email or password is invalid ');
       });
-    // user
-    //   ?.delete()
-    //   .then(() => {
-    //     alert('аккаунт успешно удален');
-    //     dispatch(ResetDataUser());
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.code);
-    //   });
   };
   return (
     <div className='delete-account'>
+      {isDelete && (
+        <PopupMessage
+          title='Your account has been deleted'
+          messageType='success'
+          message='In a few seconds you will be redirected to the main page'
+        />
+      )}
       <div className='delete-account__container'>
         <p className='delete-account__title'>Delete the account</p>
         <div className='delete-account__box'>
