@@ -8,7 +8,7 @@ export default function BoardPage() {
   const board = useSelector((state: RootState) => state.boards.currentBoards);
 
   return (
-    <div>
+    <>
       <div
         className='board-bg'
         style={{
@@ -19,6 +19,6 @@ export default function BoardPage() {
       ></div>
       <DashboardHeader />
       <CurrentBoard />
-    </div>
+    </>
   );
 }

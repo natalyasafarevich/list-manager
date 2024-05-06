@@ -10,7 +10,7 @@ const FavoriteComponent: FC = () => {
         className={`dashboard-header__icon flex ${isClose ? 'active' : ''}`}
         onClick={() => setIsClose(!isClose)}
       >
-        Favorites
+        Favorites boards
       </span>
       {isClose && <DropDownHeader />}
     </div>

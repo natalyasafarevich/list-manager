@@ -30,7 +30,7 @@ export default function RootLayout({
         <body className={popins.className}>
           <div className='flex-basic'>
             <MainHeader />
-            <div className='wrap wrap-85'>
+            <div className=' wrap-85'>
               <UserStatus />
               {children}
             </div>

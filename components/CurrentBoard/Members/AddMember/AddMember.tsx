@@ -33,7 +33,7 @@ const AddMember: FC<AddMemberProps> = ({setIsOpen}) => {
   const user = useSelector((state: RootState) => state.userdata);
 
   const db = getDatabase(firebaseApp);
-
+  console.log(members);
   useEffect(() => {
     if (memberUid) {
       fetchBackData(memberUid, ``, setNewMembers);

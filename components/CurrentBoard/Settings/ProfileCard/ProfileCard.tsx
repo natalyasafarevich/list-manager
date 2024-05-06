@@ -12,6 +12,7 @@ interface UserDataProps {
   role: string;
   email: string;
   id: string;
+  publicName: string;
 }
 
 interface ProfileCardProp {
@@ -23,7 +24,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
   const [isDelete, setIsDelete] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const user = useSelector((state: RootState) => state.userdata.uid);
+  const user = useSelector((state: RootState) => state.userdata);
   const board = useSelector((state: RootState) => state.boards);
   useEffect(() => {
     if (isDelete) {
@@ -40,7 +41,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
       alert('Вы не можете удалить себя или другого администратора.');
     }
   };
-
+  console.log(userData);
   return (
     <>
       {isClose && (
@@ -87,6 +88,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
                 className='profile-card__button button-close'
                 onClick={() => setIsOpen(false)}
               ></button>
+
               <div className='profile-card__row flex'>
                 <div
                   className='profile-card__image'
@@ -95,18 +97,22 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
                   }}
                 ></div>
                 <p className='profile-card__text'>
+                  {userData.name}
+                  <br />@{userData.publicName} <br />
                   {userData?.email}
                   <span>{userData?.role}</span>
                 </p>
               </div>
-              {userData.id === user && (
+              {userData.id === user.uid && (
                 <Link className='profile-card__link' href='/settings/profile'>
                   Profile management
                 </Link>
               )}
               {userData.role !== 'admin' && (
                 <button className='button-dark' onClick={deleteMember}>
-                  {userData.id === user ? 'Leave the board' : 'delete member'}
+                  {userData.id === user.uid
+                    ? 'Leave the board'
+                    : 'delete member'}
                 </button>
               )}
             </div>

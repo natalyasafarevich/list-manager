@@ -11,6 +11,7 @@ import ChangingVisibility from '../ChangingVisibility/ChangingVisibility';
 import {getMembers} from '@/store/members/actions';
 import './BoardHeader.scss';
 import Members from '../../Members/Members';
+import {displayName} from 'react-quill';
 
 interface HeaderBoardProps {
   board: any;
@@ -34,6 +35,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   useEffect(() => {
     members && dispatch(getMembers(members));
   }, [members]);
+
   useEffect(() => {
     setMembers([]);
     if (currentBoard?.members) {
@@ -45,8 +47,10 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
             setMembers((prev) => [
               ...prev,
               {
-                photo: data?.mainPhoto?.url || '',
+                photo: data['additional-info']?.mainPhoto?.url || '',
                 email: data.email,
+                name: data['additional-info']?.fullName,
+                publicName: data['additional-info']?.publicName,
                 id: uid,
                 role: currentBoard.members[uid],
               },

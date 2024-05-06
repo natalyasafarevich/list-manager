@@ -25,16 +25,16 @@ const DashboardHeader: FC = () => {
         <div className='content-wrap'>
           <div className='dashboard-header__row'>
             <div className='dashboard-header__box'>
-              <Link href={'/'} className='dashboard-header__logo logo'></Link>
-              <Link
+              {/* <Link href={'/'} className='dashboard-header__logo logo'></Link> */}
+              {/* <Link
                 href={'/boards'}
                 className='dashboard-header__link dashboard-header__link_board'
               >
-                Boards
-              </Link>
-              <Link href={'/templates'} className='dashboard-header__link'>
+                Boards */}
+              {/* </Link> */}
+              {/* <Link href={'/templates'} className='dashboard-header__link'>
                 Templates
-              </Link>
+              </Link> */}
               <FavoriteComponent />
               <div className='dashboard-header__search'></div>
             </div>
