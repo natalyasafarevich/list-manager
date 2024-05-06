@@ -10,6 +10,7 @@ import ReduxProvider from '@/providers/ReduxProvider';
 import Link from 'next/link';
 import Header from '@/components/Header/Header';
 import MainHeader from '@/components/MainHeader/MainHeader';
+import Notification from '@/components/Notification/Notification';
 const popins = Poppins({
   subsets: ['latin'], // Здесь можно указать поддерживаемые подмножества
   weight: ['300', '400', '500'],
@@ -34,6 +35,7 @@ export default function RootLayout({
               <UserStatus />
               {children}
             </div>
+            <Notification />
           </div>
         </body>
       </html>
