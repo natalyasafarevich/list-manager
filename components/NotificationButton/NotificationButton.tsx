@@ -5,7 +5,10 @@ import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {NotificationType} from '../Notifications/Notifications';
 import {useDispatch} from 'react-redux';
-import {getNotifications} from '@/store/notifications/actions';
+import {
+  getNotifications,
+  isNotificationsOpen,
+} from '@/store/notifications/actions';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import './NotificationButton.scss';
 
@@ -42,6 +45,8 @@ const NotificationButton: FC = () => {
     if (unread) {
       setCounter(Object.keys(unread).length);
     }
+    if (isViewed) {
+    }
     if (isViewed && unread) {
       for (let key in unread) {
         updateFirebaseData(`users/${user.uid}/notification/${key}`, {
@@ -55,11 +60,12 @@ const NotificationButton: FC = () => {
   useEffect(() => {
     user.uid &&
       fetchBackDefaultData(`users/${user.uid}/notification`, setNotifications);
-  }, [user, isViewed]);
+  }, [user]);
   return (
     <button
       onClick={() => {
         setIsViewed(true);
+        dispatch(isNotificationsOpen(true));
       }}
       data-note={counter}
       className={`notification-button ${counter ? 'active' : ''}`}

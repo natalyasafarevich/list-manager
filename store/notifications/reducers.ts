@@ -1,11 +1,13 @@
-import {ActionsType, NOTIFICATIONS} from './actions';
+import {ActionsType, IS_NOTIFICATIONS_OPEN, NOTIFICATIONS} from './actions';
 
 interface initialStateProps {
   notifications: any;
+  isOpen: boolean;
 }
 
 const initialState: initialStateProps = {
   notifications: [],
+  isOpen: false,
 };
 export const NotificationsReducer = (
   state = initialState,
@@ -18,7 +20,12 @@ export const NotificationsReducer = (
         notifications: action.payload,
       };
     }
-
+    case IS_NOTIFICATIONS_OPEN: {
+      return {
+        ...state,
+        isOpen: action.payload,
+      };
+    }
     default:
       return state;
   }
