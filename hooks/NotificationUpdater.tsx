@@ -13,30 +13,9 @@ const NotificationUpdater: React.FC<NotificationUpdaterProps> = ({
   notification,
   isAddNotification,
 }) => {
-  const [notifications, setNotifications] = React.useState<any>({});
-  // сo
-  const [isUpdate, setIsUpdate] = useState(false);
-  console.log(Object.keys(notification).length > 0 && isAddNotification);
-  useEffect(() => {
-    if (Object.keys(notification).length > 0 && isAddNotification) {
-      // setNotifications((prevNotifications: any) => ({
-      //   ...prevNotifications,
-      console.log(notification, 'notificationnotificationnotification');
-      // }));
-      setIsUpdate(true);
-    }
-  }, [notification, isAddNotification]);
-  console.log(notifications);
-  useEffect(() => {
-    if (userUid) {
-      fetchBackDefaultData(`users/${userUid}/notification`, setNotifications);
-    }
-  }, [userUid]);
-
   useEffect(() => {
     if (isAddNotification) {
       updateUserData(`${userUid}/notification`, notification);
-      setIsUpdate(false);
     }
   }, [isAddNotification]);
 

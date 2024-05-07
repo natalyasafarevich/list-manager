@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import {FC} from 'react';
 import SignOut from '../auth/SignOut/SignOut';
-import Notification from '../Notification/Notification';
+import Notification from '../Notifications/Notifications';
 import './Header.scss';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';

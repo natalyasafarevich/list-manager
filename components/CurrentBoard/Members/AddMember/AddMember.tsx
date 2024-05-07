@@ -12,6 +12,7 @@ import {updateUserData} from '@/helper/updateUserData';
 import './AddMember.scss';
 import {Value} from 'react-quill';
 import NotificationUpdater from '@/hooks/NotificationUpdater';
+import {formattedDate} from '@/helper/formattedDate';
 
 const notificationTypes = ['addBoardMember', 'deleteBoardMember'];
 
@@ -54,25 +55,13 @@ const AddMember: FC<AddMemberProps> = ({setIsOpen}) => {
     }
   }, [newMembers]);
   const [notification, setNotification] = useState<any>({});
-  console.log(notification);
+  console.log(user);
   useEffect(() => {
     user &&
       !isNewMember &&
       fetchBackDefaultData(`/boards/${boardIndex}/members`, setMembers);
   }, [user, boardIndex, isNewMember]);
   const [isUpdate, setIsUpdate] = useState(false);
-  console.log(notification);
-  // useEffect(() => {
-  //   if (isUpdate && memberUid) {
-  //     console.log(';;;');
-  //     // updateUserData(`${memberUid}/`, {notification: notification});
-
-  //     // fetchBackDefaultData(`users/${memberUid}/notification`, setNotification);
-  //     setTimeout(() => {
-  //       setIsUpdate(false);
-  //     }, 4000);
-  //   }
-  // }, [isUpdate, memberUid, notification]);
 
   useEffect(() => {
     if (isNewMember) {
@@ -88,7 +77,6 @@ const AddMember: FC<AddMemberProps> = ({setIsOpen}) => {
   const currentBoard = useSelector(
     (state: RootState) => state.boards.currentBoards,
   );
-  console.log(notification, 'notification');
   const [error, setError] = useState('');
   const addNewMember = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -102,31 +90,35 @@ const AddMember: FC<AddMemberProps> = ({setIsOpen}) => {
             for (const key in currentBoard?.members) {
               if (uid === key) {
                 setError('User has already been  added');
-                // setIsUpdate(false);
                 return;
               } else {
                 setError('');
                 const id = createId();
                 setIsUpdate(true);
+
+                const date = formattedDate('en');
                 setNotification((prevNotification: any) => {
                   const newNotification = {
                     id: id,
-                    message: `пользователь ${user.email} добавил вас на доску `,
-                    isViewed: false,
+                    message: `You have been added to`,
+                    by:
+                      user.additional_info.fullName ||
+                      user.additional_info.publicName,
+                    uid: user.uid,
+                    time: date,
                     name: currentBoard.name,
                     link: currentBoard.id,
                     type: 'addBoardMember',
+                    isViewed: false,
                   };
 
                   return {...prevNotification, [id]: newNotification};
                 });
 
-                // setIsUpdate(true);
                 setMemberUid(uid);
                 setTimeout(() => {
-                  // setIsOpen(false);
+                  setIsOpen(false);
                 }, 1000);
-                //
               }
             }
           } else {

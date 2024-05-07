@@ -8,6 +8,7 @@ import {MarkersReducer} from './card-sidebar/reducer';
 import {CheckListsReducer} from './check-lists/reducer';
 import {MembersReducer} from './members/reducer';
 import {AuthReducer} from './auth/redcer';
+import {NotificationsReducer} from './notifications/reducers';
 
 export default combineReducers({
   auth: AuthReducer,
@@ -19,4 +20,5 @@ export default combineReducers({
   markers: MarkersReducer,
   check_lists: CheckListsReducer,
   members: MembersReducer,
+  note: NotificationsReducer,
 });
