@@ -7,6 +7,7 @@ import {NotificationType} from '../Notifications/Notifications';
 import {useDispatch} from 'react-redux';
 import {getNotifications} from '@/store/notifications/actions';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
+import './NotificationButton.scss';
 
 const NotificationButton: FC = () => {
   const [notifications, setNotifications] = useState<NotificationType>({});
@@ -38,15 +39,19 @@ const NotificationButton: FC = () => {
   }, [notifications]);
 
   useEffect(() => {
+    if (unread) {
+      setCounter(Object.keys(unread).length);
+    }
     if (isViewed && unread) {
       for (let key in unread) {
         updateFirebaseData(`users/${user.uid}/notification/${key}`, {
           isViewed: true,
         });
+        setCounter(null);
       }
     }
   }, [isViewed, unread]);
-
+  const [counter, setCounter] = useState<null | number>(null);
   useEffect(() => {
     user.uid &&
       fetchBackDefaultData(`users/${user.uid}/notification`, setNotifications);
@@ -56,7 +61,8 @@ const NotificationButton: FC = () => {
       onClick={() => {
         setIsViewed(true);
       }}
-      className='dashboard-header__button dashboard-header__button_notification'
+      data-note={counter}
+      className={`notification-button ${counter ? 'active' : ''}`}
     ></button>
   );
 };
