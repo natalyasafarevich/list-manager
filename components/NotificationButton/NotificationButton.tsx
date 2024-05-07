@@ -1,12 +1,12 @@
 'use client';
-import {fetchBackData} from '@/helper/getFirebaseData';
+import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {NotificationType} from '../Notifications/Notifications';
 import {useDispatch} from 'react-redux';
 import {getNotifications} from '@/store/notifications/actions';
-import {updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 
 const NotificationButton: FC = () => {
   const [notifications, setNotifications] = useState<NotificationType>({});
@@ -38,17 +38,19 @@ const NotificationButton: FC = () => {
   }, [notifications]);
 
   useEffect(() => {
-    if (isViewed) {
+    if (isViewed && unread) {
       for (let key in unread) {
-        updateUserData(`${user.uid}/notification/${key}`, {isViewed: true});
-        setIsViewed(false);
+        updateFirebaseData(`users/${user.uid}/notification/${key}`, {
+          isViewed: true,
+        });
       }
     }
-  }, [isViewed]);
+  }, [isViewed, unread]);
 
   useEffect(() => {
-    user.uid && fetchBackData(user.uid, '/notification', setNotifications);
-  }, [user]);
+    user.uid &&
+      fetchBackDefaultData(`users/${user.uid}/notification`, setNotifications);
+  }, [user, isViewed]);
   return (
     <button
       onClick={() => {

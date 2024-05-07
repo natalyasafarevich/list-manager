@@ -35,22 +35,22 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   useEffect(() => {
     members && dispatch(getMembers(members));
   }, [members]);
-
+  console.log(members);
   useEffect(() => {
     setMembers([]);
     if (currentBoard?.members) {
       for (let uid in currentBoard.members) {
-        const starCountRef = query(ref(db, `users/${uid}`));
+        const starCountRef = query(ref(db, `users/${uid}/additional-info`));
         onValue(starCountRef, (snapshot) => {
           const data = snapshot.val();
           if (data) {
             setMembers((prev) => [
               ...prev,
               {
-                photo: data['additional-info']?.mainPhoto?.url || '',
-                email: data.email,
-                name: data['additional-info']?.fullName,
-                publicName: data['additional-info']?.publicName,
+                photo: data.mainPhoto?.url || '',
+
+                name: data.fullName,
+                publicName: data.publicName,
                 id: uid,
                 role: currentBoard.members[uid],
               },

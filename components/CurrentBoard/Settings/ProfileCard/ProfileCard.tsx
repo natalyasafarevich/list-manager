@@ -41,7 +41,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
       alert('Вы не можете удалить себя или другого администратора.');
     }
   };
-  console.log(userData);
+
   return (
     <>
       {isClose && (

@@ -36,16 +36,37 @@ const Notifications: FC = () => {
         <p className='notification__title'>Notifications</p>
 
         <div className='notification__box'>
+          <p>New notifications </p>
           {notification?.map((data) => (
-            <p
-              key={data.id}
-              className={`notification__text notification__type-${data.type}`}
-            >
-              {data.message}
-              <Link href={`/board/${data.link}`}>{data.name}</Link>
-              by <Link href={`/profile/${data.uid}`}>{data.by}</Link>
-              {data.time}
-            </p>
+            <div key={data.id}>
+              {!data.isViewed && (
+                <p
+                  className={`notification__text notification__type-${data.type}`}
+                >
+                  {data.message}
+                  <Link href={`/board/${data.link}`}>{data.name}</Link>
+                  by <Link href={`/profile/${data.uid}`}>{data.by}</Link>
+                  {data.time}
+                </p>
+              )}
+            </div>
+          ))}
+          <hr />
+          <p>latesr</p>
+          {notification?.map((data) => (
+            <div key={data.id}>
+              {data.isViewed && (
+                <p
+                  key={data.id}
+                  className={`notification__text notification__type-${data.type}`}
+                >
+                  {data.message}
+                  <Link href={`/board/${data.link}`}>{data.name}</Link>
+                  by <Link href={`/profile/${data.uid}`}>{data.by}</Link>
+                  {data.time}
+                </p>
+              )}
+            </div>
           ))}
         </div>
       </div>
