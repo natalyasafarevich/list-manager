@@ -1,11 +1,14 @@
 import firebaseApp from '@/firebase';
 import {updateFirebaseData} from '@/helper/updateUserData';
+import {v4 as createId} from 'uuid';
 import {RootState} from '@/store/store';
 import './ProfileCard.scss';
 import Link from 'next/link';
 import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import Popup from '@/components/Popup/Popup';
+import {formattedDate} from '@/helper/formattedDate';
+import NotificationUpdater from '@/hooks/NotificationUpdater';
 interface UserDataProps {
   photo: string;
   name: string;
@@ -19,13 +22,13 @@ interface ProfileCardProp {
   userData: UserDataProps;
 }
 const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
-  // const [isAdmin, setIsAdmin] = useState(false);
   const [isClose, setIsClose] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const user = useSelector((state: RootState) => state.userdata);
   const board = useSelector((state: RootState) => state.boards);
+
   useEffect(() => {
     if (isDelete) {
       const {[userData.id]: deletedKey, ...members} =
@@ -34,16 +37,63 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
       setIsDelete(false);
     }
   }, [isDelete]);
+
+  const [notification, setNotification] = useState<any>({});
+  const [notificationSetting, setNotificationSetting] = useState({
+    isAddNotification: false,
+    userUid: '',
+  });
+
+  const currentBoard = useSelector(
+    (state: RootState) => state.boards.currentBoards,
+  );
+
   const deleteMember = () => {
+    const date = formattedDate('en');
+    const id = createId();
+
+    setNotificationSetting({
+      isAddNotification: true,
+      userUid: userData.id,
+    });
+
+    setNotification((prevNotification: any) => {
+      const newNotification = {
+        id: id,
+        message: `You have been deleted from board`,
+        by: user.additional_info.fullName || user.additional_info.publicName,
+        uid: user.uid,
+        time: date,
+        name: currentBoard.name,
+        type: 'deleteBoardMember',
+        isViewed: false,
+      };
+      return {...prevNotification, [id]: newNotification};
+    });
+    setIsClose(!isClose);
+    setIsDelete(true);
+  };
+
+  const deletionConfirmation = () => {
     if (userData.role !== 'admin') {
       setIsClose(!isClose);
-    } else {
-      alert('Вы не можете удалить себя или другого администратора.');
     }
+    // else {
+    //   alert('Вы не можете удалить себя или другого администратора.');
+    // }
   };
 
   return (
     <>
+      {notificationSetting.isAddNotification && (
+        <>
+          <NotificationUpdater
+            userUid={notificationSetting.userUid}
+            isAddNotification={notificationSetting.isAddNotification}
+            notification={notification}
+          />
+        </>
+      )}
       {isClose && (
         <div className='profile-card__popup'>
           <Popup
@@ -51,13 +101,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
             setIsClose={(e) => setIsClose(e)}
           >
             <div className='profile-card__flex flex'>
-              <button
-                className='button-dark'
-                onClick={(e) => {
-                  setIsClose(!isClose);
-                  setIsDelete(true);
-                }}
-              >
+              <button className='button-dark' onClick={deleteMember}>
                 Yes
               </button>
               <button
@@ -109,10 +153,10 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
                 </Link>
               )}
               {userData.role !== 'admin' && (
-                <button className='button-dark' onClick={deleteMember}>
+                <button className='button-dark' onClick={deletionConfirmation}>
                   {userData.id === user.uid
                     ? 'Leave the board'
-                    : 'delete member'}
+                    : 'Delete member'}
                 </button>
               )}
             </div>

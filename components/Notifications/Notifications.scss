@@ -53,6 +53,8 @@
     font-size: 13px;
     line-height: 16px;
     a {
+      padding: 0 2px;
+      display: inline;
       color: var(--primary-color);
       font-weight: 500;
       text-decoration: underline;
@@ -75,17 +77,23 @@
     &::before {
       content: "";
       width: 24px;
+      min-width: 24px;
+
       height: 24px;
       display: inline-block;
       background-color: #7ab2b2;
       margin-right: 15px;
       border-radius: 5px;
       background-repeat: no-repeat;
+      background-image: url("/notifications-icon-1.svg");
       background-size: 138px 100%;
+    }
+    &-deleteBoardMember::before {
+      background-color: #fa7070;
+      background-position-x: -2%;
     }
     &-addBoardMember {
       &::before {
-        background-image: url("/notifications-icon-1.svg");
         background-position-x: -2%;
       }
     }
