@@ -3,9 +3,11 @@ import './Contacts.scss';
 import ContactsInput, {ContactLinkItem} from './ContactsInput/ContactsInput';
 import {updateUserData} from '@/helper/updateUserData';
 import {useSelector} from 'react-redux';
-import {RootState} from '@/store/store';
+import {AppDispatch, RootState} from '@/store/store';
 import PopupMessage from '../PopupMessage/PopupMessage';
 import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {useDispatch} from 'react-redux';
+import {getContacts} from '@/store/contacts/actions';
 const contactLink: ContactLinkItem[] = [
   {
     id: 'telegram',
@@ -43,8 +45,12 @@ const Contacts: FC = () => {
     messageType: 'success',
   });
   const user = useSelector((state: RootState) => state.userdata);
-  const [contact, setContact] = useState();
-  console.log(contact);
+
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getContacts(contactLinks));
+  }, [contactLinks]);
+
   useEffect(() => {
     if (user.uid) {
       fetchBackDefaultData(`users/${user.uid}/contacts`, (data) => {
