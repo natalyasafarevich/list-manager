@@ -34,6 +34,33 @@ body {
   padding: 25px 0;
   position: relative;
 }
+.icon-social {
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    margin-right: 10px;
+    background-image: url("/social-icon.svg");
+    background-size: cover;
+  }
+  &__telegram::before {
+    background-position-x: 55%;
+  }
+  &__facebook::before {
+    background-position-x: 100%;
+  }
+  &__instagram::before {
+    background-position-x: 67%;
+  }
+  &__linkedIn::before {
+    background-position-x: 78%;
+  }
+  &__codePan::before {
+    background-position-x: 89%;
+  }
+}
 .icon {
   display: flex;
   align-items: center;
@@ -68,10 +95,16 @@ body {
   position: absolute;
   width: 100%;
 }
+
 .default-input {
   border: 1px solid #adadad;
   border-radius: 9px;
   width: 100%;
+}
+.default-input_error:focus,
+.default-input_error {
+  border-color: #fa7070;
+  outline: none;
 }
 .button-more {
   width: 24px;

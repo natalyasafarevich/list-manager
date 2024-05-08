@@ -12,6 +12,7 @@ import BasicInfo from './ProfileVisibility/BasicInfo';
 import Security from './Security/Security';
 import './AccountManagement.scss';
 import DeleteAccount from './Security/DeleteAccount/DeleteAccount';
+import Contacts from '@/components/Contacts/Contacts';
 
 // запись данных
 async function writeUserData(
@@ -60,6 +61,7 @@ export const AccountManagement = () => {
     <div className='account-manager'>
       <div className='account-manager__container'>
         <div className='d-flex'>
+          {router.slug === 'contacts' && <Contacts />}
           {router.slug === 'security' && <Security />}
           {router.slug === 'profile' && <BasicInfo />}
           {router.slug === 'email' && <Email />}
