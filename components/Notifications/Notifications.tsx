@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux';
 import './Notifications.scss';
 import {useDispatch} from 'react-redux';
 import {isNotificationsOpen} from '@/store/notifications/actions';
+import NotificationItem from '../NotificationItem/NotificationItem';
 
 export interface NotificationType {
   [key: string]: NotificationInfoType;
@@ -25,6 +26,7 @@ const Notifications: FC = () => {
   const [notification, setNotification] = useState<NotificationInfoType[]>([]);
 
   const note = useSelector((state: RootState) => state.note);
+  const hasUnviewedNotifications = notification.some((data) => !data.isViewed);
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     setNotification(note.notifications);
@@ -47,55 +49,27 @@ const Notifications: FC = () => {
         <div className='notification__box'>
           <div className='notification__content'>
             <p className='notification__subtitle'>New: </p>
-            {notification.length > 0 ? (
-              notification?.map((data) => (
-                <div key={data.id}>
-                  {!data.isViewed && (
-                    <div
-                      className={`notification__type notification__type-${data.type} active`}
-                      key={data.id}
-                    >
-                      <div>
-                        <p className={`notification__text`}>
-                          {data.message}
-
-                          <Link href={`/board/${data.link}`}>{data.name}</Link>
-                        </p>
-                        <div className='notification__info'>
-                          by
-                          <Link href={`/profile/${data.uid}`}>{data.by}</Link>
-                          <span> {data.time}</span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))
+            {hasUnviewedNotifications ? (
+              <>
+                {notification.map((data) => (
+                  <div key={data.id}>
+                    {!data.isViewed && (
+                      <NotificationItem data={data} isNew={true} />
+                    )}
+                  </div>
+                ))}
+              </>
             ) : (
-              <span>lfkhslhk</span>
+              <div className='notification__text-empty'>
+                <span>You have no new notifications</span>
+              </div>
             )}
           </div>
           <br />
           <p className='notification__subtitle'>Viewed: </p>
           {notification?.map((data) => (
             <div key={data.id}>
-              {data.isViewed && (
-                <div
-                  className={`notification__type notification__type-${data.type}`}
-                >
-                  <div>
-                    <p className={`notification__text`}>
-                      {data.message}
-
-                      <Link href={`/board/${data.link}`}>{data.name}</Link>
-                    </p>
-                    <div className='notification__info'>
-                      by <Link href={`/profile/${data.uid}`}>{data.by}</Link>
-                      <span> {data.time}</span>
-                    </div>
-                  </div>
-                </div>
-              )}
+              {data.isViewed && <NotificationItem data={data} />}
             </div>
           ))}
         </div>
