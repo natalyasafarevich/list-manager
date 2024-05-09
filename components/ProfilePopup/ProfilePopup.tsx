@@ -32,18 +32,21 @@ const ProfilePopup: FC = () => {
         <div className='profile-popup__box'>
           <div className='profile-popup__item'>
             <p className='profile-popup__subtitle'>Account</p>
-            <div className='profile-popup__row flex'>
-              <div
+            <Link
+              href={`/profile/${user.uid}`}
+              className='profile-popup__row flex'
+            >
+              <span
                 className='profile-popup__user'
                 style={{
                   background: `center/cover no-repeat url(${avatar})`,
                 }}
-              ></div>
-              <p className='profile-popup__name'>
+              ></span>
+              <span className='profile-popup__name'>
                 {user.displayName}
                 <span>{user.email}</span>
-              </p>
-            </div>
+              </span>
+            </Link>
             <Link className='profile-popup__link' href={'/settings/profile'}>
               Account management
             </Link>
@@ -55,10 +58,7 @@ const ProfilePopup: FC = () => {
             </Link>
 
             <p className='profile-popup__subtitle'>Other</p>
-            {/* !!! создать */}
-            <Link className='profile-popup__link' href={'/notifications'}>
-              Notifications
-            </Link>
+
             <Link className='profile-popup__link' href={'/assistance'}>
               Assistance
             </Link>

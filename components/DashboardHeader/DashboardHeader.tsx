@@ -1,3 +1,4 @@
+'use client';
 import {FC, useState, useRef} from 'react';
 import Link from 'next/link';
 import Search from '../Search/Search';

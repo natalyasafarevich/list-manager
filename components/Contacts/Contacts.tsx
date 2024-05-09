@@ -12,7 +12,7 @@ const contactLink: ContactLinkItem[] = [
   {
     id: 'telegram',
     type: 'telegram',
-    placeholder: '@example-name',
+    placeholder: 'https://t.me/examplemane',
   },
   {
     id: 'instagram',
@@ -32,7 +32,7 @@ const contactLink: ContactLinkItem[] = [
   {
     id: 'linkedIn',
     type: 'linkedIn',
-    placeholder: 'codepen.io/here-your-link',
+    placeholder: 'linkedin.com/in/user-name/',
   },
 ];
 
@@ -93,7 +93,7 @@ const Contacts: FC = () => {
                 <ContactsInput
                   inputValue={contactLinks[item.id] || ''}
                   item={item}
-                  currentValue={(value) => handleInputChange(item.id, value)}
+                  currentValue={(value) => handleInputChange(item.type, value)}
                 />
               </div>
             ))}
