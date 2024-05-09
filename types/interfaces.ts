@@ -79,3 +79,9 @@ export interface UserStructure {
 
 // }
 // {name: user.public_name, email: user.email, photo: user.mainPhoto
+export interface CheckboxItemProps {
+  id: string;
+  isChecked: boolean;
+  order: number;
+  title: string;
+}

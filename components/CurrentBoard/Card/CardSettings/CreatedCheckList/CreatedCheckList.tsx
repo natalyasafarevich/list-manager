@@ -2,7 +2,7 @@
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import AddItemForm from './AddItemForm/AddItemForm';
+import CheckboxForm from './CheckboxForm/CheckboxForm';
 import {updateFirebaseData} from '@/helper/updateUserData';
 import {getCurrentTask} from '@/store/check-lists/actions';
 import {CheckListProps} from '@/types/interfaces';
@@ -54,7 +54,7 @@ const CreatedCheckList: FC = () => {
       <div className='created-checklist__container'>
         {Object.keys(lists)?.map((item: any) => (
           <div className='created-checklist__item' key={lists[item].id}>
-            <AddItemForm
+            <CheckboxForm
               isHide={getIsHide}
               item={lists[item]}
               key={lists[item].id}

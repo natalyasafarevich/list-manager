@@ -4,13 +4,13 @@ import {getCheckLists, isTaskUpdate} from '@/store/check-lists/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import React, {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {ListTasksProps} from '../AddItemForm/AddItemForm';
+// import {ListTasksProps} from '../CheckboxForm/CheckboxForm';
 import './CheckboxItem.scss';
 import {CheckListProps} from '@/types/interfaces';
 import MiniPopup from '@/components/MiniPopup/MiniPopup';
 
 interface CheckboxItemProps {
-  item: ListTasksProps;
+  item: any;
   listId: string;
 }
 
@@ -91,7 +91,7 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
   };
   const [isdUpdate, setIsUpddate] = useState(false);
   const [updatedTasks, setUpdatedTasks] = useState<{
-    [taskId: string]: ListTasksProps;
+    [taskId: string]: any;
   } | null>(null);
   const deleteTask = () => {
     const tasks = {...checkLists.lists[listId as any].tasks};

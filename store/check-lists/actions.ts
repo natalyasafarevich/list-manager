@@ -1,4 +1,4 @@
-import {ListTasksProps} from '@/components/CurrentBoard/Card/CardSettings/CreatedCheckList/AddItemForm/AddItemForm';
+import {ListTasksProps} from '@/components/CurrentBoard/Card/CardSettings/CreatedCheckList/CheckboxForm/CheckboxForm';
 import {CheckListProps} from '@/types/interfaces';
 
 export const CHECK_LISTS = 'check-lists/CHECK_LISTS';
