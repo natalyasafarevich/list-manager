@@ -18,7 +18,7 @@ interface NavLink {
 const SideBar: FC = () => {
   const [navLinks, setNavLinks] = useState<NavLink[]>([
     {path: '/boards', label: 'Boards'},
-    {path: '/to-do', label: 'To-Do'},
+    // {path: '/to-do', label: 'To-Do'},
     {path: '/templates', label: 'Templates'},
   ]);
   const [activeLink, setActiveLink] = useState('');

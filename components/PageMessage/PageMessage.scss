@@ -1,0 +1,64 @@
+.page-message {
+  // .page-message__container
+  height: 100%;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 245, 25, 0.17);
+    height: inherit;
+  }
+
+  // .page-message__row
+
+  &__row {
+    margin: 0 -15px;
+    display: flex;
+    align-items: center;
+    max-width: 1000px;
+    width: 100%;
+  }
+
+  // .page-message__box
+
+  &__box {
+    margin: 0 15px;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  // .page-message__title
+
+  &__title {
+    font-weight: 700;
+    font-size: 40px;
+    span {
+      display: block;
+      font-weight: 300;
+      font-size: 35px;
+    }
+  }
+
+  // .page-message__button
+
+  &__button {
+    margin-top: 100px;
+    // width: max-content;
+    max-width: 200px;
+    border-radius: 25px;
+    a {
+      color: var(--primary-color);
+    }
+  }
+
+  // .page-message__img
+
+  &__img {
+    max-width: 500px;
+    width: 100%;
+    height: 500px;
+    margin: 0 15px;
+    background: center/contain no-repeat url("/error-icon.svg");
+  }
+}
