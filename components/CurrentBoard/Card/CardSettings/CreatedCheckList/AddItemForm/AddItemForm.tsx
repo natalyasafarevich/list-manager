@@ -1,7 +1,7 @@
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {
   getCheckLists,
-  getListIndex as getCurrentListIndex,
+  // getListIndex as getCurrentListIndex,
   isDeleteList,
   isTaskUpdate,
 } from '@/store/check-lists/actions';
@@ -29,6 +29,7 @@ interface Props {
 }
 
 const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
+  console.log(item, 'jlkllkk');
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [valueInput, setInputValue] = useState('');
@@ -91,7 +92,7 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
       }
     } else {
       setValue({});
-      dispatch(getCurrentListIndex('0'));
+      // dispatch(getCurrentListIndex('0'));
       dispatch(getCheckLists({}));
     }
   }, [tasksFB]);
@@ -133,14 +134,13 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
       setIsOpen(false);
       setIsUpdate(true);
 
-      dispatch(getCurrentListIndex(item.id));
+      // dispatch(getCurrentListIndex(item.id));
     }
   };
-  // delete task
-  // console.log(tasksFB);
+
   const deleteList = () => {
     const updatedTasks = {...tasksFB};
-    delete updatedTasks[idList.index];
+    delete updatedTasks[item?.id as any];
 
     updateFirebaseData(
       `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
@@ -148,7 +148,7 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
         'check-lists': updatedTasks,
       },
     );
-    dispatch(getCurrentListIndex(item.id));
+    // dispatch(getCurrentListIndex(item.id));
     dispatch(isDeleteList(true));
     dispatch(isCardUpdate(true));
   };
