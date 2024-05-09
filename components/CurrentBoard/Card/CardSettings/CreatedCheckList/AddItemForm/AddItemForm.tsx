@@ -1,7 +1,7 @@
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {
   getCheckLists,
-  // getListIndex as getCurrentListIndex,
+  getListIndex as getCurrentListIndex,
   isDeleteList,
   isTaskUpdate,
 } from '@/store/check-lists/actions';
@@ -57,6 +57,7 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
       setIsUpdate(false);
     }
   }, [value]);
+  console.log(value, 'valuevaluevaluevalue');
   const [isHideChecked, setIsHideChecked] = useState(false);
   const [hideText, setHideText] = useState('');
   const isUpdateTaskList = useSelector(
@@ -64,6 +65,7 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
   );
   //receiving tasks from the server and saving them
   useEffect(() => {
+    setValue({});
     if (tasksFB) {
       for (let key in tasksFB) {
         if (key === item.id) {
@@ -91,15 +93,14 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
         }
       }
     } else {
-      setValue({});
-      // dispatch(getCurrentListIndex('0'));
+      dispatch(getCurrentListIndex(item.id));
       dispatch(getCheckLists({}));
     }
   }, [tasksFB]);
 
   //receiving data
   useEffect(() => {
-    if (user) {
+    if (user || isUpdateTaskList) {
       fetchBackDefaultData(
         `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}/check-lists`,
         setTasksFB,
@@ -134,29 +135,31 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
       setIsOpen(false);
       setIsUpdate(true);
 
-      // dispatch(getCurrentListIndex(item.id));
+      dispatch(getCurrentListIndex(item.id));
     }
   };
 
   const deleteList = () => {
     const updatedTasks = {...tasksFB};
     delete updatedTasks[item?.id as any];
-
+    console.log(updatedTasks, 'jupdatedTasks');
+    setValue(updatedTasks);
+    dispatch(getCurrentListIndex(item.id));
+    dispatch(isDeleteList(true));
+    dispatch(isCardUpdate(true));
     updateFirebaseData(
       `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
       {
         'check-lists': updatedTasks,
       },
     );
-    // dispatch(getCurrentListIndex(item.id));
-    dispatch(isDeleteList(true));
-    dispatch(isCardUpdate(true));
   };
 
   const hideChecked = () => {
     setIsHideChecked(!isHideChecked);
     isHide(!isHideChecked, item.id);
   };
+  const [currentList, setList] = useState<any>({});
 
   useEffect(() => {
     Object.keys(value).map((item) => {
@@ -196,7 +199,6 @@ const AddItemForm: FC<Props> = ({item, currentValue, isHide}) => {
             >
               Deleted
             </button>
-            {/* )} */}
           </div>
         </div>
         <div className='checkbox-form__items'>

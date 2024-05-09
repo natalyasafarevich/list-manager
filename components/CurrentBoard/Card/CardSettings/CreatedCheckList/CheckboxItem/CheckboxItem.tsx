@@ -21,7 +21,7 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [toggleText, setToggleText] = useState('');
-
+  console.log('itemitemitemitem', item.id);
   useEffect(() => {
     setValue(item.title);
     if (item.isChecked) {
@@ -89,25 +89,41 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
     setIsReadOnly(!isReadOnly);
     setInitialValue(value);
   };
+  const [isdUpdate, setIsUpddate] = useState(false);
   const [updatedTasks, setUpdatedTasks] = useState<{
     [taskId: string]: ListTasksProps;
   } | null>(null);
   const deleteTask = () => {
     const tasks = {...checkLists.lists[listId as any].tasks};
     delete tasks[item.id as any];
-    setUpdatedTasks(tasks);
+
+    // Обновление данных в Firebase
+    updateFirebaseData(
+      `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${listId}`,
+      {tasks},
+    )
+      .then(() => {
+        // После успешного обновления в Firebase обновляем локальное состояние
+        setUpdatedTasks(tasks);
+        dispatch(isTaskUpdate(true));
+      })
+      .catch((error) => {
+        // Обработка ошибок, если обновление в Firebase не удалось
+        console.error('Error deleting task:', error);
+      });
   };
 
   // useEffect(() => {
-  //   if (updatedTasks) {
+  //   if (isdUpdate) {
   //     setIsOpenSetting(!isOpenSetting);
   //     updateFirebaseData(
   //       `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${listId}`,
   //       {tasks: updatedTasks},
   //     );
   //     dispatch(isTaskUpdate(true));
+  //     setIsUpddate(false);
   //   }
-  // }, [updatedTasks]);
+  // }, [updatedTasks, isdUpdate]);
   const [isOpenSetting, setIsOpenSetting] = useState(false);
   return (
     <div className='check-list-item'>
