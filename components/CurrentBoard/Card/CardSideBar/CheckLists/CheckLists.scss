@@ -1,0 +1,25 @@
+.checklist {
+  // .checklist__container
+
+  &__container {
+    position: relative;
+  }
+
+  // .checklist__label
+
+  &__label {
+  }
+
+  // .checklist__input
+
+  &__input {
+    padding: 5px;
+    margin-bottom: 15px;
+  }
+
+  // .checklist__button
+
+  &__button {
+    padding: 8px;
+  }
+}

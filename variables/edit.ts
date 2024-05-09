@@ -18,6 +18,8 @@ export const modules = {
   },
 };
 
+
+
 export const formats = [
   'header',
   'font',
@@ -32,4 +34,16 @@ export const formats = [
   'indent',
   'link',
   'image',
+];
+
+export const formats_description = [
+  'font',
+  'size',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'list',
+  'bullet',
+  'indent',
 ];

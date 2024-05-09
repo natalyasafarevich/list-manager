@@ -1,0 +1,21 @@
+.contact-input {
+  // .contact-input__box
+
+  &__box {
+    // margin-bottom: 10px;
+  }
+  &__label {
+  }
+  p {
+    padding-left: 40px;
+  }
+  &__input {
+    border-radius: 15px;
+    padding: 5px 10px;
+  }
+}
+
+// .{`contact-input__label
+
+.default-input {
+}

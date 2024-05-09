@@ -1,13 +1,11 @@
 'use client';
-
-import {fetchBackData} from '@/helper/getFirebaseData';
-import {isCardCreate} from '@/store/card-setting/actions';
-import {isCreateCard} from '@/store/column-setting/actions';
+import {isCardUpdate} from '@/store/card-setting/actions';
 import {getCurrentColumn} from '@/store/colunm-info/actions';
 import {AppDispatch, RootState} from '@/store/store';
-import {FC, useEffect, useState} from 'react';
+import {FC, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4 as uuidv4} from 'uuid';
+import './CreateCard.scss';
 
 type CreateCardProps = {
   setCards: (arr: any) => void;
@@ -48,30 +46,37 @@ const CreateCard: FC<CreateCardProps> = ({
     setIsSave(true);
     setIsClose(true);
     setValue('');
-    dispatch(isCardCreate({isCardCreate: true}));
+    dispatch(isCardUpdate(true));
   };
   const handleClose = () => {
-    dispatch(isCardCreate({isCardCreate: false}));
-
+    dispatch(isCardUpdate(false));
     setIsClose(true);
     setValue('');
   };
   return (
-    <>
+    <div className='create-card'>
       <form action='' onSubmit={handleSubmit}>
         <input
+          className='default-input create-card__input'
           type='text'
+          placeholder='Write a card name'
           value={value}
           onChange={(e) => setValue(e.currentTarget.value)}
         />
-        <button className='btn btn-info' type='submit'>
-          добавить карточку
-        </button>
-        <button className='btn btn-danger' type='button' onClick={handleClose}>
-          close
-        </button>
+        <div className='create-card__row flex'>
+          <button className='button-dark create-card__button' type='submit'>
+            Add a card
+          </button>
+          <button
+            className='button-border create-card__button'
+            type='button'
+            onClick={handleClose}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
-    </>
+    </div>
   );
 };
 

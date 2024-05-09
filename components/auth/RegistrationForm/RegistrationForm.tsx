@@ -6,6 +6,7 @@ import {useEffect, useState} from 'react';
 import RegistrationComponent from '../authMethods/email-password/EmailPassword';
 import PhoneSignInComponent from '../authMethods/phone/Phone';
 import GoogleSignInComponent from '../authMethods/google/Google';
+import './RegistrationForm.scss';
 
 const RegistrationForm = () => {
   const [methodOfEnter, setMethodOfEnter] = useState({
@@ -30,29 +31,42 @@ const RegistrationForm = () => {
   }, [searchParams]);
 
   return (
-    <>
-      {methodOfEnter.isEmail && <RegistrationComponent />}
-      {methodOfEnter.isPhone && <PhoneSignInComponent />}
-      <br /> <GoogleSignInComponent />
-      <br />
-      {!methodOfEnter.isEmail && (
-        <Link
-          href='/registration'
-          onClick={() => setMethodOfEnter({isPhone: false, isEmail: true})}
-        >
-          email & password
-        </Link>
-      )}
-      <br />
-      {!methodOfEnter.isPhone && (
-        <Link
-          href='/registration?sign-in=phone'
-          onClick={() => setMethodOfEnter({isPhone: true, isEmail: false})}
-        >
-          Phone
-        </Link>
-      )}
-    </>
+    <div className='auth'>
+      <div className='auth__container auth-container'>
+        {methodOfEnter.isEmail && <RegistrationComponent />}
+        {methodOfEnter.isPhone && <PhoneSignInComponent />}
+        <p className='auth__text'>Or</p>
+        <div className='auth__box flex'>
+          <div className='auth__item'>
+            <GoogleSignInComponent />
+          </div>
+          <div className='auth__item'>
+            {!methodOfEnter.isEmail && (
+              <Link
+                className='auth__link '
+                href='/registration'
+                onClick={() =>
+                  setMethodOfEnter({isPhone: false, isEmail: true})
+                }
+              >
+                Email and Password
+              </Link>
+            )}
+          </div>
+          <div className='auth__item'>
+            {!methodOfEnter.isPhone && (
+              <Link
+                className='auth__link auth__link_phone'
+                href='/registration?sign-in=phone'
+                onClick={() =>
+                  setMethodOfEnter({isPhone: true, isEmail: false})
+                }
+              ></Link>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

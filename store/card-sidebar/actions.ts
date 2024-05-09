@@ -5,15 +5,19 @@ export type PayloadProps = {
   id: string;
   color: string;
 };
+// export type MarkerProps = {
+//   id: string;
+//   color: string;
+// };
 
 export type DataMarkersProps = {
   type: typeof MARKERS;
-  payload: Array<string>;
+  payload: any;
 };
 
 export type ActionsType = DataMarkersProps | IsArchivedCardProps;
 
-export const getMarkersCurrent = (data: Array<string>) => {
+export const getMarkersCurrent = (data: any) => {
   return {
     type: MARKERS,
     payload: data,

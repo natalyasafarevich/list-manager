@@ -6,12 +6,13 @@ import {AppDispatch, RootState} from '@/store/store';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import CreateCard from '../Card/CreateCard/CreateCard';
 import CardDisplay from '../Card/CardDisplay/CardDisplay';
-import NameWithSettingsButton from './NameWithSettingsButton/NameWithSettingsButton';
+import ColumnHeader from './ColumnHeader/ColumnHeader';
 
-import {fetchBackDefaultData, getFirebaseData} from '@/helper/getFirebaseData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {CurrentColumnProps} from '@/types/interfaces';
 import {getIsOpenClSetting} from '@/store/column-setting/actions';
 import {isCardUpdate} from '@/store/card-setting/actions';
+import './Column.scss';
 
 type ColumnProps = {
   item?: {id: string; cards: Array<any>; isArchive: boolean};
@@ -58,9 +59,9 @@ const Column: FC<ColumnProps> = ({item, name}) => {
       dispatch(isCardUpdate(false));
     }
   }, [cardUpdate]);
+
   useEffect(() => {
     if (isSave) {
-      console.log(cardUpdate);
       updateFirebaseData(`boards/${current_board.index}/lists/${cardIndex}`, {
         cards,
       });
@@ -69,10 +70,9 @@ const Column: FC<ColumnProps> = ({item, name}) => {
         getUserData,
       );
     }
-    // dispatch(isCardUpdate(false));
     setIsSave(false);
   }, [isSave]);
-  // const markers=useSelector((state:RootState))
+
   useEffect(() => {
     dispatch(getIsOpenClSetting({isOpen: false}));
   }, []);
@@ -80,42 +80,50 @@ const Column: FC<ColumnProps> = ({item, name}) => {
   const addCard = () => {
     setIsClose(false);
   };
+  // console.log(isClose);
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
   return (
     <>
       {!item?.isArchive && (
-        <div
-          className='m-2 border rounded p-3 bg-light text-dark position-relative '
-          data-id={item?.id}
-        >
-          <NameWithSettingsButton
+        <div className='column ' data-id={item?.id}>
+          <ColumnHeader
             item={item}
             listIndex={cardIndex}
             name={name}
             addNewCard={addCard}
           />
-          {!isClose ? (
-            <CreateCard
-              setCards={setCards}
-              setIsSave={setIsSave}
-              setIsClose={setIsClose}
-              listId={item?.id as string}
-              setCardIndex={setCardIndex}
-            />
-          ) : (
-            <div>
-              <div className='mb-2'>
-                {cards?.map((card: any, i: any) => {
-                  return <CardDisplay card={card} item={item} key={i} />;
-                })}
+
+          <div className='column__info'>
+            {cards?.map((card: any, i: any) => {
+              return (
+                <div className='column__card' key={i}>
+                  <CardDisplay card={card} item={item} />
+                </div>
+              );
+            })}
+            {!isClose ? (
+              <div className='column__box'>
+                <CreateCard
+                  setCards={setCards}
+                  setIsSave={setIsSave}
+                  setIsClose={setIsClose}
+                  listId={item?.id as string}
+                  setCardIndex={setCardIndex}
+                />
               </div>
-              {isLoggedIn && (
-                <button type='button' onClick={addCard}>
-                  добавить карточкvу
+            ) : (
+              isLoggedIn && (
+                <button
+                  className='column__button'
+                  type='button'
+                  onClick={addCard}
+                >
+                  <span></span>
                 </button>
-              )}
-            </div>
-          )}
+              )
+            )}
+          </div>
+          {/* )} */}
         </div>
       )}
     </>

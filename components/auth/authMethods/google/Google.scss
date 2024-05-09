@@ -1,0 +1,20 @@
+.google-button {
+  cursor: pointer;
+  border-radius: 9px;
+  max-width: 298px;
+  width: 100%;
+  padding: clamp(9px, 3vw, 15px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-color);
+  color: var(--secondary-color);
+
+  &__icon {
+    margin-right: 15px;
+    width: 26px;
+    height: 26px;
+    display: block;
+    background: center/contain no-repeat url("/google.svg");
+  }
+}

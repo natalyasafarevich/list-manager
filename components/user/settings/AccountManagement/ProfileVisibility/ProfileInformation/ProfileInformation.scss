@@ -1,0 +1,36 @@
+.profile-information {
+  // .profile-information__box
+
+  &__box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 -5px;
+  }
+
+  // .profile-information__item
+  &__subtitle {
+    margin-bottom: 10px;
+  }
+  &__country {
+    margin-bottom: 15px;
+  }
+  &__item {
+    margin: 0 5px 15px;
+    width: 48%;
+  }
+
+  // .profile-information__textarea
+
+  &__textarea {
+    width: 100%;
+    resize: none;
+    padding: 10px;
+    height: 150px;
+    border: 2px solid #e5e5e5;
+    border-radius: 7px;
+  }
+  &__button {
+    margin-top: 25px;
+  }
+}

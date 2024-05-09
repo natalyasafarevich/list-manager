@@ -1,0 +1,29 @@
+.edit-title {
+  // .edit-title__form
+
+  &__form {
+  }
+
+  // .edit-title__label
+
+  &__label {
+    line-height: 114%;
+    color: #444;
+  }
+
+  // .edit-title__input
+
+  &__input {
+    padding: 5px;
+  }
+
+  // .edit-title__row
+
+  &__row {
+    margin: 10px -5px 0;
+    button {
+      margin: 0 5px;
+      padding: 7px;
+    }
+  }
+}

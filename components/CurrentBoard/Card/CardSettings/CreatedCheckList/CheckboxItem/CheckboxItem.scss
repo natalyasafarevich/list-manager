@@ -1,0 +1,71 @@
+.check-list-item {
+  // .check-list-item__checkbox
+
+  &__checkbox {
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+    margin-right: 8px;
+  }
+
+  // .check-list-item__value
+  &__popup {
+    position: absolute;
+    right: -40%;
+    top: 0px;
+    width: 217px;
+    .button-shade-gray {
+      width: 100%;
+
+      padding: 5px;
+    }
+  }
+  &__value {
+    color: #616161;
+    border: none;
+    outline: none;
+
+    width: 80%;
+    resize: none;
+    overflow: hidden;
+    max-height: 22px;
+    height: auto;
+  }
+  &__form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    width: 100%;
+  }
+  // .check-list-item__button
+
+  &__button {
+  }
+  .button-more {
+    margin-left: auto;
+  }
+  &__change {
+    cursor: pointer;
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+    border: none;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 3px;
+  }
+  // .check-list-item__row
+
+  &__row {
+    padding-left: 15px;
+    max-width: 100%;
+    width: 100%;
+    margin: 5px 5px;
+    button {
+      margin: 0 5px;
+      width: max-content;
+      padding: 7px 22px;
+    }
+  }
+}

@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getColumnInfo} from '@/store/colunm-info/actions';
 import {ColumnCardsProps} from '@/types/interfaces';
 import {getMarkersCurrent, isArchivedCard} from '@/store/card-sidebar/actions';
+import './CardDisplay.scss';
 
 export type CardDisplayProps = {
   card: ColumnCardsProps;
@@ -25,44 +26,67 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
   }, [isOpenCard]);
 
   const openCard = () => {
-    dispatch(getMarkersCurrent([]));
+    dispatch(getMarkersCurrent({}));
     setIsOpenCards(!isOpenCard);
     dispatch(isArchivedCard(card?.isArchived || false));
   };
-
+  const {markers} = card;
   return (
-    <>
-      {!card?.isArchived && (
-        <button
-          onClick={openCard}
-          className=' text-light w-100 p-2'
-          style={{backgroundColor: card.cover || 'black'}}
-        >
-          <span> {card.title}</span>
-          {card?.description && (
-            <div dangerouslySetInnerHTML={{__html: card.description}}></div>
-          )}
-          <div className='w-100 d-flex  '>
-            {card?.markers?.map((item, i) => (
+    <div className='card-display'>
+      <div className='card-display__container'>
+        {!card?.isArchived && (
+          <div
+            style={{background: card?.cover}}
+            onClick={openCard}
+            className='card-display__box'
+            data-cover={card.cover}
+          >
+            <span className='card-display__title'> {card.title}</span>
+            {card?.description && (
               <div
-                key={i}
-                className='m-2'
-                style={{width: '50px', height: '10px', background: item}}
+                className='card-display__desc'
+                dangerouslySetInnerHTML={{__html: card.description}}
               ></div>
-            ))}
+            )}
+            <div className='card-display__row'>
+              {markers &&
+                Object.keys(markers)?.map((item: any, i) => (
+                  <div
+                    key={i}
+                    className='card-display__markers default-tags'
+                    style={{
+                      background: markers[item].color,
+                    }}
+                  >
+                    {markers[item]?.text}
+                  </div>
+                ))}
+            </div>
+            <div className='card-display__row'>
+              {card['check-lists'] && (
+                <span className='card-display__icon card-display__icon_check'>
+                  {Object.keys(card['check-lists']).length}
+                </span>
+              )}{' '}
+              {card.comments && (
+                <span className='card-display__icon card-display__icon_comments'>
+                  {card.comments.length}
+                </span>
+              )}
+            </div>
           </div>
-        </button>
-      )}
+        )}
 
-      {isOpenCard && (
-        <CardSettings
-          setIsOpenCard={() => {
-            setIsOpenCards(!isOpenCard);
-          }}
-          card={card}
-        />
-      )}
-    </>
+        {isOpenCard && (
+          <CardSettings
+            setIsOpenCard={() => {
+              setIsOpenCards(!isOpenCard);
+            }}
+            card={card}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 

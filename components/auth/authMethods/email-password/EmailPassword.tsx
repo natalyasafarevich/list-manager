@@ -2,14 +2,16 @@
 
 import {handleRegister, isUserExist} from '@/firebase/registration';
 import {useState} from 'react';
-import GoogleSignInComponent from '../google/Google';
-import PhoneSignInComponent from '../phone/Phone.jsx';
+import './EmailPassword.scss';
 import Link from 'next/link';
+import InputField from '@/components/InputField/InputField';
+import WelcomeHeader from '@/components/WelcomeHeader/WelcomeHeader';
+import {useRouter} from 'next/navigation';
 
 const RegistrationComponent = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-
+  const router = useRouter();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isEmailCorrect, setIsEmailCorrect] = useState(true);
@@ -73,14 +75,14 @@ const RegistrationComponent = () => {
       setIsIrregularPassword((prev) => ({
         ...prev,
         isIrregular: true,
-        note: 'Passwords aren` Equal',
+        note: 'Passwords don`t match',
       }));
       return;
     }
 
     try {
       const user = await handleRegister(email, password, name);
-
+      router.push('/');
       clearForm();
     } catch (error: any) {
       const errorCode = error.code;
@@ -89,7 +91,6 @@ const RegistrationComponent = () => {
           handleEmailAlreadyInUse();
           break;
         case 'auth/invalid-email':
-          w;
           handleInvalidEmail();
           break;
         case 'auth/missing-password':
@@ -105,42 +106,72 @@ const RegistrationComponent = () => {
   };
 
   return (
-    <>
-      {/* <PhoneSignInComponent />
-      <GoogleSignInComponent /> */}
-      <form onSubmit={handleSubmit}>
-        <h2>Registration</h2>
-        <input
-          type='text'
-          placeholder='Name'
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        {isUserExist && <p>user already exist</p>}
-        {!isEmailCorrect && <h3>wrong email</h3>}
-        <input
-          type='text'
-          placeholder='Email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {/* {!isEqualPassword && <h2>Пароли не совпадают</h2>} */}
-        {isIrregularPassword.isIrregular && <p>{isIrregularPassword.note}</p>}
-        <input
-          type='password'
-          placeholder='Password'
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
-        <input
-          type='password'
-          placeholder='ConfirmPassword'
-          onChange={checkPassword}
-          value={confirmPassword}
-        />
-        <button type='submit'>Register</button>
-      </form>
-    </>
+    <div className='register'>
+      <div className='register__container'>
+        <form onSubmit={handleSubmit}>
+          <WelcomeHeader
+            name='Sign Up'
+            subTitle='Have an account?'
+            text='Sign In'
+            link='log-in'
+          />
+
+          <div className='register__column'>
+            <div className='register__box'>
+              <InputField
+                className='register__input'
+                label='Enter your full name'
+                id={'name'}
+                value={name}
+                type='text'
+                placeholder='Full name'
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className='register__box'>
+              <InputField
+                className={`${isUserExist || !isEmailCorrect ? 'input-error' : ''} register__input`}
+                label='Enter your email address'
+                id={'email'}
+                type='email'
+                placeholder='Email address'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {isUserExist && <p className='text-error'>User already exists</p>}
+              {!isEmailCorrect && <p className='text-error'>Wrong email</p>}
+            </div>
+            <div className='register__box'>
+              <InputField
+                className={`${isIrregularPassword.isIrregular ? 'input-error' : ''} register__input`}
+                label='Enter your password'
+                id={'password'}
+                type='password'
+                placeholder='Password'
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
+              {isIrregularPassword.isIrregular && (
+                <p className='text-error'>{isIrregularPassword.note}</p>
+              )}
+              <br />
+              <InputField
+                className={`${isIrregularPassword.isIrregular ? 'input-error' : ''} register__input`}
+                label='Repeat your password'
+                id={'confirm-password'}
+                type='password'
+                placeholder='Confirm password'
+                onChange={checkPassword}
+                value={confirmPassword}
+              />
+            </div>
+            <button className='register__button' type='submit'>
+              Sign up
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 export default RegistrationComponent;

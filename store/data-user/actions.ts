@@ -3,8 +3,10 @@ import {UserInfo} from 'firebase/auth';
 export const DATA_USER = 'data-user/DATA_USER';
 export const RESET_DATA_USER = 'data-user/RESET_DATA_USER';
 export const DATA_USER_FOR_FIREBASE = 'data-user/DATA_USER_FOR_FIREBASE';
+export const DATA_USER_FROM_FIREBASE = 'data-user/DATA_USER_FROM_FIREBASE';
+
 export const UPDATE_LINK = 'data-user/UPDATE_LINK';
-export const UPDATE_PHOTO = 'data-user/UPDATE_PHOTO';
+export const USER_UPDATED = 'data-user/USER_UPDATED';
 export const USER_STATUS = 'data-user/USER_STATUS';
 
 export type DataUserProp = {
@@ -19,12 +21,26 @@ export type ActionsType =
   | ResetDataUserProp
   | DataUserFirebaseProp
   | UpdateLinkProp
-  | UpdatePhotoProp
-  | UserStatusProp;
+  | UserUpdatedProp
+  | UserStatusProp
+  | UserInfoProp
+  | AdditionalInfoProps;
 
 export const getDataUser = (data: any) => {
   return {
     type: DATA_USER,
+    payload: data,
+  };
+};
+export const ADDITIONAL_INFO = 'data-user/ADDITIONAL_INFO';
+
+export type AdditionalInfoProps = {
+  type: typeof ADDITIONAL_INFO;
+  payload: any;
+};
+export const getAdditionalInfo = (data: any) => {
+  return {
+    type: ADDITIONAL_INFO,
     payload: data,
   };
 };
@@ -72,14 +88,14 @@ export const getUpdateLink = (data: ObjectProps) => {
   };
 };
 
-export type UpdatePhotoProp = {
-  type: typeof UPDATE_PHOTO;
-  payload: string;
+export type UserUpdatedProp = {
+  type: typeof USER_UPDATED;
+  payload: boolean;
 };
 
-export const getUpdatePhoto = (data: string) => {
+export const isUserUpdated = (data: boolean) => {
   return {
-    type: UPDATE_PHOTO,
+    type: USER_UPDATED,
     payload: data,
   };
 };
@@ -91,6 +107,19 @@ export type UserStatusProp = {
 export const getUserStatus = (data: string) => {
   return {
     type: USER_STATUS,
+    payload: data,
+  };
+};
+//!!
+interface UserInfoProps {}
+export type UserInfoProp = {
+  type: typeof DATA_USER_FROM_FIREBASE;
+  payload: any;
+};
+
+export const getUserInfo = (data: any) => {
+  return {
+    type: DATA_USER_FROM_FIREBASE,
     payload: data,
   };
 };

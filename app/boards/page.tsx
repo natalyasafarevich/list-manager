@@ -1,10 +1,18 @@
-import AllBoards from '@/components/All-Boards/All-Boards';
+'use client';
+import BoardsList from '@/components/BoardsList/BoardsList';
+import CreateBoardForm from '@/components/CreateBoardForm/CreateBoardForm';
+// import  from '@/components/CreateBoardForm/CreateBoardForm';
+import DashboardHeader from '@/components/DashboardHeader/DashboardHeader';
+import {RootState} from '@/store/store';
+import {useState} from 'react';
+import {useSelector} from 'react-redux';
 
 export default function AllBoardsPage() {
   return (
     <div>
-      <h1 className='text-align-center'>BOARDS PAGE</h1>
-      <AllBoards />
+      <DashboardHeader />
+
+      <BoardsList />
     </div>
   );
 }

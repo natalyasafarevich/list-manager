@@ -4,6 +4,8 @@ import {redirect} from 'next/navigation';
 import {FC, FormEvent, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {v4 as uuidv4} from 'uuid';
+import './CopyBoard.scss';
+
 const CopyBoard: FC = () => {
   const [newBoard, setNewBoard] = useState<any>();
   const [isUpdate, setIsIsUpdate] = useState(false);
@@ -74,31 +76,44 @@ const CopyBoard: FC = () => {
     }
   };
   return (
-    <div className='position-relative'>
-      <p onClick={() => setIsOpen(!isOpen)}>копировать доску</p>
+    <div className='copy-board'>
+      <p
+        onClick={() => setIsOpen(!isOpen)}
+        className='expandable-content__title underline'
+      >
+        Copy the board
+      </p>
       {isOpen && (
-        <form
-          action=''
-          onSubmit={handleSubmit}
-          className='position-absolute bg-black top-0 p-2'
-        >
-          <label htmlFor='title'>название</label>
+        <form action='' onSubmit={handleSubmit} className='copy-board__form'>
+          <button
+            className='button-close'
+            onClick={() => setIsOpen(!isOpen)}
+          ></button>
+          <label htmlFor='title' className='copy-board__label'>
+            Title
+          </label>
           <input
+            className='copy-board__input'
             id='title'
             type='text'
             value={title}
             onChange={(e) => setTitle(e.currentTarget.value)}
           />
-          <div className='d-flex mt-2'>
+          <div className='copy-board__box'>
             <input
+              className='copy-board__checkbox'
               type='checkbox'
               id='i'
               onChange={(e) => setIsChecked(e.currentTarget.checked)}
             />
-            <label htmlFor='i'>оставить карточки</label>
+            <label htmlFor='i'>Leave the cards</label>
           </div>
-          <button type='submit' disabled={isDisabled}>
-            создать
+          <button
+            type='submit'
+            className='copy-board__button button-dark'
+            disabled={isDisabled}
+          >
+            Copy the board
           </button>
         </form>
       )}

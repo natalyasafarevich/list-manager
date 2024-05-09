@@ -8,8 +8,11 @@ import {createdBoard} from '@/variables/create-card-test';
 import {useParams, useRouter} from 'next/navigation';
 
 import Email from './Email/Email';
-import ProfileVisibility from './ProfileVisibility/ProfileVisibility';
+import BasicInfo from './ProfileVisibility/BasicInfo';
 import Security from './Security/Security';
+import './AccountManagement.scss';
+import DeleteAccount from './Security/DeleteAccount/DeleteAccount';
+import Contacts from '@/components/Contacts/Contacts';
 
 // запись данных
 async function writeUserData(
@@ -55,14 +58,18 @@ export const AccountManagement = () => {
   }, []);
 
   return (
-    <>
-      <div className='d-flex'>
-        {router.slug === 'security' && <Security />}
-        {router.slug === 'profile' && <ProfileVisibility />}
-        {router.slug === 'email' && <Email />}
-        {/*не работает*/}
-        {/* <Email /> */}
+    <div className='account-manager'>
+      <div className='account-manager__container'>
+        <div className='d-flex'>
+          {router.slug === 'contacts' && <Contacts />}
+          {router.slug === 'security' && <Security />}
+          {router.slug === 'profile' && <BasicInfo />}
+          {router.slug === 'email' && <Email />}
+          {router.slug === 'delete-account' && <DeleteAccount />}
+          {/*не работает*/}
+          {/* <Email /> */}
+        </div>
       </div>
-    </>
+    </div>
   );
 };

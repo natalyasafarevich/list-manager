@@ -1,9 +1,10 @@
 import {fetchBackDefaultData, getDefaultData} from '@/helper/getFirebaseData';
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
-import {isCover} from '@/store/card-setting/actions';
+import {isCardUpdate, isCover} from '@/store/card-setting/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import './Inner.scss';
 
 const Inner: FC = () => {
   const [cover, setCover] = useState<Array<string>>([]);
@@ -12,7 +13,7 @@ const Inner: FC = () => {
   }, []);
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state.userdata);
-  const {uid, dataLink} = user;
+  const {dataLink} = user;
   const changeCover = (e: React.MouseEvent<HTMLElement>) => {
     const {currentTarget} = e;
 
@@ -22,17 +23,18 @@ const Inner: FC = () => {
         cover: currentTarget.dataset.color,
       },
     );
-    dispatch(isCover(true));
+    dispatch(isCardUpdate(true));
   };
   return (
-    <div>
-      <div className='d-flex mt-2 mb-2'>
+    <div className='cover-inner'>
+      <div className='flex cover-inner__row '>
         {cover?.map((item, i) => (
           <button
             key={i}
+            className='cover-inner__item'
             data-color={item}
             onClick={changeCover}
-            style={{width: '50px', height: '40px', background: item}}
+            style={{background: item}}
           ></button>
         ))}
       </div>

@@ -1,0 +1,84 @@
+.column-create-form {
+  // .column-create-form__container
+
+  &__container {
+  }
+
+  // .column-create-form__row
+
+  &__row {
+    align-items: flex-start;
+    margin: 0 -12px;
+    overflow-x: scroll;
+    padding-bottom: 35px;
+  }
+
+  // .column-create-form__column
+
+  &__column {
+    // margin: 0 12px;
+    // max-width: 300px;
+    // min-width: 300px;
+    // width: 100%;
+  }
+
+  // .column-create-form__box
+
+  &__box {
+    max-width: 300px;
+    width: 100%;
+    box-shadow: 0 4px 19px 0 rgba(63, 71, 45, 0.3);
+    background: var(--secondary-color);
+    cursor: pointer;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+  &__label {
+    margin-bottom: 5px;
+  }
+  &__flex {
+    margin: 15px -5px 0;
+    button {
+      margin: 0 5px;
+      padding: 7px;
+    }
+  }
+  // .column-create-form__form
+
+  &__form {
+    padding: 15px;
+  }
+
+  // .column-create-form__input
+
+  &__input {
+    padding: 6px;
+  }
+
+  // .column-create-form__button
+
+  &__button {
+    text-align: center;
+    padding: 8px;
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: none;
+      background: var(--primary-color);
+      color: var(--secondary-color);
+    }
+  }
+}
+.flex {
+}
+.default-input {
+}
+.btn {
+}
+.btn-outline-secondary {
+}
+.d-block {
+}
+.mt-2 {
+}

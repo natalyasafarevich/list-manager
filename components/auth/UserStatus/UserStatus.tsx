@@ -6,16 +6,23 @@ import {useRouter} from 'next/navigation';
 import firebaseApp from '@/firebase';
 import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch, useSelector} from 'react-redux';
-import {getDataUser} from '@/store/data-user/actions';
+import {
+  getAdditionalInfo,
+  getDataUser,
+  isUserUpdated,
+} from '@/store/data-user/actions';
 import {getDatabase, onValue, ref} from 'firebase/database';
 import {getBoards} from '@/store/board/actions';
 import {updateUserData} from '@/helper/updateUserData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {getUserNames} from '@/store/auth/actions';
 
 const UserStatus = () => {
   const [user, setUser] = useState<any>();
 
   const dispatch: AppDispatch = useDispatch();
   const current_user = useSelector((state: RootState) => state.userdata);
+
   const auth = getAuth(firebaseApp);
   const db = getDatabase(firebaseApp);
 
@@ -34,24 +41,52 @@ const UserStatus = () => {
       if (user) {
         const {displayName, email, phoneNumber, photoURL, uid} = user;
         setUser({displayName, email, phoneNumber, photoURL, uid});
-        updateUserData(`${uid}/`, {email: email});
+
+        updateUserData(`${uid}/`, {
+          email: email,
+          phoneNumber: phoneNumber,
+          displayName: displayName,
+          photoURL: photoURL,
+        });
       }
     });
 
     return () => unsubscribe();
   }, [auth]);
-
+  const [additionalInfo, setAdditionalInfo] = useState<any>();
   useEffect(() => {
-    if (user) {
-      console.log('Пользователь вошел:', user);
+    dispatch(getAdditionalInfo(additionalInfo));
+    console.log(additionalInfo, 'additionalInfo');
+  }, [additionalInfo]);
+  const [userNames, setUserNames] = useState<Array<string>>([]);
+  // const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserNames(userNames));
+  }, [userNames]);
+  useEffect(() => {
+    // if
+    user &&
+      fetchBackDefaultData(
+        `/users/${user?.uid}/additional-info`,
+        setAdditionalInfo,
+      );
+    dispatch(isUserUpdated(false));
+  }, [user, current_user.isUpdate]);
+  useEffect(() => {
+    console.group(user);
+    if (user || current_user.isUpdate) {
+      // console.log(user?.isUploaded);
+      console.log('Пользователь вошелscssccs:', user);
       dispatch(getDataUser({...user}));
+      // console.log(current_user?.isUpdate, user, ';user');
 
-      // route.push(`/user?id=${user.uid.slice(0, 8)}`);
+      fetchBackDefaultData('/user-names/all', setUserNames);
+      // dispatch(isUserUpdated(false));
     } else {
       console.log('Пользователь не вошел.');
     }
-  }, [user]);
-
+  }, [user, current_user.isUpdate]);
+  console.log(current_user.isUpdate);
   return <div></div>;
 };
 

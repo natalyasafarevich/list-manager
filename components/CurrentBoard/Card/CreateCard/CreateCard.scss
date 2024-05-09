@@ -1,0 +1,21 @@
+.create-card {
+  // .create-card__input
+
+  &__input {
+    padding: 6px;
+  }
+
+  // .create-card__row
+
+  &__row {
+    margin: 12px -5px 0;
+  }
+
+  // .create-card__button
+
+  &__button {
+    margin: 0 5px;
+    padding: 8px;
+    border-radius: 20px;
+  }
+}

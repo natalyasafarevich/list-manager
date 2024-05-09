@@ -1,0 +1,63 @@
+.delete-account {
+  // .delete-account__container
+
+  &__container {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  // .delete-account__title
+
+  &__title {
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 40px;
+  }
+
+  // .delete-account__box
+
+  &__box {
+    .text-error {
+      font-weight: 600;
+    }
+    margin-bottom: 26px;
+  }
+
+  // .delete-account__label
+
+  &__label {
+    font-weight: 500;
+    font-size: 17px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  // .delete-account__input
+
+  &__input {
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+  }
+
+  // .delete-account__error
+
+  &__error {
+    font-size: 15px;
+  }
+
+  // .delete-account__button
+
+  &__button {
+    margin-top: 30px;
+    font-weight: 700;
+    font-size: 15px;
+    width: 100%;
+    border-radius: 15px;
+    background: #f00;
+    padding: 22px 5px;
+    color: var(--secondary-color);
+  }
+}

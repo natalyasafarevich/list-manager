@@ -1,43 +1,27 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
 import 'firebase/auth';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/store/store';
 import AddMember from './AddMember/AddMember';
-import {fetchBackData} from '@/helper/getFirebaseData';
-import {MemberProps} from '@/types/interfaces';
+import './Members.scss';
+import MiniPopup from '@/components/MiniPopup/MiniPopup';
 
 const Members: FC = () => {
-  const [user, setUser] = useState<any>();
-  const [userData, setUsersData] = useState<Array<any>>([]);
-  // console.log(userData, 'userDatauserData');
-  // useEffect(() => {
-  //   if (user) {
-  //     setUsersData((prev: any) => [
-  //       ...prev,
-  //       {name: user.public_name, email: user.email, photo: user.mainPhoto},
-  //     ]);
-  //   }
-  // }, [user]);
-  // console.log(user);
-  const boardIndex = useSelector((state: RootState) => state.boards.index);
-
-  const board = useSelector((state: RootState) => state.boards.currentBoards);
-
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className='text-light'>
-      <h1>Поиск пользователя по email</h1>
-      <div>
-        {/* участники: */}
-        {/* {board?.members?.map((item, i) => {
-          return (
-            <p key={i}>
-              {item.role} -{item.email}{' '}
-            </p>
-          );
-        })} */}
+    <div className='new-members'>
+      <div className='new-members__container'>
+        <button
+          className='new-members__button'
+          onClick={(e) => setIsOpen(!isOpen)}
+        ></button>
+        {isOpen && (
+          <div className='new-members__popup'>
+            <MiniPopup title='Add new members' setIsOpen={setIsOpen}>
+              <AddMember setIsOpen={(e) => setIsOpen(e)} />
+            </MiniPopup>
+          </div>
+        )}
       </div>
-      <AddMember />
     </div>
   );
 };

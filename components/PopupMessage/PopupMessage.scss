@@ -1,0 +1,44 @@
+.popup-message {
+  // .popup-message__box
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  &__box {
+    max-width: 343px;
+    width: 100%;
+    border-radius: 12px;
+    padding: 20px;
+    font-weight: 500;
+    line-height: 140%;
+    text-transform: capitalize;
+    color: var(--secondary-color);
+  }
+
+  // .popup-message__box-error
+
+  &__box-error {
+    border: 1px solid #f0863a;
+    background: linear-gradient(149deg, #f6743e 0%, #d42525 100%);
+  }
+  &__box-success {
+    border: 1px solid #43d590;
+    background: linear-gradient(145deg, #32bb71 18.3%, #2a9d8f 100%);
+  }
+  // .popup-message__title
+
+  &__title {
+    flex-wrap: wrap;
+    &::before {
+      width: 20px;
+      height: 20px;
+    }
+    span {
+      margin-top: 4px;
+      display: block;
+      font-weight: 300;
+      padding-left: 30px;
+      font-size: 12px;
+      line-height: 160%;
+    }
+  }
+}

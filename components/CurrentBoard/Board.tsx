@@ -4,11 +4,11 @@ import {useUrl} from 'nextjs-current-url';
 import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import ColumnCreator from './Column/ColumnCreator/ColumnCreator';
-import './Board.css';
+import './Board.scss';
 
 import BoardHeader from './Settings/BoardHeader/BoardHeader';
 import CloseBoardPopup from './Settings/CloseBoardPopup/CloseBoardPopup';
-import {getBoardCurrent, getBoards} from '@/store/board/actions';
+import {getBoardCurrent} from '@/store/board/actions';
 import Members from './Members/Members';
 import {BoardProps} from '@/types/interfaces';
 import {getUserStatus} from '@/store/data-user/actions';
@@ -38,7 +38,7 @@ const CurrentBoard: FC = () => {
   const [currentBoard, setCurrentBoard] = useState<BoardProps>(initialBoard);
   const [currentPathname, setCurrentPathname] = useState<string>('');
   const [index, setIndex] = useState<any>();
-  const [isLight, setIsLight] = useState(false);
+  const [isLightTheme, setIsLightTheme] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
   const db = getDatabase(firebaseApp);
@@ -47,7 +47,7 @@ const CurrentBoard: FC = () => {
   useEffect(() => {
     dispatch(getBoardCurrent(currentBoard, index));
   }, [currentBoard, index]);
-
+  // console.log(currentBoard);
   let lastSegment = pathname?.substring(pathname?.lastIndexOf('/') + 1);
 
   useEffect(() => {
@@ -63,14 +63,6 @@ const CurrentBoard: FC = () => {
 
   const board = useSelector((state: RootState) => state.boards.boards);
   const user = useSelector((state: RootState) => state.userdata);
-  const user_status = useSelector(
-    (state: RootState) => state.userdata.user_status,
-  );
-  useEffect(() => {
-    const parts = pathname ? pathname.split('/') : [];
-    const lastPart = parts.length > 0 ? parts[parts.length - 1] : '';
-    setCurrentPathname(lastPart);
-  }, [pathname]);
 
   useEffect(() => {
     if (currentPathname && board)
@@ -80,51 +72,64 @@ const CurrentBoard: FC = () => {
           setCurrentBoard(board[key]);
         }
       }
-  }, [board, currentPathname]);
+    if (pathname) {
+      const parts = pathname ? pathname.split('/') : [];
+      const lastPart = parts.length > 0 ? parts[parts.length - 1] : '';
+      setCurrentPathname(lastPart);
+    }
+  }, [pathname, board, currentPathname]);
+
+  // useEffect(() => {
+  //   if (currentPathname && board)
+  //     for (let key in board) {
+  //       if (key.includes(currentPathname)) {
+  //         setIndex(key);
+  //         setCurrentBoard(board[key]);
+  //       }
+  //     }
+  // }, [board, currentPathname]);
   useEffect(() => {
     currentBoard.members &&
       dispatch(getUserStatus(currentBoard.members[user.uid]));
+    if (currentBoard['text-color'] === 'light') {
+      setIsLightTheme(true);
+      return;
+    } else {
+      setIsLightTheme(false);
+    }
   }, [currentBoard]);
 
-  useEffect(() => {
-    if (currentBoard['text-color'] === 'light') {
-      setIsLight(true);
-      return;
-    }
-    setIsLight(false);
-  }, [currentBoard['text-color']]);
   if (!currentBoard.id) {
     return <> {!currentBoard.id && <h1>Доска закрыта или не создана</h1>}</>;
   }
   return (
-    <div className=''>
-      <p>
-        role <b>{user_status}</b>
-      </p>
-
-      <div
-        className={`p-2 ${isLight ? 'light' : ''}`}
-        style={{
-          background: currentBoard.currentBg
-            ? `center/cover no-repeat url(${currentBoard.currentBg || ''} )`
-            : currentBoard.currentColor,
-        }}
-      >
-        <div className='mt-5 '>
-          <Members />
-          {!currentBoard.isCloseBoard ? (
-            <>
-              <BoardHeader board={currentBoard} />
-              <div className='d-flex justify-content-between'>
-                <div className=''>
-                  <ColumnCreator currentIndex={index} />
+    <div className='board'>
+      {/* <Members /> */}
+      <div className='board__container  large-content-wrap plr-3  '>
+        <div
+          className={` ${isLightTheme ? 'theme-light' : ''}`}
+          style={
+            {
+              // background: currentBoard.currentBg
+              //   ? `center/cover no-repeat url(${currentBoard.currentBg || ''} )`
+              //   : currentBoard.currentColor,
+            }
+          }
+        >
+          <div className=''>
+            {!currentBoard.isCloseBoard ? (
+              <>
+                <BoardHeader board={currentBoard} />
+                <div className='d-flex justify-content-between'>
+                  <div className=''>
+                    <ColumnCreator currentIndex={index} />
+                  </div>
                 </div>
-              </div>
-            </>
-          ) : (
-            // <p>k</p>
-            <CloseBoardPopup board={currentBoard}></CloseBoardPopup>
-          )}
+              </>
+            ) : (
+              <CloseBoardPopup board={currentBoard}></CloseBoardPopup>
+            )}
+          </div>
         </div>
       </div>
     </div>

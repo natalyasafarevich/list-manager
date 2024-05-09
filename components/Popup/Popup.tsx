@@ -1,0 +1,26 @@
+import React, {FC, ReactNode} from 'react';
+import './Popup.scss';
+
+interface PopupProps {
+  title: string;
+  setIsClose: (value: boolean) => void;
+  children: ReactNode;
+}
+const Popup: FC<PopupProps> = ({title, setIsClose, children}) => {
+  return (
+    <div className='popup'>
+      <div className='popup__container'>
+        <div className='popup__box'>
+          <p className='popup__title'>{title}</p>
+          <button
+            className='button-close'
+            onClick={(e) => setIsClose(false)}
+          ></button>
+        </div>
+        <div className='popup__content'>{children}</div>
+      </div>
+    </div>
+  );
+};
+
+export default Popup;

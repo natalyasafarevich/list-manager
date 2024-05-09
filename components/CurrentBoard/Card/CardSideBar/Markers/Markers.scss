@@ -1,0 +1,26 @@
+.tags {
+  // .tags__container
+
+  &__container {
+    position: relative;
+  }
+
+  // .tags__title
+
+  &__popup {
+    z-index: 1;
+    min-width: 237px;
+    position: absolute;
+    width: 100%;
+  }
+
+  // .tags__box
+
+  &__box:not(:last-of-type) {
+    margin-bottom: 10px;
+  }
+  &__button {
+    margin-top: 25px;
+    padding: 5px;
+  }
+}

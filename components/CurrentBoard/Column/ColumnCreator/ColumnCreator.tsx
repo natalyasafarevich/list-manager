@@ -5,11 +5,11 @@ import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '@/store/store';
 import {v4 as uuidv4} from 'uuid';
-import {getBoardCurrent} from '@/store/board/actions';
-import {fetchBackDefaultData, getFirebaseData} from '@/helper/getFirebaseData';
-import CardForm from '../../Card/CardForm/CardForm';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
+import ColumnCreatorForm from '../ColumnCreatorForm/ColumnCreatorForm';
 import {
   isCardCreate,
+  isCardUpdate,
   isCover,
   isDescriptionAdded,
 } from '@/store/card-setting/actions';
@@ -19,11 +19,12 @@ interface NewColumnProps {
 }
 
 const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
+  // console.log('l');
   const [value, setValue] = useState('');
   const [userData, setUserData] = useState<any>(null);
   const [components, setComponents] = useState<Array<any>>([]);
   const [currentList, setCurrentList] = useState<any>([]);
-  const [currentBoard, setCurrentBoard] = useState<any>({});
+  // const [currentBoard, setCurrentBoard] = useState<any>({});
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [isClick, setIsClick] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -42,10 +43,10 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       setIsUpdate(false);
     }
   }, [isUpdate, currentList]);
-
+  // console.log('jm');
   useEffect(() => {
     if (userData) {
-      setCurrentBoard(userData[currentIndex]);
+      // setCurrentBoard(userData[currentIndex]);
       if (userData[currentIndex] && userData[currentIndex].lists) {
         setCurrentList(userData[currentIndex].lists);
         setComponents(
@@ -56,25 +57,15 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       }
     }
   }, [userData, currentIndex]);
+  // console.log(userData, currentIndex);
   const current_markers = useSelector(
     (state: RootState) => state.markers.markers,
   );
-  const updateCover = useSelector(
-    (state: RootState) => state.card_setting.isCover,
-  );
+  // const updateCover = useSelector(
+  //   (state: RootState) => state.card_setting.isCover,
+  // );
   useEffect(() => {
-    // if (user.uid) {
     fetchBackDefaultData('/boards', setUserData);
-    // const fetchData = async () => {
-    //   try {
-    //     const userData = await getFirebaseData(user.uid, '/boards');
-    //     setUserData(userData);
-    //   } catch (error) {
-    //     alert(error + 'error in new column');
-    //   }
-    // };
-    // fetchData();
-    // }
   }, []);
   const cardUpdate = useSelector(
     (state: RootState) => state.card_setting.isUpdate,
@@ -82,26 +73,18 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   useEffect(() => {
     if (user.uid || cardUpdate) {
       fetchBackDefaultData('/boards', setUserData);
-      console.log(userData);
-      //   try {
-      //     const userData = await getFirebaseData(user.uid, '/boards');
-      //     setUserData(userData);
-      //   } catch (error) {
-      //     alert(error + 'error in new column');
-      //   }
-      // };
-      // fetchData();
-      dispatch(isCardCreate({isCardCreate: false}));
-      dispatch(isDescriptionAdded(false));
-      dispatch(isCover(false));
+      dispatch(isCardUpdate(false));
+      // dispatch(isCardCreate({isCardCreate: false}));
+      // dispatch(isDescriptionAdded(false));
+      // dispatch(isCover(false));
     }
   }, [
     cardUpdate,
-    updateCover,
+    // updateCover,
     user.uid,
-    isCopy,
-    isCreate.isDescriptionAdded,
-    isCreate.isCardCreate,
+    // isCopy.isCopy,
+    // isCreate.isDescriptionAdded,
+    // isCreate.isCardCreate,
     current_markers,
   ]);
 
@@ -139,7 +122,7 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
   }, [value]);
 
   return (
-    <CardForm
+    <ColumnCreatorForm
       components={components}
       addComponents={addComponents}
       setValue={setValue}

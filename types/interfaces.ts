@@ -7,9 +7,11 @@ export interface ColumnCardsProps {
   id: string;
   description?: string;
   comments: Array<string>;
-  markers?: Array<string>;
+  markers?: any;
   isArchived?: boolean;
   cover?: string;
+
+  'check-lists'?: Array<any>;
 }
 export interface CurrentColumnProps {
   name?: string;
@@ -17,9 +19,10 @@ export interface CurrentColumnProps {
   cards: Array<ColumnCardsProps>;
 }
 export type CheckListProps = {
+  order: any;
   id: string;
   title: string;
-  tasks?: Array<any>;
+  tasks?: any;
   isDelete?: boolean;
   isHideCheckedList?: boolean;
 };
@@ -48,7 +51,7 @@ export type BoardProps = {
   currentBg?: string;
   id?: string;
   members?: any;
-  //  Array<MemberProps>;
+  creationDate?: string;
   name?: string;
   type?: string;
   lists?: Array<ListsProps>;

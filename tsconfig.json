@@ -36,6 +36,7 @@
     "app/board/board.js",
     "pages/about.tsx",
     "components/CurrentBoard/Members/Members.tsx",
+    "components/auth/authMethods/phone/Phone.jsx",
   ],
   "exclude": ["node_modules"],
 }

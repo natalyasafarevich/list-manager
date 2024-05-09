@@ -1,30 +1,48 @@
-import firebaseApp from '@/firebase';
-import {fetchBackData} from '@/helper/getFirebaseData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {profileUpdate} from '@/helper/updateProfile';
 import {updateUserData} from '@/helper/updateUserData';
 import useUserPhotos from '@/hooks/useUserPhotos';
-import {getUpdatePhoto} from '@/store/data-user/actions';
 import {AppDispatch, RootState} from '@/store/store';
-import {getAuth} from 'firebase/auth';
 import {getStorage, ref, uploadBytes} from 'firebase/storage';
-import {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {FC, useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import './ChangePhoto.scss';
+import {useDispatch} from 'react-redux';
+import {isUserUpdated} from '@/store/data-user/actions';
 
-const ChangePhoto = () => {
-  const [file, setFile] = useState<any>(null);
-  const [photo, setPhoto] = useState<any>();
+interface ChangePhotoProps {
+  getCurrentImg?: (value: string) => void;
+}
+
+const ChangePhoto: FC<ChangePhotoProps> = ({getCurrentImg}) => {
+  const [error, setError] = useState('');
   const [isUploaded, setIsUploaded] = useState(false);
+  const [file, setFile] = useState<any>(null);
+  const [currentImg, setCurrentImg] = useState<any>();
+
+  useEffect(() => {
+    getCurrentImg && getCurrentImg(currentImg );
+  }, [currentImg]);
+
+  const [photo, setPhoto] = useState<any>();
 
   const user = useSelector((state: RootState) => state.userdata);
-
+  const dispatch: AppDispatch = useDispatch();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = (e.target as any).files[0];
     setFile(selectedFile);
   };
-  const auth = getAuth(firebaseApp);
+
   const handleUpload = () => {
     setIsUploaded(false);
-    console.log(file);
+
+    if (!file.type.startsWith('image/')) {
+      setError(
+        `The selected file is not an image or has an unsupported format. 
+        Please choose a file in the following formats: JPG, PNG, GIF, BMP, TIFF, or WebP.`,
+      );
+      return;
+    }
     if (file) {
       const storage = getStorage();
       const storageRef = ref(
@@ -32,49 +50,68 @@ const ChangePhoto = () => {
         `profile_photos/${user.uid}/avatar/main-photo.jpg`,
       );
 
+      setError('');
       uploadBytes(storageRef, file)
-        .then((snapshot) => {
+        .then(() => {
           setIsUploaded(true);
+
+          profileUpdate(`${user.uid}/additional-info/mainPhoto`, photo?.url);
         })
         .catch((error) => {
           setIsUploaded(false);
-          console.error(
-            'Произошла ошибка при загрузке фотографии профиля:',
-            error,
-          );
+          setError('An error occurred while loading profile photo');
         });
-      profileUpdate(user.uid, {
-        photoURL: photo?.url,
-      });
     }
   };
-  const dispatch: AppDispatch = useDispatch();
+
   const {photos} = useUserPhotos(
     `profile_photos/${user.uid}`,
     isUploaded,
     '/avatar',
   );
-  console.log(photos);
+
   useEffect(() => {
-    if (photos[0]) {
-      updateUserData(user.uid, {mainPhoto: photos[0]});
-      dispatch(getUpdatePhoto(photos[0].url));
+    if (photos[0] && isUploaded) {
+      dispatch(isUserUpdated(true));
+      updateUserData(`${user.uid}/additional-info/mainPhoto`, photos[0]);
     }
-  }, [photos]);
+  }, [photo, isUploaded]);
   useEffect(() => {
     setPhoto(photos[0]);
-  }, [photos, photo]);
+  }, [photos]);
+
+  useEffect(() => {
+    setPhoto(photos[0]);
+    user &&
+      fetchBackDefaultData(
+        `users/${user.uid}/additional-info/mainPhoto/`,
+        setCurrentImg,
+      );
+  }, [isUploaded, user, photo]);
+
+  useEffect(() => {
+    if (file) {
+      handleUpload();
+    }
+  }, [file]);
+
   return (
-    <div className='container '>
-      <h3 className='text-secondary'>Загрузка новой фотографии</h3>
-      <img
-        src={photo?.url ? photo.url : user.photoURL}
-        alt=''
-        width={100}
-        height={100}
+    <div className='change-photo'>
+      <input
+        id='photo'
+        type='file'
+        className='change-photo__input'
+        onChange={handleChange}
       />
-      <input type='file' onChange={handleChange} />
-      <button onClick={handleUpload}>Загрузить</button>
+      <label htmlFor='photo' className='change-photo__label'>
+        <span
+          className='change-photo__img'
+          style={{
+            background: `center/cover no-repeat url(${currentImg?.url || '/default-image.svg'})`,
+          }}
+        ></span>
+      </label>
+      <span className='text-error change-photo__error'>{error}</span>
     </div>
   );
 };

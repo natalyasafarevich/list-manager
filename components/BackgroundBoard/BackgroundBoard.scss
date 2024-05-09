@@ -1,0 +1,24 @@
+.board-image {
+  width: 100%;
+  &__row {
+    margin: 0 -2.5px;
+  }
+  &__image {
+    margin: 0 2.5px;
+    max-width: 100%;
+    height: 60px;
+    width: 100%;
+    &.active {
+      &::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        background:
+          center/contain no-repeat url("/white-check-icon.svg"),
+          rgba(0, 0, 0, 0.433);
+        background-size: 25px;
+      }
+    }
+  }
+}

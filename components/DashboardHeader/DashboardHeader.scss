@@ -1,0 +1,157 @@
+.dashboard-header {
+  // .dashboard-header__container
+  // margin-bottom: 20px;
+  // padding: 0 30px;
+  &__container {
+    padding: 15px 0;
+    border-bottom: 1px solid #9797974b;
+  }
+
+  // .dashboard-header__box
+
+  &__box {
+    &_icons {
+      max-width: 40%;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+  }
+
+  // .dashboard-header__logo
+
+  &__logo {
+    display: block;
+    width: 130px;
+    height: 30px;
+    background: center/contain no-repeat url("/Logo.svg");
+    position: relative;
+    margin-right: 20px;
+    &::after {
+      content: "";
+      display: block;
+      border-right: 1px solid #9797974b;
+      right: -20px;
+      top: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__icon {
+    &.active::after {
+      transform: rotate(270deg);
+    }
+    &::after {
+      margin-left: 5px;
+      content: "";
+      display: block;
+      width: 20px;
+      height: 20px;
+      transform: rotate(90deg);
+      background: no-repeat url("/arrow.svg");
+      background-size: 30px;
+      background-position-x: 50%;
+      background-position-y: 17%;
+    }
+  }
+  &__favorite {
+    color: var(--purple-dark-color);
+    cursor: pointer;
+    position: relative;
+    padding-left: 15px;
+  }
+  // .dashboard-header__link
+  &__search {
+    padding: 0 20px;
+    max-width: 512px;
+    width: 100%;
+  }
+  &__link {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    position: relative;
+    color: var(--purple-dark-color);
+    &_board {
+      &::before {
+        content: "";
+        display: inline-block;
+        margin-right: 5px;
+        width: 35px;
+        height: 35px;
+        background: center/cover no-repeat url("/trello-mark-blue.svg");
+      }
+    }
+    &::after {
+      content: "";
+      display: block;
+      border-right: 1px solid #9797974b;
+      right: 0px;
+      top: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  // .dashboard-header__button
+
+  &__button {
+    margin: 0 7.5px;
+    width: 25px;
+    height: 25px;
+    background: no-repeat url("/header-icons.svg");
+    background-size: 92px;
+    background-position-y: 100%;
+    transition: none;
+    &:hover {
+      transform: scale(1.1);
+    }
+    &_add {
+      &:hover {
+        background-position-y: 0%;
+      }
+    }
+
+    // .dashboard-header__button_notification
+
+    &_notification {
+      &:hover {
+        background-position-y: 0%;
+      }
+      background-position-x: 100%;
+    }
+  }
+  &__board {
+    width: 25px;
+    height: 25px;
+    margin: 0 7.5px;
+    position: relative;
+  }
+  &__form {
+    z-index: 1;
+    position: absolute;
+    top: 40px;
+    right: -30px;
+    width: 400px;
+  }
+  // .dashboard-header__user
+
+  &__user {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 25px;
+  }
+  &__row {
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

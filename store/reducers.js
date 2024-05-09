@@ -7,8 +7,12 @@ import {CardSettingReducer} from './card-setting/reducer';
 import {MarkersReducer} from './card-sidebar/reducer';
 import {CheckListsReducer} from './check-lists/reducer';
 import {MembersReducer} from './members/reducer';
+import {AuthReducer} from './auth/redcer';
+import {NotificationsReducer} from './notifications/reducers';
+import {ContactsReducer} from './contacts/reducer';
 
 export default combineReducers({
+  auth: AuthReducer,
   userdata: DataUserReducer,
   boards: DataBoardReducer,
   column: ColumnReducer,
@@ -17,4 +21,6 @@ export default combineReducers({
   markers: MarkersReducer,
   check_lists: CheckListsReducer,
   members: MembersReducer,
+  note: NotificationsReducer,
+  contacts: ContactsReducer,
 });

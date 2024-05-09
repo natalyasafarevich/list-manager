@@ -1,0 +1,21 @@
+.input-field {
+  // .input-field__label
+
+  &__label {
+    display: block;
+    margin-bottom: 7px;
+  }
+
+  // .input-field__input
+
+  &__input {
+    &[readonly] {
+      cursor: default;
+    }
+    cursor: pointer;
+    width: 100%;
+    border: 2px solid #e5e5e5;
+    padding: 5px;
+    border-radius: 7px;
+  }
+}

@@ -1,9 +1,38 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
+import './Google.scss';
+import {useRouter} from 'next/navigation';
+import {useDispatch} from 'react-redux';
+import {AppDispatch, RootState} from '@/store/store';
+import {isSingInWithGoogle} from '@/store/auth/actions';
+import {useSelector} from 'react-redux';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 
 const GoogleSignInComponent = () => {
-  const [error, setError] = useState(null);
+  const u = useSelector((state: RootState) => state.auth.isGoogleProvider);
+  // console.log(u);
+  const [currentUser, setCurrentUser] = useState<any>();
+  const [isExist, setIsExist] = useState<any>();
 
+  useEffect(() => {
+    currentUser?.uid &&
+      fetchBackDefaultData(`users/${currentUser?.uid}`, setIsExist);
+  }, [currentUser?.uid]);
+
+  useEffect(() => {
+    if (currentUser) {
+      if (isExist?.additional_info) {
+        console.log(isExist, 'isExist');
+        router.push('/boards');
+      } else {
+        router.push('/complete-profile');
+      }
+    }
+  }, [isExist, currentUser]);
+
+  const dispatch: AppDispatch = useDispatch();
+  const [error, setError] = useState(null);
+  const router = useRouter();
   const handleGoogleSignIn = async () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
@@ -11,9 +40,12 @@ const GoogleSignInComponent = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+      dispatch(isSingInWithGoogle(true));
+      setCurrentUser(user);
+      // router.push('/complete-profile');
       console.log('Google Sign In:', user);
     } catch (error: any) {
-      // Handle Errors here.
+      // dispatch(isSingInWithGoogle(false));
       const errorCode = error.code;
       const errorMessage = error.message;
       const email = error.customData ? error.customData.email : null;
@@ -25,9 +57,11 @@ const GoogleSignInComponent = () => {
 
   return (
     <div>
-      {/* <h2>Sign In with Google</h2>   */}
-      <button onClick={handleGoogleSignIn}>Sign In with Google</button>
-      {error && <p style={{color: 'red'}}>{error}</p>}
+      <button className='google-button' onClick={handleGoogleSignIn}>
+        <span className='google-button__icon'></span>
+        <span className='google-button__title'> Sign In with Google</span>
+      </button>
+      {/* {error && <p>{error}</p>} */}
     </div>
   );
 };

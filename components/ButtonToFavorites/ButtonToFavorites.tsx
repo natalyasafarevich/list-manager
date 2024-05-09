@@ -1,7 +1,9 @@
-import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData} from '@/helper/updateUserData';
 import {RootState} from '@/store/store';
 import {FC, useEffect, useState} from 'react';
+import './ButtonToFavorites.scss';
 import {useSelector} from 'react-redux';
+
 interface ButtonToFavoritesProps {
   path: string;
   isFavorite: boolean;
@@ -9,15 +11,11 @@ interface ButtonToFavoritesProps {
 const ButtonToFavorites: FC<ButtonToFavoritesProps> = ({path, isFavorite}) => {
   const [isAdded, setIsAdded] = useState(false);
   const user = useSelector((state: RootState) => state.userdata);
-  const [title, setTitle] = useState('');
   useEffect(() => {
     path &&
       updateFirebaseData(path, {
         [user.uid]: isAdded,
       });
-    isAdded
-      ? setTitle('удалить из избранных')
-      : setTitle('добавить в избранное');
   }, [isAdded]);
 
   useEffect(() => {
@@ -26,7 +24,12 @@ const ButtonToFavorites: FC<ButtonToFavoritesProps> = ({path, isFavorite}) => {
   const addToFavorite = () => {
     setIsAdded(!isAdded);
   };
-  return <button onClick={addToFavorite}>{title}</button>;
+  return (
+    <button
+      className={`${isAdded ? 'active' : ''} button-favorite `}
+      onClick={addToFavorite}
+    ></button>
+  );
 };
 
 export default ButtonToFavorites;
