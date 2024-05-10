@@ -215,7 +215,7 @@ const TextEditor: FC<TextEditorProps> = ({title, getHTML, firebaseDescription, h
           <EditorToolbar onCancel={cancelClick} onSave={saveComments} />
         </div>
       ) : (
-        <div className='text-editor__description' onClick={editText}>
+        <div className='text-editor__description' onClick={isLoggedIn ? editText : () => {}}>
           {!hasComments &&
             (state.editorHtml ? (
               <div

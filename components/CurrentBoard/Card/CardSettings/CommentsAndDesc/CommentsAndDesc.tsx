@@ -26,7 +26,7 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
   const [currentCard, getCurrentCard] = useState<ColumnCardsProps>({} as ColumnCardsProps);
   const [index, getIndex] = useState<IndexState>({column: null, card: null} as IndexState);
 
-  const {uid} = useSelector((state: RootState) => state.userdata);
+  const {uid, user_status} = useSelector((state: RootState) => state.userdata);
   const {isUpdate, comments} = useSelector((state: RootState) => state.card_setting);
   const boardLists = useSelector((state: RootState) => state.boards.currentBoards.lists);
   const current_board = useSelector((state: RootState) => state.boards);
@@ -101,14 +101,18 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
           />
         </div>
         <div>{children}</div>
-        <div className='comments-desc__comments-box'>
-          <p className='comments-desc__title flex '>
-            <span className='text-underline' data-quantity={comments?.length || 0}>
-              Comments
-            </span>
-          </p>
-          <TextEditor hasComments={true} getHTML={(e) => e} title={'title'} />
-        </div>
+        {user_status === 'guest' ? (
+          <p className='note'>Guests cannot view or write comments</p>
+        ) : (
+          <div className='comments-desc__comments-box'>
+            <p className='comments-desc__title flex '>
+              <span className='text-underline' data-quantity={comments?.length || 0}>
+                Comments
+              </span>
+            </p>
+            <TextEditor hasComments={true} getHTML={(e) => e} title={'title'} />
+          </div>
+        )}
       </div>
     </div>
   );

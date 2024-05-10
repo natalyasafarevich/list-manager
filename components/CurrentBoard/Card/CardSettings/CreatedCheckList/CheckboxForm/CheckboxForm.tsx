@@ -119,7 +119,7 @@ const CheckboxForm: FC<CheckboxFormProps> = ({item, currentValue, isHide}) => {
       isHideCheckedItem ? setHideText('Show checked item') : setHideText('Hide checked item');
     });
   }, [itemTasks]);
-
+  // const isLoggedIn = !!uid && user_status !== 'guest';
   return (
     <div className='checkbox-form'>
       <div className='checkbox-form__container'>
@@ -131,9 +131,11 @@ const CheckboxForm: FC<CheckboxFormProps> = ({item, currentValue, isHide}) => {
                 {hideText}
               </button>
             )}
-            <button type='button' className='checkbox-form__button button-shade-gray' onClick={deleteList}>
-              Deleted
-            </button>
+            {isLoggedIn && (
+              <button type='button' className='checkbox-form__button button-shade-gray' onClick={deleteList}>
+                Deleted
+              </button>
+            )}
           </div>
         </div>
         <TaskList tasks={itemTasks} id={item.id} isHideChecked={isHideCheckedItem} />

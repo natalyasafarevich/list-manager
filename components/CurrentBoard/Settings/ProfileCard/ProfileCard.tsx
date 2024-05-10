@@ -31,8 +31,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
 
   useEffect(() => {
     if (isDelete) {
-      const {[userData.id]: deletedKey, ...members} =
-        board.currentBoards.members;
+      const {[userData.id]: deletedKey, ...members} = board.currentBoards.members;
       updateFirebaseData(`boards/${board.index}`, {members: members});
       setIsDelete(false);
     }
@@ -44,9 +43,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
     userUid: '',
   });
 
-  const currentBoard = useSelector(
-    (state: RootState) => state.boards.currentBoards,
-  );
+  const currentBoard = useSelector((state: RootState) => state.boards.currentBoards);
 
   const deleteMember = () => {
     const date = formattedDate('en');
@@ -82,6 +79,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
     //   alert('Вы не можете удалить себя или другого администратора.');
     // }
   };
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
 
   return (
     <>
@@ -96,10 +94,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
       )}
       {isClose && (
         <div className='profile-card__popup'>
-          <Popup
-            title={`Delete the ${userData.role} from board?`}
-            setIsClose={(e) => setIsClose(e)}
-          >
+          <Popup title={`Delete the ${userData.role} from board?`} setIsClose={(e) => setIsClose(e)}>
             <div className='profile-card__flex flex'>
               <button className='button-dark' onClick={deleteMember}>
                 Yes
@@ -128,10 +123,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
           ></div>
           {isOpen && (
             <div className='profile-card__box'>
-              <button
-                className='profile-card__button button-close'
-                onClick={() => setIsOpen(false)}
-              ></button>
+              <button className='profile-card__button button-close' onClick={() => setIsOpen(false)}></button>
 
               <div className='profile-card__row flex'>
                 <div
@@ -152,11 +144,9 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
                   Profile management
                 </Link>
               )}
-              {userData.role !== 'admin' && (
+              {isLoggedIn && userData.role !== 'admin' && (
                 <button className='button-dark' onClick={deletionConfirmation}>
-                  {userData.id === user.uid
-                    ? 'Leave the board'
-                    : 'Delete member'}
+                  {userData.id === user.uid ? 'Leave the board' : 'Delete member'}
                 </button>
               )}
             </div>

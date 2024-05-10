@@ -7,11 +7,7 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import './ArchivedСolumns.scss';
 
-export const fetchData = async (
-  id: string,
-  index: number,
-  getUserData: (a: any) => void,
-) => {
+export const fetchData = async (id: string, index: number, getUserData: (a: any) => void) => {
   try {
     const columnData = await getFirebaseData(id, `/boards/${index}/lists/`);
     getUserData(columnData);
@@ -26,9 +22,7 @@ const ArchivedСolumns: FC = () => {
 
   const user = useSelector((state: RootState) => state.userdata);
   const current_board = useSelector((state: RootState) => state?.boards);
-  const isArchived = useSelector(
-    (state: RootState) => state?.markers.isCardArchived,
-  );
+  const isArchived = useSelector((state: RootState) => state?.markers.isCardArchived);
   useEffect(() => {
     fetchBackDefaultData(`boards/${current_board.index}/lists`, getAllColumns);
   }, [user, current_board, isArchived]);
@@ -62,6 +56,8 @@ const ArchivedСolumns: FC = () => {
   };
   const boardIndex = useSelector((state: RootState) => state?.boards.index);
   const dispatch: AppDispatch = useDispatch();
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
+
   return (
     <div className='archived'>
       <p className='additional-menu__subtitle'>Archived Lists:</p>
@@ -69,13 +65,11 @@ const ArchivedСolumns: FC = () => {
         {archivedColumns?.map((column, i) => (
           <div className='archived__box' key={i}>
             <p className='archived__title'>{column.name}</p>
-            <button
-              data-id={column.id}
-              className='archived__button button-dark'
-              onClick={returnToBoard}
-            >
-              Return to the board
-            </button>
+            {isLoggedIn && (
+              <button data-id={column.id} className='archived__button button-dark' onClick={returnToBoard}>
+                Return to the board
+              </button>
+            )}
           </div>
         ))}
       </div>

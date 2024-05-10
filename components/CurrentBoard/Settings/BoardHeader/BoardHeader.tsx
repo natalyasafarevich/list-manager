@@ -113,27 +113,26 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
               {members.length > 5 && <div className='board-header__count'>+{members.length - 5}</div>}
               <Members />
 
-              {isLoggedIn && (
-                <p className='board-header__menu' onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                  {/* Menu */}
-                </p>
-              )}
+              {/* {isLoggedIn && ( */}
+              <p className='board-header__menu' onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                {/* Menu */}
+              </p>
+              {/* )} */}
             </div>
           </div>
           <div className='board-header__info flex'>
-            {isLoggedIn && (
-              <div className='flex'>
-                <div className={`board-header__visibility ${isOpenCard ? 'active' : ''}`}>
-                  <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>{board.type}</p>
-                  {isOpenCard && (
-                    <div className='board-header__popup'>
-                      <ChangingVisibility text='Only collaborators can see this' type='private' name='private' />
-                      <ChangingVisibility text='Anyone can see' type='public' name='public' />
-                    </div>
-                  )}
-                </div>
-                <div className='board-header__item'>
-                  {/* <ButtonToFavorites
+            <div className='flex'>
+              <div className={`board-header__visibility ${isOpenCard ? 'active' : ''}`}>
+                <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>{board.type}</p>
+                {isLoggedIn && isOpenCard && (
+                  <div className='board-header__popup'>
+                    <ChangingVisibility text='Only collaborators can see this' type='private' name='private' />
+                    <ChangingVisibility text='Anyone can see' type='public' name='public' />
+                  </div>
+                )}
+              </div>
+              <div className='board-header__item'>
+                {/* <ButtonToFavorites
                     path={
                       boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''
                     }
@@ -142,9 +141,8 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                       false
                     }
                   /> */}
-                </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
