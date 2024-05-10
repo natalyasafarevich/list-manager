@@ -12,12 +12,9 @@ const ProfilePopup: FC = () => {
 
   useEffect(() => {
     setAvatar(user?.additional_info?.mainPhoto?.url || '/default-image.svg');
-    console.log(user.additional_info, 'user?.photoURL ');
   }, [user?.additional_info?.mainPhoto?.url]);
-  const {ref, isClose, setIsClose} = useClickOutside<HTMLDivElement>(
-    true,
-    true,
-  );
+
+  const {ref, isClose, setIsClose} = useClickOutside<HTMLDivElement>(true, true);
 
   return (
     <div className='profile-popup' ref={ref}>
@@ -32,10 +29,7 @@ const ProfilePopup: FC = () => {
         <div className='profile-popup__box'>
           <div className='profile-popup__item'>
             <p className='profile-popup__subtitle'>Account</p>
-            <Link
-              href={`/profile/${user.uid}`}
-              className='profile-popup__row flex'
-            >
+            <Link href={`/profile/${user.uid}`} className='profile-popup__row flex'>
               <span
                 className='profile-popup__user'
                 style={{

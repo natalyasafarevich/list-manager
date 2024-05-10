@@ -1,3 +1,4 @@
+import {isArchive} from './../store/column-setting/actions';
 import {CommentProps} from './../components/CurrentBoard/Card/CardSettings/CardSettings';
 export interface UserProps {
   email: string;
@@ -31,6 +32,7 @@ export interface ColumnCardsProps {
 export interface CurrentColumnProps {
   name?: string;
   id?: string;
+  isArchive?: boolean;
   cards: Array<ColumnCardsProps>;
 }
 export interface CheckListItemProps {
@@ -62,11 +64,16 @@ export type MemberProps = {
   email?: string;
   mainPhoto?: MainPhotoProps;
 };
+
+export interface BoardMembersProps {
+  [key: string]: string;
+}
 export type BoardProps = {
   currentBg?: string;
   id?: string;
-  members?: any;
+  members?: BoardMembersProps;
   creationDate?: string;
+  owner?: string;
   name?: string;
   type?: string;
   lists?: Array<ListsProps>;

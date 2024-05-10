@@ -15,14 +15,12 @@ const GoogleSignInComponent = () => {
   const [isExist, setIsExist] = useState<any>();
 
   useEffect(() => {
-    currentUser?.uid &&
-      fetchBackDefaultData(`users/${currentUser?.uid}`, setIsExist);
+    currentUser?.uid && fetchBackDefaultData(`users/${currentUser?.uid}`, setIsExist);
   }, [currentUser?.uid]);
 
   useEffect(() => {
     if (currentUser) {
       if (isExist?.additional_info) {
-        console.log(isExist, 'isExist');
         router.push('/boards');
       } else {
         router.push('/complete-profile');

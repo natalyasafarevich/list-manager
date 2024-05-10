@@ -27,7 +27,6 @@ interface UserContactsProps {
 const UserProfileComponent: FC<UserProfileComponentProps> = ({uid}) => {
   const [userData, setUserData] = useState<AdditionalInfoProps>();
   const [contacts, setContacts] = useState<UserContactsProps>({});
-  console.log();
   useEffect(() => {
     fetchBackDefaultData(`users/${uid}/additional-info`, setUserData);
     fetchBackDefaultData(`users/${uid}/contacts`, setContacts);

@@ -8,26 +8,25 @@ import {v4 as uuidv4} from 'uuid';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import ColumnCreatorForm from '../ColumnCreatorForm/ColumnCreatorForm';
 import {isCardCreate, isCardUpdate, isCover, isDescriptionAdded} from '@/store/card-setting/actions';
+import {BoardProps, CurrentColumnProps} from '@/types/interfaces';
 
 interface NewColumnProps {
   currentIndex: number;
 }
 
 const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
-  // console.log('l');
   const [value, setValue] = useState('');
-  const [userData, setUserData] = useState<any>(null);
+  const [currentList, setCurrentList] = useState<CurrentColumnProps[]>([]);
+  const [boardsData, setBoardsData] = useState<{[key: string]: BoardProps}>({});
   const [components, setComponents] = useState<Array<any>>([]);
-  const [currentList, setCurrentList] = useState<any>([]);
-  // const [currentBoard, setCurrentBoard] = useState<any>({});
+
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [isClick, setIsClick] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const user = useSelector((state: RootState) => state.userdata);
-  const isCopy = useSelector((state: RootState) => state.cl_setting);
-  const isCreate = useSelector((d: RootState) => d.card_setting);
-
+  const {markers} = useSelector((state: RootState) => state.markers);
+  const cardUpdate = useSelector((state: RootState) => state.card_setting.isUpdate);
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -38,44 +37,30 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       setIsUpdate(false);
     }
   }, [isUpdate, currentList]);
-  // console.log('jm');
+
   useEffect(() => {
-    if (userData) {
-      // setCurrentBoard(userData[currentIndex]);
-      if (userData[currentIndex] && userData[currentIndex].lists) {
-        setCurrentList(userData[currentIndex].lists);
+    if (boardsData[currentIndex]) {
+      if (boardsData[currentIndex] && boardsData[currentIndex]?.lists !== undefined) {
+        setCurrentList(boardsData[currentIndex].lists as []);
         setComponents(
-          userData[currentIndex]?.lists?.map((item: any) => <Column item={item} name={item.name} key={item.id} />),
+          (boardsData[currentIndex]?.lists as [])?.map((item: any) => (
+            <Column item={item} name={item?.name} key={item.id} />
+          )),
         );
       }
     }
-  }, [userData, currentIndex]);
-  // console.log(userData, currentIndex);
-  const current_markers = useSelector((state: RootState) => state.markers.markers);
-  // const updateCover = useSelector(
-  //   (state: RootState) => state.card_setting.isCover,
-  // );
+  }, [boardsData, currentIndex]);
+
   useEffect(() => {
-    fetchBackDefaultData('/boards', setUserData);
+    fetchBackDefaultData('/boards', setBoardsData);
   }, []);
-  const cardUpdate = useSelector((state: RootState) => state.card_setting.isUpdate);
+
   useEffect(() => {
     if (user.uid || cardUpdate) {
-      fetchBackDefaultData('/boards', setUserData);
+      fetchBackDefaultData('/boards', setBoardsData);
       dispatch(isCardUpdate(false));
-      // dispatch(isCardCreate({isCardCreate: false}));
-      // dispatch(isDescriptionAdded(false));
-      // dispatch(isCover(false));
     }
-  }, [
-    cardUpdate,
-    // updateCover,
-    user.uid,
-    // isCopy.isCopy,
-    // isCreate.isDescriptionAdded,
-    // isCreate.isCardCreate,
-    current_markers,
-  ]);
+  }, [cardUpdate, user.uid, markers]);
 
   const addComponents = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

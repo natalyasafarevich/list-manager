@@ -14,7 +14,6 @@ const TextColor: FC<TextColorProps> = ({title, text}) => {
   const boardIndex = useSelector((state: RootState) => state.boards.index);
 
   const theme = useSelector((state: RootState) => state.boards.currentBoards);
-  // console.log(theme);
   const handleClick = () => {
     setIsClicked(!isClicked);
     const newData = {
@@ -25,11 +24,7 @@ const TextColor: FC<TextColorProps> = ({title, text}) => {
 
   return (
     <div className='text-color-button'>
-      <button
-        onClick={handleClick}
-        data-color={title}
-        className={theme['text-color'] === title ? 'active' : ''}
-      >
+      <button onClick={handleClick} data-color={title} className={theme['text-color'] === title ? 'active' : ''}>
         {title}
       </button>
     </div>

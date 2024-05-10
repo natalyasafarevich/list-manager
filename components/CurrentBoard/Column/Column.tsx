@@ -14,7 +14,7 @@ import {isCardUpdate} from '@/store/card-setting/actions';
 import './Column.scss';
 
 type ColumnProps = {
-  item?: {id: string; isArchive: boolean; cards: Array<ColumnCardsProps>};
+  item?: CurrentColumnProps;
   name?: string;
 };
 

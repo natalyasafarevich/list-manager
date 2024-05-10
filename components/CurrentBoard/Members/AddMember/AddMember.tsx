@@ -55,11 +55,9 @@ const AddMember: FC<AddMemberProps> = ({setIsOpen}) => {
     }
   }, [newMembers]);
   const [notification, setNotification] = useState<any>({});
-  console.log(user);
+
   useEffect(() => {
-    user &&
-      !isNewMember &&
-      fetchBackDefaultData(`/boards/${boardIndex}/members`, setMembers);
+    user && !isNewMember && fetchBackDefaultData(`/boards/${boardIndex}/members`, setMembers);
   }, [user, boardIndex, isNewMember]);
   const [isUpdate, setIsUpdate] = useState(false);
 
@@ -74,9 +72,7 @@ const AddMember: FC<AddMemberProps> = ({setIsOpen}) => {
       setIsNewMember(false);
     }
   }, [isNewMember]);
-  const currentBoard = useSelector(
-    (state: RootState) => state.boards.currentBoards,
-  );
+  const currentBoard = useSelector((state: RootState) => state.boards.currentBoards);
   const [error, setError] = useState('');
   const addNewMember = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -101,9 +97,7 @@ const AddMember: FC<AddMemberProps> = ({setIsOpen}) => {
                   const newNotification = {
                     id: id,
                     message: `You have been added to`,
-                    by:
-                      user.additional_info.fullName ||
-                      user.additional_info.publicName,
+                    by: user.additional_info.fullName || user.additional_info.publicName,
                     uid: user.uid,
                     time: date,
                     name: currentBoard.name,
@@ -134,18 +128,12 @@ const AddMember: FC<AddMemberProps> = ({setIsOpen}) => {
       setRole(currentTarget.dataset.type);
     }
   };
-  const user_status = useSelector(
-    (state: RootState) => state.userdata.user_status,
-  );
+  const user_status = useSelector((state: RootState) => state.userdata.user_status);
   return (
     <div className='adding-members'>
       {isUpdate && (
         <>
-          <NotificationUpdater
-            isAddNotification={isUpdate}
-            userUid={memberUid}
-            notification={notification}
-          />
+          <NotificationUpdater isAddNotification={isUpdate} userUid={memberUid} notification={notification} />
         </>
       )}
       <form action='' onSubmit={addNewMember}>
@@ -200,17 +188,11 @@ const AddMember: FC<AddMemberProps> = ({setIsOpen}) => {
             />
             <label htmlFor='guest' className='adding-members__label'>
               Guest
-              <span>
-                The guest can only view tasks and comments without being able to
-                change them or add new items
-              </span>
+              <span>The guest can only view tasks and comments without being able to change them or add new items</span>
             </label>
           </div>
         </div>
-        <button
-          className='button-dark adding-members__button'
-          disabled={user_status !== 'admin' ? true : false}
-        >
+        <button className='button-dark adding-members__button' disabled={user_status !== 'admin' ? true : false}>
           Add
         </button>
       </form>
