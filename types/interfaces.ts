@@ -1,31 +1,46 @@
+import {CommentProps} from './../components/CurrentBoard/Card/CardSettings/CardSettings';
 export interface UserProps {
   email: string;
   uid: string;
+}
+
+interface CheckListProps {
+  id: string;
+  isHideCheckedList: boolean;
+  title: string;
+}
+interface CommentsProps {
+  createDate: string;
+  editDate: string;
+  id: string;
+  name: string;
+  owner: string;
+  photoUrl: string;
+  title: string;
 }
 export interface ColumnCardsProps {
   title: string;
   id: string;
   description?: string;
-  comments: Array<string>;
+  comments: CommentsProps[];
   markers?: any;
   isArchived?: boolean;
   cover?: string;
-
-  'check-lists'?: Array<any>;
+  'check-lists'?: {[key: string]: CheckListProps};
 }
 export interface CurrentColumnProps {
   name?: string;
   id?: string;
   cards: Array<ColumnCardsProps>;
 }
-export type CheckListProps = {
+export interface CheckListItemProps {
   order: any;
   id: string;
   title: string;
   tasks?: any;
   isDelete?: boolean;
   isHideCheckedList?: boolean;
-};
+}
 
 export interface BackgroundImageBoard {
   urls: string;

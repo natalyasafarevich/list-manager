@@ -20,7 +20,8 @@ type ColumnProps = {
 };
 
 const Column: FC<ColumnProps> = ({item, name}) => {
-  const [cardIndex, setCardIndex] = useState<number>(0);
+  const [cardIndex, setCardIndex] = useState<number | null>(null);
+
   const [cards, setCards] = useState<any>([]);
   const [isSave, setIsSave] = useState(false);
   const user = useSelector((state: RootState) => state.userdata);
@@ -47,28 +48,20 @@ const Column: FC<ColumnProps> = ({item, name}) => {
       );
     }
   }, [userData, isSave]);
-  const cardUpdate = useSelector(
-    (state: RootState) => state.card_setting.isUpdate,
-  );
+  const cardUpdate = useSelector((state: RootState) => state.card_setting.isUpdate);
   useEffect(() => {
-    if (cardUpdate) {
-      fetchBackDefaultData(
-        `/boards/${current_board.index}/lists/${cardIndex}`,
-        getUserData,
-      );
+    if (cardUpdate && cardIndex !== null) {
+      fetchBackDefaultData(`/boards/${current_board.index}/lists/${cardIndex}`, getUserData);
       dispatch(isCardUpdate(false));
     }
   }, [cardUpdate]);
 
   useEffect(() => {
-    if (isSave) {
+    if (isSave && cardIndex !== null) {
       updateFirebaseData(`boards/${current_board.index}/lists/${cardIndex}`, {
         cards,
       });
-      fetchBackDefaultData(
-        `/boards/${current_board.index}/lists/${cardIndex}`,
-        getUserData,
-      );
+      fetchBackDefaultData(`/boards/${current_board.index}/lists/${cardIndex}`, getUserData);
     }
     setIsSave(false);
   }, [isSave]);
@@ -79,6 +72,12 @@ const Column: FC<ColumnProps> = ({item, name}) => {
 
   const addCard = () => {
     setIsClose(false);
+
+    current_board.boards[current_board.index]?.lists.map((itedm: any, i: number) => {
+      // if (itedm.id === item?.id) {
+      console.log(itedm.id, item, 'jkjljlj');
+      // }
+    });
   };
   // console.log(isClose);
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
@@ -86,12 +85,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     <>
       {!item?.isArchive && (
         <div className='column ' data-id={item?.id}>
-          <ColumnHeader
-            item={item}
-            listIndex={cardIndex}
-            name={name}
-            addNewCard={addCard}
-          />
+          <ColumnHeader item={item} listIndex={cardIndex as number} name={name} addNewCard={addCard} />
 
           <div className='column__info'>
             {cards?.map((card: any, i: any) => {
@@ -113,11 +107,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
               </div>
             ) : (
               isLoggedIn && (
-                <button
-                  className='column__button'
-                  type='button'
-                  onClick={addCard}
-                >
+                <button className='column__button' type='button' onClick={addCard}>
                   <span></span>
                 </button>
               )

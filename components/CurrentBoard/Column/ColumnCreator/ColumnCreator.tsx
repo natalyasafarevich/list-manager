@@ -7,12 +7,7 @@ import {AppDispatch, RootState} from '@/store/store';
 import {v4 as uuidv4} from 'uuid';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import ColumnCreatorForm from '../ColumnCreatorForm/ColumnCreatorForm';
-import {
-  isCardCreate,
-  isCardUpdate,
-  isCover,
-  isDescriptionAdded,
-} from '@/store/card-setting/actions';
+import {isCardCreate, isCardUpdate, isCover, isDescriptionAdded} from '@/store/card-setting/actions';
 
 interface NewColumnProps {
   currentIndex: number;
@@ -50,26 +45,20 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       if (userData[currentIndex] && userData[currentIndex].lists) {
         setCurrentList(userData[currentIndex].lists);
         setComponents(
-          userData[currentIndex]?.lists?.map((item: any) => (
-            <Column item={item} name={item.name} key={item.id} />
-          )),
+          userData[currentIndex]?.lists?.map((item: any) => <Column item={item} name={item.name} key={item.id} />),
         );
       }
     }
   }, [userData, currentIndex]);
   // console.log(userData, currentIndex);
-  const current_markers = useSelector(
-    (state: RootState) => state.markers.markers,
-  );
+  const current_markers = useSelector((state: RootState) => state.markers.markers);
   // const updateCover = useSelector(
   //   (state: RootState) => state.card_setting.isCover,
   // );
   useEffect(() => {
     fetchBackDefaultData('/boards', setUserData);
   }, []);
-  const cardUpdate = useSelector(
-    (state: RootState) => state.card_setting.isUpdate,
-  );
+  const cardUpdate = useSelector((state: RootState) => state.card_setting.isUpdate);
   useEffect(() => {
     if (user.uid || cardUpdate) {
       fetchBackDefaultData('/boards', setUserData);
@@ -90,10 +79,7 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
 
   const addComponents = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newComponents = [
-      ...components,
-      <Column name={value} key={uuidv4()} />,
-    ];
+    const newComponents = [...components, <Column name={value} key={uuidv4()} />];
 
     setComponents(newComponents);
     setCurrentList((prev: any) => [
@@ -107,6 +93,7 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
     setValue('');
     setIsDisabled(true);
     setIsClick(false);
+    dispatch(isCardUpdate(true));
   };
 
   const saveComponents = () => {

@@ -12,28 +12,25 @@ import {getUpdateLink} from '@/store/data-user/actions';
 import {stripHtmlTags} from '@/helper/stripHtmlTags';
 import './CommentsAndDesc.scss';
 
+interface IndexState {
+  column: number | null;
+  card: number | null;
+}
 interface CommentsAndDescProps {
   card: ColumnCardsProps;
   children: ReactNode;
 }
 
 const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
-  const current_column = useSelector((state: RootState) => state?.column.data);
-  const [comment, setComment] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [currentCard, getCurrentCard] = useState<ColumnCardsProps>({
-    title: '',
-    description: '',
-    id: '',
-    comments: [],
-  });
-  const user = useSelector((state: RootState) => state.userdata);
+  const [currentCard, getCurrentCard] = useState<ColumnCardsProps>({} as ColumnCardsProps);
+  const [index, getIndex] = useState<IndexState>({column: null, card: null} as IndexState);
+
+  const {uid} = useSelector((state: RootState) => state.userdata);
+  const {isUpdate, comments} = useSelector((state: RootState) => state.card_setting);
   const boardLists = useSelector((state: RootState) => state.boards.currentBoards.lists);
   const current_board = useSelector((state: RootState) => state.boards);
-  const [index, getIndex] = useState<any>({
-    column: null,
-    card: null,
-  });
+  const current_column = useSelector((state: RootState) => state?.column.data);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -43,42 +40,31 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
         boardIndex: current_board.index,
         listIndex: index.column,
         cardIndex: index.card,
-        uid: user.uid,
+        uid: uid,
       };
       dispatch(getUpdateLink(link));
     }
-  }, [index]);
-  const isUpdate = useSelector((state: RootState) => state.card_setting.isUpdate);
-  useEffect(() => {
-    let textWithoutTags = stripHtmlTags(description);
 
-    // if (isUpdate) {
-    //   updateFirebaseData(
-    //     `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
-    //     {description: textWithoutTags.length ? description : ''},
-    //   );
-    //   dispatch(isCardUpdate(false));
-    // }
-    console.log(description, 'description');
-    description &&
+    if (index.column !== null && index.card !== null && description !== '') {
+      let textWithoutTags = stripHtmlTags(description);
       updateFirebaseData(`boards/${current_board.index}/lists/${index.column}/cards/${index.card}`, {
         description: textWithoutTags.length ? description : '',
       });
-  }, [index, description, user, current_board, isUpdate]);
-
-  const comments = useSelector((state: RootState) => state.card_setting.comments);
+    }
+  }, [index, description, uid, current_board]);
 
   useEffect(() => {
-    if (isUpdate) {
+    dispatch(getComments(currentCard?.comments as []));
+  }, [currentCard.comments]);
+
+  useEffect(() => {
+    if (isUpdate || (index.column !== null && index.card !== null)) {
       fetchBackDefaultData(`boards/${current_board.index}/lists/${index.column}/cards/${index.card}`, getCurrentCard);
-      dispatch(isCardUpdate(false));
-      return;
+      if (isUpdate) {
+        dispatch(isCardUpdate(false));
+      }
     }
-    if (index.column !== null && index.card !== null) {
-      fetchBackDefaultData(`boards/${current_board.index}/lists/${index.column}/cards/${index.card}`, getCurrentCard);
-      // dispatch(isCardUpdate(false));
-    }
-  }, [user, index, isUpdate]);
+  }, [uid, index, isUpdate, current_board]);
 
   useEffect(() => {
     if (card.id) {
@@ -93,24 +79,12 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
   }, [card.id, current_column, boardLists]);
 
   useEffect(() => {
-    dispatch(getComments(currentCard?.comments as []));
-  }, [currentCard.comments.length]);
-
-  useEffect(() => {
-    if (
-      comments &&
-      comments?.length !== 0 &&
-      index.column !== null &&
-      index.column !== -1 &&
-      index.card !== null &&
-      index.card !== -1
-    ) {
-      console.log(comments.length, index, isUpdate, 'sgffg');
+    if (comments?.length && [null, -1].every((val) => ![index.column, index.card].includes(val))) {
       updateFirebaseData(`boards/${current_board.index}/lists/${index.column}/cards/${index.card}`, {
         comments: comments,
       });
     }
-  }, [comments.length, index]);
+  }, [comments, index]);
 
   return (
     <div className='comments-desc'>

@@ -1,5 +1,5 @@
 // import {ListTasksProps} from '@/components/CurrentBoard/Card/CardSettings/CreatedCheckList/AddItemForm/AddItemForm';
-import {CheckListProps} from '@/types/interfaces';
+import {CheckListItemProps} from '@/types/interfaces';
 
 export const CHECK_LISTS = 'check-lists/CHECK_LISTS';
 export const IS_DELETE_LIST = 'check-lists/IS_DELETE_LIST';
@@ -18,10 +18,10 @@ export type ActionsType =
 
 export type DataCheckListProps = {
   type: typeof CHECK_LISTS;
-  payload: Array<CheckListProps>;
+  payload: Array<CheckListItemProps>;
 };
 
-export const getCheckLists = (data: Array<CheckListProps> | {}) => {
+export const getCheckLists = (data: Array<CheckListItemProps> | {}) => {
   return {
     type: CHECK_LISTS,
     payload: data,

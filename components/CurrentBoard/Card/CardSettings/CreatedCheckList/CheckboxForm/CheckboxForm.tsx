@@ -1,8 +1,5 @@
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
-import {
-  getCheckLists,
-  getListIndex as getCurrentListIndex,
-} from '@/store/check-lists/actions';
+import {getCheckLists, getListIndex as getCurrentListIndex} from '@/store/check-lists/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4 as createId} from 'uuid';
@@ -11,11 +8,11 @@ import {useState, useEffect, FC} from 'react';
 import TaskInput from './TaskInput/TaskInput';
 import TaskList from './TaskList/TaskList';
 import {isCardUpdate} from '@/store/card-setting/actions';
-import {CheckListProps, CheckboxItemProps} from '@/types/interfaces';
+import {CheckListItemProps, CheckboxItemProps} from '@/types/interfaces';
 import './CheckboxForm.scss';
 
 interface CheckboxFormProps {
-  item: CheckListProps;
+  item: CheckListItemProps;
   isHide: (value: boolean, id: string) => void;
   currentValue: (e: any) => void;
 }
@@ -23,7 +20,7 @@ interface CheckboxFormProps {
 const CheckboxForm: FC<CheckboxFormProps> = ({item, currentValue, isHide}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [checkListsData, setCheckListsData] = useState<Array<CheckListProps>>();
+  const [checkListsData, setCheckListsData] = useState<Array<CheckListItemProps>>();
   const [isHideCheckedItem, setIsHideCheckedList] = useState(false);
   const [hideText, setHideText] = useState('');
 
@@ -35,9 +32,7 @@ const CheckboxForm: FC<CheckboxFormProps> = ({item, currentValue, isHide}) => {
   const dispatch: AppDispatch = useDispatch();
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
 
-  const isUpdateTaskList = useSelector(
-    (state: RootState) => state.check_lists.isTaskUpdate,
-  );
+  const isUpdateTaskList = useSelector((state: RootState) => state.check_lists.isTaskUpdate);
   useEffect(() => {
     item?.isHideCheckedList && setIsHideCheckedList(item?.isHideCheckedList);
   }, [item.isHideCheckedList]);
@@ -68,14 +63,13 @@ const CheckboxForm: FC<CheckboxFormProps> = ({item, currentValue, isHide}) => {
             ).sort((a, b) => a.order - b.order);
 
             // from array to object
-            const sortedTasksObject: {[key: string]: CheckboxItemProps} =
-              sortedTasks.reduce(
-                (acc, task) => {
-                  acc[task.id] = task;
-                  return acc;
-                },
-                {} as {[key: string]: CheckboxItemProps},
-              );
+            const sortedTasksObject: {[key: string]: CheckboxItemProps} = sortedTasks.reduce(
+              (acc, task) => {
+                acc[task.id] = task;
+                return acc;
+              },
+              {} as {[key: string]: CheckboxItemProps},
+            );
             // update item tasks
             setItemTasks(sortedTasksObject);
           }
@@ -122,9 +116,7 @@ const CheckboxForm: FC<CheckboxFormProps> = ({item, currentValue, isHide}) => {
       if (!itemTasks[item].isChecked) {
         return;
       }
-      isHideCheckedItem
-        ? setHideText('Show checked item')
-        : setHideText('Hide checked item');
+      isHideCheckedItem ? setHideText('Show checked item') : setHideText('Hide checked item');
     });
   }, [itemTasks]);
 
@@ -135,27 +127,16 @@ const CheckboxForm: FC<CheckboxFormProps> = ({item, currentValue, isHide}) => {
           <p className='checkbox-form__title  text-underline'>{item.title}</p>
           <div className='checkbox-form__btns flex'>
             {hideText && (
-              <button
-                className='checkbox-form__button button-light-blue'
-                onClick={hideChecked}
-              >
+              <button className='checkbox-form__button button-light-blue' onClick={hideChecked}>
                 {hideText}
               </button>
             )}
-            <button
-              type='button'
-              className='checkbox-form__button button-shade-gray'
-              onClick={deleteList}
-            >
+            <button type='button' className='checkbox-form__button button-shade-gray' onClick={deleteList}>
               Deleted
             </button>
           </div>
         </div>
-        <TaskList
-          tasks={itemTasks}
-          id={item.id}
-          isHideChecked={isHideCheckedItem}
-        />
+        <TaskList tasks={itemTasks} id={item.id} isHideChecked={isHideCheckedItem} />
       </div>
       {isOpen ? (
         <TaskInput onSubmit={handleSubmit} setIsOpen={(e) => setIsOpen(e)} />

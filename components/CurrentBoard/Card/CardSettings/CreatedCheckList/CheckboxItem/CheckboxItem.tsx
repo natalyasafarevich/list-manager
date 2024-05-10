@@ -6,7 +6,7 @@ import React, {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 // import {ListTasksProps} from '../CheckboxForm/CheckboxForm';
 import './CheckboxItem.scss';
-import {CheckListProps} from '@/types/interfaces';
+import {CheckListItemProps} from '@/types/interfaces';
 import MiniPopup from '@/components/MiniPopup/MiniPopup';
 
 interface CheckboxItemProps {
@@ -146,17 +146,10 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
           disabled={!isLoggedIn}
         ></textarea>
 
-        <button
-          type='button'
-          onClick={(_e) => setIsOpenSetting(!isOpenSetting)}
-          className='button-more'
-        ></button>
+        <button type='button' onClick={(_e) => setIsOpenSetting(!isOpenSetting)} className='button-more'></button>
         {isOpenSetting && (
           <div className='check-list-item__popup'>
-            <MiniPopup
-              title='Task configuration '
-              setIsOpen={(e) => setIsOpenSetting(e)}
-            >
+            <MiniPopup title='Task configuration ' setIsOpen={(e) => setIsOpenSetting(e)}>
               <input
                 type='button'
                 onClick={checkboxChange as any}
@@ -199,11 +192,7 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
             <button className='button-dark' type='submit'>
               Save
             </button>
-            <button
-              className='button-border'
-              type='button'
-              onClick={closeEditItem}
-            >
+            <button className='button-border' type='button' onClick={closeEditItem}>
               Cancel
             </button>
           </div>
