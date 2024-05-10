@@ -85,3 +85,16 @@ export interface CheckboxItemProps {
   order: number;
   title: string;
 }
+
+export interface EditorState {
+  prevValue: string;
+  isSave: boolean;
+  isOpen: boolean;
+  currentTitle: string;
+  editorHtml: string;
+  commentsInfo: {
+    id: string;
+    index: number;
+    editDate: string;
+  };
+}

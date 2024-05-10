@@ -2,23 +2,20 @@
 import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import TextEditor from '@/components/TextEditor/TextEditor';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
-import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData} from '@/helper/updateUserData';
 import {AppDispatch, RootState} from '@/store/store';
 import {ColumnCardsProps} from '@/types/interfaces';
 import {FC, ReactNode, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getComments, isCardUpdate} from '@/store/card-setting/actions';
 import {getUpdateLink} from '@/store/data-user/actions';
+import {stripHtmlTags} from '@/helper/stripHtmlTags';
 import './CommentsAndDesc.scss';
-import CreatedCheckList from '../CreatedCheckList/CreatedCheckList';
+
 interface CommentsAndDescProps {
   card: ColumnCardsProps;
   children: ReactNode;
 }
-export const stripHtmlTags = (html: string) => {
-  const regex = /(<([^>]+)>)/gi;
-  return html.replace(regex, '');
-};
 
 const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
   const current_column = useSelector((state: RootState) => state?.column.data);
@@ -31,9 +28,7 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
     comments: [],
   });
   const user = useSelector((state: RootState) => state.userdata);
-  const boardLists = useSelector(
-    (state: RootState) => state.boards.currentBoards.lists,
-  );
+  const boardLists = useSelector((state: RootState) => state.boards.currentBoards.lists);
   const current_board = useSelector((state: RootState) => state.boards);
   const [index, getIndex] = useState<any>({
     column: null,
@@ -53,37 +48,34 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
       dispatch(getUpdateLink(link));
     }
   }, [index]);
-
+  const isUpdate = useSelector((state: RootState) => state.card_setting.isUpdate);
   useEffect(() => {
     let textWithoutTags = stripHtmlTags(description);
-    // console.log(textWithoutTags.length);
-    description &&
-      updateFirebaseData(
-        `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
-        {description: textWithoutTags.length ? description : ''},
-      );
-  }, [index, description, user, current_board]);
 
-  const comments = useSelector(
-    (state: RootState) => state.card_setting.comments,
-  );
-  const isUpdate = useSelector(
-    (state: RootState) => state.card_setting.isUpdate,
-  );
+    // if (isUpdate) {
+    //   updateFirebaseData(
+    //     `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
+    //     {description: textWithoutTags.length ? description : ''},
+    //   );
+    //   dispatch(isCardUpdate(false));
+    // }
+    console.log(description, 'description');
+    description &&
+      updateFirebaseData(`boards/${current_board.index}/lists/${index.column}/cards/${index.card}`, {
+        description: textWithoutTags.length ? description : '',
+      });
+  }, [index, description, user, current_board, isUpdate]);
+
+  const comments = useSelector((state: RootState) => state.card_setting.comments);
+
   useEffect(() => {
     if (isUpdate) {
-      fetchBackDefaultData(
-        `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
-        getCurrentCard,
-      );
+      fetchBackDefaultData(`boards/${current_board.index}/lists/${index.column}/cards/${index.card}`, getCurrentCard);
       dispatch(isCardUpdate(false));
       return;
     }
     if (index.column !== null && index.card !== null) {
-      fetchBackDefaultData(
-        `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
-        getCurrentCard,
-      );
+      fetchBackDefaultData(`boards/${current_board.index}/lists/${index.column}/cards/${index.card}`, getCurrentCard);
       // dispatch(isCardUpdate(false));
     }
   }, [user, index, isUpdate]);
@@ -114,10 +106,9 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
       index.card !== -1
     ) {
       console.log(comments.length, index, isUpdate, 'sgffg');
-      updateFirebaseData(
-        `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
-        {comments: comments},
-      );
+      updateFirebaseData(`boards/${current_board.index}/lists/${index.column}/cards/${index.card}`, {
+        comments: comments,
+      });
     }
   }, [comments.length, index]);
 
@@ -138,10 +129,7 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
         <div>{children}</div>
         <div className='comments-desc__comments-box'>
           <p className='comments-desc__title flex '>
-            <span
-              className='text-underline'
-              data-quantity={comments?.length || 0}
-            >
+            <span className='text-underline' data-quantity={comments?.length || 0}>
               Comments
             </span>
           </p>

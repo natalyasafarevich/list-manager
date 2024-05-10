@@ -12,9 +12,10 @@ import {formatDate} from '@/helper/formatDate';
 import EditorToolbar from './EditorToolbar/EditorToolbar';
 import EditorContent from './EditorContent/EditorContent';
 import CommentsSection from './CommentsSection/CommentsSection';
+import {stripHtmlTags} from '@/helper/stripHtmlTags';
+import {EditorState} from '@/types/interfaces';
 import 'react-quill/dist/quill.snow.css';
 import './TextEditor.scss';
-import {stripHtmlTags} from '../CurrentBoard/Card/CardSettings/CommentsAndDesc/CommentsAndDesc';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -25,31 +26,19 @@ interface TextEditorProps {
   hasComments?: boolean;
 }
 
-const TextEditor: FC<TextEditorProps> = ({
-  title,
-  getHTML,
-  firebaseDescription,
-  hasComments,
-}) => {
-  const [state, setState] = useState({
-    prevValue: '',
-    isSave: false,
-    isOpen: false,
+const TextEditor: FC<TextEditorProps> = ({title, getHTML, firebaseDescription, hasComments}) => {
+  const [state, setState] = useState<EditorState>({
     currentTitle: title,
-    editorHtml: '',
-    commentsInfo: {id: '', index: 0, editDate: ''},
-  });
+  } as EditorState);
+
   const [comments, setComments] = useState<Array<CommentProps>>([]);
 
-  const updateState = (newState: Partial<typeof state>) => {
-    setState((prevState) => ({...prevState, ...newState}));
-  };
-  const allComments = useSelector(
-    (state: RootState) => state.card_setting.comments,
-  );
-  const user_status = useSelector((state: RootState) => state.userdata);
+  const {owner} = useSelector((state: RootState) => state.comments);
 
-  const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
+  const commentsData = useSelector((state: RootState) => state.card_setting.comments);
+  const {user_status, uid, additional_info, displayName} = useSelector((state: RootState) => state.userdata);
+
+  const isLoggedIn = !!uid && user_status !== 'guest';
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -61,15 +50,19 @@ const TextEditor: FC<TextEditorProps> = ({
         editorHtml: firebaseDescription,
       }));
     }
-  }, [firebaseDescription]);
-
-  //get all comments from firebase
-  useEffect(() => {
-    if (allComments) {
-      setComments(allComments);
-      console.log(allComments);
+    if (commentsData) {
+      setComments(commentsData);
     }
-  }, [allComments]);
+  }, [firebaseDescription, commentsData]);
+
+  const resetState = () => {
+    setState((prevState) => ({
+      ...prevState,
+      currentTitle: state.editorHtml,
+      isOpen: false,
+      isSave: false,
+    }));
+  };
 
   //update comments
   useEffect(() => {
@@ -77,103 +70,82 @@ const TextEditor: FC<TextEditorProps> = ({
     if (state.isSave) {
       if (!hasComments && state.editorHtml) {
         dispatch(isCardUpdate(true));
-
+        getHTML?.(state.editorHtml || '');
+        resetState();
         return;
       }
 
       // find a comment which needs to update
       const updatedComments = comments.map((item) =>
         item.id === state.commentsInfo.id
-          ? {...item, title: state.editorHtml, editDate}
+          ? {
+              ...item,
+              title: state.editorHtml,
+              editDate,
+            }
           : item,
       );
-      console.log(state.editorHtml, 'flkgdfl');
-      // item.id === state.commentsInfo.id
-      //   ? {...item, title: state.editorHtml, editDate}
-      //   : item,
-      // );
 
       getHTML?.(state.editorHtml || '');
-      console.log(updatedComments, updatedComments.length, 'updatedComments');
       dispatch(isCardUpdate(true));
       dispatch(getComments(updatedComments));
-
-      setState((prevState) => ({
-        ...prevState,
-        currentTitle: state.editorHtml,
-        isOpen: false,
-        isSave: false,
-      }));
+      resetState();
     }
   }, [state.editorHtml, state.isSave]);
-  console.log(state, 'statestate');
-  const ReactQuillChange = (html: string) => {
-    let textWithoutTags = stripHtmlTags(html);
-    if (!textWithoutTags.length) {
-      return;
-    }
-    setState((prevState) => ({
-      ...prevState,
-      editorHtml: html,
-    }));
-  };
 
+  const ReactQuillChange = (html: string) => {
+    const textWithoutTags = stripHtmlTags(html);
+    if (textWithoutTags.length) {
+      setState((prevState) => ({
+        ...prevState,
+        editorHtml: html,
+      }));
+    }
+  };
   // the comment changes
   const changeComment = (e: React.MouseEvent<HTMLElement>) => {
     const {currentTarget} = e;
     const id = currentTarget?.dataset?.id || '';
-    console.log(',njdfdflfnl');
-    const foundComment = comments.find((item) => item.id === id);
+    const foundedComment = comments.find((item) => item.id === id);
     const commentIndex = getListIndex(comments, id);
-
     setState((prevState) => ({
       ...prevState,
       commentsInfo: {
-        id: id,
-        index: commentIndex as number,
+        id,
+        index: commentIndex || 0,
         editDate: '',
       },
+      editorHtml: foundedComment?.title || '',
     }));
-    // console.log(foundComment, 'ffoundComment');
-    foundComment &&
-      setState((prevState) => ({
-        ...prevState,
-        editorHtml: foundComment.title,
-      }));
   };
-  // console.log(comments);
+
   // add a new comment
   const addComment = () => {
-    console.log('ll');
     const editDate = formatDate(new Date());
     const newId = uuidv4();
     const newComment: CommentProps = {
       id: newId,
       title: '',
-      owner: user_status.uid,
+      owner: uid,
       createDate: editDate,
-      photoUrl: user_status.additional_info.mainPhoto.url as string,
-      name: user_status.displayName as string,
+      photoUrl: additional_info.mainPhoto.url as string,
+      name: displayName as string,
     };
-
     setState((prevState) => ({
       ...prevState,
       editorHtml: '',
       commentsInfo: {
         id: newId,
         index: comments.length,
-        editDate: editDate,
+        editDate,
       },
     }));
-    // if (!newComment.title.length) {
-    //   return;
-    // }
     setComments((prevComments) => [...prevComments, newComment]);
   };
+
   // save the edited comment
   const saveComments = () => {
     let textWithoutTags = stripHtmlTags(state.editorHtml);
-    console.log(textWithoutTags, state, 'jhfjrhghlghghlghzr');
     if (!textWithoutTags.length) {
       setState((prevState) => ({
         ...prevState,
@@ -184,7 +156,7 @@ const TextEditor: FC<TextEditorProps> = ({
     }
     setState((prevState) => ({
       ...prevState,
-
+      editorHtml: textWithoutTags,
       isSave: true,
     }));
     dispatch(isCardUpdate(true));
@@ -198,12 +170,8 @@ const TextEditor: FC<TextEditorProps> = ({
       isOpen: false,
     }));
   };
-  const commnet_owner = useSelector((state: RootState) => state.comments.owner);
-  // edit text
   const editText = () => {
-    console.log(commnet_owner, 'commnet_owner');
-    // let textWithoutTags = stripHtmlTags(description);
-    if (!commnet_owner.length) {
+    if (!owner.length) {
       setState((prevState) => ({
         ...prevState,
         prevValue: state.editorHtml,
@@ -211,7 +179,7 @@ const TextEditor: FC<TextEditorProps> = ({
       }));
       return;
     }
-    if (!isLoggedIn || commnet_owner !== user_status.uid) {
+    if (!isLoggedIn || owner !== uid) {
       return;
     }
 
@@ -232,7 +200,7 @@ const TextEditor: FC<TextEditorProps> = ({
                 <div
                   className='comments-section__image'
                   style={{
-                    background: `center/cover no-repeat url(${user_status.additional_info.mainPhoto.url})`,
+                    background: `center/cover no-repeat url(${additional_info.mainPhoto.url})`,
                   }}
                 ></div>
                 <button
@@ -240,17 +208,9 @@ const TextEditor: FC<TextEditorProps> = ({
                   className='text-editor__button text-editor__button__send'
                   onClick={saveComments}
                 ></button>
-                {/* <button
-                  type='button'
-                  className='button-close text-editor__button'
-                  onClick={cancelClick}
-                ></button> */}
               </>
             )}
-            <EditorContent
-              value={state.editorHtml}
-              onChange={ReactQuillChange}
-            />
+            <EditorContent value={state.editorHtml} onChange={ReactQuillChange} />
           </div>
           <EditorToolbar onCancel={cancelClick} onSave={saveComments} />
         </div>
@@ -258,7 +218,11 @@ const TextEditor: FC<TextEditorProps> = ({
         <div className='text-editor__description' onClick={editText}>
           {!hasComments &&
             (state.editorHtml ? (
-              <div dangerouslySetInnerHTML={{__html: state.editorHtml}}></div>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: state.editorHtml,
+                }}
+              ></div>
             ) : (
               <span>{state.currentTitle}</span>
             ))}
@@ -270,7 +234,7 @@ const TextEditor: FC<TextEditorProps> = ({
             <div
               className='comments-section__image'
               style={{
-                background: `center/cover no-repeat url(${user_status.additional_info.mainPhoto.url || '/default-image.svg'})`,
+                background: `center/cover no-repeat url(${additional_info.mainPhoto.url || '/default-image.svg'})`,
               }}
             ></div>
 
@@ -281,19 +245,7 @@ const TextEditor: FC<TextEditorProps> = ({
         )}
 
         {hasComments && !state.isOpen && (
-          <CommentsSection
-            // addComment={addComment}
-            comments={comments}
-            isLoggedIn={isLoggedIn}
-            changeComment={changeComment}
-            isOpen={state.isOpen}
-            setOpen={(e) =>
-              setState((prevState) => ({
-                ...prevState,
-                isOpen: e,
-              }))
-            }
-          />
+          <CommentsSection commentsData={comments} isLoggedIn={isLoggedIn} onChangeComment={changeComment} />
         )}
       </div>
     </div>
