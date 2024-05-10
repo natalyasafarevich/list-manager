@@ -3,32 +3,34 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getColumnInfo} from '@/store/colunm-info/actions';
 import {AppDispatch, RootState} from '@/store/store';
-import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData} from '@/helper/updateUserData';
 import CreateCard from '../Card/CreateCard/CreateCard';
 import CardDisplay from '../Card/CardDisplay/CardDisplay';
 import ColumnHeader from './ColumnHeader/ColumnHeader';
-
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
-import {CurrentColumnProps} from '@/types/interfaces';
+import {ColumnCardsProps, CurrentColumnProps} from '@/types/interfaces';
 import {getIsOpenClSetting} from '@/store/column-setting/actions';
 import {isCardUpdate} from '@/store/card-setting/actions';
 import './Column.scss';
 
 type ColumnProps = {
-  item?: {id: string; cards: Array<any>; isArchive: boolean};
+  item?: {id: string; isArchive: boolean; cards: Array<ColumnCardsProps>};
   name?: string;
 };
 
 const Column: FC<ColumnProps> = ({item, name}) => {
   const [cardIndex, setCardIndex] = useState<number | null>(null);
-
-  const [cards, setCards] = useState<any>([]);
+  const [cards, setCards] = useState<ColumnCardsProps[]>([]);
+  const [userData, getUserData] = useState<CurrentColumnProps>();
   const [isSave, setIsSave] = useState(false);
+  const [isClose, setIsClose] = useState<boolean>(true);
+
   const user = useSelector((state: RootState) => state.userdata);
   const current_board = useSelector((state: RootState) => state?.boards);
-  const dispatch: AppDispatch = useDispatch();
 
-  const [isClose, setIsClose] = useState<boolean>(true);
+  const {isUpdate} = useSelector((state: RootState) => state.card_setting);
+
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (!item?.cards) {
@@ -36,7 +38,6 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     }
     setCards(item?.cards);
   }, [item]);
-  const [userData, getUserData] = useState<CurrentColumnProps>();
 
   useEffect(() => {
     if (userData) {
@@ -47,16 +48,6 @@ const Column: FC<ColumnProps> = ({item, name}) => {
         }),
       );
     }
-  }, [userData, isSave]);
-  const cardUpdate = useSelector((state: RootState) => state.card_setting.isUpdate);
-  useEffect(() => {
-    if (cardUpdate && cardIndex !== null) {
-      fetchBackDefaultData(`/boards/${current_board.index}/lists/${cardIndex}`, getUserData);
-      dispatch(isCardUpdate(false));
-    }
-  }, [cardUpdate]);
-
-  useEffect(() => {
     if (isSave && cardIndex !== null) {
       updateFirebaseData(`boards/${current_board.index}/lists/${cardIndex}`, {
         cards,
@@ -64,7 +55,14 @@ const Column: FC<ColumnProps> = ({item, name}) => {
       fetchBackDefaultData(`/boards/${current_board.index}/lists/${cardIndex}`, getUserData);
     }
     setIsSave(false);
-  }, [isSave]);
+  }, [userData, isSave]);
+
+  useEffect(() => {
+    if (isUpdate && cardIndex !== null) {
+      fetchBackDefaultData(`/boards/${current_board.index}/lists/${cardIndex}`, getUserData);
+      dispatch(isCardUpdate(false));
+    }
+  }, [isUpdate]);
 
   useEffect(() => {
     dispatch(getIsOpenClSetting({isOpen: false}));
@@ -72,14 +70,8 @@ const Column: FC<ColumnProps> = ({item, name}) => {
 
   const addCard = () => {
     setIsClose(false);
-
-    current_board.boards[current_board.index]?.lists.map((itedm: any, i: number) => {
-      // if (itedm.id === item?.id) {
-      console.log(itedm.id, item, 'jkjljlj');
-      // }
-    });
   };
-  // console.log(isClose);
+
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
   return (
     <>
@@ -113,7 +105,6 @@ const Column: FC<ColumnProps> = ({item, name}) => {
               )
             )}
           </div>
-          {/* )} */}
         </div>
       )}
     </>

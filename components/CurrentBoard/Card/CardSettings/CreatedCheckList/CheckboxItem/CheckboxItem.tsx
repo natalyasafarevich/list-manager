@@ -21,7 +21,7 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [toggleText, setToggleText] = useState('');
-  console.log('itemitemitemitem', item.id);
+
   useEffect(() => {
     setValue(item.title);
     if (item.isChecked) {
