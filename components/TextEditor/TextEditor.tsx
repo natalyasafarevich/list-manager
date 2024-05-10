@@ -67,6 +67,7 @@ const TextEditor: FC<TextEditorProps> = ({
   useEffect(() => {
     if (allComments) {
       setComments(allComments);
+      console.log(allComments);
     }
   }, [allComments]);
 
@@ -76,14 +77,25 @@ const TextEditor: FC<TextEditorProps> = ({
     if (state.isSave) {
       if (!hasComments && state.editorHtml) {
         dispatch(isCardUpdate(true));
+
+        return;
       }
+
       // find a comment which needs to update
       const updatedComments = comments.map((item) =>
         item.id === state.commentsInfo.id
           ? {...item, title: state.editorHtml, editDate}
           : item,
       );
+      console.log(state.editorHtml, 'flkgdfl');
+      // item.id === state.commentsInfo.id
+      //   ? {...item, title: state.editorHtml, editDate}
+      //   : item,
+      // );
 
+      getHTML?.(state.editorHtml || '');
+      console.log(updatedComments, updatedComments.length, 'updatedComments');
+      dispatch(isCardUpdate(true));
       dispatch(getComments(updatedComments));
 
       setState((prevState) => ({
@@ -92,11 +104,9 @@ const TextEditor: FC<TextEditorProps> = ({
         isOpen: false,
         isSave: false,
       }));
-
-      getHTML?.(state.editorHtml || '');
     }
-  }, [state.isSave, state.editorHtml]);
-
+  }, [state.editorHtml, state.isSave]);
+  console.log(state, 'statestate');
   const ReactQuillChange = (html: string) => {
     let textWithoutTags = stripHtmlTags(html);
     if (!textWithoutTags.length) {
@@ -112,7 +122,7 @@ const TextEditor: FC<TextEditorProps> = ({
   const changeComment = (e: React.MouseEvent<HTMLElement>) => {
     const {currentTarget} = e;
     const id = currentTarget?.dataset?.id || '';
-
+    console.log(',njdfdflfnl');
     const foundComment = comments.find((item) => item.id === id);
     const commentIndex = getListIndex(comments, id);
 
@@ -124,7 +134,7 @@ const TextEditor: FC<TextEditorProps> = ({
         editDate: '',
       },
     }));
-
+    // console.log(foundComment, 'ffoundComment');
     foundComment &&
       setState((prevState) => ({
         ...prevState,
@@ -134,6 +144,7 @@ const TextEditor: FC<TextEditorProps> = ({
   // console.log(comments);
   // add a new comment
   const addComment = () => {
+    console.log('ll');
     const editDate = formatDate(new Date());
     const newId = uuidv4();
     const newComment: CommentProps = {
@@ -162,6 +173,7 @@ const TextEditor: FC<TextEditorProps> = ({
   // save the edited comment
   const saveComments = () => {
     let textWithoutTags = stripHtmlTags(state.editorHtml);
+    console.log(textWithoutTags, state, 'jhfjrhghlghghlghzr');
     if (!textWithoutTags.length) {
       setState((prevState) => ({
         ...prevState,
@@ -172,10 +184,12 @@ const TextEditor: FC<TextEditorProps> = ({
     }
     setState((prevState) => ({
       ...prevState,
+
       isSave: true,
     }));
     dispatch(isCardUpdate(true));
   };
+
   const cancelClick = () => {
     setState((prevState) => ({
       ...prevState,
@@ -184,11 +198,20 @@ const TextEditor: FC<TextEditorProps> = ({
       isOpen: false,
     }));
   };
-
+  const commnet_owner = useSelector((state: RootState) => state.comments.owner);
   // edit text
   const editText = () => {
+    console.log(commnet_owner, 'commnet_owner');
     // let textWithoutTags = stripHtmlTags(description);
-    if (!isLoggedIn) {
+    if (!commnet_owner.length) {
+      setState((prevState) => ({
+        ...prevState,
+        prevValue: state.editorHtml,
+        isOpen: !prevState.isOpen,
+      }));
+      return;
+    }
+    if (!isLoggedIn || commnet_owner !== user_status.uid) {
       return;
     }
 

@@ -33,6 +33,7 @@ const CheckboxForm: FC<CheckboxFormProps> = ({item, currentValue, isHide}) => {
 
   const user = useSelector((state: RootState) => state.userdata);
   const dispatch: AppDispatch = useDispatch();
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
 
   const isUpdateTaskList = useSelector(
     (state: RootState) => state.check_lists.isTaskUpdate,
@@ -103,7 +104,6 @@ const CheckboxForm: FC<CheckboxFormProps> = ({item, currentValue, isHide}) => {
     const updatedTasks = {...checkListsData};
     delete updatedTasks[item?.id as any];
     dispatch(getCurrentListIndex(item.id));
-    // dispatch(isDeleteList(true));
     dispatch(isCardUpdate(true));
     updateFirebaseData(
       `boards/${user.dataLink.boardIndex}/lists/${user.dataLink.listIndex}/cards/${user.dataLink.cardIndex}`,
@@ -117,6 +117,7 @@ const CheckboxForm: FC<CheckboxFormProps> = ({item, currentValue, isHide}) => {
   };
 
   useEffect(() => {
+    // if item ia checked add button
     Object.keys(itemTasks).map((item) => {
       if (!itemTasks[item].isChecked) {
         return;
@@ -127,15 +128,13 @@ const CheckboxForm: FC<CheckboxFormProps> = ({item, currentValue, isHide}) => {
     });
   }, [itemTasks]);
 
-  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
-
   return (
     <div className='checkbox-form'>
       <div className='checkbox-form__container'>
         <div className='checkbox-form__row flex'>
           <p className='checkbox-form__title  text-underline'>{item.title}</p>
           <div className='checkbox-form__btns flex'>
-            {Object.keys(itemTasks).length && hideText && (
+            {hideText && (
               <button
                 className='checkbox-form__button button-light-blue'
                 onClick={hideChecked}

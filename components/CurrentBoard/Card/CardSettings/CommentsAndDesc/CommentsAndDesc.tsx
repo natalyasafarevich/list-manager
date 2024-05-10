@@ -7,7 +7,7 @@ import {AppDispatch, RootState} from '@/store/store';
 import {ColumnCardsProps} from '@/types/interfaces';
 import {FC, ReactNode, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getComments} from '@/store/card-setting/actions';
+import {getComments, isCardUpdate} from '@/store/card-setting/actions';
 import {getUpdateLink} from '@/store/data-user/actions';
 import './CommentsAndDesc.scss';
 import CreatedCheckList from '../CreatedCheckList/CreatedCheckList';
@@ -67,14 +67,26 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
   const comments = useSelector(
     (state: RootState) => state.card_setting.comments,
   );
+  const isUpdate = useSelector(
+    (state: RootState) => state.card_setting.isUpdate,
+  );
   useEffect(() => {
+    if (isUpdate) {
+      fetchBackDefaultData(
+        `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
+        getCurrentCard,
+      );
+      dispatch(isCardUpdate(false));
+      return;
+    }
     if (index.column !== null && index.card !== null) {
       fetchBackDefaultData(
         `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
         getCurrentCard,
       );
+      // dispatch(isCardUpdate(false));
     }
-  }, [user, card.id, current_column, boardLists, index]);
+  }, [user, index, isUpdate]);
 
   useEffect(() => {
     if (card.id) {
@@ -90,7 +102,8 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
 
   useEffect(() => {
     dispatch(getComments(currentCard?.comments as []));
-  }, [currentCard]);
+  }, [currentCard.comments.length]);
+
   useEffect(() => {
     if (
       comments &&
@@ -100,12 +113,13 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
       index.card !== null &&
       index.card !== -1
     ) {
+      console.log(comments.length, index, isUpdate, 'sgffg');
       updateFirebaseData(
         `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
         {comments: comments},
       );
     }
-  }, [comments, index]);
+  }, [comments.length, index]);
 
   return (
     <div className='comments-desc'>

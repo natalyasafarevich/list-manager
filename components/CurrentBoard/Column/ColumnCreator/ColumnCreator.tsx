@@ -50,7 +50,7 @@ const ColumnCreator: FC<NewColumnProps> = ({currentIndex}) => {
       if (userData[currentIndex] && userData[currentIndex].lists) {
         setCurrentList(userData[currentIndex].lists);
         setComponents(
-          userData[currentIndex].lists.map((item: any) => (
+          userData[currentIndex]?.lists?.map((item: any) => (
             <Column item={item} name={item.name} key={item.id} />
           )),
         );

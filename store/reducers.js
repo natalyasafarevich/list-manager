@@ -10,6 +10,7 @@ import {MembersReducer} from './members/reducer';
 import {AuthReducer} from './auth/redcer';
 import {NotificationsReducer} from './notifications/reducers';
 import {ContactsReducer} from './contacts/reducer';
+import { CommentsReducer } from './comments/reducer';
 
 export default combineReducers({
   auth: AuthReducer,
@@ -23,4 +24,5 @@ export default combineReducers({
   members: MembersReducer,
   note: NotificationsReducer,
   contacts: ContactsReducer,
+  comments:CommentsReducer
 });
