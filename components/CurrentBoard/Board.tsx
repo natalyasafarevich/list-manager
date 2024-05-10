@@ -35,7 +35,7 @@ const initialBoard = {
 };
 
 const CurrentBoard: FC = () => {
-  const [currentBoard, setCurrentBoard] = useState<BoardProps>(initialBoard);
+  const [currentBoard, setCurrentBoard] = useState<any>(initialBoard);
   const [currentPathname, setCurrentPathname] = useState<string>('');
   const [index, setIndex] = useState<any>();
   const [isLightTheme, setIsLightTheme] = useState(false);
@@ -47,7 +47,7 @@ const CurrentBoard: FC = () => {
   useEffect(() => {
     dispatch(getBoardCurrent(currentBoard, index));
   }, [currentBoard, index]);
-  // console.log(currentBoard);
+
   let lastSegment = pathname?.substring(pathname?.lastIndexOf('/') + 1);
 
   useEffect(() => {
@@ -88,9 +88,14 @@ const CurrentBoard: FC = () => {
   //       }
   //     }
   // }, [board, currentPathname]);
+  const {uid} = useSelector((state: RootState) => state.userdata);
+  const [isBoardPrivate, setIsBoardPrivate] = useState(false);
   useEffect(() => {
-    currentBoard.members &&
-      dispatch(getUserStatus(currentBoard.members[user.uid]));
+    currentBoard.type === 'private' && !currentBoard?.members[uid] ? setIsBoardPrivate(true) : setIsBoardPrivate(false);
+  }, [currentBoard]);
+
+  useEffect(() => {
+    currentBoard.members && dispatch(getUserStatus(currentBoard.members[user.uid]));
     if (currentBoard['text-color'] === 'light') {
       setIsLightTheme(true);
       return;
@@ -99,8 +104,12 @@ const CurrentBoard: FC = () => {
     }
   }, [currentBoard]);
 
-  if (!currentBoard.id) {
-    return <> {!currentBoard.id && <h1>Доска закрыта или не создана</h1>}</>;
+  if (!currentBoard.id || isBoardPrivate) {
+    return (
+      <>
+        <h1>Доска закрыта или не создана</h1>
+      </>
+    );
   }
   return (
     <div className='board'>

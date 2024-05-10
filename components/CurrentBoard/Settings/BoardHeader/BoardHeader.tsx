@@ -22,14 +22,10 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [members, setMembers] = useState<Array<any>>([]);
   const db = getDatabase(firebaseApp);
-  const user_status = useSelector(
-    (state: RootState) => state.userdata.user_status,
-  );
+  const user_status = useSelector((state: RootState) => state.userdata.user_status);
 
   const boardsIndex = useSelector((state: RootState) => state.boards.index);
-  const currentBoard = useSelector(
-    (state: RootState) => state.boards.currentBoards,
-  );
+  const currentBoard = useSelector((state: RootState) => state.boards.currentBoards);
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
@@ -104,9 +100,7 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                   background: `center/cover no-repeat url(${user?.photoURL})`,
                 }}
               ></div>
-              <div
-                className={`board-header__users flex ${members.length > 5 ? 'hide' : ''}`}
-              >
+              <div className={`board-header__users flex ${members.length > 5 ? 'hide' : ''}`}>
                 {members?.map(
                   (member, i) =>
                     i < 5 && (
@@ -116,16 +110,11 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                     ),
                 )}
               </div>
-              {members.length > 5 && (
-                <div className='board-header__count'>+{members.length - 5}</div>
-              )}
+              {members.length > 5 && <div className='board-header__count'>+{members.length - 5}</div>}
               <Members />
 
               {isLoggedIn && (
-                <p
-                  className='board-header__menu'
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                >
+                <p className='board-header__menu' onClick={() => setIsMenuOpen(!isMenuOpen)}>
                   {/* Menu */}
                 </p>
               )}
@@ -134,24 +123,12 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
           <div className='board-header__info flex'>
             {isLoggedIn && (
               <div className='flex'>
-                <div
-                  className={`board-header__visibility ${isOpenCard ? 'active' : ''}`}
-                >
-                  <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>
-                    {board.type}
-                  </p>
+                <div className={`board-header__visibility ${isOpenCard ? 'active' : ''}`}>
+                  <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>{board.type}</p>
                   {isOpenCard && (
                     <div className='board-header__popup'>
-                      <ChangingVisibility
-                        text='Only collaborators can see this'
-                        type='private'
-                        name='private'
-                      />
-                      <ChangingVisibility
-                        text='Anyone can see'
-                        type='public'
-                        name='public'
-                      />
+                      <ChangingVisibility text='Only collaborators can see this' type='private' name='private' />
+                      <ChangingVisibility text='Anyone can see' type='public' name='public' />
                     </div>
                   )}
                 </div>
