@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getComments, isCardUpdate} from '@/store/card-setting/actions';
 import {getUpdateLink} from '@/store/data-user/actions';
 import {stripHtmlTags} from '@/helper/stripHtmlTags';
+
 import './CommentsAndDesc.scss';
 
 interface IndexState {

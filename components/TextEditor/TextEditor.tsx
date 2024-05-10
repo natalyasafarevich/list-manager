@@ -1,5 +1,7 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
+import 'react-quill/dist/quill.snow.css';
+
 import {Quill} from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
 import {v4 as uuidv4} from 'uuid';
@@ -14,7 +16,7 @@ import EditorContent from './EditorContent/EditorContent';
 import CommentsSection from './CommentsSection/CommentsSection';
 import {stripHtmlTags} from '@/helper/stripHtmlTags';
 import {EditorState} from '@/types/interfaces';
-import 'react-quill/dist/quill.snow.css';
+
 import './TextEditor.scss';
 
 Quill.register('modules/imageResize', ImageResize);
@@ -156,13 +158,14 @@ const TextEditor: FC<TextEditorProps> = ({title, getHTML, firebaseDescription, h
     }
     setState((prevState) => ({
       ...prevState,
-      editorHtml: textWithoutTags,
+      // editorHtml: textWithoutTags,
       isSave: true,
     }));
     dispatch(isCardUpdate(true));
   };
 
   const cancelClick = () => {
+    dispatch(isCardUpdate(false));
     setState((prevState) => ({
       ...prevState,
       editorHtml: '',
@@ -191,9 +194,9 @@ const TextEditor: FC<TextEditorProps> = ({title, getHTML, firebaseDescription, h
   };
 
   return (
-    <div className='text-editor'>
+    <div className='text-editor '>
       {state.isOpen ? (
-        <div className='text-editor__container'>
+        <div className='text-editor__container ql-editor'>
           <div className='flex'>
             {hasComments && (
               <>
@@ -215,7 +218,7 @@ const TextEditor: FC<TextEditorProps> = ({title, getHTML, firebaseDescription, h
           <EditorToolbar onCancel={cancelClick} onSave={saveComments} />
         </div>
       ) : (
-        <div className='text-editor__description' onClick={isLoggedIn ? editText : () => {}}>
+        <div className='text-editor__description ql-editor' onClick={isLoggedIn ? editText : () => {}}>
           {!hasComments &&
             (state.editorHtml ? (
               <div
@@ -234,7 +237,7 @@ const TextEditor: FC<TextEditorProps> = ({title, getHTML, firebaseDescription, h
             <div
               className='comments-section__image'
               style={{
-                background: `center/cover no-repeat url(${additional_info.mainPhoto.url || '/default-image.svg'})`,
+                background: `center/cover no-repeat url(${additional_info?.mainPhoto?.url || '/default-image.svg'})`,
               }}
             ></div>
 

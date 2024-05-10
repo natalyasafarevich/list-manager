@@ -1,4 +1,5 @@
 'use client';
+
 import BoardsList from '@/components/BoardsList/BoardsList';
 import CreateBoardForm from '@/components/CreateBoardForm/CreateBoardForm';
 // import  from '@/components/CreateBoardForm/CreateBoardForm';
