@@ -26,9 +26,7 @@ const BoardOptionsMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
   const [descriptionBack, setDescriptionBack] = useState<string>('');
 
   const boardIndex = useSelector((state: RootState) => state.boards.index);
-  const current_board = useSelector(
-    (state: RootState) => state.boards.currentBoards,
-  );
+  const current_board = useSelector((state: RootState) => state.boards.currentBoards);
 
   useEffect(() => {
     if (current_board?.description) {
@@ -64,21 +62,13 @@ const BoardOptionsMenu: FC<AdditionalMenuProps> = ({closeMenu}) => {
                 descriptionBack={descriptionBack}
                 setDescription={setDescription}
               />
-              <ArchivesSection
-                setTitle={setTitle}
-                setIsOpen={setIsOpenArchives}
-                isOpen={isOpenArchives}
-              />
-              <BackgroundSection
-                setTitle={setTitle}
-                setIsOpen={setIsOpenBg}
-                isOpen={isOpenBg}
-              />
+              <ArchivesSection setTitle={setTitle} setIsOpen={setIsOpenArchives} isOpen={isOpenArchives} />
+              <BackgroundSection setTitle={setTitle} setIsOpen={setIsOpenBg} isOpen={isOpenBg} />
               <CopyBoard />
-              <TextColorSection
+              {/* <TextColorSection
                 setIsOpenTextColor={setIsOpenTextColor}
                 isOpenTextColor={isOpenTextColor}
-              />
+              /> */}
             </div>
           </div>
           <CloseBoard />

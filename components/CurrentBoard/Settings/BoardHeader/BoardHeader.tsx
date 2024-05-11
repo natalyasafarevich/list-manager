@@ -44,9 +44,10 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
               ...prev,
               {
                 photo: data.mainPhoto?.url || '',
-
+                desc: data.aboutYourSelf,
                 name: data.fullName,
                 publicName: data.publicName,
+                position: data.position,
                 id: uid,
                 role: currentBoard.members[uid],
               },

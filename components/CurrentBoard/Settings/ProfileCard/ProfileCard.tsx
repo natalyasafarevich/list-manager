@@ -15,7 +15,9 @@ interface UserDataProps {
   role: string;
   email: string;
   id: string;
+  desc: string;
   publicName: string;
+  position: string;
 }
 
 interface ProfileCardProp {
@@ -80,7 +82,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
     // }
   };
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
-
+  console.log(userData);
   return (
     <>
       {notificationSetting.isAddNotification && (
@@ -122,32 +124,38 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
             }}
           ></div>
           {isOpen && (
-            <div className='profile-card__box'>
+            <div className='profile-card__card'>
               <button className='profile-card__button button-close' onClick={() => setIsOpen(false)}></button>
-
-              <div className='profile-card__row flex'>
-                <div
-                  className='profile-card__image'
+              <Link target='_blank' href={`/profile/${userData.id}`} className='profile-card__box'>
+                {/* <div className='profile-card__row flex'> */}
+                <span
+                  className='profile-card__image profile-card__image-card'
                   style={{
                     background: `center/cover no-repeat no-repeat url(${userData.photo || '/default-image.svg'})`,
                   }}
-                ></div>
-                <p className='profile-card__text'>
-                  {userData.name}
-                  <br />@{userData.publicName} <br />
-                  {userData?.email}
-                  <span>{userData?.role}</span>
+                ></span>
+                <p className='profile-card__user'>
+                  <span className='name'> {userData.name}</span>
+                  <span className='position'> {userData.role}</span>
+                  {/* <span className='role'> {userData?.role}</span> */}
+                  {/* {userData.publicName}
+                {userData?.desc}
+                <span>{userData?.role}</span> */}
                 </p>
-              </div>
-              {userData.id === user.uid && (
+                <p className='profile-card__desc'>{userData?.desc}</p>
+                {/* <span className='profile-card__email'>{userData?.email}</span> */}
+
+                {/* </div> */}
+                {/* {userData.id === user.uid && (
                 <Link className='profile-card__link' href='/settings/profile'>
                   Profile management
                 </Link>
-              )}
+              )} */}
+              </Link>
               {isLoggedIn && userData.role !== 'admin' && (
-                <button className='button-dark' onClick={deletionConfirmation}>
+                <p className='profile-card__button-delete' onClick={deletionConfirmation}>
                   {userData.id === user.uid ? 'Leave the board' : 'Delete member'}
-                </button>
+                </p>
               )}
             </div>
           )}

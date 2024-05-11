@@ -275,6 +275,13 @@ body {
   }
 }
 .board-bg {
+  // &::before {
+  //   content: "";
+  //   display: block;
+  //   height: 100%;
+  //   width: 100%;
+  //   background: #00000029;
+  // }
   left: 0;
   position: absolute;
   width: 100%;

@@ -56,7 +56,7 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
 
   useEffect(() => {
     dispatch(getComments(currentCard?.comments as []));
-  }, [currentCard.comments]);
+  }, [currentCard?.comments]);
 
   useEffect(() => {
     if (isUpdate || (index.column !== null && index.card !== null)) {
