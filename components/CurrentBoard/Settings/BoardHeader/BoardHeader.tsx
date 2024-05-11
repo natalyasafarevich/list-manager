@@ -12,6 +12,7 @@ import {getMembers} from '@/store/members/actions';
 import './BoardHeader.scss';
 import Members from '../../Members/Members';
 import {displayName} from 'react-quill';
+import ClickAwayListener from '@/components/ClickAwayListener/ClickAwayListener';
 
 interface HeaderBoardProps {
   board: any;
@@ -101,16 +102,18 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                   background: `center/cover no-repeat url(${user?.photoURL})`,
                 }}
               ></div>
-              <div className={`board-header__users flex ${members.length > 5 ? 'hide' : ''}`}>
-                {members?.map(
-                  (member, i) =>
-                    i < 5 && (
-                      <div className='board-header__card' key={i}>
-                        <ProfileCard userData={member} key={i} />
-                      </div>
-                    ),
-                )}
-              </div>
+              {/* <ClickAwayListener> */}
+                <div className={`board-header__users flex ${members.length > 5 ? 'hide' : ''}`}>
+                  {members?.map(
+                    (member, i) =>
+                      i < 5 && (
+                        <div className='board-header__card' key={i}>
+                          <ProfileCard userData={member} key={i} />
+                        </div>
+                      ),
+                  )}
+                </div>
+              {/* </ClickAwayListener> */}
               {members.length > 5 && <div className='board-header__count'>+{members.length - 5}</div>}
               <Members />
 
