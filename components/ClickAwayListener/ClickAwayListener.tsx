@@ -16,7 +16,7 @@ const ClickAwayListener: FC<ClickAwayListenerProps> = ({children, setIsOpen}) =>
   return (
     // <div>
     <ClickAway mouseEvent='onMouseDown' touchEvent='onTouchStart' onClickAway={handleClickAway}>
-      <div style={{width: 'max-content'}}>{children}</div>
+      <div>{children}</div>
     </ClickAway>
     // </div>
   );

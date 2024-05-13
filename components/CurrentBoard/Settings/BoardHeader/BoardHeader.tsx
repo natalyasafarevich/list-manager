@@ -133,10 +133,12 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
               <div className={`board-header__visibility ${isOpenCard ? 'active' : ''}`}>
                 <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>{board.type}</p>
                 {isLoggedIn && isOpenCard && (
-                  <div className='board-header__popup'>
-                    <ChangingVisibility text='Only collaborators can see this' type='private' name='private' />
-                    <ChangingVisibility text='Anyone can see' type='public' name='public' />
-                  </div>
+                  <ClickAwayListener setIsOpen={(e) => setIsOpenCard(e)}>
+                    <div className='board-header__popup'>
+                      <ChangingVisibility text='Only collaborators can see this' type='private' name='private' />
+                      <ChangingVisibility text='Anyone can see' type='public' name='public' />
+                    </div>
+                  </ClickAwayListener>
                 )}
               </div>
               <div className='board-header__item'>

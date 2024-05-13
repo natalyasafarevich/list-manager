@@ -2,6 +2,7 @@ import {RootState} from '@/store/store';
 import {FC} from 'react';
 import {useSelector} from 'react-redux';
 import './ColumnCreatorForm.scss';
+import ClickAwayListener from '@/components/ClickAwayListener/ClickAwayListener';
 
 interface CardFormProps {
   components: any[];
@@ -37,49 +38,38 @@ const ColumnCreatorForm: FC<CardFormProps> = ({
           ))}
           <div className='column-create-form__box'>
             {isClick ? (
-              <form
-                onSubmit={addComponents}
-                className='column-create-form__form'
-              >
-                <label
-                  htmlFor='column-name'
-                  className='column-create-form__label'
-                >
-                  Title
-                </label>
-                <input
-                  className='column-create-form__input default-input'
-                  type='text'
-                  id='column-name'
-                  placeholder='Write a task title'
-                  value={value}
-                  onChange={(e) => setValue(e.currentTarget.value)}
-                />
-                <div className='column-create-form__flex flex'>
-                  <button
-                    className='button-dark'
-                    type='submit'
-                    disabled={isDisabled}
-                  >
-                    Create
-                  </button>
-                  <button
-                    className='button-border '
-                    onClick={(e) => {
-                      setIsClick(false);
-                      setValue('');
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
+              <ClickAwayListener setIsOpen={(e) => setIsClick(e)}>
+                <form onSubmit={addComponents} className='column-create-form__form'>
+                  <label htmlFor='column-name' className='column-create-form__label'>
+                    Title
+                  </label>
+                  <input
+                    className='column-create-form__input default-input'
+                    type='text'
+                    id='column-name'
+                    placeholder='Write a task title'
+                    value={value}
+                    onChange={(e) => setValue(e.currentTarget.value)}
+                  />
+                  <div className='column-create-form__flex flex'>
+                    <button className='button-dark' type='submit' disabled={isDisabled}>
+                      Create
+                    </button>
+                    <button
+                      className='button-border '
+                      onClick={(e) => {
+                        setIsClick(false);
+                        setValue('');
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </ClickAwayListener>
             ) : (
               isLoggedIn && (
-                <p
-                  onClick={saveComponents}
-                  className='column-create-form__button'
-                >
+                <p onClick={saveComponents} className='column-create-form__button'>
                   Create a list
                 </p>
               )

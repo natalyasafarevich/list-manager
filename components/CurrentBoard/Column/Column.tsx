@@ -12,6 +12,7 @@ import {ColumnCardsProps, CurrentColumnProps} from '@/types/interfaces';
 import {getIsOpenClSetting} from '@/store/column-setting/actions';
 import {isCardUpdate} from '@/store/card-setting/actions';
 import './Column.scss';
+import ClickAwayListener from '@/components/ClickAwayListener/ClickAwayListener';
 
 type ColumnProps = {
   item?: CurrentColumnProps;
@@ -88,15 +89,17 @@ const Column: FC<ColumnProps> = ({item, name}) => {
               );
             })}
             {!isClose ? (
-              <div className='column__box'>
-                <CreateCard
-                  setCards={setCards}
-                  setIsSave={setIsSave}
-                  setIsClose={setIsClose}
-                  listId={item?.id as string}
-                  setCardIndex={setCardIndex}
-                />
-              </div>
+              <ClickAwayListener setIsOpen={(e) => setIsClose(!e)}>
+                <div className='column__box'>
+                  <CreateCard
+                    setCards={setCards}
+                    setIsSave={setIsSave}
+                    setIsClose={setIsClose}
+                    listId={item?.id as string}
+                    setCardIndex={setCardIndex}
+                  />
+                </div>
+              </ClickAwayListener>
             ) : (
               isLoggedIn && (
                 <button className='column__button' type='button' onClick={addCard}>
