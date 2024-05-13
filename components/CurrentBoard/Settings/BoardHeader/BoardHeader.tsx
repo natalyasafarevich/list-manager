@@ -82,7 +82,11 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
 
   return (
     <>
-      {isMenuOpen && <BoardOptionsMenu closeMenu={(e) => setIsMenuOpen(e)} />}
+      {isMenuOpen && (
+        <ClickAwayListener setIsOpen={(e) => setIsMenuOpen(e)}>
+          <BoardOptionsMenu closeMenu={(e) => setIsMenuOpen(e)} />
+        </ClickAwayListener>
+      )}
       <div className='board-header'>
         <div className='board-header__container'>
           <div className='board-header__row flex'>
@@ -103,16 +107,16 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                 }}
               ></div>
               {/* <ClickAwayListener> */}
-                <div className={`board-header__users flex ${members.length > 5 ? 'hide' : ''}`}>
-                  {members?.map(
-                    (member, i) =>
-                      i < 5 && (
-                        <div className='board-header__card' key={i}>
-                          <ProfileCard userData={member} key={i} />
-                        </div>
-                      ),
-                  )}
-                </div>
+              <div className={`board-header__users flex ${members.length > 5 ? 'hide' : ''}`}>
+                {members?.map(
+                  (member, i) =>
+                    i < 5 && (
+                      <div className='board-header__card' key={i}>
+                        <ProfileCard userData={member} key={i} />
+                      </div>
+                    ),
+                )}
+              </div>
               {/* </ClickAwayListener> */}
               {members.length > 5 && <div className='board-header__count'>+{members.length - 5}</div>}
               <Members />

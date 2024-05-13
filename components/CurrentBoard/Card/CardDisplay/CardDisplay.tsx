@@ -43,10 +43,7 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
           >
             <span className='card-display__title'> {card.title}</span>
             {card?.description && (
-              <div
-                className='card-display__desc'
-                dangerouslySetInnerHTML={{__html: card.description}}
-              ></div>
+              <div className='card-display__desc' dangerouslySetInnerHTML={{__html: card.description}}></div>
             )}
             <div className='card-display__row'>
               {markers &&
@@ -69,9 +66,7 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
                 </span>
               )}{' '}
               {card.comments && (
-                <span className='card-display__icon card-display__icon_comments'>
-                  {card.comments.length}
-                </span>
+                <span className='card-display__icon card-display__icon_comments'>{card.comments.length}</span>
               )}
             </div>
           </div>
@@ -79,8 +74,8 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
 
         {isOpenCard && (
           <CardSettings
-            setIsOpenCard={() => {
-              setIsOpenCards(!isOpenCard);
+            setIsOpenCard={(e) => {
+              setIsOpenCards(e);
             }}
             card={card}
           />
