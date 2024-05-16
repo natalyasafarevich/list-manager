@@ -136,16 +136,8 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
             <div className='flex'>
               <div className='board-header__item'>
                 <BoardView />
-                {/* <ButtonToFavorites
-                  path={
-                    boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''
-                  }
-                  isFavorite={
-                    (board?.favoriteUid && board?.favoriteUid[user.uid]) ||
-                    false
-                  }
-                /> */}
               </div>
+
               <div className={`board-header__visibility ${isOpenCard ? 'active' : ''}`}>
                 <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>{board.type}</p>
                 {isLoggedIn && isOpenCard && (
@@ -157,6 +149,10 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                   </ClickAwayListener>
                 )}
               </div>
+              <ButtonToFavorites
+                path={boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''}
+                isFavorite={(board?.favoriteUid && board?.favoriteUid[user.uid]) || false}
+              />
             </div>
           </div>
         </div>

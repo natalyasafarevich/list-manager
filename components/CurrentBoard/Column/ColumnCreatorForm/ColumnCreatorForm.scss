@@ -24,13 +24,11 @@
       align-items: center;
       margin: 0 -7px;
     }
-    .column__card {
+    .card-display__box {
       max-width: 350px;
       min-width: 350px;
       width: 100%;
       margin: 0 7px;
-    }
-    .column__button {
     }
   }
 
@@ -38,6 +36,7 @@
 
   &__box {
     min-width: 300px;
+    max-width: 300px;
     width: 100%;
     box-shadow: 0 4px 19px 0 rgba(63, 71, 45, 0.3);
     background: var(--secondary-color);
@@ -72,6 +71,7 @@
 
   &__button {
     min-width: 200px;
+    // max-width: 200px;
     text-align: center;
     padding: 8px;
 

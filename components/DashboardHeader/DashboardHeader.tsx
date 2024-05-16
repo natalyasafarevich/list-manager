@@ -12,7 +12,6 @@ import NotificationButton from '../NotificationButton/NotificationButton';
 
 const DashboardHeader: FC = () => {
   const [isCreated, setIsCreated] = useState(false);
-  // const createBoardFormRef = useRef<HTMLDivElement>(null);
 
   const {
     ref: createBoardFormRefClickOutside,
@@ -26,47 +25,24 @@ const DashboardHeader: FC = () => {
         <div className='content-wrap'>
           <div className='dashboard-header__row'>
             <div className='dashboard-header__box'>
-              {/* <Link href={'/'} className='dashboard-header__logo logo'></Link> */}
-              {/* <Link
-                href={'/boards'}
-                className='dashboard-header__link dashboard-header__link_board'
-              >
-                Boards */}
-              {/* </Link> */}
-              {/* <Link href={'/templates'} className='dashboard-header__link'>
-                Templates
-              </Link> */}
               <FavoriteComponent />
               <div className='dashboard-header__search'></div>
             </div>
             <div className='dashboard-header__box dashboard-header__box_icons'>
-              <Search />
-              <div
-                className='dashboard-header__board'
-                ref={createBoardFormRefClickOutside}
-              >
+              <div className='dashboard-header__board' ref={createBoardFormRefClickOutside}>
                 <button
                   className='dashboard-header__button dashboard-header__button_add'
-                  onClick={() =>
-                    setIsCreateBoardFormClose(!isCreateBoardFormClose)
-                  }
+                  onClick={() => setIsCreateBoardFormClose(!isCreateBoardFormClose)}
                 ></button>
                 <div className='dashboard-header__form'>
-                  {/* {isCreateBoardFormClose && ( */}
                   <CreateBoardForm
                     setIsOpen={setIsCreateBoardFormClose}
                     isCreated={setIsCreated}
                     isClose={isCreateBoardFormClose}
-                    // currentRef={createBoardFormRefClickOutside}
                   />
-                  {/* )} */}
                 </div>
               </div>
-              {/* <div className='logo__'> */}
               <NotificationButton />
-              {/* <button className='dashboard-header__button dashboard-header__button_notification'></button> */}
-              {/* <Notification /> */}
-              {/* </div> */}
               <ProfilePopup />
             </div>
           </div>
