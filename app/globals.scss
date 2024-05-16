@@ -28,7 +28,8 @@ body {
   border: 3px solid transparent;
 }
 .wrap-85 {
-  width: 85%;
+  width: 100%;
+  overflow-y: scroll;
   // position: relative;
 }
 @media screen and (min-width: 1801px) {
@@ -241,7 +242,7 @@ body {
   display: flex;
   align-items: stretch;
   position: relative;
-  // height: 100%;
+  height: inherit;
 }
 .flex {
   display: flex;

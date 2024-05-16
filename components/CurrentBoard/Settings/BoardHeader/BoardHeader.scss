@@ -2,6 +2,7 @@
   // .board-header__container
 
   &__container {
+    // background-color: white;
     padding: 30px;
   }
 
@@ -21,9 +22,6 @@
   // .board-header__input
   &__item {
     margin-right: 15px;
-    // height: 30px;
-    // padding-left: 10px;
-    // border-right: 1px solid rgba(151, 151, 151, 0.2941176471);
   }
   &__input {
     max-width: 385px;
