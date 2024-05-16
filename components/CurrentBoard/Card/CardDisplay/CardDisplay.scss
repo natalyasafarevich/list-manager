@@ -61,10 +61,11 @@
       justify-content: flex-end;
     }
     display: flex;
+    overflow: hidden;
     justify-content: flex-end;
-    align-items: center;
+    // align-items: center;
     margin: 12px -5px;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
   }
 
   // .card-display__markers
@@ -72,12 +73,12 @@
   &__markers {
     border-radius: 16px;
     min-height: 20px;
-    min-width: 50px;
+    min-width: 40px;
     width: max-content;
     font-size: 11px;
     text-align: center;
     color: var(--secondary-color);
-    padding: 0;
+    padding: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
