@@ -10,7 +10,7 @@
   &__row {
     align-items: flex-start;
     margin: 0 -12px;
-    overflow-x: scroll;
+    // overflow-x: scroll;
     padding-bottom: 35px;
   }
 
@@ -31,14 +31,13 @@
       margin: 0 7px;
     }
     .column__button {
-      min-width: 200px;
     }
   }
 
   // .column-create-form__box
 
   &__box {
-    max-width: 300px;
+    min-width: 300px;
     width: 100%;
     box-shadow: 0 4px 19px 0 rgba(63, 71, 45, 0.3);
     background: var(--secondary-color);
@@ -72,6 +71,7 @@
   // .column-create-form__button
 
   &__button {
+    min-width: 200px;
     text-align: center;
     padding: 8px;
 

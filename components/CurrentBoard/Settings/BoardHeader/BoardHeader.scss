@@ -2,7 +2,7 @@
   // .board-header__container
 
   &__container {
-    padding: 30px 0;
+    padding: 30px;
   }
 
   // .board-header__row
@@ -20,6 +20,7 @@
 
   // .board-header__input
   &__item {
+    margin-right: 15px;
     // height: 30px;
     // padding-left: 10px;
     // border-right: 1px solid rgba(151, 151, 151, 0.2941176471);
@@ -77,7 +78,7 @@
       background: center/cover no-repeat url("/keyboard_arrow_down.svg");
     }
     // padding: 0 10px;
-    border-right: 1px solid rgba(151, 151, 151, 0.2941176471);
+    // border-right: 1px solid rgba(151, 151, 151, 0.2941176471);
   }
 
   // .board-header__members

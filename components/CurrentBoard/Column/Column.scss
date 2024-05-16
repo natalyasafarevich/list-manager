@@ -1,10 +1,13 @@
 .column__card {
   margin-bottom: 16px;
+  max-width: 350px;
+  min-width: 350px;
 }
 .column__button {
   border: 1px solid #f2f4f7;
   border-radius: 8px;
   padding: 6px;
+  min-width: 200px;
   width: 100%;
   box-shadow: 0 1px 3px 0 rgba(96, 108, 128, 0.05);
   background: var(--secondary-color);
@@ -33,8 +36,8 @@
 }
 .column {
   margin: 0 12px;
-  max-width: 300px;
-  min-width: 300px;
+  max-width: 350px;
+  min-width: 350px;
   width: 100%;
 }
 .column__info {
