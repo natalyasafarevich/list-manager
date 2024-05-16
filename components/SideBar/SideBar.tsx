@@ -25,7 +25,8 @@ const SideBar: FC = () => {
   const [activeLink, setActiveLink] = useState('');
 
   const board = useSelector((state: RootState) => state.boards.boards);
-
+  const user = useSelector((state: RootState) => state.userdata);
+  const {additional_info, uid} = user;
   useEffect(() => {
     board && setCountBoard(Object.keys(board).length);
   }, [board]);
@@ -44,7 +45,19 @@ const SideBar: FC = () => {
     <div className={`side-bar `}>
       <div className='side-bar__wrap'>
         <div className='side-bar__container'>
-          <Link href={'/'} className='side-bar__logo'></Link>
+          <Link target='_blank' href={`/profile/${uid}`} className='side-bar__user'>
+            <span className='side-bar__flex  flex'>
+              <span
+                className='side-bar__img'
+                style={{background: `center/cover no-repeat url(${additional_info?.mainPhoto?.url})`}}
+              ></span>
+              <span className='side-bar__name'>{additional_info?.fullName}</span>
+
+              <span className='side-bar__position'>{additional_info?.position}</span>
+            </span>
+          </Link>
+          <p className='side-bar__title'>DASHBOARDS</p>
+
           <div className='side-bar__column'>
             <div className='side-bar__box'>
               {navLinks.map((navLink, index) => (
