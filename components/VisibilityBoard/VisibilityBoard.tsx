@@ -21,34 +21,16 @@ const VisibilityBoard: FC<VisibilityBoardProp> = ({currentValue}) => {
     <div className='visibility'>
       <div className='visibility__container'>
         <p className='visibility__title'>Type of board</p>
-        <div
-          className={`visibility__box ${activeType === 'public' ? 'active' : ''}`}
-        >
-          <button
-            className='visibility__button'
-            data-type='public'
-            type='button'
-            onClick={changeTypeBoard}
-          >
+        <div className={`visibility__box ${activeType === 'public' ? 'active' : ''}`}>
+          <button className='visibility__button' data-type='public' type='button' onClick={changeTypeBoard}>
             Public
-            <span className='visibility__desc'>
-              The public board can be viewed by everyone.
-            </span>
+            <span className='visibility__desc'>The public board can be viewed by everyone.</span>
           </button>
         </div>
-        <div
-          className={`visibility__box ${activeType === 'private' ? 'active' : ''}`}
-        >
-          <button
-            className='visibility__button'
-            data-type='private'
-            type='button'
-            onClick={changeTypeBoard}
-          >
+        <div className={`visibility__box ${activeType === 'private' ? 'active' : ''}`}>
+          <button className='visibility__button' data-type='private' type='button' onClick={changeTypeBoard}>
             Private
-            <span className='visibility__desc'>
-              The private board can only be viewed by board members.
-            </span>
+            <span className='visibility__desc'>The private board can only be viewed by board members.</span>
           </button>
         </div>
       </div>

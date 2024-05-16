@@ -13,6 +13,8 @@ import './BoardHeader.scss';
 import Members from '../../Members/Members';
 import {displayName} from 'react-quill';
 import ClickAwayListener from '@/components/ClickAwayListener/ClickAwayListener';
+import AboutBoardSection from '../../BoardOptionsMenu/AboutBoardSection/AboutBoardSection';
+import BoardView from './BoardView/BoardView';
 
 interface HeaderBoardProps {
   board: any;
@@ -75,11 +77,11 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
     setValue(currentTarget.value);
     setIsUpdate(true);
   };
-
+  const [title, setTitle] = useState('Menu');
   const [isOpenCard, setIsOpenCard] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isLoggedIn = !!uid && user_status !== 'guest';
-
+  const [isAboutBoardOpen, setIsAboutBoardOpen] = useState(false);
   return (
     <>
       {isMenuOpen && (
@@ -123,13 +125,27 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
 
               {/* {isLoggedIn && ( */}
               <p className='board-header__menu' onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                {/* Menu */}
+                Menu
               </p>
+              {/* Menu */}
+              {/* </p>
               {/* )} */}
             </div>
           </div>
           <div className='board-header__info flex'>
             <div className='flex'>
+              <div className='board-header__item'>
+                <BoardView />
+                {/* <ButtonToFavorites
+                  path={
+                    boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''
+                  }
+                  isFavorite={
+                    (board?.favoriteUid && board?.favoriteUid[user.uid]) ||
+                    false
+                  }
+                /> */}
+              </div>
               <div className={`board-header__visibility ${isOpenCard ? 'active' : ''}`}>
                 <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>{board.type}</p>
                 {isLoggedIn && isOpenCard && (
@@ -140,17 +156,6 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                     </div>
                   </ClickAwayListener>
                 )}
-              </div>
-              <div className='board-header__item'>
-                {/* <ButtonToFavorites
-                    path={
-                      boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''
-                    }
-                    isFavorite={
-                      (board?.favoriteUid && board?.favoriteUid[user.uid]) ||
-                      false
-                    }
-                  /> */}
               </div>
             </div>
           </div>

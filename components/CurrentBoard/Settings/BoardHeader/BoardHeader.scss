@@ -8,7 +8,7 @@
   // .board-header__row
 
   &__info {
-    justify-content: flex-end;
+    // justify-content: flex-end;
     margin-top: 10px;
   }
 
@@ -20,8 +20,8 @@
 
   // .board-header__input
   &__item {
-    height: 30px;
-    padding-left: 10px;
+    // height: 30px;
+    // padding-left: 10px;
     // border-right: 1px solid rgba(151, 151, 151, 0.2941176471);
   }
   &__input {
@@ -112,9 +112,9 @@
 
   &__menu {
     font-size: 20px;
-    background: center/cover no-repeat url("/setting-button.svg");
-    width: 40px;
-    height: 40px;
+    // background: center/cover no-repeat url("/setting-button.svg");
+    // width: 40px;
+    // height: 40px;
     // padding: 0;
     cursor: pointer;
   }
