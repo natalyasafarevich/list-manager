@@ -9,7 +9,7 @@ import {useSelector} from 'react-redux';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 
 const GoogleSignInComponent = () => {
-  const u = useSelector((state: RootState) => state.auth.isGoogleProvider);
+  const user = useSelector((state: RootState) => state.userdata.additional_info);
   // console.log(u);
   const [currentUser, setCurrentUser] = useState<any>();
   const [isExist, setIsExist] = useState<any>();
@@ -20,13 +20,13 @@ const GoogleSignInComponent = () => {
 
   useEffect(() => {
     if (currentUser) {
-      if (isExist?.additional_info) {
+      if (user?.publicName) {
         router.push('/boards');
       } else {
         router.push('/complete-profile');
       }
     }
-  }, [isExist, currentUser]);
+  }, [user, currentUser]);
 
   const dispatch: AppDispatch = useDispatch();
   const [error, setError] = useState(null);

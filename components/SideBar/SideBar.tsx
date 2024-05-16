@@ -45,7 +45,7 @@ const SideBar: FC = () => {
     <div className={`side-bar `}>
       <div className='side-bar__wrap'>
         <div className='side-bar__container'>
-          <Link target='_blank' href={`/profile/${uid}`} className='side-bar__user'>
+          <Link href={`/profile/${uid}`} className='side-bar__user'>
             <span className='side-bar__flex  flex'>
               <span
                 className='side-bar__img'

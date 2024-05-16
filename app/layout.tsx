@@ -30,6 +30,7 @@ export default function RootLayout({
     <ReduxProvider>
       <html lang='en'>
         <body className={popins.className}>
+          <Header />
           <div className='flex-basic'>
             <MainHeader />
             <div className=' wrap-85'>

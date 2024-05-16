@@ -8,17 +8,13 @@ import SideBar from '../SideBar/SideBar';
 const MainHeader: FC = () => {
   const user = useSelector((state: RootState) => state.userdata.uid);
   if (user) {
-    return (
-      // <div>
-      <SideBar />
-      // </div>
-    );
+    return <SideBar />;
   }
-  return (
-    <>
-      <Header />
-    </>
-  );
+  // return (
+  //   // <>
+  //   //   <Header />
+  //   // </>
+  // );
 };
 
 export default MainHeader;
