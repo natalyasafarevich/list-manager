@@ -4,7 +4,7 @@ import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 import firebaseApp from '@/firebase';
 
 import Link from 'next/link';
-import {useSearchParams} from 'next/navigation';
+import {useRouter, useSearchParams} from 'next/navigation';
 import PhoneSignInComponent from '../authMethods/phone/Phone';
 import GoogleSignInComponent from '../authMethods/google/Google';
 import WelcomeHeader from '@/components/WelcomeHeader/WelcomeHeader';
@@ -33,18 +33,19 @@ const LoginComponent = () => {
     setError('');
     setMethodOfEnter((prev) => ({...prev, isPhone: false, isEmail: true}));
   };
+  const router = useRouter();
+
   const auth = getAuth(firebaseApp);
   const handleLogin = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       clearForm();
+      setTimeout(() => {
+        router.push('/complete-profile');
+      }, 1);
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -60,12 +61,7 @@ const LoginComponent = () => {
     <div className='auth register'>
       <div className='auth-container'>
         {!methodOfEnter.isPhone && (
-          <WelcomeHeader
-            name='Sign In'
-            subTitle='Don`t have an account?'
-            text='Sign Up'
-            link='registration'
-          />
+          <WelcomeHeader name='Sign In' subTitle='Don`t have an account?' text='Sign Up' link='registration' />
         )}
         <form onSubmit={handleLogin}>
           {methodOfEnter.isEmail && (
@@ -121,10 +117,7 @@ const LoginComponent = () => {
           )}
           <div className='auth__item'>
             {!methodOfEnter.isPhone && (
-              <Link
-                className='auth__link auth__link_phone'
-                href={'log-in?method=phone'}
-              ></Link>
+              <Link className='auth__link auth__link_phone' href={'log-in?method=phone'}></Link>
             )}
           </div>
         </div>

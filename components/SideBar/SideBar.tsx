@@ -24,12 +24,13 @@ const SideBar: FC = () => {
   const [navLinks, setNavLinks] = useState<NavLink[]>([]);
   const [activeLink, setActiveLink] = useState('');
 
-  const board = useSelector((state: RootState) => state.boards.boards);
+  // const board = useSelector((state: RootState) => state.boards.boards);
   const user = useSelector((state: RootState) => state.userdata);
   const {additional_info, uid} = user;
-  useEffect(() => {
-    board && setCountBoard(Object.keys(board).length);
-  }, [board]);
+  console.log(user);
+  // useEffect(() => {
+  //   // board && setCountBoard(Object.keys(board).length);
+  // }, [board]);
 
   useEffect(() => {
     setNavLinks([

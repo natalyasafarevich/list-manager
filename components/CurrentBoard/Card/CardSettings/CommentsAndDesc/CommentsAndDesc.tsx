@@ -47,9 +47,9 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
     }
 
     if (index.column !== null && index.card !== null && description !== '') {
-      let textWithoutTags = stripHtmlTags(description);
+      // let textWithoutTags = stripHtmlTags(description);
       updateFirebaseData(`boards/${current_board.index}/lists/${index.column}/cards/${index.card}`, {
-        description: textWithoutTags.length ? description : '',
+        description:  description ,
       });
     }
   }, [index, description, uid, current_board]);
