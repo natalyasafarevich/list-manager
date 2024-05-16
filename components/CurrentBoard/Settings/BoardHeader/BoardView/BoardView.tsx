@@ -1,10 +1,10 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
-import './BoardView.scss';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {updateFirebaseData} from '@/helper/updateUserData';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
+import './BoardView.scss';
 
 const BoardView: FC = () => {
   const [currentView, setCurrentView] = useState('');

@@ -26,11 +26,15 @@ const ColumnCreatorForm: FC<CardFormProps> = ({
   setIsClick,
 }) => {
   const user_status = useSelector((state: RootState) => state.userdata);
+  const boardDirection = useSelector((state: RootState) => state.boards.currentBoards?.direction);
+
   const isLoggedIn = !!user_status.uid && user_status.user_status !== 'guest';
   return (
     <div className='column-create-form'>
       <div className='column-create-form__container'>
-        <div className='column-create-form__row flex'>
+        <div
+          className={` ${boardDirection === 'row' ? 'column-create-form__row flex' : 'column-create-form__column-dir'} `}
+        >
           {components.map((component, i) => (
             <div className='column-create-form__column' key={i}>
               {component}

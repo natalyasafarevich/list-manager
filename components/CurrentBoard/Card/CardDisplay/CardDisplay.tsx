@@ -45,9 +45,10 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
             {card?.description && (
               <div className='card-display__desc' dangerouslySetInnerHTML={{__html: card.description}}></div>
             )}
-            <div className='card-display__row'>
-              {markers &&
-                Object.keys(markers)?.map((item: any, i) => (
+
+            {markers && (
+              <div className='card-display__row'>
+                {Object.keys(markers)?.map((item: any, i) => (
                   <div
                     key={i}
                     className='card-display__markers default-tags'
@@ -57,18 +58,22 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
                   >
                     {markers[item]?.text}
                   </div>
-                ))}
-            </div>
-            <div className='card-display__row'>
-              {card['check-lists'] && (
-                <span className='card-display__icon card-display__icon_check'>
-                  {Object.keys(card['check-lists']).length}
-                </span>
-              )}{' '}
-              {card.comments && (
-                <span className='card-display__icon card-display__icon_comments'>{card.comments.length}</span>
-              )}
-            </div>
+                ))}{' '}
+              </div>
+            )}
+
+            {(card['check-lists'] || card.comments) && (
+              <div className='card-display__row'>
+                {card['check-lists'] && (
+                  <span className='card-display__icon card-display__icon_check'>
+                    {Object.keys(card['check-lists']).length}
+                  </span>
+                )}
+                {card.comments && (
+                  <span className='card-display__icon card-display__icon_comments'>{card.comments.length}</span>
+                )}
+              </div>
+            )}
           </div>
         )}
 

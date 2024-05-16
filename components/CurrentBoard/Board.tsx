@@ -114,7 +114,7 @@ const CurrentBoard: FC = () => {
   return (
     <div className='board'>
       {/* <Members /> */}
-      <div className='board__container  large-content-wrap plr-3  '>
+      <div className='board__container  large-content-wrap '>
         <div
           className={` ${isLightTheme ? 'theme-light' : ''}`}
           style={
@@ -129,7 +129,7 @@ const CurrentBoard: FC = () => {
             {!currentBoard.isCloseBoard ? (
               <>
                 <BoardHeader board={currentBoard} />
-                <div className='d-flex justify-content-between'>
+                <div className=''>
                   <div className=''>
                     <ColumnCreator currentIndex={index} />
                   </div>

@@ -1,5 +1,6 @@
 .column-create-form {
-  // .column-create-form__container
+  overflow-x: scroll;
+  padding: 30px;
 
   &__container {
   }
@@ -14,12 +15,24 @@
   }
 
   // .column-create-form__column
-
   &__column {
-    // margin: 0 12px;
-    // max-width: 300px;
-    // min-width: 300px;
-    // width: 100%;
+    margin-bottom: 15px;
+  }
+  &__column-dir {
+    .column__info {
+      display: flex;
+      align-items: center;
+      margin: 0 -7px;
+    }
+    .column__card {
+      max-width: 350px;
+      min-width: 350px;
+      width: 100%;
+      margin: 0 7px;
+    }
+    .column__button {
+      min-width: 200px;
+    }
   }
 
   // .column-create-form__box

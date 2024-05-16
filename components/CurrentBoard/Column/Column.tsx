@@ -89,18 +89,18 @@ const Column: FC<ColumnProps> = ({item, name}) => {
               );
             })}
             {!isClose ? (
-              <ClickAwayListener setIsOpen={(e) => setIsClose(!e)}>
-                <div className='column__box'>
-                  <CreateCard
-                    setCards={setCards}
-                    setIsSave={setIsSave}
-                    setIsClose={setIsClose}
-                    listId={item?.id as string}
-                    setCardIndex={setCardIndex}
-                  />
-                </div>
-              </ClickAwayListener>
+              // <ClickAwayListener setIsOpen={(e) => setIsClose(!e)}>
+              <div className='column__box'>
+                <CreateCard
+                  setCards={setCards}
+                  setIsSave={setIsSave}
+                  setIsClose={setIsClose}
+                  listId={item?.id as string}
+                  setCardIndex={setCardIndex}
+                />
+              </div>
             ) : (
+              // </ClickAwayListener>
               isLoggedIn && (
                 <button className='column__button' type='button' onClick={addCard}>
                   <span></span>
