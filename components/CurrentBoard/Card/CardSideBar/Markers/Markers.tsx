@@ -55,13 +55,12 @@ const Markers: FC = () => {
   const [removedItem, getRemovedItem] = useState<string>('');
   const [markers, getMarkers] = useState<any>({});
   const [isOpen, setIsOpen] = useState(false);
+  const [isCustomTag, setIsCustomTag] = useState(false);
 
   const [customMarkers, getCustomMarkers] = useState<any>({});
 
   const user = useSelector((state: RootState) => state.userdata);
-  const current_markers = useSelector(
-    (state: RootState) => state.markers.markers,
-  );
+  const current_markers = useSelector((state: RootState) => state.markers.markers);
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
 
   const dispatch: AppDispatch = useDispatch();
@@ -75,16 +74,11 @@ const Markers: FC = () => {
         });
       }
   }, [customMarkers]);
-
   // get all default markers
   useEffect(() => {
     if (user) {
-      // updateFirebaseData('card-settings-data', {markers: marker});
       fetchBackDefaultData('card-settings-data/markers', getMarkers);
-      fetchBackDefaultData(
-        `card-settings-data/custom-markers/${user.uid}`,
-        getCustomMarkers,
-      );
+      fetchBackDefaultData(`card-settings-data/custom-markers/${user.uid}`, getCustomMarkers);
     }
   }, [user]);
 
@@ -132,12 +126,7 @@ const Markers: FC = () => {
     }
   }, [checked, card]);
 
-  const updateCheckedMarks = (
-    value: string,
-    text: any,
-    id: any,
-    isCustom?: boolean,
-  ) => {
+  const updateCheckedMarks = (value: string, text: any, id: any, isCustom?: boolean) => {
     getChecked((prev: any) => ({
       ...prev,
       [id]: {color: value, text: text, id: id},
@@ -149,7 +138,6 @@ const Markers: FC = () => {
       }));
     }
   };
-  const [isCustomTag, setIsCustomTag] = useState(false);
   return (
     <div className='tags'>
       <div className='tags__container'>
@@ -169,10 +157,7 @@ const Markers: FC = () => {
           <div className='tags__popup'>
             <MiniPopup setIsOpen={(e) => setIsOpen(e)} title='Tags'>
               {isCustomTag ? (
-                <CustomMarker
-                  isOpen={(state) => setIsCustomTag(state)}
-                  updateCheckedMarks={updateCheckedMarks}
-                />
+                <CustomMarker isOpen={(state) => setIsCustomTag(state)} updateCheckedMarks={updateCheckedMarks} />
               ) : (
                 <>
                   {Object.keys(markers)?.map((item, i) => (
@@ -184,19 +169,17 @@ const Markers: FC = () => {
                       />
                     </div>
                   ))}
-                  {Object.keys(customMarkers)?.map((item, i) => (
-                    <div className='tags__box' key={i}>
-                      <ColorCheckbox
-                        data={customMarkers[item]}
-                        addedID={updateCheckedMarks}
-                        removeID={(e) => getRemovedItem(e)}
-                      />
-                    </div>
-                  ))}
-                  <button
-                    className='tags__button button-border'
-                    onClick={(_e) => setIsCustomTag(!isCustomTag)}
-                  >
+                  {customMarkers !== null &&
+                    Object?.keys(customMarkers)?.map((item, i) => (
+                      <div className='tags__box' key={i}>
+                        <ColorCheckbox
+                          data={customMarkers[item]}
+                          addedID={updateCheckedMarks}
+                          removeID={(e) => getRemovedItem(e)}
+                        />
+                      </div>
+                    ))}
+                  <button className='tags__button button-border' onClick={(_e) => setIsCustomTag(!isCustomTag)}>
                     Create a tag
                   </button>
                 </>

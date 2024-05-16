@@ -7,6 +7,7 @@ import './Notifications.scss';
 import {useDispatch} from 'react-redux';
 import {isNotificationsOpen} from '@/store/notifications/actions';
 import NotificationItem from '../NotificationItem/NotificationItem';
+import ClickAwayListener from '../ClickAwayListener/ClickAwayListener';
 
 export interface NotificationType {
   [key: string]: NotificationInfoType;
@@ -36,14 +37,12 @@ const Notifications: FC = () => {
     setIsOpen(note.isOpen);
   }, [note.isOpen]);
   return (
+    // <ClickAwayListener setIsOpen={(e) => setIsOpen(e)}>
     <div className={`notification ${isOpen ? 'open' : ''}`}>
       <div className='notification__container'>
         <p className='notification__title'>
           Notifications
-          <button
-            onClick={() => dispatch(isNotificationsOpen(false))}
-            className='button-close'
-          ></button>
+          <button onClick={() => dispatch(isNotificationsOpen(false))} className='button-close'></button>
         </p>
 
         <div className='notification__box'>
@@ -52,11 +51,7 @@ const Notifications: FC = () => {
             {hasUnviewedNotifications ? (
               <>
                 {notification.map((data) => (
-                  <div key={data.id}>
-                    {!data.isViewed && (
-                      <NotificationItem data={data} isNew={true} />
-                    )}
-                  </div>
+                  <div key={data.id}>{!data.isViewed && <NotificationItem data={data} isNew={true} />}</div>
                 ))}
               </>
             ) : (
@@ -67,14 +62,11 @@ const Notifications: FC = () => {
           </div>
           <br />
           <p className='notification__subtitle'>Viewed: </p>
-          {notification?.map((data) => (
-            <div key={data.id}>
-              {data.isViewed && <NotificationItem data={data} />}
-            </div>
-          ))}
+          {notification?.map((data) => <div key={data.id}>{data.isViewed && <NotificationItem data={data} />}</div>)}
         </div>
       </div>
     </div>
+    // </ClickAwayListener>
   );
 };
 

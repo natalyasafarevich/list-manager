@@ -10,12 +10,10 @@ const CardArchivedButton: FC = () => {
   const [isUpdate, setIsUpdate] = useState(false);
 
   const user = useSelector((state: RootState) => state.userdata);
-  const {uid, dataLink} = user;
+  const {uid, dataLink, user_status} = user;
 
-  const isArchiveFB = useSelector(
-    (state: RootState) => state.markers.isCardArchived,
-  );
-
+  const isArchiveFB = useSelector((state: RootState) => state.markers.isCardArchived);
+  const isLoggedIn = !!uid && user_status !== 'guest';
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -26,20 +24,18 @@ const CardArchivedButton: FC = () => {
 
   useEffect(() => {
     if (uid && isUpdate) {
-      updateFirebaseData(
-        `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}`,
-        {
-          isArchived: isArchived,
-        },
-      );
+      updateFirebaseData(`boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}`, {
+        isArchived: isArchived,
+      });
       setIsUpdate(false);
       dispatch(isCardUpdate(true));
     }
   }, [uid, isUpdate]);
-  const user_status = useSelector(
-    (state: RootState) => state.userdata.user_status,
-  );
+  // const user_status = useSelector((state: RootState) => state.userdata.user_status);
   const archivedCard = () => {
+    if (!isLoggedIn) {
+      return;
+    }
     setIsArchived((prev) => !prev);
     setIsUpdate(true);
     dispatch(isCardUpdate(true));

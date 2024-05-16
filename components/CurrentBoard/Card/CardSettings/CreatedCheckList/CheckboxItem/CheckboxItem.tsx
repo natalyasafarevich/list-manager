@@ -4,13 +4,13 @@ import {getCheckLists, isTaskUpdate} from '@/store/check-lists/actions';
 import {AppDispatch, RootState} from '@/store/store';
 import React, {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {ListTasksProps} from '../AddItemForm/AddItemForm';
+// import {ListTasksProps} from '../CheckboxForm/CheckboxForm';
 import './CheckboxItem.scss';
-import {CheckListProps} from '@/types/interfaces';
+import {CheckListItemProps} from '@/types/interfaces';
 import MiniPopup from '@/components/MiniPopup/MiniPopup';
 
 interface CheckboxItemProps {
-  item: ListTasksProps;
+  item: any;
   listId: string;
 }
 
@@ -89,25 +89,41 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
     setIsReadOnly(!isReadOnly);
     setInitialValue(value);
   };
+  const [isdUpdate, setIsUpddate] = useState(false);
   const [updatedTasks, setUpdatedTasks] = useState<{
-    [taskId: string]: ListTasksProps;
+    [taskId: string]: any;
   } | null>(null);
   const deleteTask = () => {
     const tasks = {...checkLists.lists[listId as any].tasks};
     delete tasks[item.id as any];
-    setUpdatedTasks(tasks);
+
+    // Обновление данных в Firebase
+    updateFirebaseData(
+      `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${listId}`,
+      {tasks},
+    )
+      .then(() => {
+        // После успешного обновления в Firebase обновляем локальное состояние
+        setUpdatedTasks(tasks);
+        dispatch(isTaskUpdate(true));
+      })
+      .catch((error) => {
+        // Обработка ошибок, если обновление в Firebase не удалось
+        console.error('Error deleting task:', error);
+      });
   };
 
   // useEffect(() => {
-  //   if (updatedTasks) {
+  //   if (isdUpdate) {
   //     setIsOpenSetting(!isOpenSetting);
   //     updateFirebaseData(
   //       `boards/${dataLink.boardIndex}/lists/${dataLink.listIndex}/cards/${dataLink.cardIndex}/check-lists/${listId}`,
   //       {tasks: updatedTasks},
   //     );
   //     dispatch(isTaskUpdate(true));
+  //     setIsUpddate(false);
   //   }
-  // }, [updatedTasks]);
+  // }, [updatedTasks, isdUpdate]);
   const [isOpenSetting, setIsOpenSetting] = useState(false);
   return (
     <div className='check-list-item'>
@@ -130,17 +146,10 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
           disabled={!isLoggedIn}
         ></textarea>
 
-        <button
-          type='button'
-          onClick={(_e) => setIsOpenSetting(!isOpenSetting)}
-          className='button-more'
-        ></button>
+        <button type='button' onClick={(_e) => setIsOpenSetting(!isOpenSetting)} className='button-more'></button>
         {isOpenSetting && (
           <div className='check-list-item__popup'>
-            <MiniPopup
-              title='Task configuration '
-              setIsOpen={(e) => setIsOpenSetting(e)}
-            >
+            <MiniPopup title='Task configuration ' setIsOpen={(e) => setIsOpenSetting(e)}>
               <input
                 type='button'
                 onClick={checkboxChange as any}
@@ -183,11 +192,7 @@ const CheckboxItem: FC<CheckboxItemProps> = ({item, listId}) => {
             <button className='button-dark' type='submit'>
               Save
             </button>
-            <button
-              className='button-border'
-              type='button'
-              onClick={closeEditItem}
-            >
+            <button className='button-border' type='button' onClick={closeEditItem}>
               Cancel
             </button>
           </div>

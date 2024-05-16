@@ -89,12 +89,10 @@ export default function Home() {
       });
     }
   };
-  console.log(columns);
+
   // JSX for rendering
   return (
-    <DragDropContext
-      onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
-    >
+    <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
       <div className={styles.container}>
         {/* Render columns */}
         {Object.entries(columns).map(([columnId, column]) => {
@@ -103,18 +101,10 @@ export default function Home() {
               <h2 className={styles.columnTitle}>{column.title}</h2>
               <Droppable droppableId={columnId}>
                 {(provided, snapshot) => (
-                  <div
-                    className={styles.columnContent}
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
+                  <div className={styles.columnContent} ref={provided.innerRef} {...provided.droppableProps}>
                     {/* Render items */}
                     {column.items.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                      >
+                      <Draggable key={item.id} draggableId={item.id} index={index}>
                         {(provided) => (
                           <div
                             className={styles.item}

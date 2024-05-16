@@ -8,7 +8,7 @@ import {
   IS_DELETE_LIST,
   IS_UPDATE_TASK,
 } from './actions';
-import {ListTasksProps} from '@/components/CurrentBoard/Card/CardSettings/CreatedCheckList/AddItemForm/AddItemForm';
+import {ListTasksProps} from '@/components/CurrentBoard/Card/CardSettings/CreatedCheckList/CheckboxForm/AddItemForm';
 
 interface initialStateProps {
   lists: Array<CheckListProps>;

@@ -15,13 +15,7 @@ type CreateCardProps = {
   setCardIndex: (v: number) => void;
 };
 
-const CreateCard: FC<CreateCardProps> = ({
-  setCards,
-  setIsSave,
-  setIsClose,
-  setCardIndex,
-  listId,
-}) => {
+const CreateCard: FC<CreateCardProps> = ({setCards, setIsSave, setIsClose, setCardIndex, listId}) => {
   const [value, setValue] = useState('');
 
   const dispatch: AppDispatch = useDispatch();
@@ -29,14 +23,13 @@ const CreateCard: FC<CreateCardProps> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    current_board.boards[current_board.index]?.lists.map(
-      (item: any, i: number) => {
-        if (item.id === listId) {
-          setCardIndex(i);
-          dispatch(getCurrentColumn(item));
-        }
-      },
-    );
+
+    current_board.boards[current_board.index]?.lists.map((item: any, i: number) => {
+      if (item.id === listId) {
+        setCardIndex(i);
+        dispatch(getCurrentColumn(item));
+      }
+    });
 
     const newCard = {
       id: uuidv4(),
@@ -67,11 +60,7 @@ const CreateCard: FC<CreateCardProps> = ({
           <button className='button-dark create-card__button' type='submit'>
             Add a card
           </button>
-          <button
-            className='button-border create-card__button'
-            type='button'
-            onClick={handleClose}
-          >
+          <button className='button-border create-card__button' type='button' onClick={handleClose}>
             Cancel
           </button>
         </div>

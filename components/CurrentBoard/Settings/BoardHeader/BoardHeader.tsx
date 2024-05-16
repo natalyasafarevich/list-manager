@@ -12,6 +12,9 @@ import {getMembers} from '@/store/members/actions';
 import './BoardHeader.scss';
 import Members from '../../Members/Members';
 import {displayName} from 'react-quill';
+import ClickAwayListener from '@/components/ClickAwayListener/ClickAwayListener';
+import AboutBoardSection from '../../BoardOptionsMenu/AboutBoardSection/AboutBoardSection';
+import BoardView from './BoardView/BoardView';
 
 interface HeaderBoardProps {
   board: any;
@@ -22,20 +25,16 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [members, setMembers] = useState<Array<any>>([]);
   const db = getDatabase(firebaseApp);
-  const user_status = useSelector(
-    (state: RootState) => state.userdata.user_status,
-  );
+  const user_status = useSelector((state: RootState) => state.userdata.user_status);
 
   const boardsIndex = useSelector((state: RootState) => state.boards.index);
-  const currentBoard = useSelector(
-    (state: RootState) => state.boards.currentBoards,
-  );
+  const currentBoard = useSelector((state: RootState) => state.boards.currentBoards);
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     members && dispatch(getMembers(members));
   }, [members]);
-  console.log(members);
+
   useEffect(() => {
     setMembers([]);
     if (currentBoard?.members) {
@@ -48,9 +47,10 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
               ...prev,
               {
                 photo: data.mainPhoto?.url || '',
-
+                desc: data.aboutYourSelf,
                 name: data.fullName,
                 publicName: data.publicName,
+                position: data.position,
                 id: uid,
                 role: currentBoard.members[uid],
               },
@@ -77,14 +77,18 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
     setValue(currentTarget.value);
     setIsUpdate(true);
   };
-
+  const [title, setTitle] = useState('Menu');
   const [isOpenCard, setIsOpenCard] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isLoggedIn = !!uid && user_status !== 'guest';
-
+  const [isAboutBoardOpen, setIsAboutBoardOpen] = useState(false);
   return (
     <>
-      {isMenuOpen && <BoardOptionsMenu closeMenu={(e) => setIsMenuOpen(e)} />}
+      {isMenuOpen && (
+        <ClickAwayListener setIsOpen={(e) => setIsMenuOpen(e)}>
+          <BoardOptionsMenu closeMenu={(e) => setIsMenuOpen(e)} />
+        </ClickAwayListener>
+      )}
       <div className='board-header'>
         <div className='board-header__container'>
           <div className='board-header__row flex'>
@@ -104,9 +108,8 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                   background: `center/cover no-repeat url(${user?.photoURL})`,
                 }}
               ></div>
-              <div
-                className={`board-header__users flex ${members.length > 5 ? 'hide' : ''}`}
-              >
+              {/* <ClickAwayListener> */}
+              <div className={`board-header__users flex ${members.length > 5 ? 'hide' : ''}`}>
                 {members?.map(
                   (member, i) =>
                     i < 5 && (
@@ -116,58 +119,41 @@ const BoardHeader: FC<HeaderBoardProps> = ({board}) => {
                     ),
                 )}
               </div>
-              {members.length > 5 && (
-                <div className='board-header__count'>+{members.length - 5}</div>
-              )}
+              {/* </ClickAwayListener> */}
+              {members.length > 5 && <div className='board-header__count'>+{members.length - 5}</div>}
               <Members />
 
-              {isLoggedIn && (
-                <p
-                  className='board-header__menu'
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                >
-                  {/* Menu */}
-                </p>
-              )}
+              {/* {isLoggedIn && ( */}
+              <p className='board-header__menu' onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                Menu
+              </p>
+              {/* Menu */}
+              {/* </p>
+              {/* )} */}
             </div>
           </div>
           <div className='board-header__info flex'>
-            {isLoggedIn && (
-              <div className='flex'>
-                <div
-                  className={`board-header__visibility ${isOpenCard ? 'active' : ''}`}
-                >
-                  <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>
-                    {board.type}
-                  </p>
-                  {isOpenCard && (
-                    <div className='board-header__popup'>
-                      <ChangingVisibility
-                        text='Only collaborators can see this'
-                        type='private'
-                        name='private'
-                      />
-                      <ChangingVisibility
-                        text='Anyone can see'
-                        type='public'
-                        name='public'
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className='board-header__item'>
-                  {/* <ButtonToFavorites
-                    path={
-                      boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''
-                    }
-                    isFavorite={
-                      (board?.favoriteUid && board?.favoriteUid[user.uid]) ||
-                      false
-                    }
-                  /> */}
-                </div>
+            <div className='flex'>
+              <div className='board-header__item'>
+                <BoardView />
               </div>
-            )}
+
+              <div className={`board-header__visibility ${isOpenCard ? 'active' : ''}`}>
+                <p onClick={(_e) => setIsOpenCard(!isOpenCard)}>{board.type}</p>
+                {isLoggedIn && isOpenCard && (
+                  <ClickAwayListener setIsOpen={(e) => setIsOpenCard(e)}>
+                    <div className='board-header__popup'>
+                      <ChangingVisibility text='Only collaborators can see this' type='private' name='private' />
+                      <ChangingVisibility text='Anyone can see' type='public' name='public' />
+                    </div>
+                  </ClickAwayListener>
+                )}
+              </div>
+              <ButtonToFavorites
+                path={boardsIndex ? `boards/${boardsIndex}/favoriteUid` : ''}
+                isFavorite={(board?.favoriteUid && board?.favoriteUid[user.uid]) || false}
+              />
+            </div>
           </div>
         </div>
       </div>

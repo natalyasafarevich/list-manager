@@ -37,3 +37,5 @@ export const getBoardCurrent = (data: BoardProps, index: number) => {
     index: index,
   };
 };
+
+// 

@@ -1,5 +1,5 @@
-import {ListTasksProps} from '@/components/CurrentBoard/Card/CardSettings/CreatedCheckList/AddItemForm/AddItemForm';
-import {CheckListProps} from '@/types/interfaces';
+// import {ListTasksProps} from '@/components/CurrentBoard/Card/CardSettings/CreatedCheckList/AddItemForm/AddItemForm';
+import {CheckListItemProps} from '@/types/interfaces';
 
 export const CHECK_LISTS = 'check-lists/CHECK_LISTS';
 export const IS_DELETE_LIST = 'check-lists/IS_DELETE_LIST';
@@ -18,10 +18,10 @@ export type ActionsType =
 
 export type DataCheckListProps = {
   type: typeof CHECK_LISTS;
-  payload: Array<CheckListProps>;
+  payload: Array<CheckListItemProps>;
 };
 
-export const getCheckLists = (data: Array<CheckListProps> | {}) => {
+export const getCheckLists = (data: Array<CheckListItemProps> | {}) => {
   return {
     type: CHECK_LISTS,
     payload: data,
@@ -41,13 +41,10 @@ export const getListIndex = (data: string) => {
 };
 export type CurrentTasksProps = {
   type: typeof CURRENT_TASKS;
-  payload: {data: Array<ListTasksProps>; isCreate: boolean};
+  payload: {data: Array<any>; isCreate: boolean};
 };
 
-export const getCurrentTask = (
-  data: Array<ListTasksProps>,
-  isCreate: boolean,
-) => {
+export const getCurrentTask = (data: Array<any>, isCreate: boolean) => {
   return {
     type: CURRENT_TASKS,
     payload: {data, isCreate},
@@ -79,9 +76,9 @@ export const isDeleteList = (data: boolean) => {
 
 export type DeleteLisProps = {
   type: typeof DELETE_LIST;
-  payload: Array<ListTasksProps>;
+  payload: Array<any>;
 };
-export const deleteList = (data: Array<ListTasksProps>) => {
+export const deleteList = (data: Array<any>) => {
   return {
     type: DELETE_LIST,
     payload: data,

@@ -41,12 +41,9 @@ const CardArchived: FC = () => {
 
   useEffect(() => {
     if (index.card !== null && index.list !== null) {
-      updateFirebaseData(
-        `boards/${boardIndex}/lists/${index.list}/cards/${index.card}`,
-        {
-          isArchived: false,
-        },
-      );
+      updateFirebaseData(`boards/${boardIndex}/lists/${index.list}/cards/${index.card}`, {
+        isArchived: false,
+      });
     }
   }, [index.card, index.list]);
   const deleteFromArchive = (e: React.MouseEvent<HTMLElement>) => {
@@ -74,6 +71,7 @@ const CardArchived: FC = () => {
 
     dispatch(isArchivedCard(true));
   };
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
 
   return (
     <div className='archived'>
@@ -83,15 +81,17 @@ const CardArchived: FC = () => {
           archivedCards?.map((item, i) => (
             <div key={i} className='archived__box'>
               <p className='archived__title'>{item?.title}</p>
-              <button
-                className='archived__button button-dark'
-                data-cardid={item?.cardId}
-                onClick={deleteFromArchive}
-                data-id={item?.listId}
-                data-index={item?.listIndex}
-              >
-                Return to column
-              </button>
+              {isLoggedIn && (
+                <button
+                  className='archived__button button-dark'
+                  data-cardid={item?.cardId}
+                  onClick={deleteFromArchive}
+                  data-id={item?.listId}
+                  data-index={item?.listIndex}
+                >
+                  Return to column
+                </button>
+              )}
             </div>
           ))}
       </div>

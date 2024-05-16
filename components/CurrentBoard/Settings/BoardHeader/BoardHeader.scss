@@ -2,13 +2,13 @@
   // .board-header__container
 
   &__container {
-    padding: 30px 0;
+    padding: 30px;
   }
 
   // .board-header__row
 
   &__info {
-    justify-content: flex-end;
+    // justify-content: flex-end;
     margin-top: 10px;
   }
 
@@ -20,8 +20,9 @@
 
   // .board-header__input
   &__item {
-    height: 30px;
-    padding-left: 10px;
+    margin-right: 15px;
+    // height: 30px;
+    // padding-left: 10px;
     // border-right: 1px solid rgba(151, 151, 151, 0.2941176471);
   }
   &__input {
@@ -47,16 +48,11 @@
     font-weight: 400;
     font-size: 18px;
     font-weight: 500;
-    // font-size: 11px;
+    margin-right: 15px;
     line-height: 145%;
     color: #98a2b2;
     text-transform: capitalize;
-    &:hover {
-      // color: var(--primary-color);
-      &::before {
-        // background-position: right;
-      }
-    }
+
     &::before {
       content: "";
       display: inline-block;
@@ -76,8 +72,6 @@
       height: 20px;
       background: center/cover no-repeat url("/keyboard_arrow_down.svg");
     }
-    // padding: 0 10px;
-    border-right: 1px solid rgba(151, 151, 151, 0.2941176471);
   }
 
   // .board-header__members
@@ -105,17 +99,14 @@
       margin: 0;
     }
   }
-  &__card {
-  }
 
   // .board-header__menu
 
   &__menu {
     font-size: 20px;
-    background: center/cover no-repeat url("/setting-button.svg");
-    width: 40px;
-    height: 40px;
-    // padding: 0;
+    padding: 5px;
+    border-radius: 5px;
+    background: var(--secondary-color);
     cursor: pointer;
   }
   &__users {
@@ -141,6 +132,4 @@
     align-items: center;
     justify-content: center;
   }
-}
-.flex {
 }

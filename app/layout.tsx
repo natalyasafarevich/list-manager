@@ -11,6 +11,7 @@ import Link from 'next/link';
 import Header from '@/components/Header/Header';
 import MainHeader from '@/components/MainHeader/MainHeader';
 import Notifications from '@/components/Notifications/Notifications';
+
 const popins = Poppins({
   subsets: ['latin'], // Здесь можно указать поддерживаемые подмножества
   weight: ['300', '400', '500'],

@@ -13,7 +13,10 @@
   justify-content: center;
   padding: 25px;
   // .card-settings__container
-
+  &__center {
+    display: flex;
+    justify-content: center;
+  }
   &__container {
     height: max-content;
     color: var(--primary-color);
@@ -109,7 +112,7 @@ img {
   height: 100px;
 }
 
-blockquote {
+.ql-editor blockquote {
   border-left: 4px solid #ccc;
   margin-bottom: 5px;
   margin-top: 5px;

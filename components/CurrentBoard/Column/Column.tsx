@@ -3,31 +3,35 @@ import {FC, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getColumnInfo} from '@/store/colunm-info/actions';
 import {AppDispatch, RootState} from '@/store/store';
-import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData} from '@/helper/updateUserData';
 import CreateCard from '../Card/CreateCard/CreateCard';
 import CardDisplay from '../Card/CardDisplay/CardDisplay';
 import ColumnHeader from './ColumnHeader/ColumnHeader';
-
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
-import {CurrentColumnProps} from '@/types/interfaces';
+import {ColumnCardsProps, CurrentColumnProps} from '@/types/interfaces';
 import {getIsOpenClSetting} from '@/store/column-setting/actions';
 import {isCardUpdate} from '@/store/card-setting/actions';
 import './Column.scss';
+import ClickAwayListener from '@/components/ClickAwayListener/ClickAwayListener';
 
 type ColumnProps = {
-  item?: {id: string; cards: Array<any>; isArchive: boolean};
+  item?: CurrentColumnProps;
   name?: string;
 };
 
 const Column: FC<ColumnProps> = ({item, name}) => {
-  const [cardIndex, setCardIndex] = useState<number>(0);
-  const [cards, setCards] = useState<any>([]);
+  const [cardIndex, setCardIndex] = useState<number | null>(null);
+  const [cards, setCards] = useState<ColumnCardsProps[]>([]);
+  const [userData, getUserData] = useState<CurrentColumnProps>();
   const [isSave, setIsSave] = useState(false);
+  const [isClose, setIsClose] = useState<boolean>(true);
+
   const user = useSelector((state: RootState) => state.userdata);
   const current_board = useSelector((state: RootState) => state?.boards);
-  const dispatch: AppDispatch = useDispatch();
 
-  const [isClose, setIsClose] = useState<boolean>(true);
+  const {isUpdate} = useSelector((state: RootState) => state.card_setting);
+
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (!item?.cards) {
@@ -35,7 +39,6 @@ const Column: FC<ColumnProps> = ({item, name}) => {
     }
     setCards(item?.cards);
   }, [item]);
-  const [userData, getUserData] = useState<CurrentColumnProps>();
 
   useEffect(() => {
     if (userData) {
@@ -46,32 +49,21 @@ const Column: FC<ColumnProps> = ({item, name}) => {
         }),
       );
     }
-  }, [userData, isSave]);
-  const cardUpdate = useSelector(
-    (state: RootState) => state.card_setting.isUpdate,
-  );
-  useEffect(() => {
-    if (cardUpdate) {
-      fetchBackDefaultData(
-        `/boards/${current_board.index}/lists/${cardIndex}`,
-        getUserData,
-      );
-      dispatch(isCardUpdate(false));
-    }
-  }, [cardUpdate]);
-
-  useEffect(() => {
-    if (isSave) {
+    if (isSave && cardIndex !== null) {
       updateFirebaseData(`boards/${current_board.index}/lists/${cardIndex}`, {
         cards,
       });
-      fetchBackDefaultData(
-        `/boards/${current_board.index}/lists/${cardIndex}`,
-        getUserData,
-      );
+      fetchBackDefaultData(`/boards/${current_board.index}/lists/${cardIndex}`, getUserData);
     }
     setIsSave(false);
-  }, [isSave]);
+  }, [userData, isSave]);
+
+  useEffect(() => {
+    if (isUpdate && cardIndex !== null) {
+      fetchBackDefaultData(`/boards/${current_board.index}/lists/${cardIndex}`, getUserData);
+      dispatch(isCardUpdate(false));
+    }
+  }, [isUpdate]);
 
   useEffect(() => {
     dispatch(getIsOpenClSetting({isOpen: false}));
@@ -80,18 +72,13 @@ const Column: FC<ColumnProps> = ({item, name}) => {
   const addCard = () => {
     setIsClose(false);
   };
-  // console.log(isClose);
+
   const isLoggedIn = !!user.uid && user.user_status !== 'guest';
   return (
     <>
       {!item?.isArchive && (
         <div className='column ' data-id={item?.id}>
-          <ColumnHeader
-            item={item}
-            listIndex={cardIndex}
-            name={name}
-            addNewCard={addCard}
-          />
+          <ColumnHeader item={item} listIndex={cardIndex as number} name={name} addNewCard={addCard} />
 
           <div className='column__info'>
             {cards?.map((card: any, i: any) => {
@@ -102,6 +89,7 @@ const Column: FC<ColumnProps> = ({item, name}) => {
               );
             })}
             {!isClose ? (
+              // <ClickAwayListener setIsOpen={(e) => setIsClose(!e)}>
               <div className='column__box'>
                 <CreateCard
                   setCards={setCards}
@@ -112,18 +100,14 @@ const Column: FC<ColumnProps> = ({item, name}) => {
                 />
               </div>
             ) : (
+              // </ClickAwayListener>
               isLoggedIn && (
-                <button
-                  className='column__button'
-                  type='button'
-                  onClick={addCard}
-                >
+                <button className='column__button' type='button' onClick={addCard}>
                   <span></span>
                 </button>
               )
             )}
           </div>
-          {/* )} */}
         </div>
       )}
     </>

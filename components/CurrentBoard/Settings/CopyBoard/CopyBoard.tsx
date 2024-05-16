@@ -15,9 +15,7 @@ const CopyBoard: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const user = useSelector((state: RootState) => state.userdata);
-  const currentBoard = useSelector(
-    (state: RootState) => state.boards.currentBoards,
-  );
+  const currentBoard = useSelector((state: RootState) => state.boards.currentBoards);
   const boards = useSelector((state: RootState) => state.boards.boards);
 
   useEffect(() => {
@@ -75,20 +73,16 @@ const CopyBoard: FC = () => {
       setIsIsUpdate(true);
     }
   };
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
+
   return (
     <div className='copy-board'>
-      <p
-        onClick={() => setIsOpen(!isOpen)}
-        className='expandable-content__title underline'
-      >
+      <p onClick={() => setIsOpen(!isOpen)} className='expandable-content__title underline'>
         Copy the board
       </p>
-      {isOpen && (
+      {isLoggedIn && isOpen && (
         <form action='' onSubmit={handleSubmit} className='copy-board__form'>
-          <button
-            className='button-close'
-            onClick={() => setIsOpen(!isOpen)}
-          ></button>
+          <button className='button-close' onClick={() => setIsOpen(!isOpen)}></button>
           <label htmlFor='title' className='copy-board__label'>
             Title
           </label>
@@ -108,11 +102,7 @@ const CopyBoard: FC = () => {
             />
             <label htmlFor='i'>Leave the cards</label>
           </div>
-          <button
-            type='submit'
-            className='copy-board__button button-dark'
-            disabled={isDisabled}
-          >
+          <button type='submit' className='copy-board__button button-dark' disabled={isDisabled}>
             Copy the board
           </button>
         </form>

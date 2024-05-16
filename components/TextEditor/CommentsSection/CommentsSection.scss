@@ -44,8 +44,8 @@
 .comments-section {
   // .comments-section__box
   &__items {
-    // display: flex;
-    // flex-direction: column-reverse;
+    display: flex;
+    flex-direction: column-reverse;
   }
   &__box {
     margin-bottom: 10px;

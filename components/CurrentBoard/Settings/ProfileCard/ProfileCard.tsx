@@ -9,13 +9,17 @@ import {useSelector} from 'react-redux';
 import Popup from '@/components/Popup/Popup';
 import {formattedDate} from '@/helper/formattedDate';
 import NotificationUpdater from '@/hooks/NotificationUpdater';
+import ClickAwayListener from '@/components/ClickAwayListener/ClickAwayListener';
+
 interface UserDataProps {
   photo: string;
   name: string;
   role: string;
   email: string;
   id: string;
+  desc: string;
   publicName: string;
+  position: string;
 }
 
 interface ProfileCardProp {
@@ -31,8 +35,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
 
   useEffect(() => {
     if (isDelete) {
-      const {[userData.id]: deletedKey, ...members} =
-        board.currentBoards.members;
+      const {[userData.id]: deletedKey, ...members} = board.currentBoards.members;
       updateFirebaseData(`boards/${board.index}`, {members: members});
       setIsDelete(false);
     }
@@ -44,9 +47,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
     userUid: '',
   });
 
-  const currentBoard = useSelector(
-    (state: RootState) => state.boards.currentBoards,
-  );
+  const currentBoard = useSelector((state: RootState) => state.boards.currentBoards);
 
   const deleteMember = () => {
     const date = formattedDate('en');
@@ -82,7 +83,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
     //   alert('Вы не можете удалить себя или другого администратора.');
     // }
   };
-
+  const isLoggedIn = !!user.uid && user.user_status !== 'guest';
   return (
     <>
       {notificationSetting.isAddNotification && (
@@ -96,10 +97,7 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
       )}
       {isClose && (
         <div className='profile-card__popup'>
-          <Popup
-            title={`Delete the ${userData.role} from board?`}
-            setIsClose={(e) => setIsClose(e)}
-          >
+          <Popup title={`Delete the ${userData.role} from board?`} setIsClose={(e) => setIsClose(e)}>
             <div className='profile-card__flex flex'>
               <button className='button-dark' onClick={deleteMember}>
                 Yes
@@ -127,39 +125,29 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
             }}
           ></div>
           {isOpen && (
-            <div className='profile-card__box'>
-              <button
-                className='profile-card__button button-close'
-                onClick={() => setIsOpen(false)}
-              ></button>
-
-              <div className='profile-card__row flex'>
-                <div
-                  className='profile-card__image'
-                  style={{
-                    background: `center/cover no-repeat no-repeat url(${userData.photo || '/default-image.svg'})`,
-                  }}
-                ></div>
-                <p className='profile-card__text'>
-                  {userData.name}
-                  <br />@{userData.publicName} <br />
-                  {userData?.email}
-                  <span>{userData?.role}</span>
-                </p>
-              </div>
-              {userData.id === user.uid && (
-                <Link className='profile-card__link' href='/settings/profile'>
-                  Profile management
+            <ClickAwayListener setIsOpen={(e) => setIsOpen(e)}>
+              <div className='profile-card__card'>
+                <button className='profile-card__button button-close' onClick={() => setIsOpen(false)}></button>
+                <Link target='_blank' href={`/profile/${userData.id}`} className='profile-card__box'>
+                  <span
+                    className='profile-card__image profile-card__image-card'
+                    style={{
+                      background: `center/cover no-repeat no-repeat url(${userData.photo || '/default-image.svg'})`,
+                    }}
+                  ></span>
+                  <p className='profile-card__user'>
+                    <span className='name'> {userData.name}</span>
+                    <span className='position'> {userData.role}</span>
+                  </p>
+                  <p className='profile-card__desc'>{userData?.desc}</p>
                 </Link>
-              )}
-              {userData.role !== 'admin' && (
-                <button className='button-dark' onClick={deletionConfirmation}>
-                  {userData.id === user.uid
-                    ? 'Leave the board'
-                    : 'Delete member'}
-                </button>
-              )}
-            </div>
+                {isLoggedIn && userData.role !== 'admin' && (
+                  <p className='profile-card__button-delete' onClick={deletionConfirmation}>
+                    {userData.id === user.uid ? 'Leave the board' : 'Delete member'}
+                  </p>
+                )}
+              </div>
+            </ClickAwayListener>
           )}
         </div>
       </div>

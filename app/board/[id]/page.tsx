@@ -1,6 +1,8 @@
 'use client';
+
 import CurrentBoard from '@/components/CurrentBoard/Board';
 import DashboardHeader from '@/components/DashboardHeader/DashboardHeader';
+import TextEditor from '@/components/TextEditor/TextEditor';
 import {RootState} from '@/store/store';
 import {useSelector} from 'react-redux';
 
@@ -12,11 +14,10 @@ export default function BoardPage() {
       <div
         className='board-bg'
         style={{
-          background: board.currentBg
-            ? `center/cover no-repeat url(${board.currentBg})`
-            : board.currentColor,
+          background: board.currentBg ? `center/cover no-repeat url(${board.currentBg})` : board.currentColor,
         }}
       ></div>
+      <TextEditor title='' />
       <DashboardHeader />
       <CurrentBoard />
     </>

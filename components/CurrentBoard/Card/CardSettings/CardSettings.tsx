@@ -10,6 +10,7 @@ import CardSideBar from '../CardSideBar/CardSideBar';
 import CreatedCheckList from './CreatedCheckList/CreatedCheckList';
 import {updateFirebaseData} from '@/helper/updateUserData';
 import {isCardUpdate} from '@/store/card-setting/actions';
+import ClickAwayListener from '@/components/ClickAwayListener/ClickAwayListener';
 
 export function getCardIndex(lists: Array<any>, id: string) {
   return lists.findIndex((item) => item.id === id);
@@ -17,7 +18,7 @@ export function getCardIndex(lists: Array<any>, id: string) {
 
 type CardSettingsProps = {
   card: ColumnCardsProps;
-  setIsOpenCard: () => void;
+  setIsOpenCard: (v: boolean) => void;
 };
 export interface CommentProps {
   title: string;
@@ -33,17 +34,14 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const [allComments, setAllComment] = useState<Array<CommentProps>>([]);
   const [makers, setMarkers] = useState<any>({});
 
-  const current_markers = useSelector(
-    (state: RootState) => state.markers.markers,
-  );
+  const current_markers = useSelector((state: RootState) => state.markers.markers);
 
   useEffect(() => {
     setMarkers(current_markers);
   }, [current_markers]);
-  const boardLists = useSelector(
-    (state: RootState) => state.boards.currentBoards.lists,
-  );
+  const boardLists = useSelector((state: RootState) => state.boards.currentBoards.lists);
   const current_column = useSelector((state: RootState) => state?.column.data);
+  // console.log(columnName);
 
   useEffect(() => {
     if (boardLists) {
@@ -53,7 +51,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   }, [current_column, card, boardLists, allComments]);
 
   const closeSetting = () => {
-    setIsOpenCard();
+    setIsOpenCard(false);
   };
   const [value, setValue] = useState('');
   const [isReadOnly, setIsReadOnly] = useState(true);
@@ -70,23 +68,17 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const isLoggedIn = !!current_user.uid && current_user.user_status !== 'guest';
   useEffect(() => {
     if (value.length !== 0 && !isReadOnly) {
-      updateFirebaseData(
-        `boards/${user.boardIndex}/lists/${user.listIndex}/cards/${user.cardIndex}`,
-        {title: value},
-      );
+      updateFirebaseData(`boards/${user.boardIndex}/lists/${user.listIndex}/cards/${user.cardIndex}`, {title: value});
       dispatch(isCardUpdate(true));
     }
   }, [value, isReadOnly]);
   return (
     <div className='card-settings'>
-      <div
-        className='card-settings__container'
-        style={{background: card?.cover}}
-      >
-        <button
-          className='card-settings__button button-close'
-          onClick={closeSetting}
-        ></button>
+      {/* <div className='card-settings__center'> */}
+      {/* <ClickAwayListener setIsOpen={(e) => setIsOpenCard(e)}> */}
+      <div className='card-settings__container' style={{background: card?.cover}}>
+        <button className='card-settings__button button-close' onClick={closeSetting}></button>
+
         <div className='card-settings__content'>
           {/* <div
               className='card-settings__cover'
@@ -109,10 +101,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
                   disabled={!isLoggedIn}
                   maxLength={50}
                 />
-                <label
-                  className='card-settings__icon'
-                  htmlFor='name-card'
-                ></label>
+                <label className='card-settings__icon' htmlFor='name-card'></label>
               </div>
               <p className='card-settings__column-text'>
                 In column: <span> {columnName}</span>
@@ -139,9 +128,12 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
             </CommentsAndDesc>
           </div>
         </div>
+
         <div className='card-settings__menu'>
           <CardSideBar />
         </div>
+        {/* </div> */}
+        {/* </ClickAwayListener> */}
       </div>
     </div>
   );

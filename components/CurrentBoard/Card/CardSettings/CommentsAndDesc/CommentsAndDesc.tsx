@@ -2,43 +2,36 @@
 import {getListIndex} from '@/components/CurrentBoard/Column/ColumnSettings/ArchiveColumn/ArchiveColumn';
 import TextEditor from '@/components/TextEditor/TextEditor';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
-import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
+import {updateFirebaseData} from '@/helper/updateUserData';
 import {AppDispatch, RootState} from '@/store/store';
 import {ColumnCardsProps} from '@/types/interfaces';
 import {FC, ReactNode, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getComments} from '@/store/card-setting/actions';
+import {getComments, isCardUpdate} from '@/store/card-setting/actions';
 import {getUpdateLink} from '@/store/data-user/actions';
+import {stripHtmlTags} from '@/helper/stripHtmlTags';
+
 import './CommentsAndDesc.scss';
-import CreatedCheckList from '../CreatedCheckList/CreatedCheckList';
+
+interface IndexState {
+  column: number | null;
+  card: number | null;
+}
 interface CommentsAndDescProps {
   card: ColumnCardsProps;
   children: ReactNode;
 }
-export const stripHtmlTags = (html: string) => {
-  const regex = /(<([^>]+)>)/gi;
-  return html.replace(regex, '');
-};
 
 const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
-  const current_column = useSelector((state: RootState) => state?.column.data);
-  const [comment, setComment] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [currentCard, getCurrentCard] = useState<ColumnCardsProps>({
-    title: '',
-    description: '',
-    id: '',
-    comments: [],
-  });
-  const user = useSelector((state: RootState) => state.userdata);
-  const boardLists = useSelector(
-    (state: RootState) => state.boards.currentBoards.lists,
-  );
+  const [currentCard, getCurrentCard] = useState<ColumnCardsProps>({} as ColumnCardsProps);
+  const [index, getIndex] = useState<IndexState>({column: null, card: null} as IndexState);
+
+  const {uid, user_status} = useSelector((state: RootState) => state.userdata);
+  const {isUpdate, comments} = useSelector((state: RootState) => state.card_setting);
+  const boardLists = useSelector((state: RootState) => state.boards.currentBoards.lists);
   const current_board = useSelector((state: RootState) => state.boards);
-  const [index, getIndex] = useState<any>({
-    column: null,
-    card: null,
-  });
+  const current_column = useSelector((state: RootState) => state?.column.data);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -48,33 +41,31 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
         boardIndex: current_board.index,
         listIndex: index.column,
         cardIndex: index.card,
-        uid: user.uid,
+        uid: uid,
       };
       dispatch(getUpdateLink(link));
     }
-  }, [index]);
 
-  useEffect(() => {
-    let textWithoutTags = stripHtmlTags(description);
-    // console.log(textWithoutTags.length);
-    description &&
-      updateFirebaseData(
-        `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
-        {description: textWithoutTags.length ? description : ''},
-      );
-  }, [index, description, user, current_board]);
-
-  const comments = useSelector(
-    (state: RootState) => state.card_setting.comments,
-  );
-  useEffect(() => {
-    if (index.column !== null && index.card !== null) {
-      fetchBackDefaultData(
-        `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
-        getCurrentCard,
-      );
+    if (index.column !== null && index.card !== null && description !== '') {
+      let textWithoutTags = stripHtmlTags(description);
+      updateFirebaseData(`boards/${current_board.index}/lists/${index.column}/cards/${index.card}`, {
+        description: textWithoutTags.length ? description : '',
+      });
     }
-  }, [user, card.id, current_column, boardLists, index]);
+  }, [index, description, uid, current_board]);
+
+  useEffect(() => {
+    dispatch(getComments(currentCard?.comments as []));
+  }, [currentCard?.comments]);
+
+  useEffect(() => {
+    if (isUpdate || (index.column !== null && index.card !== null)) {
+      fetchBackDefaultData(`boards/${current_board.index}/lists/${index.column}/cards/${index.card}`, getCurrentCard);
+      if (isUpdate) {
+        dispatch(isCardUpdate(false));
+      }
+    }
+  }, [uid, index, isUpdate, current_board]);
 
   useEffect(() => {
     if (card.id) {
@@ -89,21 +80,10 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
   }, [card.id, current_column, boardLists]);
 
   useEffect(() => {
-    dispatch(getComments(currentCard?.comments as []));
-  }, [currentCard]);
-  useEffect(() => {
-    if (
-      comments &&
-      comments?.length !== 0 &&
-      index.column !== null &&
-      index.column !== -1 &&
-      index.card !== null &&
-      index.card !== -1
-    ) {
-      updateFirebaseData(
-        `boards/${current_board.index}/lists/${index.column}/cards/${index.card}`,
-        {comments: comments},
-      );
+    if (comments?.length && [null, -1].every((val) => ![index.column, index.card].includes(val))) {
+      updateFirebaseData(`boards/${current_board.index}/lists/${index.column}/cards/${index.card}`, {
+        comments: comments,
+      });
     }
   }, [comments, index]);
 
@@ -122,17 +102,18 @@ const CommentsAndDesc: FC<CommentsAndDescProps> = ({card, children}) => {
           />
         </div>
         <div>{children}</div>
-        <div className='comments-desc__comments-box'>
-          <p className='comments-desc__title flex '>
-            <span
-              className='text-underline'
-              data-quantity={comments?.length || 0}
-            >
-              Comments
-            </span>
-          </p>
-          <TextEditor hasComments={true} getHTML={(e) => e} title={'title'} />
-        </div>
+        {user_status === 'guest' ? (
+          <p className='note'>Guests cannot view or write comments</p>
+        ) : (
+          <div className='comments-desc__comments-box'>
+            <p className='comments-desc__title flex '>
+              <span className='text-underline' data-quantity={comments?.length || 0}>
+                Comments
+              </span>
+            </p>
+            <TextEditor hasComments={true} getHTML={(e) => e} title={'title'} />
+          </div>
+        )}
       </div>
     </div>
   );
