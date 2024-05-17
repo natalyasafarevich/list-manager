@@ -1,5 +1,6 @@
 import {FC} from 'react';
 import './Preview.scss';
+import {motion} from 'framer-motion';
 import Link from 'next/link';
 const people = [
   {
@@ -23,13 +24,49 @@ const Preview: FC = () => {
             </Link>
           </div>
           <div className='preview__box'>
-            <div className='preview__item preview__item-1'></div>
-            <div className='preview__item preview__item-2'></div>
-            <div className='preview__item preview__item-3'></div>
-            <div className='preview__item preview__item-4'></div>
-            <div className='preview__item preview__item-5'></div>
-            <div className='preview__item preview__item-6'></div>
-            <div className='preview__item preview__item-7'></div>
+            <motion.div
+              initial={{opacity: 0, scale: 0.5}}
+              animate={{opacity: 1, scale: 1}}
+              transition={{delay: 0, duration: 0.1}}
+              className='preview__item preview__item-1'
+            ></motion.div>
+            {/* <div className='preview__item preview__item-1'></div> */}
+            <motion.div
+              initial={{opacity: 0, scale: 0.5}}
+              animate={{opacity: 1, scale: 1}}
+              transition={{delay: 0.1, duration: 0.2}}
+              className='preview__item preview__item-2'
+            ></motion.div>
+            <motion.div
+              initial={{opacity: 0, scale: 0.5}}
+              animate={{opacity: 1, scale: 1}}
+              transition={{delay: 0.2, duration: 0.2}}
+              className='preview__item preview__item-3'
+            ></motion.div>
+            <motion.div
+              initial={{opacity: 0, scale: 0.5}}
+              animate={{opacity: 1, scale: 1}}
+              transition={{delay: 0.3, duration: 0.2}}
+              className='preview__item preview__item-4'
+            ></motion.div>
+            <motion.div
+              initial={{opacity: 0, scale: 0.5}}
+              animate={{opacity: 1, scale: 1}}
+              transition={{delay: 0.4, duration: 0.2}}
+              className='preview__item preview__item-5'
+            ></motion.div>
+            <motion.div
+              initial={{opacity: 0, scale: 0.5}}
+              animate={{opacity: 1, scale: 1}}
+              transition={{delay: 0.5, duration: 0.2}}
+              className='preview__item preview__item-6'
+            ></motion.div>
+            <motion.div
+              initial={{opacity: 0, scale: 0.5}}
+              animate={{opacity: 1, scale: 1}}
+              transition={{delay: 0.6, duration: 0.2}}
+              className='preview__item preview__item-7'
+            ></motion.div>
           </div>
         </div>
       </div>
