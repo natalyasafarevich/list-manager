@@ -2,6 +2,7 @@ import {FC} from 'react';
 import './Preview.scss';
 import {motion} from 'framer-motion';
 import Link from 'next/link';
+import BlueGradientButton from '@/components/Buttons/BlueGradientButton/BlueGradientButton';
 const people = [
   {
     url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -19,9 +20,12 @@ const Preview: FC = () => {
             <p className='preview__title'>
               Transform Your Daily Tasks into Art <span>We care about our work and we care about our clients.</span>
             </p>
-            <Link href={'/registration'} className='preview__link button-light-blue'>
-              Lets start
-            </Link>
+
+            <BlueGradientButton
+              href={'/registration'}
+              title='Lets start'
+              className='  preview__link button-light-blue'
+            />
           </div>
           <div className='preview__box'>
             <motion.div

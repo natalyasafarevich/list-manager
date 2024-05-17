@@ -2,6 +2,7 @@ import React, {FC, useState} from 'react';
 import MotionItem from './MotionItem/MotionItem';
 import Link from 'next/link';
 import './Examples.scss';
+import BlueGradientButton from '@/components/Buttons/BlueGradientButton/BlueGradientButton';
 
 const items = [
   {
@@ -34,10 +35,8 @@ const Examples: FC = () => {
         </p>
         <div className='examples__box'>
           <MotionItem items={items} />
-        </div>
-        <Link href={'/registration'} className='examples__link button-light-blue'>
-          Try it now
-        </Link>
+        </div>{' '}
+        <BlueGradientButton href={'/registration'} title='  Try it now' className='examples__link button-light-blue' />
       </div>
     </div>
   );

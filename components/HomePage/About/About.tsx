@@ -5,6 +5,7 @@ import {motion} from 'framer-motion';
 import './About.scss';
 import Link from 'next/link';
 import AnimatedSVG from '@/components/AnimatedSVG/AnimatedSVG';
+import BlueGradientButton from '@/components/Buttons/BlueGradientButton/BlueGradientButton';
 
 const About: FC = () => {
   const {ref, inView} = useInView({
@@ -23,9 +24,12 @@ const About: FC = () => {
             <div className='about__row flex'>
               <div className='about__info'>
                 <p className='about__title'>Read more about the project</p>
-                <Link href={'/about-project'} className='about__link button-light-blue'>
-                  Read more
-                </Link>
+
+                <BlueGradientButton
+                  href={'/about-project'}
+                  title='Read more'
+                  className='about__link button-light-blue'
+                />
               </div>
               <div className='about__circle'>
                 <AnimatedSVG

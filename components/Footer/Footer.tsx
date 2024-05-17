@@ -1,6 +1,7 @@
 import {FC} from 'react';
 import './Footer.scss';
 import Link from 'next/link';
+import BlueGradientButton from '../Buttons/BlueGradientButton/BlueGradientButton';
 
 const Footer: FC = () => {
   return (
@@ -30,9 +31,7 @@ const Footer: FC = () => {
             </ul>
           </div>
           <div className='footer__box'>
-            <Link href={'/'} className='footer__button button-light-blue'>
-              Contact Us
-            </Link>
+            <BlueGradientButton href={'/'} title=' Contact Us' className='footer__button button-light-blue' />
           </div>
         </div>
         <div className='footer__bottom'>© 2024 - All Rights Reserved</div>
