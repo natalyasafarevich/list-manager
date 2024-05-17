@@ -2,30 +2,38 @@ import {FC} from 'react';
 import './Benefits.scss';
 import Image from 'next/image';
 import {title} from 'process';
-
+import {delay, motion} from 'framer-motion';
+import {useInView} from 'react-intersection-observer';
 const benefits = [
-  {title: 'Task Management', desc: 'Easily create, edit, and delete tasks.', src: '/ph_ruler-fill.svg'},
+  {title: 'Task Management', desc: 'Easily create, edit, and delete tasks.', src: '/ph_ruler-fill.svg', delay: 0},
   {
     title: 'Real-Time Collaboration',
     desc: 'Invite colleagues and friends to collaborate on projects in real-time.',
     src: '/fluent_chess-20-filled.svg',
+    delay: 1,
   },
   {
     title: 'Creating To-Do Lists',
     desc: 'Organize tasks into lists for different projects or goals.',
     src: '/fluent_target-arrow-16-filled.svg',
+    delay: 2,
   },
   {
     title: 'Personalized Interface',
     desc: 'Customize the appearance of your task board to match your preferences.',
     src: '/heroicons-solid_lightning-bolt.svg',
+    delay: 3,
   },
 ];
 
 const Benefits: FC = () => {
+  const {ref, inView} = useInView({
+    triggerOnce: false,
+    threshold: 0.1,
+  });
   return (
     <div className='benefits'>
-      <div className='benefits__container container'>
+      <div className='benefits__container container' ref={ref}>
         <div className='benefits__row flex'>
           <div className='benefits__info'>
             <p className='benefits__title'>
@@ -37,17 +45,30 @@ const Benefits: FC = () => {
             </p>
           </div>{' '}
           <div className='benefits__box'>
-            {benefits.map((item, i) => (
-              <div className='benefits__item' key={i}>
-                <div className='benefits__icon'>
-                  <Image src={item.src} width={40} height={40} alt='' />
-                </div>
-                <p className='benefits__name'>
-                  {item.title}
-                  <span>{item.desc}</span>
-                </p>
-              </div>
-            ))}
+            {benefits.map(
+              (item, i) =>
+                inView && (
+                  <motion.div
+                    initial={{width: '0%', overflow: 'hidden'}}
+                    animate={{
+                      width: '100%',
+                      transition: {delay: item?.delay, duration: 1, ease: 'linear'},
+                    }}
+                    // animate={{width: `100%`, y: 0, transition: {duration: 0.5, repeat: Infinity, ease: 'linear'}}}
+                    exit={{opacity: 0, y: -20}}
+                    className='benefits__item'
+                    key={i}
+                  >
+                    <div className='benefits__icon'>
+                      <Image src={item.src} width={40} height={40} alt='' />
+                    </div>
+                    <p className='benefits__name'>
+                      {item.title}
+                      <span>{item.desc}</span>
+                    </p>
+                  </motion.div>
+                ),
+            )}
           </div>
         </div>
       </div>
