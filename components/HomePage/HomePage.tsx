@@ -3,6 +3,7 @@ import './HomePage.scss';
 import Preview from './Preview/Preview';
 import Benefits from './Benefits/Benefits';
 import Examples from './Examples/Examples';
+import FAQ from './FAQ/FAQ';
 const items = [
   {id: 1, title: 'Item 1', subtitle: 'Subtitle 1'},
   {id: 2, title: 'Item 2', subtitle: 'Subtitle 2'},
@@ -15,6 +16,7 @@ const HomePage: FC = () => {
       <Preview />
       <Benefits />
       <Examples />
+      <FAQ />
     </div>
   );
 };
