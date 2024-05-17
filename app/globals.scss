@@ -132,12 +132,16 @@ body {
   }
 }
 .button-light-blue {
-  background: linear-gradient(134deg, #18a1cc 0%, #92d1ff 100%);
+  border-radius: 70px;
+  background: #3461ff;
   color: var(--secondary-color);
-  font-weight: 600;
-  border-radius: 15px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 111%;
+  text-transform: capitalize;
   min-width: 100px;
-  padding: 15px 5px;
+  padding: 15px;
+  text-align: center;
 }
 .button-shade-gray {
   &:hover {
@@ -235,6 +239,12 @@ body {
   font-size: 16px;
   height: 100vh;
   // max-width: 1920px;
+  width: 100%;
+  margin: 0 auto;
+}
+.container {
+  max-width: 1440px;
+  padding: 0 10px;
   width: 100%;
   margin: 0 auto;
 }
@@ -528,6 +538,7 @@ input.input-error {
     transform: rotate(180deg);
   }
 }
+
 .button-border {
   cursor: pointer;
   width: 100%;

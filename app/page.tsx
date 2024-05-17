@@ -8,7 +8,7 @@ import HomePage from '@/components/HomePage/HomePage';
 
 export default function Home() {
   return (
-    <main className={`${styles.main}  container`}>
+    <main className={``}>
       <HomePage />
     </main>
   );
