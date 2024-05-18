@@ -8,12 +8,9 @@ interface BlueGradientButtonProps {
   href: string;
 }
 const BlueGradientButton: FC<BlueGradientButtonProps> = ({title, className, href}) => {
-  const [isHovered, setHovered] = useState(false);
   return (
     <motion.a
       href={href}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
       initial={{backgroundImage: 'linear-gradient(0deg, rgb(52, 97, 255) , rgb(52, 97, 255)  '}}
       whileHover={{
         backgroundImage: 'linear-gradient(360deg, rgb(52, 97, 255) , rgb(51, 255, 238))',

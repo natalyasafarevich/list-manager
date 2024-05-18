@@ -1,21 +1,18 @@
 'use client';
-import {FC} from 'react';
-import {useInView} from 'react-intersection-observer';
-import {motion} from 'framer-motion';
+import {FC, useRef} from 'react';
+import {motion, useInView} from 'framer-motion';
 import './About.scss';
 import Link from 'next/link';
 import AnimatedSVG from '@/components/AnimatedSVG/AnimatedSVG';
 import BlueGradientButton from '@/components/Buttons/BlueGradientButton/BlueGradientButton';
 
 const About: FC = () => {
-  const {ref, inView} = useInView({
-    triggerOnce: false,
-    threshold: 0.0,
-  });
+  const ref = useRef(null);
+  const isInView = useInView(ref, {once: true});
   return (
     <section className='about' ref={ref}>
       <div className='about__container container'>
-        {inView && (
+        {isInView && (
           <motion.div
             initial={{opacity: 0, scale: 0.5}}
             animate={{opacity: 1, scale: 1}}

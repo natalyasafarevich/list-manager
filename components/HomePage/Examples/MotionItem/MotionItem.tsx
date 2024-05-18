@@ -10,10 +10,14 @@ const MotionItem: FC<MotionItemProps> = ({items}) => {
   return (
     <div className='motion-item'>
       <div className='motion-item__list'>
-        {items.map((item: any) => (
+        {items.map((item: any, index: number) => (
           <motion.div
             key={item.id}
+            transition={{delay: index * 0.1}}
             layout
+            initial={{opacity: 0, y: 20}}
+            animate={{opacity: 1, y: 0}}
+            exit={{opacity: 0, y: 20}}
             layoutId={item.id}
             onClick={() => setSelectedId(selectedId === item.id ? null : item.id)}
             className='motion-item__item'
@@ -28,15 +32,7 @@ const MotionItem: FC<MotionItemProps> = ({items}) => {
 
         <AnimatePresence>
           {selectedId && (
-            <motion.div
-              key={selectedId}
-              layout
-              layoutId={selectedId}
-              className='motion-item__active'
-              initial={{opacity: 0, y: -20}}
-              animate={{opacity: 1, y: 0}}
-              exit={{opacity: 0, y: -20}}
-            >
+            <motion.div key={selectedId} layout layoutId={selectedId} className='motion-item__active'>
               <motion.div className='motion-item__popup'>
                 <motion.div
                   className='motion-item__gif'

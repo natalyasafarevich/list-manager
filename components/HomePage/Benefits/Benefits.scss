@@ -26,17 +26,24 @@
 
   &__title {
     font-weight: 500;
+    p {
+      &:last-of-type {
+        margin-bottom: 15px;
+      }
+      padding: 0 5px;
+    }
     font-size: 64px;
     line-height: 100%;
     letter-spacing: -0.02em;
     text-transform: capitalize;
     span {
+      padding: 0 2px;
       display: block;
       margin-top: 15px;
       text-transform: none;
       font-weight: 500;
       font-size: 18px;
-      line-height: 200%;
+      line-height: 100%;
       color: rgba(0, 0, 0, 0.6);
     }
   }

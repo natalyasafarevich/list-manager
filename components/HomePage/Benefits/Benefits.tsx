@@ -1,60 +1,65 @@
-import {FC} from 'react';
+import {FC, useRef} from 'react';
 import './Benefits.scss';
 import Image from 'next/image';
-import {title} from 'process';
-import {delay, motion} from 'framer-motion';
-import {useInView} from 'react-intersection-observer';
+import {motion, useScroll, useInView, useSpring, useTransform, MotionValue} from 'framer-motion';
+
+import AnimationText from '@/components/AnimationText/AnimationText';
 const benefits = [
   {title: 'Task Management', desc: 'Easily create, edit, and delete tasks.', src: '/ph_ruler-fill.svg', delay: 0},
   {
     title: 'Real-Time Collaboration',
     desc: 'Invite colleagues and friends to collaborate on projects in real-time.',
     src: '/fluent_chess-20-filled.svg',
-    delay: 1,
+    delay: 0.6,
   },
   {
     title: 'Creating To-Do Lists',
     desc: 'Organize tasks into lists for different projects or goals.',
     src: '/fluent_target-arrow-16-filled.svg',
-    delay: 2,
+    delay: 1.2,
   },
   {
     title: 'Personalized Interface',
     desc: 'Customize the appearance of your task board to match your preferences.',
     src: '/heroicons-solid_lightning-bolt.svg',
-    delay: 3,
+    delay: 1.8,
   },
 ];
 
 const Benefits: FC = () => {
-  const {ref, inView} = useInView({
-    triggerOnce: false,
-    threshold: 0.1,
-  });
+  const ref = useRef(null);
+  const isInView = useInView(ref, {once: true});
+
   return (
     <div className='benefits'>
-      <div className='benefits__container container' ref={ref}>
-        <div className='benefits__row flex'>
+      <div className='benefits__container container'>
+        <div className='benefits__row flex' ref={ref}>
           <div className='benefits__info'>
-            <p className='benefits__title'>
-              Benefits of Registration
-              <span>
-                Sign up to gain access to powerful tools for task management, creating to-do lists, and personalized
-                recommendations. Enjoy enhanced productivity and ease in organizing your projects.
-              </span>
-            </p>
+            <div className='benefits__title'>
+              <div className='flex-wrap'>
+                {isInView && <AnimationText isTitle={true} title={'Benefits of Registration'} />}
+              </div>
+              <div className='flex-wrap'>
+                {isInView && (
+                  <AnimationText
+                    isSpan={true}
+                    title={`Sign up to gain access to powerful tools for task management, creating to-do lists, and personalized
+  recommendations. Enjoy enhanced productivity and ease in organizing your projects.`}
+                  />
+                )}
+              </div>
+            </div>
           </div>{' '}
           <div className='benefits__box'>
             {benefits.map(
               (item, i) =>
-                inView && (
+                isInView && (
                   <motion.div
                     initial={{width: '0%', overflow: 'hidden'}}
                     animate={{
                       width: '100%',
-                      transition: {delay: item?.delay, duration: 1, ease: 'linear'},
+                      transition: {delay: item?.delay, duration: 0.6, ease: 'linear'},
                     }}
-                    // animate={{width: `100%`, y: 0, transition: {duration: 0.5, repeat: Infinity, ease: 'linear'}}}
                     exit={{opacity: 0, y: -20}}
                     className='benefits__item'
                     key={i}

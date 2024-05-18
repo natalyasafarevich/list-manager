@@ -3,23 +3,47 @@ import './Preview.scss';
 import {motion} from 'framer-motion';
 import Link from 'next/link';
 import BlueGradientButton from '@/components/Buttons/BlueGradientButton/BlueGradientButton';
-const people = [
-  {
-    url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1499651681375-8afc5a4db253?q=80&w=1997&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-];
+
 const Preview: FC = () => {
+  const title = 'Transform Your Daily Tasks into Art'.split(' ');
+  const subtitle = 'We care about our work and we care about our clients.'.split(' ');
   return (
-    <div className='preview '>
+    <section className='preview '>
       <div className='preview__container container'>
         <div className='preview__row flex'>
           <div className='preview__info'>
-            <p className='preview__title'>
-              Transform Your Daily Tasks into Art <span>We care about our work and we care about our clients.</span>
-            </p>
+            <div className='preview__title'>
+              <div className='preview__flex flex'>
+                {title.map((el, i) => (
+                  <motion.p
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
+                    transition={{
+                      duration: 1,
+                      delay: i / 10,
+                    }}
+                    key={i}
+                  >
+                    {el}
+                  </motion.p>
+                ))}
+              </div>
+              <div className='preview__flex flex'>
+                {subtitle.map((el, i) => (
+                  <motion.span
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
+                    transition={{
+                      duration: 1,
+                      delay: i / 10,
+                    }}
+                    key={i}
+                  >
+                    {el}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
 
             <BlueGradientButton
               href={'/registration'}
@@ -74,7 +98,7 @@ const Preview: FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 export default Preview;

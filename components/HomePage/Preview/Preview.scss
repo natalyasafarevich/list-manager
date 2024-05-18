@@ -20,7 +20,12 @@
     width: 100%;
     margin: 0 6px;
   }
-
+  &__flex {
+    flex-wrap: wrap;
+    p {
+      padding: 5px;
+    }
+  }
   // .preview__title
 
   &__title {
@@ -29,7 +34,9 @@
     line-height: 103%;
     letter-spacing: -0.04em;
     text-transform: capitalize;
+
     span {
+      padding: 0 2px;
       margin: 27px 0 44px;
       display: block;
       font-weight: 500;

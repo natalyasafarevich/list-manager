@@ -8,14 +8,20 @@
   }
 
   // .examples__title
-
+  .flex-wrap:nth-child(2) {
+    justify-content: center;
+  }
   &__title {
+    width: max-content;
+    margin: 0 auto;
     text-align: center;
     font-weight: 500;
     font-size: 64px;
     text-transform: capitalize;
     margin-bottom: 52px;
+
     span {
+      padding: 0 2px;
       display: block;
       font-weight: 500;
       font-size: 18px;

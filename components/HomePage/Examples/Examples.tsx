@@ -1,8 +1,10 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useRef, useState} from 'react';
 import MotionItem from './MotionItem/MotionItem';
 import Link from 'next/link';
 import './Examples.scss';
 import BlueGradientButton from '@/components/Buttons/BlueGradientButton/BlueGradientButton';
+import {useInView} from 'framer-motion';
+import AnimationText from '@/components/AnimationText/AnimationText';
 
 const items = [
   {
@@ -26,16 +28,17 @@ const items = [
 ];
 
 const Examples: FC = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, {once: true});
+
   return (
     <div className='examples'>
       <div className='examples__container container'>
-        <p className='examples__title'>
-          Examples
-          <span>A glimpse of our work</span>
-        </p>
-        <div className='examples__box'>
-          <MotionItem items={items} />
-        </div>{' '}
+        <div className='examples__title' ref={ref}>
+          <div className='flex-wrap'>{isInView && <AnimationText isTitle={true} title={'Examples'} />}</div>
+          <div className='flex-wrap'>{isInView && <AnimationText isSpan={true} title={'A glimpse of our work'} />}</div>
+        </div>
+        <div className='examples__box'>{isInView && <MotionItem items={items} />}</div>
         <BlueGradientButton href={'/registration'} title='  Try it now' className='examples__link button-light-blue' />
       </div>
     </div>
