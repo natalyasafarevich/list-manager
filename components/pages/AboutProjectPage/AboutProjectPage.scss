@@ -36,6 +36,10 @@
 
   // .about-page__desc
   &__row {
+    &-wrap {
+      max-width: 100%;
+      flex-direction: column;
+    }
     max-width: 500px;
     width: 100%;
     justify-content: space-between;
@@ -106,4 +110,121 @@
       // font-size: 14px;
     }
   }
+}
+.about-page {
+  // .about-page__row
+
+  &__row {
+  }
+
+  // .about-page__row-wrap
+
+  &__row-wrap {
+  }
+
+  // .about-page__item
+
+  &__item {
+  }
+
+  // .about-page__item-next
+  svg path {
+    transform: scale(1.8);
+  }
+
+  &__item-next {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    text-align: center;
+    &::before {
+      content: none;
+    }
+  }
+
+  // .about-page__item-redux
+
+  &__item-redux {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    text-align: center;
+    &::before {
+      content: none;
+    }
+  }
+
+  // .about-page__item-typescript
+
+  &__item-typescript {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    text-align: center;
+    &::before {
+      content: none;
+    }
+  }
+
+  // .about-page__item-firebase
+
+  &__item-firebase {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    text-align: center;
+    &::before {
+      content: none;
+    }
+  }
+
+  // .about-page__item-quill
+
+  &__item-quill {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    text-align: center;
+    &::before {
+      content: none;
+    }
+  }
+
+  // .about-page__item-motion
+
+  &__item-motion {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    text-align: center;
+    &::before {
+      content: none;
+    }
+  }
+
+  // .about-page__item-uuid
+
+  &__item-uuid {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    text-align: center;
+    &::before {
+      content: none;
+    }
+  }
+
+  // .about-page__item-node
+
+  &__item-node {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    text-align: center;
+    &::before {
+      content: none;
+    }
+  }
+}
+.flex {
 }
