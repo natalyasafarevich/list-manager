@@ -50,7 +50,9 @@ export const BoardCreationBlock = () => {
 
   return (
     <div className='container'>
-      <ul>
+      <div className='container__ani'></div>
+
+      {/* <ul>
         <AnimatePresence initial={false}>
           {notifications.map(({id, title, desc, date}) => (
             <motion.li
@@ -71,7 +73,7 @@ export const BoardCreationBlock = () => {
       </ul>
       <button className='add' onClick={addNotification}>
         +
-      </button>
+      </button> */}
     </div>
   );
 };

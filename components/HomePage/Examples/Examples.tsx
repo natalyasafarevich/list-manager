@@ -10,7 +10,7 @@ const items = [
   {
     id: 1,
     title: 'Creating a new board',
-    scr: '/TESTER-IMAGE-FOR-DEELITING.png',
+    scr: '/gif-1.gif',
     gif: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExenV0bXNmajdpcDR5bmt4dXM2MWlheTRkOWw1Znozamxsa3lxM3R6MSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/i3PDbb7zaqNuyRrVKe/giphy.gif',
   },
   {
