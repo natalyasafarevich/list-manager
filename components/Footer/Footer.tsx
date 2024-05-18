@@ -19,8 +19,8 @@ const Footer: FC = () => {
                 </Link>
               </li>
               <li>
-                <Link href={'/'} className='footer__link'>
-                  FAQs
+                <Link href={'/assistance'} className='footer__link'>
+                  Assistance
                 </Link>
               </li>
               <li>

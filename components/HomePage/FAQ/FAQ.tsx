@@ -34,7 +34,8 @@ const FAQ: FC = () => {
           </div>
           <div className='faq__box'>
             <p className='faq__title'>How we can help you?</p>
-            <Link href={'/'} className='faq__link'>
+
+            <Link href={'/assistance'} className='faq__link'>
               more FAQ
             </Link>
           </div>
