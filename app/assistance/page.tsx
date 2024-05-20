@@ -1,8 +1,11 @@
-import CurrentBoard from '@/components/CurrentBoard/Board';
-import DashboardHeader from '@/components/DashboardHeader/DashboardHeader';
-import {RootState} from '@/store/store';
-import {useSelector} from 'react-redux';
+import Footer from '@/components/Footer/Footer';
+import AssistancePage from '@/components/pages/AssistancePage/AssistancePage';
 
-export default function Page() {
-  return <>Hi</>;
+export default function Assistance() {
+  return (
+    <>
+      <AssistancePage />
+      <Footer />
+    </>
+  );
 }

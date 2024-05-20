@@ -1,0 +1,46 @@
+.assistance-page {
+  // .assistance-page__container
+
+  &__container {
+    padding: 50px 0;
+    max-width: 1120px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  // .assistance-page__title
+
+  &__title {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  &__desc {
+    text-align: center;
+  }
+  // .assistance-page__accordion
+
+  &__accordion {
+    margin: 25px 0;
+  }
+
+  // .assistance-page__box
+
+  &__box {
+    margin-bottom: 50px;
+  }
+
+  // .assistance-page__name
+
+  &__name {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  &__item {
+    padding: 15px 15px;
+    margin-left: 25px;
+    // &:not(:last-of-type) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    // }
+  }
+}

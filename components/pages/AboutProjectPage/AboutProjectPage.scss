@@ -12,24 +12,15 @@
 
   &__subtitle {
     &-large {
-      font-size: 25px;
     }
-    font-weight: 500;
 
-    line-height: 150%;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     text-align: center;
-    color: #2b6462;
     margin-bottom: 16px;
   }
 
   // .about-page__title
 
   &__title {
-    font-weight: 500;
-    font-size: 72px;
-    line-height: 125%;
     text-align: center;
     margin-bottom: 24px;
   }

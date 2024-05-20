@@ -37,6 +37,25 @@ body {
   overflow-y: scroll;
   // position: relative;
 }
+// text
+.title-large-72 {
+  font-weight: 500;
+  font-size: 72px;
+  line-height: 125%;
+}
+.text-green {
+  text-transform: uppercase;
+  color: #2b6462;
+}
+.text-green-large {
+  font-size: 25px;
+  font-weight: 500;
+
+  line-height: 150%;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #2b6462;
+}
 .logo {
   &::before {
     content: "";

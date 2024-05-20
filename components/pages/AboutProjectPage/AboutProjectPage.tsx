@@ -10,9 +10,9 @@ import {technologies} from '@/variables/technologies';
 const AboutProjectPage: FC = () => {
   return (
     <div className='about-page'>
-      <div className='about-page__container '>
-        <p className='about-page__subtitle'>About</p>
-        <p className='about-page__title'>
+      <div className='about-page__container contant   '>
+        <p className='about-page__subtitle text-green'>About</p>
+        <p className='about-page__title title-large-72'>
           Deep Dive into: <br /> Description and Technologies
         </p>
         <div className='about-page__row flex'>
@@ -34,12 +34,12 @@ const AboutProjectPage: FC = () => {
           </p>
 
           <div className='about-page__box'>
-            <p className='about-page__subtitle about-page__subtitle-large text-underline'>implemented functions </p>
+            <p className='about-page__subtitle text-green-large text-underline'>implemented functions </p>
             <Tabs />
           </div>
         </section>
         <div className='about-page__box'>
-          <p className='about-page__subtitle about-page__subtitle-large text-underline'>Main Technologies:</p>
+          <p className='about-page__subtitle  text-green-large text-underline'>Main Technologies:</p>
           <div className='about-page__row about-page__row-wrap flex'>
             {technologies.map((technology, index) => (
               <Link key={index} href={technology.url || '#'} className='about-page__item about-page__item-technology'>
