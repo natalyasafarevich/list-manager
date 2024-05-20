@@ -8,24 +8,6 @@
   &__logo {
     display: flex;
     align-items: center;
-    // display: block;
-    // width: 75px;
-    &::before {
-      content: "";
-      display: block;
-      min-width: 36px;
-      width: 36px;
-      height: 21px;
-      margin-right: 10px;
-      background: center/cover no-repeat url("/Logo-main.svg");
-    }
-    font-weight: 700;
-    font-size: 28px;
-    letter-spacing: -0.07em;
-    text-transform: capitalize;
-    color: var(--primary-color);
-    // height: 30px;
-    // background: center/contain no-repeat url("/Logo.svg");
   }
   &__wrap {
     width: 100%;
@@ -58,5 +40,11 @@
     max-width: 230px;
     width: 100%;
     margin: 0 -5px;
+  }
+  &__box {
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 }

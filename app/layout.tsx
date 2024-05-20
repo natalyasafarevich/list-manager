@@ -8,6 +8,7 @@ import ReduxProvider from '@/providers/ReduxProvider';
 import Header from '@/components/Header/Header';
 import MainHeader from '@/components/MainHeader/MainHeader';
 import Notifications from '@/components/Notifications/Notifications';
+import WrapProvider from '@/providers/WrapProvider';
 
 const popins = Poppins({
   subsets: ['latin'], // Здесь можно указать поддерживаемые подмножества
@@ -30,10 +31,10 @@ export default function RootLayout({
           <Header />
           <div className='flex-basic'>
             <MainHeader />
-            <div className='wrap-85'>
+            <WrapProvider>
               <UserStatus />
               {children}
-            </div>
+            </WrapProvider>
             <Notifications />
           </div>
         </body>

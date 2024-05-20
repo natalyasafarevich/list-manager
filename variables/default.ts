@@ -107,3 +107,10 @@ export const schemeText = [
     text: 'dark',
   },
 ];
+
+export const links = [
+  {href: '/', label: 'Main'},
+  {href: '/assistance', label: 'Assistance'},
+  {href: '/about-project', label: 'About the project'},
+  {href: 'https://github.com/natalyasafarevich/list-manager', label: 'GitHub'},
+];

@@ -29,14 +29,31 @@ body {
 }
 .wrap-85 {
   width: 100%;
+  // overflow-y: scroll;
+  // position: relative;
+}
+.wrap-85-scroll {
+  width: 100%;
   overflow-y: scroll;
   // position: relative;
 }
-@media screen and (min-width: 1801px) {
-  .wrap-85 {
-    // width: 100%;
-    // position: relative;
+.logo {
+  &::before {
+    content: "";
+    display: block;
+    min-width: 36px;
+    width: 36px;
+    height: 21px;
+    margin-right: 10px;
+    background: center/cover no-repeat url("/Logo-main.svg");
   }
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: -0.07em;
+  text-transform: capitalize;
+  color: var(--primary-color);
 }
 .flex-wrap {
   display: flex;

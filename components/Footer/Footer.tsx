@@ -2,6 +2,7 @@ import {FC} from 'react';
 import './Footer.scss';
 import Link from 'next/link';
 import BlueGradientButton from '../Buttons/BlueGradientButton/BlueGradientButton';
+import {links} from '@/variables/default';
 
 const Footer: FC = () => {
   return (
@@ -9,25 +10,19 @@ const Footer: FC = () => {
       <div className='footer__container'>
         <div className='footer__row flex container'>
           <div className='footer__box'>
-            <Link href={'/'} className='footer__logo '></Link>
+            <Link href={'/'} className='footer__logo logo '>
+              HiveMind
+            </Link>
           </div>
           <div className='footer__box'>
             <ul className='footer__list'>
-              <li>
-                <Link href={'/about-project'} className='footer__link'>
-                  About project
-                </Link>
-              </li>
-              <li>
-                <Link href={'/assistance'} className='footer__link'>
-                  Assistance
-                </Link>
-              </li>
-              <li>
-                <Link href={'/'} className='footer__link'>
-                  GitHub
-                </Link>
-              </li>
+              {links.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className='footer__link'>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div className='footer__box'>

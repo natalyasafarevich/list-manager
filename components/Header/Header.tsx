@@ -8,6 +8,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import BlueGradientButton from '../Buttons/BlueGradientButton/BlueGradientButton';
 import {useUrl} from 'nextjs-current-url';
+import {links} from '@/variables/default';
 
 const Header: FC = () => {
   const [activeLink, setActiveLink] = useState('/');
@@ -16,11 +17,7 @@ const Header: FC = () => {
   useEffect(() => {
     setActiveLink(pathname);
   }, [pathname]);
-  const links = [
-    {href: '/', label: 'Main'},
-    {href: '/assistance', label: 'Assistance'},
-    {href: '/about-project', label: 'About the project'},
-  ];
+
   const handleLinkClick = (href: string) => {
     setActiveLink(href);
   };
