@@ -48,17 +48,20 @@ const CardDisplay: FC<CardDisplayProps> = ({card, item}) => {
 
             {markers && (
               <div className='card-display__row'>
-                {Object.keys(markers)?.map((item: any, i) => (
-                  <div
-                    key={i}
-                    className='card-display__markers default-tags'
-                    style={{
-                      background: markers[item].color,
-                    }}
-                  >
-                    {markers[item]?.text}
-                  </div>
-                ))}{' '}
+                {Object.keys(markers)?.map(
+                  (item: any, i) =>
+                    i < 5 && (
+                      <div
+                        key={i}
+                        className='card-display__markers'
+                        style={{
+                          background: markers[item].color,
+                        }}
+                      >
+                        {markers[item]?.text}
+                      </div>
+                    ),
+                )}{' '}
               </div>
             )}
 

@@ -14,7 +14,7 @@ import {formatDate} from '@/helper/formatDate';
 import EditorToolbar from './EditorToolbar/EditorToolbar';
 import EditorContent from './EditorContent/EditorContent';
 import CommentsSection from './CommentsSection/CommentsSection';
-import {stripHtmlTags} from '@/helper/stripHtmlTags';
+// import {stripHtmlTags} from '@/helper/stripHtmlTags';
 import {EditorState} from '@/types/interfaces';
 
 import './TextEditor.scss';
@@ -96,8 +96,8 @@ const TextEditor: FC<TextEditorProps> = ({title, getHTML, firebaseDescription, h
   }, [state.editorHtml, state.isSave]);
 
   const ReactQuillChange = (html: string) => {
-    const textWithoutTags = stripHtmlTags(html);
-    if (textWithoutTags.length) {
+    // const textWithoutTags = stripHtmlTags(html);
+    if (html.length) {
       setState((prevState) => ({
         ...prevState,
         editorHtml: html,
@@ -147,8 +147,8 @@ const TextEditor: FC<TextEditorProps> = ({title, getHTML, firebaseDescription, h
 
   // save the edited comment
   const saveComments = () => {
-    let textWithoutTags = stripHtmlTags(state.editorHtml);
-    if (!textWithoutTags.length) {
+    // let textWithoutTags = stripHtmlTags(state.editorHtml);
+    if (!state.editorHtml.length) {
       setState((prevState) => ({
         ...prevState,
         isOpen: false,

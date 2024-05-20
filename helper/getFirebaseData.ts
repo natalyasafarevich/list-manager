@@ -34,10 +34,7 @@ export async function getDefaultData(path: string) {
     );
   });
 }
-export const fetchBackDefaultData = async (
-  path: string,
-  getUserData: (a: any) => void,
-) => {
+export const fetchBackDefaultData = async (path: string, getUserData: (a: any) => void) => {
   try {
     const columnData = await getDefaultData(path);
     getUserData(columnData);
@@ -46,15 +43,11 @@ export const fetchBackDefaultData = async (
   }
 };
 
-export const fetchBackData = async (
-  id: string,
-  path: string,
-  getUserData: (a: any) => void,
-) => {
+export const fetchBackData = async (id: string, path: string, getUserData: (a: any) => void) => {
   try {
     const columnData = await getFirebaseData(id, path);
     getUserData(columnData);
   } catch (error) {
-    alert(error + '/fetchBackData/');
+    // alert(error + '/fetchBackData/');
   }
 };

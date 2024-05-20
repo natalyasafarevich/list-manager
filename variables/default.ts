@@ -3,10 +3,10 @@ type BG_CARD_PROPS = {
 };
 export const bg_cards = [
   {
-    url: 'https://images.unsplash.com/photo-1549598685-0058b114c9d6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w1ODQ4NDJ8MHwxfGFsbHx8fHx8fHx8fDE3MTI2NTAwMTN8&ixlib=rb-4.0.3&q=85',
+    url: 'https://images.unsplash.com/photo-1715043742450-37463995f921?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
-    url: 'https://images.unsplash.com/photo-1548625149-720134d51a3a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w1ODQ4NDJ8MHwxfGFsbHx8fHx8fHx8fDE3MTI2NTAxNzJ8&ixlib=rb-4.0.3&q=85',
+    url: 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Dы',
   },
   {
     url: 'https://images.unsplash.com/photo-1549241520-425e3dfc01cb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w1ODQ4NDJ8MHwxfGFsbHx8fHx8fHx8fDE3MTI2NTAyNDZ8&ixlib=rb-4.0.3&q=85',
@@ -106,4 +106,14 @@ export const schemeText = [
     title: 'dark',
     text: 'dark',
   },
+];
+
+export const links = [
+  {href: '/', label: 'Main'},
+  {href: '/assistance', label: 'Assistance'},
+  {href: '/about-project', label: 'About the project'},
+  {href: 'https://github.com/natalyasafarevich/list-manager', label: 'GitHub'},
+  {href: '/board/2ae8b75c-a547-4c56-b405-ddb6dcb49570', label: 'Demo Board  '},
+
+  // http://localhost:3000/board/2ae8b75c-a547-4c56-b405-ddb6dcb49570
 ];

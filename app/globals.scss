@@ -4,7 +4,7 @@
   --purple-dark-color: #27104e;
 }
 body {
-  background: #f7f8fa;
+  // background: #f7f8fa;
   // scrollbar-width: thin;
   // scrollbar-color: #7a7a7a86 transparent;
 }
@@ -28,14 +28,59 @@ body {
   border: 3px solid transparent;
 }
 .wrap-85 {
-  width: 85%;
+  width: 100%;
+  // overflow-y: scroll;
   // position: relative;
 }
-@media screen and (min-width: 1801px) {
-  .wrap-85 {
-    // width: 100%;
-    // position: relative;
+.wrap-85-scroll {
+  * {
+    transition: all 0.3s ease;
   }
+
+  width: 100%;
+  overflow-y: scroll;
+  // position: relative;
+}
+// text
+.title-large-72 {
+  font-weight: 500;
+  font-size: 72px;
+  line-height: 125%;
+}
+.text-green {
+  text-transform: uppercase;
+  color: #2b6462;
+}
+.text-green-large {
+  font-size: 25px;
+  font-weight: 500;
+
+  line-height: 150%;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #2b6462;
+}
+.logo {
+  &::before {
+    content: "";
+    display: block;
+    min-width: 36px;
+    width: 36px;
+    height: 21px;
+    margin-right: 10px;
+    background: center/cover no-repeat url("/Logo-main.svg");
+  }
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: -0.07em;
+  text-transform: capitalize;
+  color: var(--primary-color);
+}
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
 }
 .wrap {
   padding: 25px 0;
@@ -131,12 +176,16 @@ body {
   }
 }
 .button-light-blue {
-  background: linear-gradient(134deg, #18a1cc 0%, #92d1ff 100%);
+  border-radius: 70px;
+  background: #3461ff;
   color: var(--secondary-color);
-  font-weight: 600;
-  border-radius: 15px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 111%;
+  text-transform: capitalize;
   min-width: 100px;
-  padding: 15px 5px;
+  padding: 15px;
+  text-align: center;
 }
 .button-shade-gray {
   &:hover {
@@ -237,11 +286,18 @@ body {
   width: 100%;
   margin: 0 auto;
 }
+.container {
+  max-width: 1440px;
+  padding: 0 10px;
+  width: 100%;
+  margin: 0 auto;
+}
 .flex-basic {
+  // flex-wrap: wrap;
   display: flex;
   align-items: stretch;
   position: relative;
-  // height: 100%;
+  // height: inherit;
 }
 .flex {
   display: flex;
@@ -526,6 +582,7 @@ input.input-error {
     transform: rotate(180deg);
   }
 }
+
 .button-border {
   cursor: pointer;
   width: 100%;
@@ -566,7 +623,7 @@ input.input-error {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  transition: all 0.3s ease;
+  // transition: all 0.3s ease;
 }
 
 // body,

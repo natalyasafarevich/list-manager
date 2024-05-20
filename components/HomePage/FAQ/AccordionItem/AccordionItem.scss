@@ -1,0 +1,31 @@
+.accordion-item {
+  cursor: pointer;
+  // .accordion-item__header
+
+  &__header {
+  }
+
+  // .accordion-item__title
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &::after {
+      content: "";
+      width: 25px;
+      height: 25px;
+      display: block;
+      background: center/cover no-repeat url("/material-symbols_add-circle-rounded.svg");
+    }
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 180%;
+  }
+
+  // .accordion-item__content
+
+  &__content {
+    margin-top: 15px;
+  }
+}

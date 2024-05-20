@@ -4,6 +4,9 @@
   justify-content: center;
   height: 100%;
   width: 100%;
+  position: fixed;
+  background-color: #fff;
+  z-index: 1;
 }
 .loader__component {
   width: 200px;

@@ -11,12 +11,7 @@ interface CommentProps {
   changeComment: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
-const Comment: FC<CommentProps> = ({
-  comment,
-  isLoggedIn,
-  user,
-  changeComment,
-}) => {
+const Comment: FC<CommentProps> = ({comment, isLoggedIn, user, changeComment}) => {
   const dispatch: AppDispatch = useDispatch();
   const handleCommentClick = () => {
     if (isLoggedIn) {
@@ -46,12 +41,12 @@ const Comment: FC<CommentProps> = ({
         </div>
       ) : (
         <div>
-          <div
-            className='comments-section__content'
-            data-id={comment.id}
-            dangerouslySetInnerHTML={{__html: comment.title}}
-            aria-disabled
-          ></div>
+          {/* <div
+              className='comments-section__content'
+              data-id={comment.id}
+              dangerouslySetInnerHTML={{__html: comment.title}}
+              aria-disabled
+            ></div> */}
         </div>
       )}
       <div className='comments-section__info'>

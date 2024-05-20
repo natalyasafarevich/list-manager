@@ -3,12 +3,11 @@
     max-width: 1120px;
     width: 100%;
     margin: 0 auto;
+    padding: 20px 0;
   }
   &__logo {
-    display: block;
-    width: 75px;
-    height: 30px;
-    background: center/contain no-repeat url("/Logo.svg");
+    display: flex;
+    align-items: center;
   }
   &__wrap {
     width: 100%;
@@ -21,6 +20,10 @@
     justify-content: space-between;
   }
   &__link {
+    &.active,
+    &:hover {
+      color: #3461ff;
+    }
     color: var(--primary-color);
     margin: 0 5px;
     &_signIn {
@@ -37,5 +40,11 @@
     max-width: 230px;
     width: 100%;
     margin: 0 -5px;
+  }
+  &__box {
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 }

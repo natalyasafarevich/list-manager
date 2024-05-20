@@ -75,23 +75,16 @@ const Contacts: FC = () => {
   };
   return (
     <div className='contacts'>
-      {notification.isUpdate && (
-        <PopupMessage
-          title={notification.title}
-          messageType={notification.messageType}
-        />
-      )}
+      {notification.isUpdate && <PopupMessage title={notification.title} messageType={notification.messageType} />}
       <div className='contacts__container'>
         <p className='contacts__title'>Contacts</p>
-        <p className='contacts__desc'>
-          Links will be displayed on your profile.
-        </p>
+        <p className='contacts__desc'>Links will be displayed on your profile.</p>
         <form onSubmit={handleSubmit}>
           <div className='contacts__box'>
-            {contactLink.map((item, i) => (
+            {contactLink?.map((item, i) => (
               <div key={i} className='contacts__item'>
                 <ContactsInput
-                  inputValue={contactLinks[item.id] || ''}
+                  inputValue={(contactLinks && contactLinks[item?.id]) || ''}
                   item={item}
                   currentValue={(value) => handleInputChange(item.type, value)}
                 />

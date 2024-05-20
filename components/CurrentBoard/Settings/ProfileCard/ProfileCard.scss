@@ -56,6 +56,7 @@
   // .profile-card__box
   &__card {
     position: relative;
+    z-index: 2;
     &::before {
       content: "";
       display: block;
@@ -84,10 +85,15 @@
 
   // .profile-card__row
   &__user {
+    max-width: 100%;
     margin-bottom: 15px;
     .name {
       font-weight: 700;
       font-size: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
       text-align: center;
       color: #252525;
       display: block;

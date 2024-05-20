@@ -39,9 +39,13 @@
 
   &__desc {
     img {
-      display: none;
+      width: 100%;
+      height: 80px;
+      // object-fit: contain;
+      margin-top: 5px;
     }
-    height: 20px;
+    // height: 20px;
+    max-height: 80px;
     * {
       white-space: nowrap;
       overflow: hidden;
@@ -61,10 +65,11 @@
       justify-content: flex-end;
     }
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    overflow: hidden;
+    // justify-content: flex-end;
+    // align-items: center;
     margin: 12px -5px;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
   }
 
   // .card-display__markers
@@ -72,12 +77,12 @@
   &__markers {
     border-radius: 16px;
     min-height: 20px;
-    min-width: 50px;
+    min-width: 40px;
     width: max-content;
     font-size: 11px;
     text-align: center;
     color: var(--secondary-color);
-    padding: 0;
+    padding: 5px;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -12,6 +12,7 @@
   display: flex;
   justify-content: center;
   padding: 25px;
+  align-items: center;
   // .card-settings__container
   &__center {
     display: flex;
@@ -41,11 +42,11 @@
     align-items: flex-start;
   }
   &__marker-item {
-    min-height: 20px;
+    min-height: 25px;
     padding: 0px 14px;
     border-radius: 20px;
     color: var(--secondary-color);
-    margin: 0 5px 5px;
+    margin: 0 5px 7px;
     min-width: 70px;
   }
   &__column-text {

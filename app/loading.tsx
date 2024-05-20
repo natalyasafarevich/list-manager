@@ -1,5 +1,9 @@
-'use client';
+import LoadingComponent from '@/components/LoadingComponent/LoadingComponent';
+
 export default function Loading() {
-  console.log('loadiiing');
-  return <h1>Loading</h1>;
+  return (
+    <>
+      <LoadingComponent />
+    </>
+  );
 }

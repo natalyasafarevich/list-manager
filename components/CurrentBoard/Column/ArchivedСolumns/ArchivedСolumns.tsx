@@ -12,7 +12,7 @@ export const fetchData = async (id: string, index: number, getUserData: (a: any)
     const columnData = await getFirebaseData(id, `/boards/${index}/lists/`);
     getUserData(columnData);
   } catch (error) {
-    alert(error + 'error in new column');
+    // alert(error + 'error in new column');
   }
 };
 // fetchData();

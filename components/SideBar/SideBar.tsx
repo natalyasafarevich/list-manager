@@ -1,9 +1,12 @@
-import {FC, useState} from 'react';
+'use client';
+import {FC, useEffect, useState} from 'react';
 import './SideBar.scss';
 import Link from 'next/link';
 import SignOut from '../auth/SignOut/SignOut';
 import SideBarItem from './SideBarItem/SideBarItem';
 import SubMenu from './SubMenu/SubMenu';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/store';
 
 const links = [
   {url: '/settings/profile', name: 'General settings'},
@@ -14,34 +17,58 @@ const links = [
 interface NavLink {
   path: string;
   label: string;
+  length?: number | null;
 }
 const SideBar: FC = () => {
-  const [navLinks, setNavLinks] = useState<NavLink[]>([
-    {path: '/boards', label: 'Boards'},
-    // {path: '/to-do', label: 'To-Do'},
-    {path: '/templates', label: 'Templates'},
-  ]);
+  const [countBoard, setCountBoard] = useState<null | number>();
+  const [navLinks, setNavLinks] = useState<NavLink[]>([]);
   const [activeLink, setActiveLink] = useState('');
+
+  // const board = useSelector((state: RootState) => state.boards.boards);
+  const user = useSelector((state: RootState) => state.userdata);
+  const {additional_info, uid} = user;
+  console.log(user);
+  // useEffect(() => {
+  //   // board && setCountBoard(Object.keys(board).length);
+  // }, [board]);
+
+  useEffect(() => {
+    setNavLinks([
+      {path: '/boards', label: 'Boards', length: countBoard},
+      {path: '/inbox', label: 'Inbox'},
+      {path: '/templates', label: 'Templates'},
+    ]);
+  }, [countBoard]);
 
   const handleSetActiveLink = (link: string) => {
     setActiveLink(link);
   };
+  console.log(activeLink);
   return (
     <div className={`side-bar `}>
       <div className='side-bar__wrap'>
         <div className='side-bar__container'>
-          <Link href={'/'} className='side-bar__logo'></Link>
+          <Link href={`/profile/${uid}`} className='side-bar__user'>
+            <span className='side-bar__flex'>
+              <span
+                className='side-bar__img'
+                style={{background: `center/cover no-repeat url(${additional_info?.mainPhoto?.url})`}}
+              ></span>
+              <span className='side-bar__name'>{additional_info?.fullName}</span>
+
+              <span className='side-bar__position'>{additional_info?.position}</span>
+            </span>
+          </Link>
+          <p className='side-bar__title'>DASHBOARDS</p>
+
           <div className='side-bar__column'>
             <div className='side-bar__box'>
               {navLinks.map((navLink, index) => (
                 <Link
                   key={index}
                   href={navLink.path}
-                  className={
-                    activeLink === navLink.path
-                      ? 'side-bar__link active'
-                      : 'side-bar__link'
-                  }
+                  data-count={navLink.length}
+                  className={`${activeLink === navLink.path ? 'side-bar__link active' : 'side-bar__link '} ${navLink.length ? 'count' : ''}`}
                   onClick={() => handleSetActiveLink(navLink.path)}
                 >
                   <span>{navLink.label}</span>
@@ -49,32 +76,25 @@ const SideBar: FC = () => {
               ))}
               <ul>
                 <li className='side-bar__link'>
-                  <Link
-                    href={'#'}
-                    className={
-                      activeLink === '#'
-                        ? 'side-bar__link active'
-                        : 'side-bar__link'
-                    }
-                  >
+                  <Link href={'#'} className={activeLink === '#' ? 'side-bar__link active' : 'side-bar__link'}>
                     <span>Account</span>
                   </Link>
                 </li>
                 <li>
                   <SubMenu>
                     {links.map((link, key) => (
-                      <SideBarItem
-                        onClick={() => handleSetActiveLink('#')}
-                        key={key}
-                        href={link.url}
-                      >
+                      <SideBarItem onClick={() => handleSetActiveLink('#')} key={key} href={link.url}>
                         {link.name}
                       </SideBarItem>
                     ))}
                   </SubMenu>
                 </li>
               </ul>
-              <Link href='/assistance' className='side-bar__link'>
+              <Link
+                href='/assistance'
+                onClick={() => handleSetActiveLink('assistance')}
+                className={activeLink === 'assistance' ? 'side-bar__link active' : 'side-bar__link'}
+              >
                 <span>Assistance</span>
               </Link>
             </div>

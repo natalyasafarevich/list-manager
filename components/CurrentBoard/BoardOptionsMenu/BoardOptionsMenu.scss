@@ -53,6 +53,7 @@
   }
   &__row {
     margin: 0 -5px 10px;
+    flex-wrap: wrap;
     justify-content: center;
   }
   &__member {

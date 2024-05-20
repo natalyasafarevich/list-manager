@@ -2,15 +2,13 @@
 
 import type {Metadata} from 'next';
 import {Poppins} from 'next/font/google';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.scss';
 import UserStatus from '@/components/auth/UserStatus/UserStatus';
-import SignOut from '@/components/auth/SignOut/SignOut';
 import ReduxProvider from '@/providers/ReduxProvider';
-import Link from 'next/link';
 import Header from '@/components/Header/Header';
 import MainHeader from '@/components/MainHeader/MainHeader';
 import Notifications from '@/components/Notifications/Notifications';
+import WrapProvider from '@/providers/WrapProvider';
 
 const popins = Poppins({
   subsets: ['latin'], // Здесь можно указать поддерживаемые подмножества
@@ -30,12 +28,13 @@ export default function RootLayout({
     <ReduxProvider>
       <html lang='en'>
         <body className={popins.className}>
+          <Header />
           <div className='flex-basic'>
             <MainHeader />
-            <div className=' wrap-85'>
+            <WrapProvider>
               <UserStatus />
               {children}
-            </div>
+            </WrapProvider>
             <Notifications />
           </div>
         </body>
