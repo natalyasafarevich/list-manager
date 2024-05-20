@@ -27,7 +27,7 @@ const useEmailVerification = () => {
             alert('Письмо с подтверждением отправлено');
           })
           .catch((error: any) => {
-            alert(error.message);
+            // alert(error.message);
           });
       }
     }

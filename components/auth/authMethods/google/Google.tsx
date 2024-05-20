@@ -19,7 +19,7 @@ const GoogleSignInComponent = () => {
   }, [currentUser?.uid]);
 
   useEffect(() => {
-    if (currentUser) {
+    if (user) {
       if (user?.publicName) {
         router.push('/boards');
       } else {

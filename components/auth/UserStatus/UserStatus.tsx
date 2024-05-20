@@ -1,8 +1,8 @@
 'use client';
+
+import {usePathname, redirect} from 'next/navigation';
 import {use, useEffect, useState} from 'react';
 import {getAuth, onAuthStateChanged, User, UserInfo} from 'firebase/auth';
-
-import {useRouter} from 'next/navigation';
 import firebaseApp from '@/firebase';
 import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch, useSelector} from 'react-redux';
@@ -54,7 +54,6 @@ const UserStatus = () => {
     dispatch(getAdditionalInfo(additionalInfo));
   }, [additionalInfo]);
   const [userNames, setUserNames] = useState<Array<string>>([]);
-  // const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserNames(userNames));
   }, [userNames]);
@@ -64,18 +63,21 @@ const UserStatus = () => {
     dispatch(isUserUpdated(false));
   }, [user, current_user.isUpdate]);
   useEffect(() => {
-    console.group(user);
     if (user || current_user.isUpdate) {
       dispatch(getDataUser({...user}));
-      // console.log(current_user?.isUpdate, user, ';user');
 
       fetchBackDefaultData('/user-names/all', setUserNames);
-      // dispatch(isUserUpdated(false));
     } else {
       console.log('Пользователь не вошел.');
     }
   }, [user, current_user.isUpdate]);
 
+  const pathname = usePathname();
+  useEffect(() => {
+    if (current_user && pathname === '/') {
+      redirect('/boards');
+    }
+  }, [current_user]);
   return <div></div>;
 };
 

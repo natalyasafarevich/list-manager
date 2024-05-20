@@ -113,4 +113,7 @@ export const links = [
   {href: '/assistance', label: 'Assistance'},
   {href: '/about-project', label: 'About the project'},
   {href: 'https://github.com/natalyasafarevich/list-manager', label: 'GitHub'},
+  {href: '/board/2ae8b75c-a547-4c56-b405-ddb6dcb49570', label: 'Demo Board  '},
+
+  // http://localhost:3000/board/2ae8b75c-a547-4c56-b405-ddb6dcb49570
 ];

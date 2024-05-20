@@ -33,6 +33,10 @@ body {
   // position: relative;
 }
 .wrap-85-scroll {
+  // * {
+  //   transition: all 0.3s ease;
+  // }
+
   width: 100%;
   overflow-y: scroll;
   // position: relative;
@@ -293,7 +297,7 @@ body {
   display: flex;
   align-items: stretch;
   position: relative;
-  height: inherit;
+  // height: inherit;
 }
 .flex {
   display: flex;

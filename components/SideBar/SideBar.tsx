@@ -35,6 +35,7 @@ const SideBar: FC = () => {
   useEffect(() => {
     setNavLinks([
       {path: '/boards', label: 'Boards', length: countBoard},
+      {path: '/inbox', label: 'Inbox'},
       {path: '/templates', label: 'Templates'},
     ]);
   }, [countBoard]);
@@ -42,12 +43,13 @@ const SideBar: FC = () => {
   const handleSetActiveLink = (link: string) => {
     setActiveLink(link);
   };
+  console.log(activeLink);
   return (
     <div className={`side-bar `}>
       <div className='side-bar__wrap'>
         <div className='side-bar__container'>
           <Link href={`/profile/${uid}`} className='side-bar__user'>
-            <span className='side-bar__flex  flex'>
+            <span className='side-bar__flex'>
               <span
                 className='side-bar__img'
                 style={{background: `center/cover no-repeat url(${additional_info?.mainPhoto?.url})`}}
@@ -88,7 +90,11 @@ const SideBar: FC = () => {
                   </SubMenu>
                 </li>
               </ul>
-              <Link href='/assistance' className='side-bar__link'>
+              <Link
+                href='/assistance'
+                onClick={() => handleSetActiveLink('assistance')}
+                className={activeLink === 'assistance' ? 'side-bar__link active' : 'side-bar__link'}
+              >
                 <span>Assistance</span>
               </Link>
             </div>

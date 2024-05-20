@@ -21,6 +21,7 @@ const ProfileCompletionForm: FC = () => {
   const data = useSelector((state: RootState) => state.auth);
   const router = useRouter();
   const [userNames, setUserNames] = useState<Array<string>>([]);
+
   // const dispatch: AppDispatch = useDispatch();
   // useEffect(() => {
   //   dispatch(getUserNames(userNames));
@@ -64,9 +65,8 @@ const ProfileCompletionForm: FC = () => {
           <p className='completion-form__title'>
             Complete Your Profile
             <span>
-              Please fill in the additional information to complete your
-              profile. This will help us personalize your experience and connect
-              you with relevant content and services.
+              Please fill in the additional information to complete your profile. This will help us personalize your
+              experience and connect you with relevant content and services.
             </span>
           </p>
           <div className='completion-form__item'>

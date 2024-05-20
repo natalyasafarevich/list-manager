@@ -127,10 +127,11 @@
     }
   }
   &__board {
-    width: 25px;
+    min-width: 25px;
     height: 25px;
     margin: 0 7.5px;
     position: relative;
+    display: flex;
   }
   &__form {
     z-index: 1;

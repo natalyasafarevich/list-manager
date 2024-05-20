@@ -1,5 +1,4 @@
 'use client';
-
 import CurrentBoard from '@/components/CurrentBoard/Board';
 import DashboardHeader from '@/components/DashboardHeader/DashboardHeader';
 import {RootState} from '@/store/store';

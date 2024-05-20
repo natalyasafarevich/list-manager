@@ -44,8 +44,8 @@ const LoginComponent = () => {
       const user = userCredential.user;
       clearForm();
       setTimeout(() => {
-        router.push('/complete-profile');
-      }, 1);
+        router.push('/board');
+      }, 0.1);
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
