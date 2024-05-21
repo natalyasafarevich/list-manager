@@ -5,6 +5,9 @@ import {MessageProps} from '@/providers/MessageStatusTracking';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import ArchiveMessage from '../InboxOptions/ArchiveMessage/ArchiveMessage';
+import DeleteMessage from '../InboxOptions/DeleteMessage/DeleteMessage';
+import StarredMessage from '../InboxOptions/StarredMessage/StarredMessage';
+import SpamMessage from '../InboxOptions/SpamMessage/SpamMessage';
 
 interface InboxViewerProps {
   messageId: string;
@@ -27,7 +30,18 @@ const InboxViewer: FC<InboxViewerProps> = ({messageId, isArchived}) => {
     <div className='inbox-viewer'>
       <div className='inbox-viewer__container'>
         <div className='inbox-viewer__header'>
-          <ArchiveMessage isArchived={(e) => isArchived(e)} id={messageId} type={mergedMessages[messageId]?.status} />
+          <div className='inbox-viewer__item'>
+            <ArchiveMessage isArchived={(e) => isArchived(e)} id={messageId} type={mergedMessages[messageId]?.status} />
+          </div>
+          <div className='inbox-viewer__item'>
+            <DeleteMessage isArchived={(e) => isArchived(e)} id={messageId} type={mergedMessages[messageId]?.status} />
+          </div>
+          <div className='inbox-viewer__item'>
+            <StarredMessage isArchived={(e) => isArchived(e)} id={messageId} type={mergedMessages[messageId]?.status} />
+          </div>
+          <div className='inbox-viewer__item'>
+            <SpamMessage isArchived={(e) => isArchived(e)} id={messageId} type={mergedMessages[messageId]?.status} />
+          </div>
         </div>
       </div>
     </div>

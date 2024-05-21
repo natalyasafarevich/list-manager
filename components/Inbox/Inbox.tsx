@@ -52,16 +52,17 @@ const Inbox: FC = () => {
             </div>
             <InboxList getMessageId={(e) => setMessageId(e)} />
           </div>
-          {messageId && (
-            <InboxViewer
-              isArchived={(e) => {
-                setIsArchived(e);
-              }}
-              messageId={messageId}
-            />
-          )}
+          <div className='inbox__viewer'>
+            {messageId && (
+              <InboxViewer
+                isArchived={(e) => {
+                  setIsArchived(e);
+                }}
+                messageId={messageId}
+              />
+            )}
+          </div>
         </div>
-
         {/* <InboxSideBar /> */}
         {/* <div className='inbox__title'>
           Отправленные:

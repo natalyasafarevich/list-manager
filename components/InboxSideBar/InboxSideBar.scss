@@ -68,17 +68,27 @@
 
   &__link-sent {
     &::before {
-      background-position-y: 33%;
+      background-position-y: 19%;
     }
   }
   &__link-starred {
     &::before {
-      background-position-y: 65%;
+      background-position-y: 40%;
     }
   }
   &__link-archive {
     &::before {
-      background-position-y: 99%;
+      background-position-y: 59%;
+    }
+  }
+  &__link-delete {
+    &::before {
+      background-position-y: 79%;
+    }
+  }
+  &__link-spam {
+    &::before {
+      background-position-y: 98%;
     }
   }
   &__button {

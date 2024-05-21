@@ -8,6 +8,8 @@ const inboxLinks = [
   {url: '?n=sent', name: 'Sent', count: 451},
   {url: '?n=starred', name: 'Starred', count: 99},
   {url: '?n=archive', name: 'Archive', count: 25},
+  {url: '?n=delete', name: 'Delete', count: 25},
+  {url: '?n=spam', name: 'Spam', count: 25},
 ];
 const InboxSideBar: FC = () => {
   const searchParams = useSearchParams();

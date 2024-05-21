@@ -303,6 +303,7 @@ body {
     bottom: -21px;
     transition: opacity 0.3s ease;
     opacity: 0;
+    width: max-content;
   }
   &:hover {
     &::after {
