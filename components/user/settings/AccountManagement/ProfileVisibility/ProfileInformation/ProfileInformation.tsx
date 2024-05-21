@@ -87,7 +87,6 @@ const ProfileInformation = () => {
   const data = useSelector(
     (state: RootState) => state.userdata.additional_info,
   );
-  console.log(data);
   useEffect(() => {
     setGeneralInfo(data);
   }, [data]);

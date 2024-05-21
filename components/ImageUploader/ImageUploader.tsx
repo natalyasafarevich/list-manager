@@ -12,12 +12,9 @@ const ImageUploader: FC = () => {
 
   const boardIndex = useSelector((state: RootState) => state.boards.index);
   const boards = useSelector((state: RootState) => state.boards);
-  // console.log(selectedFile);
   const [isUploaded, setIsUploaded] = useState(false);
 
-  const handleImageChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const storage = getStorage();
 
     if (event.target.files) {
@@ -28,7 +25,6 @@ const ImageUploader: FC = () => {
 
         uploadBytes(storageRef, file)
           .then((snapshot) => {
-            console.log(snapshot, 'snapshot');
             setIsUploaded(true);
           })
           .catch((error) => {
@@ -52,18 +48,9 @@ const ImageUploader: FC = () => {
 
   return (
     <div className='image-uploader'>
-      <label
-        htmlFor='file'
-        className='image-uploader__container custom-file-container'
-      >
+      <label htmlFor='file' className='image-uploader__container custom-file-container'>
         <span className='image-uploader__title'>Click to Upload</span>
-        <input
-          className='image-uploader__input'
-          type='file'
-          accept='image/*'
-          id='file'
-          onChange={handleImageChange}
-        />
+        <input className='image-uploader__input' type='file' accept='image/*' id='file' onChange={handleImageChange} />
       </label>
       <div className='image-uploader__file'>
         <FileUploadProgress file={selectedFile} />

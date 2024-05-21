@@ -65,10 +65,7 @@ const UserStatus = () => {
   useEffect(() => {
     if (user || current_user.isUpdate) {
       dispatch(getDataUser({...user}));
-
       fetchBackDefaultData('/user-names/all', setUserNames);
-    } else {
-      console.log('Пользователь не вошел.');
     }
   }, [user, current_user.isUpdate]);
 

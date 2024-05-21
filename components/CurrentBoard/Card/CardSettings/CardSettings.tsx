@@ -41,7 +41,6 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   }, [current_markers]);
   const boardLists = useSelector((state: RootState) => state.boards.currentBoards.lists);
   const current_column = useSelector((state: RootState) => state?.column.data);
-  // console.log(columnName);
 
   useEffect(() => {
     if (boardLists) {

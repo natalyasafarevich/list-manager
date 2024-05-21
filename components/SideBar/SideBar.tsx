@@ -27,7 +27,6 @@ const SideBar: FC = () => {
   // const board = useSelector((state: RootState) => state.boards.boards);
   const user = useSelector((state: RootState) => state.userdata);
   const {additional_info, uid} = user;
-  console.log(user);
   // useEffect(() => {
   //   // board && setCountBoard(Object.keys(board).length);
   // }, [board]);
@@ -43,7 +42,6 @@ const SideBar: FC = () => {
   const handleSetActiveLink = (link: string) => {
     setActiveLink(link);
   };
-  console.log(activeLink);
   return (
     <div className={`side-bar `}>
       <div className='side-bar__wrap'>

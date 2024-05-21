@@ -13,7 +13,6 @@ import {links} from '@/variables/default';
 const Header: FC = () => {
   const [activeLink, setActiveLink] = useState('/');
   const pathname = usePathname();
-  console.log(pathname);
   useEffect(() => {
     setActiveLink(pathname);
   }, [pathname]);

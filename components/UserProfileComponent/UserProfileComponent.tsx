@@ -4,6 +4,8 @@ import {usePathname} from 'next/navigation';
 import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
 import './UserProfileComponent.scss';
 import Link from 'next/link';
+import MiniPopup from '../MiniPopup/MiniPopup';
+import MassageBox from '../MasseageBox/MassageBox';
 
 interface UserProfileComponentProps {
   uid: string;
@@ -31,9 +33,16 @@ const UserProfileComponent: FC<UserProfileComponentProps> = ({uid}) => {
     fetchBackDefaultData(`users/${uid}/additional-info`, setUserData);
     fetchBackDefaultData(`users/${uid}/contacts`, setContacts);
   }, [uid]);
+
+  const [isOpen, setIsOpen] = useState(false);
   if (userData)
     return (
       <div className='user-profile'>
+        {isOpen && (
+          <MiniPopup setIsOpen={setIsOpen} title='title'>
+            <MassageBox recipientId={uid} />
+          </MiniPopup>
+        )}
         <div className='user-profile__container'>
           <div className='user-profile__info'>
             <div
@@ -76,9 +85,9 @@ const UserProfileComponent: FC<UserProfileComponentProps> = ({uid}) => {
               <span>Note: </span>
               {userData?.aboutYourSelf}
             </p>
-            {/* <button className='user-profile__button button-dark'>
+            <button className='user-profile__button button-dark' onClick={() => setIsOpen(!isOpen)}>
               Message
-            </button> */}
+            </button>
           </div>
         </div>
       </div>
