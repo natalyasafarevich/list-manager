@@ -25,6 +25,9 @@ export interface MessagesProps {
   sentMessages: MessageProps;
   archivedMessage: MessageProps;
   receivedMessages: MessageProps;
+  deletedMessage: MessageProps;
+  spamMessage: MessageProps;
+  starredMessage: MessageProps;
 }
 const MessageStatusTracking = ({children}: {children: ReactNode}) => {
   const {uid} = useSelector((state: RootState) => state.userdata);
