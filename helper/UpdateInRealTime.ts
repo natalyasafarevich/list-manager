@@ -8,6 +8,8 @@ export async function UpdateInRealTime(path: string, getData: (a: any) => void) 
     const data = snapshot.val();
     if (data) {
       getData(data);
+    } else {
+      getData({});
     }
   });
 }

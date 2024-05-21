@@ -10,6 +10,7 @@ import InboxSideBar from '../InboxSideBar/InboxSideBar';
 import InboxList from './InboxList/InboxList';
 import './Inbox.scss';
 import InboxViewer from './InboxViewer/InboxViewer';
+import PopupMessage from '../PopupMessage/PopupMessage';
 
 interface MessagesProps {
   sentMessages: {
@@ -34,9 +35,11 @@ interface MessagesProps {
 
 const Inbox: FC = () => {
   const [messageId, setMessageId] = useState('');
+  const [isArchived, setIsArchived] = useState(false);
   return (
     <div className='inbox'>
       <div className='inbox__container'>
+        {isArchived && <PopupMessage title='f' messageType='successes' />}
         <div className='inbox__row flex'>
           <div className='inbox__box'>
             <div className='inbox__header'>
@@ -49,7 +52,14 @@ const Inbox: FC = () => {
             </div>
             <InboxList getMessageId={(e) => setMessageId(e)} />
           </div>
-          <InboxViewer messageId={messageId} />
+          {messageId && (
+            <InboxViewer
+              isArchived={(e) => {
+                setIsArchived(e);
+              }}
+              messageId={messageId}
+            />
+          )}
         </div>
 
         {/* <InboxSideBar /> */}

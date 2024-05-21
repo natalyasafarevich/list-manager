@@ -292,6 +292,24 @@ body {
   width: 100%;
   margin: 0 auto;
 }
+.tooltip {
+  position: relative;
+  &::after {
+    position: absolute;
+    content: attr(title);
+    background-color: #0000002a;
+    padding: 5px 10px;
+    border-radius: 5px;
+    bottom: -21px;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+  }
+  &:hover {
+    &::after {
+      opacity: 1;
+    }
+  }
+}
 .flex-basic {
   // flex-wrap: wrap;
   display: flex;

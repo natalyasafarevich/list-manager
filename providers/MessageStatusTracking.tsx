@@ -23,6 +23,7 @@ export interface MessageProps {
 }
 export interface MessagesProps {
   sentMessages: MessageProps;
+  archivedMessage: MessageProps;
   receivedMessages: MessageProps;
 }
 const MessageStatusTracking = ({children}: {children: ReactNode}) => {
@@ -33,9 +34,8 @@ const MessageStatusTracking = ({children}: {children: ReactNode}) => {
     uid && UpdateInRealTime(`/users/${uid}/messages`, setMessages);
   }, [uid]);
   useEffect(() => {
-    messages && dispatch(getInbox(messages));
+    dispatch(getInbox(messages || ({} as MessagesProps)));
   }, [messages]);
-  console.log(messages);
 
   return <>{children} </>;
 };
