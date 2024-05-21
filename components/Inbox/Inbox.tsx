@@ -36,10 +36,18 @@ interface MessagesProps {
 const Inbox: FC = () => {
   const [messageId, setMessageId] = useState('');
   const [isArchived, setIsArchived] = useState(false);
+  useEffect(() => {
+    isArchived &&
+      setTimeout(() => {
+        setIsArchived(false);
+      }, 2000);
+  }, [isArchived]);
   return (
     <div className='inbox'>
       <div className='inbox__container'>
-        {isArchived && <PopupMessage title='f' messageType='successes' />}
+        {isArchived && (
+          <PopupMessage title={'Success '} message='The message was successfully transferred' messageType={'success'} />
+        )}
         <div className='inbox__row flex'>
           <div className='inbox__box'>
             <div className='inbox__header'>
@@ -63,28 +71,6 @@ const Inbox: FC = () => {
             )}
           </div>
         </div>
-        {/* <InboxSideBar /> */}
-        {/* <div className='inbox__title'>
-          Отправленные:
-          <div className='inbox__'>
-            {messages?.sentMessages &&
-              Object.keys(messages?.sentMessages).map((messageId) => (
-                <div key={messageId} className='message'>
-                  <p>{messages.sentMessages[messageId].messageText}</p>
-                  <p>{messages.sentMessages[messageId].time}</p>
-                </div>
-              ))}
-            <b> Новые:</b>
-            {messages?.receivedMessages &&
-              Object.keys(messages?.receivedMessages).map((messageId) => (
-                <div key={messageId} className='message'>
-                  <p>{messages.receivedMessages[messageId].messageText}</p>
-                  <p>{messages.receivedMessages[messageId].time}</p>
-                  <p>{messages.receivedMessages[messageId].senderId}</p>
-                </div>
-              ))}
-          </div>
-        </div> */}
       </div>
     </div>
   );

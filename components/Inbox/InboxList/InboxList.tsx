@@ -7,6 +7,7 @@ import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch} from 'react-redux';
 import {getMergedMessages} from '@/store/inbox/actions';
 import InboxListItem from './Item/Item';
+import {updateUserData} from '@/helper/updateUserData';
 
 interface InboxListProps {
   getMessageId: (v: string) => void;
@@ -18,6 +19,8 @@ const InboxList: FC<InboxListProps> = ({getMessageId}) => {
   const [activeMessageId, setActiveMessageId] = useState<string | null>(null);
 
   const dispatch: AppDispatch = useDispatch();
+
+  const {uid} = useSelector((state: RootState) => state.userdata);
 
   const {inbox} = useSelector((state: RootState) => state.inbox);
   useEffect(() => {
@@ -40,8 +43,11 @@ const InboxList: FC<InboxListProps> = ({getMessageId}) => {
 
   const handleItemClick = (id: string, message: string) => {
     getMessageId(message);
+
+    updateUserData(`${uid}/messages/receivedMessages/${message}`, {read: true});
     setActiveMessageId(id);
   };
+  console.log(mergedMessages);
   return (
     <div className='inbox-list'>
       <div className='inbox-list__container'>
