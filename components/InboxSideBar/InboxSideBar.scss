@@ -1,0 +1,90 @@
+.inbox-side-bar {
+  // .inbox-side-bar__container
+
+  &__container {
+    padding: 50px 15px;
+    width: 100%;
+  }
+
+  // .inbox-side-bar__title
+
+  &__title {
+    cursor: default;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    background: #4880ff;
+    color: var(--secondary-color);
+    &::before {
+      content: "";
+      width: 24px;
+      height: 24px;
+      display: block;
+      margin-right: 5px;
+      background: center/cover no-repeat url("/mail-icon.svg");
+    }
+    padding: 13px;
+  }
+
+  // .inbox-side-bar__column
+
+  &__column {
+    height: 100%;
+    padding: 32px 0 90px;
+  }
+
+  // .inbox-side-bar__link
+
+  &__link {
+    border-radius: 8px;
+    padding: 13px;
+    display: flex;
+    color: var(--primary-color);
+    &.active {
+      background: #35373957;
+      color: var(--secondary-color);
+      &::after {
+        color: var(--secondary-color);
+      }
+      &::before {
+        background-position-x: 100%;
+      }
+    }
+    &::before {
+      content: "";
+      display: block;
+      margin-right: 5px;
+      width: 24px;
+      height: 24px;
+      background: url("/inbox-icons.svg");
+    }
+    &::after {
+      content: attr(data-count);
+      color: #7f7f7f;
+      margin-left: auto;
+    }
+  }
+
+  &__link-sent {
+    &::before {
+      background-position-y: 33%;
+    }
+  }
+  &__link-starred {
+    &::before {
+      background-position-y: 65%;
+    }
+  }
+  &__link-archive {
+    &::before {
+      background-position-y: 99%;
+    }
+  }
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+  }
+}

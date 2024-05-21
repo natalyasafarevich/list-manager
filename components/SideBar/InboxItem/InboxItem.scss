@@ -1,0 +1,15 @@
+.inbox-item {
+  &__link {
+    margin-bottom: 15px;
+  }
+  &__box {
+    padding: 13px;
+    letter-spacing: 0.02em;
+    color: var(--primary-color);
+    &.active {
+      background: #35373954;
+      border-radius: 8px;
+      padding: 12px 8px;
+    }
+  }
+}

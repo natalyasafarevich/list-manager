@@ -6,6 +6,8 @@ import {RootState} from '@/store/store';
 import {getDatabase, onValue, ref} from 'firebase/database';
 import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
+import InboxSideBar from '../InboxSideBar/InboxSideBar';
+import InboxList from './InboxList/InboxList';
 
 interface MessagesProps {
   sentMessages: {
@@ -29,28 +31,23 @@ interface MessagesProps {
 }
 
 const Inbox: FC = () => {
-  const [messages, setMessages] = useState<MessagesProps | null>(null);
-  const {uid} = useSelector((state: RootState) => state.userdata);
-  const db = getDatabase(firebaseApp);
-  // useEffect(() => {
-  //   const starCountRef = ref(db, `/boards`);
-  //   onValue(starCountRef, (snapshot) => {
-  //     const data = snapshot.val();
-  //     if (data) {
-  //       dispatch(getBoards(data));
-  //     }
-  //   });
-  // }, []);
-  useEffect(() => {
-    UpdateInRealTime(`/users/${uid}/messages`, setMessages);
-  }, []);
-
-  console.log(messages);
-
   return (
     <div className='inbox'>
       <div className='inbox__container'>
-        <div className='inbox__title'>
+        <div className='inbox__row'>
+          <div className='inbox__box'>
+            <p className='inbox__title'>Inbox</p>
+            <p className='inbox__desc'>2445 messages, 2 Unread</p>
+            <div className='inbox__row'>
+              <div className='inbox__search'></div>
+              <div className='inbox__new-message'></div>
+            </div>
+            <InboxList />
+          </div>
+        </div>
+
+        {/* <InboxSideBar /> */}
+        {/* <div className='inbox__title'>
           Отправленные:
           <div className='inbox__'>
             {messages?.sentMessages &&
@@ -58,7 +55,6 @@ const Inbox: FC = () => {
                 <div key={messageId} className='message'>
                   <p>{messages.sentMessages[messageId].messageText}</p>
                   <p>{messages.sentMessages[messageId].time}</p>
-                  {/* Добавьте другие поля, если необходимо */}
                 </div>
               ))}
             <b> Новые:</b>
@@ -68,11 +64,10 @@ const Inbox: FC = () => {
                   <p>{messages.receivedMessages[messageId].messageText}</p>
                   <p>{messages.receivedMessages[messageId].time}</p>
                   <p>{messages.receivedMessages[messageId].senderId}</p>
-                  {/* Добавьте другие поля, если необходимо */}
                 </div>
               ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
