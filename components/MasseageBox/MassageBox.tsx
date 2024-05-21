@@ -1,10 +1,14 @@
-'use client';
 import {updateUserData} from '@/helper/updateUserData';
 import {RootState} from '@/store/store';
+import ImageResize from 'quill-image-resize-module-react';
+import {formats, modules} from '@/variables/edit';
 import {FC, useState} from 'react';
+import {Quill} from 'react-quill';
+import ReactQuill from 'react-quill';
 import {useSelector} from 'react-redux';
 import {v4 as createId} from 'uuid';
-
+import 'react-quill/dist/quill.snow.css';
+Quill.register('modules/imageResize', ImageResize);
 interface MassageBoxProps {
   recipientId: string;
 }
@@ -56,15 +60,28 @@ const MassageBox: FC<MassageBoxProps> = ({recipientId}) => {
     });
     alert('Отправлено');
   };
+
+  const onChange = (html: string) => {
+    setValue(html);
+  };
   return (
     <form className='message-box' onSubmit={handleSubmit}>
       <input type='text' placeholder='title' value={title} onChange={(e) => setTitle(e.currentTarget.value)} />
-      <textarea
+      {/* <textarea
         className='message-box__input'
         onChange={(e) => {
           setValue(e.currentTarget.value);
         }}
-      ></textarea>
+      ></textarea> */}
+      <ReactQuill
+        className='editor'
+        theme='snow'
+        onChange={onChange}
+        value={value}
+        modules={modules}
+        formats={formats}
+        bounds={'#root'}
+      />
       <button className='button-dark'>send</button>
     </form>
   );

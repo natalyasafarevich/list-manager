@@ -6,7 +6,7 @@ import {MessageProps} from '@/providers/MessageStatusTracking';
 interface InboxListItemProps {
   message: any;
 }
-function formatDate(isoString: string) {
+export function formatDate(isoString: string) {
   const date = new Date(isoString);
   const now = new Date();
 
@@ -50,7 +50,12 @@ const InboxListItem: FC<InboxListItemProps> = ({message}) => {
             {item?.title || ''}
             {item?.status === 'delivered' && !item?.read && <span className={`inbox-list-item__unread`}></span>}
           </p>
-          <div className='inbox-list-item__desc'>{item?.messageText}</div>
+          <div
+            className='inbox-list-item__desc'
+            dangerouslySetInnerHTML={{
+              __html: item?.messageText,
+            }}
+          ></div>
         </div>
       </div>
     </div>

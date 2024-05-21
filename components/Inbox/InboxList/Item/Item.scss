@@ -53,6 +53,8 @@
   // .inbox-list-item__desc
 
   &__desc {
+    max-width: 95%;
+    overflow: hidden;
     overflow-wrap: break-word;
     max-height: 35px;
     overflow: hidden;

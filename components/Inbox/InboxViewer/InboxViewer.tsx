@@ -8,6 +8,7 @@ import ArchiveMessage from '../InboxOptions/ArchiveMessage/ArchiveMessage';
 import DeleteMessage from '../InboxOptions/DeleteMessage/DeleteMessage';
 import StarredMessage from '../InboxOptions/StarredMessage/StarredMessage';
 import SpamMessage from '../InboxOptions/SpamMessage/SpamMessage';
+import Message from './Message/Message';
 
 interface InboxViewerProps {
   messageId: string;
@@ -16,7 +17,7 @@ interface InboxViewerProps {
 
 const InboxViewer: FC<InboxViewerProps> = ({messageId, isArchived}) => {
   const [data, setData] = useState<any>({});
-  console.log(data);
+
   const {mergedMessages} = useSelector((state: RootState) => state.inbox);
 
   useEffect(() => {
@@ -42,6 +43,9 @@ const InboxViewer: FC<InboxViewerProps> = ({messageId, isArchived}) => {
           <div className='inbox-viewer__item'>
             <SpamMessage isArchived={(e) => isArchived(e)} id={messageId} type={mergedMessages[messageId]?.status} />
           </div>
+        </div>
+        <div className='inbox-viewer__info'>
+          <Message data={data} />
         </div>
       </div>
     </div>
