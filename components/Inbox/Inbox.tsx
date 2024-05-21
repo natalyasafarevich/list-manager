@@ -8,6 +8,8 @@ import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import InboxSideBar from '../InboxSideBar/InboxSideBar';
 import InboxList from './InboxList/InboxList';
+import './Inbox.scss';
+import InboxViewer from './InboxViewer/InboxViewer';
 
 interface MessagesProps {
   sentMessages: {
@@ -31,19 +33,23 @@ interface MessagesProps {
 }
 
 const Inbox: FC = () => {
+  const [messageId, setMessageId] = useState('');
   return (
     <div className='inbox'>
       <div className='inbox__container'>
-        <div className='inbox__row'>
+        <div className='inbox__row flex'>
           <div className='inbox__box'>
-            <p className='inbox__title'>Inbox</p>
-            <p className='inbox__desc'>2445 messages, 2 Unread</p>
-            <div className='inbox__row'>
-              <div className='inbox__search'></div>
-              <div className='inbox__new-message'></div>
+            <div className='inbox__header'>
+              <p className='inbox__title'>Inbox</p>
+              <p className='inbox__desc'>2445 messages, 2 Unread</p>
+              <div className='inbox__flex flex'>
+                <div className='inbox__search'></div>
+                <div className='inbox__new-message'></div>
+              </div>
             </div>
-            <InboxList />
+            <InboxList getMessageId={(e) => setMessageId(e)} />
           </div>
+          <InboxViewer messageId={messageId} />
         </div>
 
         {/* <InboxSideBar /> */}

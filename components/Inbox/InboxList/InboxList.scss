@@ -1,0 +1,26 @@
+.inbox-list {
+  // .inbox-list__container
+
+  &__container {
+    overflow-y: scroll;
+    height: 77vh;
+    padding: 16px;
+  }
+
+  // .inbox-list__box
+
+  &__box {
+  }
+
+  // .inbox-list__item
+
+  &__item {
+    &.active,
+    &:hover {
+      outline: 1px solid rgba(127, 127, 127, 0.2);
+      border-radius: 8px;
+      background: rgba(53, 55, 57, 0.2392156863);
+    }
+    padding: 24px;
+  }
+}

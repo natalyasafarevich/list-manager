@@ -1,0 +1,66 @@
+.inbox {
+  // .inbox__container
+
+  &__container {
+  }
+
+  // .inbox__row
+
+  &__flex {
+    margin: 0 -8px;
+  }
+
+  // .inbox__box
+
+  &__box {
+    padding: 25px 0;
+    border-right: 1px solid rgb(0, 0, 0, 0.1);
+    max-width: 452px;
+    width: 100%;
+  }
+  &__header {
+    padding: 0 16px 24px;
+    border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+  }
+  // .inbox__title
+
+  &__title {
+    font-weight: 500;
+    font-size: 32px;
+    margin-bottom: 4px;
+  }
+
+  // .inbox__desc
+
+  &__desc {
+    margin-bottom: 25px;
+    color: #7f7f7f;
+  }
+
+  // .inbox__search
+
+  &__search {
+    background: #3537393d;
+    border-radius: 8px;
+    padding: 12px 8px;
+    max-width: 356px;
+    width: 100%;
+    height: 48px;
+    margin: 0 8px;
+  }
+
+  // .inbox__new-message
+
+  &__new-message {
+    border-radius: 8px;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    margin: 0 8px;
+    background:
+      left/cover no-repeat url("/new-message-icon.svg"),
+      #3537393d;
+    background-size: 88px;
+    background-position-x: -9%;
+  }
+}

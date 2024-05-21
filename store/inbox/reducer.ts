@@ -1,12 +1,14 @@
 import {MessagesProps} from '@/providers/MessageStatusTracking';
-import {ActionsType, INBOX} from './actions';
+import {ActionsType, INBOX, MERGED_MESSAGES} from './actions';
 
 interface initialStateProps {
   inbox: MessagesProps;
+  mergedMessages: any;
 }
 
 const initialState: initialStateProps = {
   inbox: {} as MessagesProps,
+  mergedMessages: {},
 };
 export const InboxReducer = (state = initialState, action: ActionsType) => {
   switch (action.type) {
@@ -14,6 +16,12 @@ export const InboxReducer = (state = initialState, action: ActionsType) => {
       return {
         ...state,
         inbox: action.payload,
+      };
+    }
+    case MERGED_MESSAGES: {
+      return {
+        ...state,
+        mergedMessages: action.payload,
       };
     }
 

@@ -5,25 +5,25 @@ import {RootState} from '@/store/store';
 import {ReactNode, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
+
+export interface MessageProps {
+  [id: string]: {
+    messageText: string;
+    read: boolean;
+    senderId: string;
+    status: string;
+    time: string;
+    senderInfo: {
+      name: string;
+      photo: string;
+      publicName: string;
+    };
+    title: string;
+  };
+}
 export interface MessagesProps {
-  sentMessages: {
-    [id: string]: {
-      messageText: string;
-      read: boolean;
-      senderId: string;
-      status: string;
-      time: string;
-    };
-  };
-  receivedMessages: {
-    [id: string]: {
-      messageText: string;
-      read: boolean;
-      senderId: string;
-      status: string;
-      time: string;
-    };
-  };
+  sentMessages: MessageProps;
+  receivedMessages: MessageProps;
 }
 const MessageStatusTracking = ({children}: {children: ReactNode}) => {
   const {uid} = useSelector((state: RootState) => state.userdata);

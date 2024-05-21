@@ -10,13 +10,13 @@ interface MassageBoxProps {
 }
 
 const MassageBox: FC<MassageBoxProps> = ({recipientId}) => {
-  const {uid} = useSelector((state: RootState) => state.userdata);
+  const {uid, additional_info} = useSelector((state: RootState) => state.userdata);
   const [value, setValue] = useState('');
-  const [message, setMessage] = useState('');
+  const [title, setTitle] = useState('');
+  console.log(additional_info.fullName);
 
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(recipientId);
     if (!value) {
       alert('Ввeдите текст');
       return;
@@ -25,15 +25,40 @@ const MassageBox: FC<MassageBoxProps> = ({recipientId}) => {
     var currentTime = new Date();
 
     updateUserData(`${recipientId}/messages/receivedMessages`, {
-      [id]: {read: false, senderId: uid, messageText: value, status: 'delivered', time: currentTime},
+      [id]: {
+        read: false,
+        senderId: uid,
+        messageText: value,
+        status: 'delivered',
+        title: title,
+        time: currentTime,
+        senderInfo: {
+          name: additional_info.fullName,
+          photo: additional_info.mainPhoto.url,
+          publicName: additional_info.publicName,
+        },
+      },
     });
     updateUserData(`${uid}/messages/sentMessages`, {
-      [id]: {read: false, senderId: uid, messageText: value, status: 'sent', time: currentTime},
+      [id]: {
+        read: false,
+        senderId: uid,
+        title: title,
+        messageText: value,
+        status: 'sent',
+        time: currentTime,
+        senderInfo: {
+          name: additional_info.fullName,
+          photo: additional_info.mainPhoto.url,
+          publicName: additional_info.publicName,
+        },
+      },
     });
     alert('Отправлено');
   };
   return (
     <form className='message-box' onSubmit={handleSubmit}>
+      <input type='text' placeholder='title' value={title} onChange={(e) => setTitle(e.currentTarget.value)} />
       <textarea
         className='message-box__input'
         onChange={(e) => {
