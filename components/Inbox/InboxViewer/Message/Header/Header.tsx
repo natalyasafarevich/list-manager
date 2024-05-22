@@ -9,9 +9,10 @@ interface HeaderProps {
   senderInfo: any;
   time: string;
   senderId: string;
+  recipientId: string;
 }
 
-const Header: FC<HeaderProps> = ({senderInfo, time, senderId}) => {
+const Header: FC<HeaderProps> = ({senderInfo, time, senderId, recipientId}) => {
   const {additional_info, uid} = useSelector((state: RootState) => state.userdata);
   const date = formatDate(time);
   return (
@@ -26,7 +27,7 @@ const Header: FC<HeaderProps> = ({senderInfo, time, senderId}) => {
             {senderInfo?.name} <span>{date}</span>
           </div>
           <div className='header-message__text'>
-            to : <Link href={`/profile/${uid}`}>@{additional_info?.publicName}</Link> cc :
+            to : <Link href={`/profile/${uid}`}>@{recipientId}</Link> cc :{' '}
             <Link href={`/profile/${senderId}`}>@{senderInfo?.publicName}</Link>
           </div>
         </div>

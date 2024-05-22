@@ -15,8 +15,17 @@ import {getUserNames} from '@/store/auth/actions';
 
 const UserStatus = () => {
   const [user, setUser] = useState<any>();
-
+  const [usernames, setUsernames] = useState<{[id: string]: string}>({});
   const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    fetchBackDefaultData('/usernames', setUsernames);
+  }, []);
+
+  useEffect(() => {
+    // dispatch(getUserNames(usernames as any));
+  }, [usernames]);
+
+
   const current_user = useSelector((state: RootState) => state.userdata);
 
   const auth = getAuth(firebaseApp);
@@ -65,7 +74,7 @@ const UserStatus = () => {
   useEffect(() => {
     if (user || current_user.isUpdate) {
       dispatch(getDataUser({...user}));
-      fetchBackDefaultData('/user-names/all', setUserNames);
+      fetchBackDefaultData('/usernames', setUserNames);
     }
   }, [user, current_user.isUpdate]);
 

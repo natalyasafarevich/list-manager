@@ -6,6 +6,9 @@ import './UserProfileComponent.scss';
 import Link from 'next/link';
 import MiniPopup from '../MiniPopup/MiniPopup';
 import MassageBox from '../MasseageBox/MassageBox';
+import NewMessage from '../NewMessage/NewMessage';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/store';
 
 interface UserProfileComponentProps {
   uid: string;
@@ -39,9 +42,9 @@ const UserProfileComponent: FC<UserProfileComponentProps> = ({uid}) => {
     return (
       <div className='user-profile'>
         {isOpen && (
-          <MiniPopup setIsOpen={setIsOpen} title='title'>
-            <MassageBox recipientId={uid} />
-          </MiniPopup>
+          <div className='user-profile__new-message'>
+            <NewMessage recipientId={uid} recipientName={userData.publicName} setIsIOpen={(e) => setIsOpen(e)} />
+          </div>
         )}
         <div className='user-profile__container'>
           <div className='user-profile__info'>

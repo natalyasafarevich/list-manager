@@ -13,6 +13,7 @@ export interface MessageProps {
     senderId: string;
     status: string;
     time: string;
+    recipientId: string;
     senderInfo: {
       name: string;
       photo: string;

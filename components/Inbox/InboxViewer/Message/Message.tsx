@@ -6,10 +6,11 @@ interface MessageProps {
   data: any;
 }
 const Message: FC<MessageProps> = ({data}) => {
+  console.log(data);
   return (
     <div className='message'>
       <div className='message__container'>
-        <Header senderId={data.senderId} senderInfo={data.senderInfo} time={data.time} />
+        <Header senderId={data.senderId} senderInfo={data.senderInfo} recipientId={data.recipientId} time={data.time} />
         <div className='message__text'>
           <div className='message__subtitle'> {data.title}</div>
           <div

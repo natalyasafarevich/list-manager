@@ -32,6 +32,7 @@ const MassageBox: FC<MassageBoxProps> = ({recipientId}) => {
       [id]: {
         read: false,
         senderId: uid,
+        recipientId: recipientId,
         messageText: value,
         status: 'delivered',
         title: title,
@@ -50,6 +51,7 @@ const MassageBox: FC<MassageBoxProps> = ({recipientId}) => {
         title: title,
         messageText: value,
         status: 'sent',
+        recipientId: recipientId,
         time: currentTime,
         senderInfo: {
           name: additional_info.fullName,

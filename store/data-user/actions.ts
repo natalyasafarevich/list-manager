@@ -4,6 +4,7 @@ export const DATA_USER = 'data-user/DATA_USER';
 export const RESET_DATA_USER = 'data-user/RESET_DATA_USER';
 export const DATA_USER_FOR_FIREBASE = 'data-user/DATA_USER_FOR_FIREBASE';
 export const DATA_USER_FROM_FIREBASE = 'data-user/DATA_USER_FROM_FIREBASE';
+export const USERNAMES = 'data-user/USERNAMES';
 
 export const UPDATE_LINK = 'data-user/UPDATE_LINK';
 export const USER_UPDATED = 'data-user/USER_UPDATED';
@@ -24,7 +25,8 @@ export type ActionsType =
   | UserUpdatedProp
   | UserStatusProp
   | UserInfoProp
-  | AdditionalInfoProps;
+  | AdditionalInfoProps
+  | UserNamesProps;
 
 export const getDataUser = (data: any) => {
   return {
@@ -107,6 +109,18 @@ export type UserStatusProp = {
 export const getUserStatus = (data: string) => {
   return {
     type: USER_STATUS,
+    payload: data,
+  };
+};
+
+export type UserNamesProps = {
+  type: typeof USERNAMES;
+  payload: {[id: string]: string};
+};
+
+export const getUserNames = (data: {[id: string]: string}) => {
+  return {
+    type: USERNAMES,
     payload: data,
   };
 };

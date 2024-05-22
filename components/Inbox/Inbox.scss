@@ -6,9 +6,6 @@
 
   // .inbox__row
 
-  &__flex {
-    margin: 0 -8px;
-  }
   &__row {
     align-items: baseline;
   }
@@ -18,7 +15,8 @@
   &__box {
     padding: 25px 0;
     border-right: 1px solid rgb(0, 0, 0, 0.1);
-    max-width: 25%;
+    // max-width: 25%;
+    max-width: 400px;
     width: 100%;
   }
   &__viewer {
@@ -34,6 +32,8 @@
   &__title {
     font-weight: 500;
     font-size: 32px;
+    width: 100%;
+    justify-content: space-between;
     margin-bottom: 4px;
   }
 
@@ -44,18 +44,6 @@
     color: #7f7f7f;
   }
 
-  // .inbox__search
-
-  &__search {
-    background: #3537393d;
-    border-radius: 8px;
-    padding: 12px 8px;
-    max-width: 356px;
-    width: 100%;
-    height: 48px;
-    margin: 0 8px;
-  }
-
   // .inbox__new-message
 
   &__new-message {
@@ -64,6 +52,7 @@
     width: 48px;
     height: 48px;
     margin: 0 8px;
+    min-width: 48px;
     background:
       left/cover no-repeat url("/new-message-icon.svg"),
       #3537393d;
@@ -75,5 +64,6 @@
     position: fixed;
     right: 15px;
     bottom: 0;
+    z-index: 9;
   }
 }
