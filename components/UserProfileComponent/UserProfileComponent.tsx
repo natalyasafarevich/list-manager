@@ -1,14 +1,9 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
-import {usePathname} from 'next/navigation';
-import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import './UserProfileComponent.scss';
 import Link from 'next/link';
-import MiniPopup from '../MiniPopup/MiniPopup';
-import MassageBox from '../MasseageBox/MassageBox';
 import NewMessage from '../NewMessage/NewMessage';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/store/store';
 
 interface UserProfileComponentProps {
   uid: string;
@@ -56,7 +51,10 @@ const UserProfileComponent: FC<UserProfileComponentProps> = ({uid}) => {
             ></div>
             <p className='user-profile__name'>
               {userData?.fullName}
-              <span>{userData?.position}</span>
+              <span>{userData?.position}</span>{' '}
+              <span>
+                <b>Public name: </b>@{userData?.publicName}
+              </span>
             </p>
             <div className='user-profile__social'>
               {contacts &&
@@ -82,11 +80,11 @@ const UserProfileComponent: FC<UserProfileComponentProps> = ({uid}) => {
             <div className='user-profile__subtitle'> Details</div>
             <p className='user-profile__desc'>
               <span>Location: </span>
-              {userData?.country}
+              {userData?.country || 'empty'}
             </p>
             <p className='user-profile__desc'>
               <span>Note: </span>
-              {userData?.aboutYourSelf}
+              {userData?.aboutYourSelf || 'empty'}
             </p>
             <button className='user-profile__button button-dark' onClick={() => setIsOpen(!isOpen)}>
               Message

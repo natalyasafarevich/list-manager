@@ -1,6 +1,24 @@
 .inbox-item {
   &__link {
+    display: flex;
+    align-items: center;
     margin-bottom: 15px;
+    &.new-messages {
+      &::after {
+        content: attr(data-count);
+        margin-right: 15px;
+        margin-left: auto;
+        min-width: 25px;
+        height: 25px;
+        padding: 0 2px;
+        background: #006ad4;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--secondary-color);
+      }
+    }
   }
   &__box {
     padding: 13px;

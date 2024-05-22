@@ -36,18 +36,13 @@ const SideBar: FC = () => {
   useEffect(() => {
     setActiveLink(pathname.substring(pathname.lastIndexOf('/') + 1));
   }, [pathname]);
-  console.log(activeLink);
-  // const board = useSelector((state: RootState) => state.boards.boards);
+
   const user = useSelector((state: RootState) => state.userdata);
   const {additional_info, uid} = user;
-  // useEffect(() => {
-  //   // board && setCountBoard(Object.keys(board).length);
-  // }, [board]);
 
   useEffect(() => {
     setNavLinks([
       {path: '/boards', label: 'Boards', length: countBoard},
-      // {path: '/inbox', label: 'Inbox'},
       {path: '/templates', label: 'Templates'},
     ]);
   }, [countBoard]);
@@ -105,26 +100,6 @@ const SideBar: FC = () => {
                   </li>
                 </ul>
                 <InboxItem activeLink={activeLink} handleSetActiveLink={(e) => handleSetActiveLink(e)} />
-                {/* <ul>
-                <li className='side-bar__link'>
-                  <Link
-                    href='/inbox'
-                    onClick={() => handleSetActiveLink('inbox')}
-                    className={activeLink === 'inbox' ? 'side-bar__link active' : 'side-bar__link'}
-                  >
-                    <span>inbox</span>
-                  </Link>
-                </li>
-                <li>
-                  <SubMenu>
-                    {links.map((link, key) => (
-                      <SideBarItem onClick={() => handleSetActiveLink('inbox')} key={key} href={link.url}>
-                        {link.name}
-                      </SideBarItem>
-                    ))}
-                  </SubMenu>
-                </li>
-              </ul> */}
                 <Link
                   href='/assistance'
                   onClick={() => handleSetActiveLink('assistance')}

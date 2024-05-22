@@ -6,7 +6,6 @@ interface MessageProps {
   data: any;
 }
 const Message: FC<MessageProps> = ({data}) => {
-  console.log(data);
   return (
     <div className='message'>
       <div className='message__container'>

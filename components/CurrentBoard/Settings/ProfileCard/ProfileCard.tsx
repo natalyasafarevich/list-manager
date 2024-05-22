@@ -137,7 +137,10 @@ const ProfileCard: FC<ProfileCardProp> = ({userData}) => {
                   ></span>
                   <p className='profile-card__user'>
                     <span className='name'> {userData.name}</span>
-                    <span className='position'> {userData.role}</span>
+
+                    <span className='position'> {userData.role.toUpperCase()}</span>
+                    <br />
+                    <span className='position'> @{userData.publicName.toLocaleLowerCase()}</span>
                   </p>
                   <p className='profile-card__desc'>{userData?.desc}</p>
                 </Link>

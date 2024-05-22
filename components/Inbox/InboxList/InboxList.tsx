@@ -22,10 +22,9 @@ const InboxList: FC<InboxListProps> = ({getMessageId}) => {
   const dispatch: AppDispatch = useDispatch();
   const searchParams = useSearchParams();
 
-  console.log();
   const {uid} = useSelector((state: RootState) => state.userdata);
-
   const {inbox} = useSelector((state: RootState) => state.inbox);
+
   useEffect(() => {
     setMessages(inbox);
   }, [inbox]);

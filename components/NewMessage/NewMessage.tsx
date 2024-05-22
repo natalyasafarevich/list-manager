@@ -37,7 +37,7 @@ const NewMessage: FC<NewMessageProps> = ({recipientId, setIsIOpen, recipientName
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!(user_names as any)[recipients]) {
+    if (!(user_names as any)[recipients.replace('@', '')]) {
       setError(true);
       setTimeout(() => {
         setError(false);
@@ -48,7 +48,7 @@ const NewMessage: FC<NewMessageProps> = ({recipientId, setIsIOpen, recipientName
     const id = createId();
     const currentTime = new Date();
 
-    updateUserData(`${(user_names as any)[recipients]}/messages/receivedMessages`, {
+    updateUserData(`${(user_names as any)[recipients.replace('@', '')]}/messages/receivedMessages`, {
       [id]: {
         read: false,
         senderId: uid,
@@ -56,7 +56,7 @@ const NewMessage: FC<NewMessageProps> = ({recipientId, setIsIOpen, recipientName
         status: 'delivered',
         title: subtitle,
         time: currentTime,
-        recipientId: recipients,
+        recipientId: recipients.replace('@', ''),
         senderInfo: {
           name: additional_info.fullName,
           photo: additional_info.mainPhoto.url,
@@ -71,7 +71,7 @@ const NewMessage: FC<NewMessageProps> = ({recipientId, setIsIOpen, recipientName
         title: subtitle,
         messageText: messageValue,
         status: 'sent',
-        recipientId: recipients,
+        recipientId: recipients.replace('@', ''),
         time: currentTime,
         senderInfo: {
           name: additional_info.fullName,
