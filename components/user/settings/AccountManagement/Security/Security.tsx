@@ -11,11 +11,7 @@ import EmailVerification from './EmailVerification/EmailVerification';
 // import {EmailAuthProvider} from 'firebase/auth/cordova';
 
 const Security: FC = () => {
-  const isVerified = useEmailVerification();
   const auth = getAuth(firebaseApp);
-  const users = auth.currentUser;
-  // console.log(users);
-  // const credential = EmailAuthProvider.credential(users.email, 'currentPassword');
   const user = useSelector((state: RootState) => state.userdata);
   return (
     <div className='security'>

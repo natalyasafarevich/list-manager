@@ -32,8 +32,6 @@ const BoardsList: FC = () => {
           }
         });
       }
-    } else {
-      console.log(' у вас не доcок');
     }
   }, [accessedBoard]);
 
@@ -72,11 +70,7 @@ const BoardsList: FC = () => {
             currenBoards.map(
               (board: any, i: number) =>
                 board.members[user.uid] && (
-                  <Link
-                    key={i}
-                    className='boards-list__item'
-                    href={`board/${board?.id}`}
-                  >
+                  <Link key={i} className='boards-list__item' href={`board/${board?.id}`}>
                     <span
                       className='boards-list__bg'
                       style={{
@@ -87,9 +81,7 @@ const BoardsList: FC = () => {
                     ></span>
                     <span className='boards-list__name'>{board.name}</span>
                     <span className='boards-list__type'>{board.type}</span>
-                    <span className='boards-list__date'>
-                      {board.creationDate}
-                    </span>
+                    <span className='boards-list__date'>{board.creationDate}</span>
                   </Link>
                 ),
             )
@@ -103,11 +95,7 @@ const BoardsList: FC = () => {
             closedBoard?.map((board, i) => {
               return (
                 board?.id && (
-                  <Link
-                    key={i}
-                    className='boards-list__item boards-list__item_closed '
-                    href={`board/${board?.id}`}
-                  >
+                  <Link key={i} className='boards-list__item boards-list__item_closed ' href={`board/${board?.id}`}>
                     <span
                       style={{
                         background: board.currentBg
@@ -118,9 +106,7 @@ const BoardsList: FC = () => {
 
                     <span className='boards-list__name'>{board.name}</span>
                     <span className='boards-list__type'>{board.type}</span>
-                    <span className='boards-list__date'>
-                      {board.creationDate}
-                    </span>
+                    <span className='boards-list__date'>{board.creationDate}</span>
                   </Link>
                 )
               );

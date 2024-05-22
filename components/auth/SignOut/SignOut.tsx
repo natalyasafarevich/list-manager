@@ -19,11 +19,7 @@ const SignOut = () => {
       setTimeout(() => {
         router.push('/');
       }, 0.1);
-
-      console.log('Выход из приложения выполнен успешно');
-    } catch (error) {
-      console.error('Ошибка при выходе из приложения:', error);
-    }
+    } catch (error) {}
   };
 
   return (

@@ -7,6 +7,7 @@ import {
   DATA_USER_FROM_FIREBASE,
   RESET_DATA_USER,
   UPDATE_LINK,
+  USERNAMES,
   USER_STATUS,
   USER_UPDATED,
 } from './actions';
@@ -41,6 +42,7 @@ const initialState = {
     cardIndex: null,
   },
   user_data: {},
+  usernames: {},
 };
 export const DataUserReducer = (state = initialState, action: ActionsType) => {
   switch (action.type) {
@@ -100,6 +102,12 @@ export const DataUserReducer = (state = initialState, action: ActionsType) => {
       return {
         ...state,
         additional_info: action.payload,
+      };
+    }
+    case USERNAMES: {
+      return {
+        ...state,
+        usernames: action.payload,
       };
     }
     default:

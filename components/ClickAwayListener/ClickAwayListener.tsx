@@ -10,15 +10,12 @@ interface ClickAwayListenerProps {
 const ClickAwayListener: FC<ClickAwayListenerProps> = ({children, setIsOpen}) => {
   const handleClickAway = () => {
     setIsOpen(false);
-    console.log(',jdsbldssnl');
   };
 
   return (
-    // <div>
     <ClickAway mouseEvent='onMouseDown' touchEvent='onTouchStart' onClickAway={handleClickAway}>
       <div>{children}</div>
     </ClickAway>
-    // </div>
   );
 };
 export default ClickAwayListener;

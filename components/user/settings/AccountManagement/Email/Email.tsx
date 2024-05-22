@@ -17,32 +17,16 @@ const Email = () => {
   const changeEmail = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     updateEmail(auth.currentUser, 'user@example.com')
-      .then(() => {
-        // console.log('yra');
-        // ...
-      })
+      .then(() => {})
       .catch((error: any) => {
-        console.log(error.code);
       });
-    // const userCredential = await signInWithEmailAndPassword(
-    //   auth,
-    //   'admin@gmail.com',
-    //   '12345678',
-    // ).then(function (userCredential: any) {
-    //   userCredential.user.updateEmail('newyou@domain.example');
-    // });
-    // console.log('click');
   };
   return (
     <div className='d-flex justify-content-center w-100 mb-5'>
       <form onSubmit={changeEmail}>
         <h2 className=''>настроки email</h2>
         <br />
-        <input
-          type='text'
-          value={email}
-          onChange={(e) => setEmail(e.currentTarget.value)}
-        />
+        <input type='text' value={email} onChange={(e) => setEmail(e.currentTarget.value)} />
         <button type='submit'>Save</button>
       </form>
     </div>

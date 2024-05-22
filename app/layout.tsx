@@ -9,6 +9,7 @@ import Header from '@/components/Header/Header';
 import MainHeader from '@/components/MainHeader/MainHeader';
 import Notifications from '@/components/Notifications/Notifications';
 import WrapProvider from '@/providers/WrapProvider';
+import MessageStatusTracking from '@/providers/MessageStatusTracking';
 
 const popins = Poppins({
   subsets: ['latin'], // Здесь можно указать поддерживаемые подмножества
@@ -30,12 +31,14 @@ export default function RootLayout({
         <body className={popins.className}>
           <Header />
           <div className='flex-basic'>
-            <MainHeader />
-            <WrapProvider>
-              <UserStatus />
-              {children}
-            </WrapProvider>
-            <Notifications />
+            <MessageStatusTracking>
+              <MainHeader />
+              <WrapProvider>
+                <UserStatus />
+                {children}
+              </WrapProvider>
+              <Notifications />
+            </MessageStatusTracking>
           </div>
         </body>
       </html>

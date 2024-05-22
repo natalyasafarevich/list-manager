@@ -36,15 +36,7 @@ const ArchivedСolumns: FC = () => {
 
   const returnToBoard = (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = e.currentTarget.dataset.id;
-    // console.log(<allColumns></allColumns>);
-    for (let key in allColumns) {
-      if (key === id) {
-        // updateFirebaseData(`boards/${boardIndex}/lists/${i}`, {
-        //   isArchive: false,
-        // });
-        // dispatch(isArchive({isArchive: false}));
-      }
-    }
+
     allColumns.map((item, i) => {
       if (item.id === id) {
         updateFirebaseData(`boards/${boardIndex}/lists/${i}`, {

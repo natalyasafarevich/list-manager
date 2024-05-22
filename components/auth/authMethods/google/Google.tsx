@@ -10,7 +10,6 @@ import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 
 const GoogleSignInComponent = () => {
   const user = useSelector((state: RootState) => state.userdata.additional_info);
-  // console.log(u);
   const [currentUser, setCurrentUser] = useState<any>();
   const [isExist, setIsExist] = useState<any>();
 
@@ -40,10 +39,7 @@ const GoogleSignInComponent = () => {
       const user = result.user;
       dispatch(isSingInWithGoogle(true));
       setCurrentUser(user);
-      // router.push('/complete-profile');
-      console.log('Google Sign In:', user);
     } catch (error: any) {
-      // dispatch(isSingInWithGoogle(false));
       const errorCode = error.code;
       const errorMessage = error.message;
       const email = error.customData ? error.customData.email : null;

@@ -1,0 +1,47 @@
+.header-message {
+  // .header-message__container
+
+  &__container {
+    display: flex;
+  }
+
+  // .header-message__img
+
+  &__img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    margin-right: 16px;
+  }
+
+  // .header-message__info
+
+  &__info {
+    width: 100%;
+  }
+
+  // .header-message__name
+
+  &__name {
+    margin-bottom: 4px;
+    font-weight: 500;
+    font-size: 18px;
+    justify-content: space-between;
+    span {
+      color: #7f7f7f;
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
+
+  // .header-message__text
+
+  &__text {
+    display: flex;
+    color: #7f7f7f;
+    a {
+      padding: 0 2px;
+      color: var(--primary-color);
+    }
+  }
+}

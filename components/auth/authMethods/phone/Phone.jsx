@@ -60,7 +60,6 @@ const PhoneSignInComponent = () => {
       setError('');
       await confirmationResult.confirm(code);
       setIsSend(true);
-      console.log('User signed in successfully');
     } catch (error) {
       setError('Wrong code, please try again');
     }

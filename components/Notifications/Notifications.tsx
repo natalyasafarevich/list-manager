@@ -50,8 +50,8 @@ const Notifications: FC = () => {
             <p className='notification__subtitle'>New: </p>
             {hasUnviewedNotifications ? (
               <>
-                {notification.map((data) => (
-                  <div key={data.id}>{!data.isViewed && <NotificationItem data={data} isNew={true} />}</div>
+                {notification.map((data, i) => (
+                  <div key={i}>{!data.isViewed && <NotificationItem data={data} isNew={true} />}</div>
                 ))}
               </>
             ) : (
@@ -62,7 +62,7 @@ const Notifications: FC = () => {
           </div>
           <br />
           <p className='notification__subtitle'>Viewed: </p>
-          {notification?.map((data) => <div key={data.id}>{data.isViewed && <NotificationItem data={data} />}</div>)}
+          {notification?.map((data, i) => <div key={i}>{data.isViewed && <NotificationItem data={data} />}</div>)}
         </div>
       </div>
     </div>
