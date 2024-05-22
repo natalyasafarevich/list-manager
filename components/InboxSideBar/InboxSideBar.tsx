@@ -3,18 +3,29 @@ import {FC, useEffect, useState} from 'react';
 import './InboxSideBar.scss';
 import Link from 'next/link';
 import {useSearchParams} from 'next/navigation';
-const inboxLinks = [
-  {url: '?n=general', name: 'General', count: 999},
-  {url: '?n=sent', name: 'Sent', count: 451},
-  {url: '?n=starred', name: 'Starred', count: 99},
-  {url: '?n=archive', name: 'Archive', count: 25},
-  {url: '?n=delete', name: 'Delete', count: 25},
-  {url: '?n=spam', name: 'Spam', count: 25},
-];
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/store';
+
 const InboxSideBar: FC = () => {
   const searchParams = useSearchParams();
   const [url, setUrl] = useState<string | null>('');
-  const [isOpen, setIsOpen] = useState(false);
+  const [inboxLinks, setInboxLink] = useState<Array<any>>([]);
+
+  const {inbox, mergedMessages} = useSelector((state: RootState) => state.inbox);
+  const {sentMessages, starredMessage, archivedMessage, deletedMessage, spamMessage} = inbox;
+
+  useEffect(() => {
+    if (inbox || mergedMessages) {
+      setInboxLink([
+        {url: '?n=general', name: 'General', count: Object.keys(mergedMessages).length || 0},
+        {url: '?n=sent', name: 'Sent', count: sentMessages ? Object.keys(sentMessages).length : 0},
+        {url: '?n=starred', name: 'Starred', count: starredMessage ? Object.keys(starredMessage).length : 0},
+        {url: '?n=archive', name: 'Archive', count: archivedMessage ? Object.keys(archivedMessage).length : 0},
+        {url: '?n=delete', name: 'Delete', count: deletedMessage ? Object.keys(deletedMessage).length : 0},
+        {url: '?n=spam', name: 'Spam', count: spamMessage ? Object.keys(spamMessage).length : 0},
+      ]);
+    }
+  }, [inbox, mergedMessages]);
 
   useEffect(() => {
     setUrl(searchParams.get('n'));

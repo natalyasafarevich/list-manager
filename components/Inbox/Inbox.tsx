@@ -59,7 +59,7 @@ const Inbox: FC = () => {
                 Inbox <button className='inbox__new-message' onClick={(_e) => setIsNewMessage(true)}></button>
               </p>
               <p className='inbox__desc'>
-                {countedMessages.all} messages, {countedMessages.count} Unread
+                {countedMessages.all || 0} messages, {countedMessages.count || 0} Unread
               </p>
             </div>
             <InboxList getMessageId={(e) => setMessageId(e)} />

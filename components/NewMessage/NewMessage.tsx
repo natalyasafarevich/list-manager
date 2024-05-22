@@ -1,15 +1,16 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
-import './NewMessage.scss';
 import ReactQuill, {Quill} from 'react-quill';
 import {updateUserData} from '@/helper/updateUserData';
 import ImageResize from 'quill-image-resize-module-react';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import {v4 as createId} from 'uuid';
-import 'react-quill/dist/quill.snow.css';
 import {formats, modules} from '@/variables/edit';
 import PopupMessage from '../PopupMessage/PopupMessage';
+import 'react-quill/dist/quill.snow.css';
+import './NewMessage.scss';
+
 Quill.register('modules/imageResize', ImageResize);
 
 interface NewMessageProps {
