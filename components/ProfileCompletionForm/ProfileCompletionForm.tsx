@@ -20,12 +20,7 @@ const ProfileCompletionForm: FC = () => {
   const user = useSelector((state: RootState) => state.userdata.uid);
   const data = useSelector((state: RootState) => state.auth);
   const router = useRouter();
-  const [userNames, setUserNames] = useState<Array<string>>([]);
-
-  // const dispatch: AppDispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(getUserNames(userNames));
-  // }, [userNames]);
+  const [userNames, setUserNames] = useState<any>({});
 
   useEffect(() => {
     if (isSecondStepReady) {
@@ -35,7 +30,7 @@ const ProfileCompletionForm: FC = () => {
           ...data.second_step_data,
         },
       });
-      setUserNames((prev) => [...prev, data.first_step_data.publicName]);
+      setUserNames((prev: any) => ({...prev, [data.first_step_data.publicName]: user}));
       setIsSubmit(true);
       setIsSecondStepReady(false);
     }
@@ -43,7 +38,7 @@ const ProfileCompletionForm: FC = () => {
   const [additionalInfo, setAdditionalInfo] = useState<any>();
   useEffect(() => {
     if (isSubmit) {
-      updateFirebaseData('/user-names', {all: userNames});
+      updateFirebaseData('/usernames', userNames);
       setIsSubmit(false);
       fetchBackDefaultData(`/users/${user}/additional-info`, setAdditionalInfo);
     }
@@ -56,7 +51,7 @@ const ProfileCompletionForm: FC = () => {
     }
   }, [additionalInfo]);
   useEffect(() => {
-    fetchBackDefaultData('/user-names/all', setUserNames);
+    fetchBackDefaultData('/usernames', setUserNames);
   }, []);
   return (
     <div className='completion-form'>

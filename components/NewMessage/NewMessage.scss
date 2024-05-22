@@ -1,0 +1,94 @@
+.new-message {
+  width: 100%;
+  // .new-message__container
+  box-shadow:
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12),
+    0 5px 5px -3px rgba(0, 0, 0, 0.2);
+  &__container {
+    border-radius: 8px 8px 0 0;
+
+    overflow: hidden;
+  }
+
+  // .new-message__header
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #424242;
+  }
+
+  // .new-message__title
+
+  &__title {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 120%;
+    letter-spacing: -0.01em;
+    color: var(--secondary-color);
+  }
+
+  // .new-message__button
+
+  &__button {
+    width: 16px;
+    height: 16px;
+    background: center/cover no-repeat url("/icon-close-white.svg");
+  }
+
+  // .new-message__form
+
+  &__form {
+    padding: 0 10px 15px;
+  }
+
+  // .new-message__input
+
+  &__input {
+    &:focus,
+    &:active {
+      outline: none;
+    }
+    padding: 9px 0;
+    display: block;
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid #edeff1;
+  }
+
+  // .new-message__box
+
+  &__box {
+    margin-top: 11px;
+    min-height: 400px;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+  .message-box {
+    .ql-container.ql-snow {
+      margin-top: 25px;
+    }
+    .ql-editor.ql-blank::before {
+      font-size: 15px;
+    }
+    .ql-container.ql-snow,
+    .ql-editor,
+    .ql-blank,
+    .ql-toolbar.ql-snow {
+      padding: 0;
+      border: 0;
+    }
+  }
+  // .new-message__button-submit
+
+  &__button-submit {
+    border-radius: 4px;
+    width: 98px;
+    padding: 9px;
+    background: #1a73e8;
+    color: var(--secondary-color);
+  }
+}

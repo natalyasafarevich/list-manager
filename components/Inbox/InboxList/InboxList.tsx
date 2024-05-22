@@ -47,7 +47,7 @@ const InboxList: FC<InboxListProps> = ({getMessageId}) => {
     updateUserData(`${uid}/messages/receivedMessages/${message}`, {read: true});
     setActiveMessageId(id);
   };
-  console.log(mergedMessages);
+
   return (
     <div className='inbox-list'>
       <div className='inbox-list__container'>

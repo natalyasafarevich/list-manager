@@ -70,4 +70,10 @@
     background-size: 88px;
     background-position-x: -9%;
   }
+  &__form {
+    max-width: 600px;
+    position: fixed;
+    right: 15px;
+    bottom: 0;
+  }
 }

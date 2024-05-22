@@ -1,9 +1,9 @@
 'use client';
 import firebaseApp from '@/firebase';
 import {UpdateInRealTime} from '@/helper/UpdateInRealTime';
-import {fetchBackData} from '@/helper/getFirebaseData';
+import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {RootState} from '@/store/store';
-import {getDatabase, onValue, ref} from 'firebase/database';
+import {getDatabase, onValue, query, ref} from 'firebase/database';
 import {FC, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import InboxSideBar from '../InboxSideBar/InboxSideBar';
@@ -11,6 +11,14 @@ import InboxList from './InboxList/InboxList';
 import './Inbox.scss';
 import InboxViewer from './InboxViewer/InboxViewer';
 import PopupMessage from '../PopupMessage/PopupMessage';
+
+import firebase from 'firebase/app';
+import 'firebase/database';
+import NewMessage from '../NewMessage/NewMessage';
+
+const usernames = {
+  'non.nomen': 'userId2',
+};
 
 interface MessagesProps {
   sentMessages: {
@@ -42,6 +50,23 @@ const Inbox: FC = () => {
         setIsArchived(false);
       }, 2000);
   }, [isArchived]);
+
+  const [value, setValue] = useState('');
+
+  const submit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+  console.log('');
+
+  const [usernames, setUsernames] = useState<any>({});
+
+  useEffect(() => {
+    fetchBackDefaultData('/usernames', setUsernames);
+  }, []);
+  Object.keys(usernames).map((name: any) => {
+    console.log(name);
+  });
+  console.log(Object.keys(usernames));
   return (
     <div className='inbox'>
       <div className='inbox__container'>
@@ -61,14 +86,22 @@ const Inbox: FC = () => {
             <InboxList getMessageId={(e) => setMessageId(e)} />
           </div>
           <div className='inbox__viewer'>
-            {messageId && (
+            {/* {messageId && (
               <InboxViewer
                 isArchived={(e) => {
                   setIsArchived(e);
                 }}
                 messageId={messageId}
               />
-            )}
+            )} */}
+            {/* <form onSubmit={submit} action=''>
+              <input type='text' placeholder='имя пльзавателя' />
+              <textarea onChange={(e) => setValue(e.currentTarget.value)} />
+              <button>submit</button>
+            </form> */}
+            <div className='inbox__form'>
+              <NewMessage />
+            </div>
           </div>
         </div>
       </div>
