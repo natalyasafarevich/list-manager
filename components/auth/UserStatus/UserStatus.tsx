@@ -25,7 +25,6 @@ const UserStatus = () => {
     // dispatch(getUserNames(usernames as any));
   }, [usernames]);
 
-
   const current_user = useSelector((state: RootState) => state.userdata);
 
   const auth = getAuth(firebaseApp);
@@ -80,7 +79,7 @@ const UserStatus = () => {
 
   const pathname = usePathname();
   useEffect(() => {
-    if (current_user && pathname === '/') {
+    if (current_user.uid && pathname === '/') {
       redirect('/boards');
     }
   }, [current_user]);

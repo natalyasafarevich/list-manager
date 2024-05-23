@@ -6,8 +6,9 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import BlueGradientButton from '../Buttons/BlueGradientButton/BlueGradientButton';
 import {links} from '@/variables/default';
-import './Header.scss';
 import ClickAwayListener from '../ClickAwayListener/ClickAwayListener';
+import {HeaderToggle} from '../HeaderToggle/HeaderToggle';
+import './Header.scss';
 
 const Header: FC = () => {
   const [activeLink, setActiveLink] = useState('/');
@@ -68,9 +69,12 @@ const Header: FC = () => {
               </Link>
               <BlueGradientButton
                 title='Sign In'
-                className='header__link header__link_signIn button-light-blue'
+                className='header__link header__link-sign-in button-light-blue'
                 href='/log-in'
               />
+            </div>
+            <div className='header__toggle'>
+              <HeaderToggle />
             </div>
           </div>
         </div>
