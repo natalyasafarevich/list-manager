@@ -88,9 +88,9 @@
     font-size: calc(min(5vw, 32px));
     text-transform: capitalize;
     white-space: nowrap;
+    white-space: preserve;
     span {
       @media (max-width: 1199.98px) {
-        white-space: preserve;
       }
       display: block;
       font-weight: 500;
