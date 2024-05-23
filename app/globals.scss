@@ -370,7 +370,8 @@ body {
 }
 @media (max-width: 575.98px) {
   .auth-container {
-    padding: 30px 20px;
+    padding: 25px 15px 0;
+    box-shadow: none;
   }
 }
 .text-color-button {
@@ -488,8 +489,7 @@ body {
 .auth {
   padding: 79px 0;
   height: 100%;
-  &__container {
-  }
+
   &__text {
     margin-top: clamp(15px, 3vw, 33px);
     text-align: center;
@@ -521,12 +521,15 @@ body {
   &__item {
     margin: 0 10px;
   }
-}
-@media (max-width: 1399.98px) {
-  .auth {
-    padding: 33px 20px;
+  @media (max-width: 767.98px) {
+    padding: 25px 0 0;
+    &__container {
+      border-radius: 0;
+      box-shadow: none;
+    }
   }
 }
+
 @media (max-width: 575.98px) {
   .auth {
     &__link {
@@ -599,6 +602,10 @@ body {
   .register {
     &__text {
       margin-bottom: 10px;
+      margin-left: auto;
+    }
+    .register__input {
+      padding: 10px;
     }
     &__row {
       flex-direction: column-reverse;
