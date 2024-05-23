@@ -4,11 +4,25 @@
     width: 100%;
     margin: 0 auto;
     padding: 20px 0;
+    @media (max-width: 1199.98px) {
+      padding: 20px 15px;
+    }
   }
   &__logo {
     display: flex;
     align-items: center;
+    @media (max-width: 1199.98px) {
+      &.logo {
+        font-size: 16px;
+      }
+    }
+    @media (max-width: 991.98px) {
+      &.logo {
+        font-size: 26px;
+      }
+    }
   }
+
   &__wrap {
     width: 100%;
     max-width: 150px;
@@ -30,7 +44,10 @@
     color: var(--primary-color);
     margin: 0 5px;
     position: relative;
-    &_signIn {
+    &-sign-in {
+      &:hover {
+        color: var(--secondary-color);
+      }
       background: #1b193f;
       border-radius: 39px;
       width: 121px;
@@ -39,16 +56,47 @@
       color: var(--secondary-color);
     }
   }
+  &__toggle {
+    height: 50px;
+    display: none;
+    @media (max-width: 991.98px) {
+      display: block;
+      .header__links {
+        a {
+          color: var(--secondary-color);
+        }
+        &.flex {
+          display: flex;
+        }
+      }
+    }
+  }
   &__links {
+    @media (max-width: 991.98px) {
+      margin-top: 150px;
+      &.flex {
+        display: none;
+      }
+    }
     justify-content: space-between;
     max-width: 230px;
     width: 100%;
     margin: 0 -5px;
   }
   &__popup {
+    @media (max-width: 991.98px) {
+      position: relative;
+      width: 100%;
+      margin-top: 15px;
+      p,
+      span {
+        color: #000;
+      }
+    }
     &:hover {
       color: var(--primary-color);
     }
+
     position: absolute;
     background: var(--secondary-color);
     box-shadow: 0 4px 19px 0 rgba(63, 71, 45, 0.3);
@@ -66,9 +114,25 @@
     }
   }
   &__box {
+    @media (max-width: 991.98px) {
+      &.flex {
+        display: none;
+      }
+    }
     max-width: 600px;
     width: 100%;
     display: flex;
     justify-content: space-between;
   }
+}
+@media (max-width: 1399.98px) {
+}
+@media (max-width: 1199.98px) {
+}
+@media (max-width: 991.98px) {
+}
+@media (max-width: 767.98px) {
+}
+
+@media (max-width: 575.98px) {
 }

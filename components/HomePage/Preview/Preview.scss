@@ -11,6 +11,10 @@
   &__row {
     justify-content: space-between;
     margin: 0 -12px;
+    @media (max-width: 1199.98px) {
+      flex-direction: column;
+      margin: 0;
+    }
   }
 
   // .preview__info
@@ -22,6 +26,10 @@
   }
   &__flex {
     flex-wrap: wrap;
+    @media (max-width: 575.98px) {
+      width: max-content;
+      margin: 0 auto;
+    }
     p {
       padding: 5px;
     }
@@ -30,14 +38,14 @@
 
   &__title {
     font-weight: 600;
-    font-size: 96px;
+    font-size: calc(min(5vw, 96px));
     line-height: 103%;
     letter-spacing: -0.04em;
     text-transform: capitalize;
 
     span {
       padding: 0 2px;
-      margin: 27px 0 44px;
+      margin: calc(min(2vw, 27px)) 0 44px;
       display: block;
       font-weight: 500;
       font-size: 18px;
@@ -45,6 +53,15 @@
       letter-spacing: 0;
       text-transform: none;
       color: rgba(0, 0, 0, 0.6);
+    }
+    @media (max-width: 575.98px) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      span {
+        font-size: calc(min(5vw, 14px));
+      }
     }
   }
 
@@ -76,6 +93,9 @@
     flex-wrap: wrap;
     max-width: 608px;
     width: 100%;
+    @media (max-width: 991.98px) {
+      justify-content: center;
+    }
   }
 
   // .preview__item
@@ -88,8 +108,10 @@
   // .preview__item-1
 
   &__item-1 {
-    max-width: 363px;
-    height: 240px;
+    // max-width: 363px;
+    max-width: min(30vw, 363px);
+    // height: 240px;
+    height: min(30vw, 240px);
     background: top/cover no-repeat
       url("https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     background-position-y: 10%;
@@ -104,12 +126,12 @@
       top: -29%;
       right: 35%;
       display: block;
-      width: 149px;
-      height: 110px;
+      max-width: min(20vw, 149px);
+      height: min(20vw, 110px);
       background: center/contain no-repeat url("/union-icon.svg");
     }
-    height: 240px;
-    max-width: 240px;
+    max-width: min(30vw, 235px);
+    height: min(30vw, 240px);
     background: top/cover no-repeat
       url("https://images.unsplash.com/photo-1499651681375-8afc5a4db253?q=80&w=1997&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   }
@@ -117,8 +139,8 @@
   // .preview__item-3
 
   &__item-3 {
-    max-width: 235px;
-    height: 190px;
+    max-width: min(30vw, 235px);
+    height: min(30vw, 190px);
     background:
       center/contain no-repeat url("/pencil-icon.png"),
       #5d34ff;
@@ -128,8 +150,8 @@
   // .preview__item-4
 
   &__item-4 {
-    max-width: 367px;
-    height: 190px;
+    max-width: min(30vw, 367px);
+    height: min(30vw, 190px);
     background: top/cover no-repeat
       url("https://images.unsplash.com/photo-1533143562855-d018b598571a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   }
@@ -144,12 +166,12 @@
       top: -33%;
       left: 72%;
       display: block;
-      width: 149px;
-      height: 110px;
+      max-width: min(20vw, 149px);
+      height: min(20vw, 110px);
       background: center/contain no-repeat url("/preview-icon.png");
     }
-    width: 40%;
-    height: 240px;
+    max-width: min(30vw, 40%);
+    height: min(30vw, 240px);
     background: top/cover no-repeat
       url("https://images.unsplash.com/photo-1529068755536-a5ade0dcb4e8?q=80&w=2081&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   }
@@ -157,19 +179,18 @@
   // .preview__item-6
 
   &__item-6 {
-    width: 30%;
+    max-width: min(30vw, 30%);
+    height: min(30vw, 240px);
     background: center/contain no-repeat url("/user-icon.png") #e0ff22;
-    height: 240px;
     background-size: 50%;
   }
 
   // .preview__item-7
 
   &__item-7 {
-    width: 30%;
-    height: 240px;
+    max-width: min(30vw, 30%);
+    height: min(30vw, 240px);
     background: center/contain no-repeat url("/crown-icon.png") #ffd360;
-    height: 240px;
     background-size: 50%;
   }
   @keyframes gradientAnimation {
