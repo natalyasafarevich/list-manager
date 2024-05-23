@@ -69,7 +69,7 @@ body {
   color: #2b6462;
 }
 .text-green-large {
-  font-size: 25px;
+  font-size: calc(min(5vw, 25px));
   font-weight: 500;
 
   line-height: 150%;
