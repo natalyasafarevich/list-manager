@@ -1,11 +1,11 @@
 .about {
   // .about__container
-  padding-bottom: 100px;
+  padding-bottom: calc(min(5vw, 100px));
 
   &__container {
     background: #232038;
     border-radius: 56px;
-    @media (max-width: 767.98px) {
+    @media (max-width: 991.98px) {
       border-radius: 0;
     }
     padding: calc(min(5vw, 50px));
