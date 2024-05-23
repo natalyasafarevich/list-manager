@@ -12,6 +12,7 @@ import {NotificationsReducer} from './notifications/reducers';
 import {ContactsReducer} from './contacts/reducer';
 import {CommentsReducer} from './comments/reducer';
 import {InboxReducer} from './inbox/reducer';
+import menuReducer from './menu/reducer';
 
 export default combineReducers({
   auth: AuthReducer,
@@ -27,4 +28,5 @@ export default combineReducers({
   contacts: ContactsReducer,
   comments: CommentsReducer,
   inbox: InboxReducer,
+  menu: menuReducer,
 });

@@ -1,11 +1,11 @@
-import * as React from 'react';
-import {useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import {motion, useCycle} from 'framer-motion';
-import './styles.css';
-import './HeaderToggle.scss';
-
 import {Navigation} from './HeaderNavigation/Navigation';
 import {HeaderIconPath} from './HeaderIconPath/HeaderIconPath';
+import {AppDispatch} from '@/store/store';
+import {useDispatch} from 'react-redux';
+import {toggleMenu} from '@/store/menu/actions';
+import './HeaderToggle.scss';
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -30,6 +30,10 @@ const sidebar = {
 export const HeaderToggle = () => {
   const [isOpen, toggleOpen] = useCycle(false, true);
   const containerRef = useRef(null);
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    dispatch(toggleMenu(isOpen));
+  }, [isOpen]);
 
   return (
     <motion.nav

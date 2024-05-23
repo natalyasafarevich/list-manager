@@ -296,6 +296,9 @@ body {
   padding: 0 30px;
 }
 html {
+  &.no-scroll {
+    overflow: hidden;
+  }
   height: 100%;
   overflow-x: hidden;
 }

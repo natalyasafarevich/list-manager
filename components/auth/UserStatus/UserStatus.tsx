@@ -12,8 +12,10 @@ import {getBoards} from '@/store/board/actions';
 import {updateUserData} from '@/helper/updateUserData';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {getUserNames} from '@/store/auth/actions';
+import useScrollControl from '@/hooks/useScrollControl';
 
 const UserStatus = () => {
+  useScrollControl();
   const [user, setUser] = useState<any>();
   const [usernames, setUsernames] = useState<{[id: string]: string}>({});
   const dispatch: AppDispatch = useDispatch();
