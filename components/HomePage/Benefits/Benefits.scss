@@ -2,8 +2,8 @@
   // .benefits__container
 
   &__container {
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: calc(min(5vw, 50px));
+    padding-bottom: calc(min(5vw, 50px));
   }
 
   // .benefits__row
@@ -11,7 +11,12 @@
   &__row {
     justify-content: space-between;
     margin: 0 -12px;
-    // align-items: stretch;
+    @media (max-width: 1199.98px) {
+      margin: 0;
+    }
+    @media (max-width: 991.98px) {
+      flex-direction: column;
+    }
   }
 
   // .benefits__info
@@ -20,6 +25,10 @@
     margin: 0 6px;
     max-width: 600px;
     width: 100%;
+    @media (max-width: 991.98px) {
+      max-width: 100%;
+      margin: 0;
+    }
   }
 
   // .benefits__title
@@ -32,24 +41,36 @@
       }
       padding: 0 5px;
     }
-    font-size: 64px;
+    font-size: calc(min(7vw, 64px));
+    @media (max-width: 991.98px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
     line-height: 100%;
     letter-spacing: -0.02em;
     text-transform: capitalize;
     span {
       padding: 0 2px;
       display: block;
-      margin-top: 15px;
+      //   font-size: calc(min(5vw, 64px));
+      margin-top: calc(min(2vw, 15px));
       text-transform: none;
       font-weight: 500;
-      font-size: 18px;
+      font-size: calc(min(5vw, 18px));
       line-height: 100%;
       color: rgba(0, 0, 0, 0.6);
     }
   }
 
   // .benefits__box
-
+  .flex-wrap {
+    // @media (max-width: 991.98px) {
+    //   max-width: 65%;
+    // }
+  }
   &__box {
     margin: 0 6px;
     max-width: 600px;
@@ -68,13 +89,16 @@
 
   &__name {
     font-weight: 500;
-    font-size: 32px;
+    font-size: calc(min(5vw, 32px));
     text-transform: capitalize;
     white-space: nowrap;
     span {
+      @media (max-width: 1199.98px) {
+        white-space: preserve;
+      }
       display: block;
       font-weight: 500;
-      font-size: 16px;
+      font-size: calc(min(5vw, 16px));
       line-height: 150%;
       color: rgba(0, 0, 0, 0.6);
     }
@@ -83,13 +107,16 @@
   // .benefits__icon
 
   &__icon {
-    margin-right: 32px;
+    @media (max-width: 575.98px) {
+      border-radius: 10px;
+    }
+    margin-right: calc(min(2vw, 32px));
     background: #3461ff;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 24px;
-    min-width: 106px;
-    height: 106px;
+    min-width: calc(min(12vw, 106px));
+    height: calc(min(12vw, 106px));
   }
 }
