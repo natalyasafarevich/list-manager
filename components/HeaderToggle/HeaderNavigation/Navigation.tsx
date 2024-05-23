@@ -49,7 +49,7 @@ export const Navigation = ({toggle}: MenuToggleProps) => {
           </ClickAwayListener>
         )}
       </HeaderItem>
-      <div className='header__links flex'>
+      <div className='header__links flex' onClick={toggle}>
         <Link className='header__link' href='/registration'>
           Sign Up
         </Link>
