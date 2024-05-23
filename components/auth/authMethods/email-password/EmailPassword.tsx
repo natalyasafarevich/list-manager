@@ -82,7 +82,7 @@ const RegistrationComponent = () => {
 
     try {
       const user = await handleRegister(email, password, name);
-      router.push('/');
+      router.push('/complete-profile');
       clearForm();
     } catch (error: any) {
       const errorCode = error.code;
@@ -109,12 +109,7 @@ const RegistrationComponent = () => {
     <div className='register'>
       <div className='register__container'>
         <form onSubmit={handleSubmit}>
-          <WelcomeHeader
-            name='Sign Up'
-            subTitle='Have an account?'
-            text='Sign In'
-            link='log-in'
-          />
+          <WelcomeHeader name='Sign Up' subTitle='Have an account?' text='Sign In' link='log-in' />
 
           <div className='register__column'>
             <div className='register__box'>
@@ -151,9 +146,7 @@ const RegistrationComponent = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
               />
-              {isIrregularPassword.isIrregular && (
-                <p className='text-error'>{isIrregularPassword.note}</p>
-              )}
+              {isIrregularPassword.isIrregular && <p className='text-error'>{isIrregularPassword.note}</p>}
               <br />
               <InputField
                 className={`${isIrregularPassword.isIrregular ? 'input-error' : ''} register__input`}
