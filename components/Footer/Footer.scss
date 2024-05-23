@@ -84,6 +84,7 @@
     background: var(--primary-color);
     color: var(--secondary-color);
     text-align: center;
-    padding: 15px;
+    padding: calc(min(2vw, 15px));
+    font-size: calc(min(4vw, 14px));
   }
 }

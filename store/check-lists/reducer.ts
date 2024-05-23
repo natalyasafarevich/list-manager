@@ -1,4 +1,4 @@
-import {CheckListProps} from '@/types/interfaces';
+// import {CheckListProps} from '@/types/interfaces';
 import {
   ActionsType,
   CHECK_LISTS,
@@ -8,17 +8,16 @@ import {
   IS_DELETE_LIST,
   IS_UPDATE_TASK,
 } from './actions';
-import {ListTasksProps} from '@/components/CurrentBoard/Card/CardSettings/CreatedCheckList/CheckboxForm/AddItemForm';
 
 interface initialStateProps {
-  lists: Array<CheckListProps>;
-  deleteList: Array<CheckListProps>;
+  lists: Array<any>;
+  deleteList: Array<any>;
   index: any;
   isTaskUpdate: boolean;
   isDeleteList: boolean;
   current_tasks: {
     isCreate: boolean;
-    data: Array<ListTasksProps>;
+    data: Array<any>;
   };
 }
 
@@ -34,10 +33,7 @@ const initialState: initialStateProps = {
   },
 };
 
-export const CheckListsReducer = (
-  state = initialState,
-  action: ActionsType,
-) => {
+export const CheckListsReducer = (state = initialState, action: ActionsType) => {
   switch (action.type) {
     case CHECK_LISTS: {
       const clone = structuredClone(state);
