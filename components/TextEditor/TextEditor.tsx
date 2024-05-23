@@ -131,7 +131,7 @@ const TextEditor: FC<TextEditorProps> = ({title, getHTML, firebaseDescription, h
       owner: uid,
       createDate: editDate,
       photoUrl: additional_info.mainPhoto.url as string,
-      name: displayName as string,
+      name: additional_info.fullName as string,
     };
     setState((prevState) => ({
       ...prevState,

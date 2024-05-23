@@ -1,17 +1,18 @@
 'use client';
 import Link from 'next/link';
 import {FC, useEffect, useState} from 'react';
-import SignOut from '../auth/SignOut/SignOut';
 import {usePathname} from 'next/navigation';
-import './Header.scss';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import BlueGradientButton from '../Buttons/BlueGradientButton/BlueGradientButton';
-import {useUrl} from 'nextjs-current-url';
 import {links} from '@/variables/default';
+import './Header.scss';
+import ClickAwayListener from '../ClickAwayListener/ClickAwayListener';
 
 const Header: FC = () => {
   const [activeLink, setActiveLink] = useState('/');
+  const [isTestingItem, setIsTestingItem] = useState(false);
+
   const pathname = usePathname();
   useEffect(() => {
     setActiveLink(pathname);
@@ -21,6 +22,7 @@ const Header: FC = () => {
     setActiveLink(href);
   };
   const user = useSelector((state: RootState) => state.userdata.uid);
+
   if (!user)
     return (
       <header className='header'>
@@ -42,6 +44,23 @@ const Header: FC = () => {
                   {link.label}
                 </Link>
               ))}
+              <div className={`header__link header__link__test`}>
+                <span onClick={(_e) => setIsTestingItem(!isTestingItem)}>Testing*</span>
+
+                {isTestingItem && (
+                  <ClickAwayListener setIsOpen={(e) => setIsTestingItem(e)}>
+                    <div className='header__popup'>
+                      <p>Data for testing:</p>
+                      <span>
+                        Login: <b>tester@test.com</b>
+                      </span>
+                      <span>
+                        Password: <b>Test1234!</b>
+                      </span>
+                    </div>
+                  </ClickAwayListener>
+                )}
+              </div>
             </div>
             <div className='header__links flex'>
               <Link className='header__link' href='/registration'>
@@ -52,9 +71,6 @@ const Header: FC = () => {
                 className='header__link header__link_signIn button-light-blue'
                 href='/log-in'
               />
-              {/* <Link className='header__link header__link_signIn button-light-blue' href='/log-in'>
-                Sign In
-              </Link> */}
             </div>
           </div>
         </div>
