@@ -3,7 +3,7 @@
 
   &__container {
     padding-top: 40px;
-    padding-bottom: 84px;
+    padding-bottom: calc(min(5vw, 84px));
   }
 
   // .preview__row
@@ -27,7 +27,7 @@
   &__flex {
     flex-wrap: wrap;
     @media (max-width: 575.98px) {
-      width: max-content;
+      // width: max-content;
       margin: 0 auto;
     }
     p {
@@ -38,14 +38,14 @@
 
   &__title {
     font-weight: 600;
-    font-size: calc(min(5vw, 96px));
+    font-size: calc(min(7vw, 96px));
     line-height: 103%;
     letter-spacing: -0.04em;
     text-transform: capitalize;
 
     span {
       padding: 0 2px;
-      margin: calc(min(2vw, 27px)) 0 44px;
+      margin: calc(min(1vw, 27px)) 0 calc(min(1vw, 44px));
       display: block;
       font-weight: 500;
       font-size: 18px;

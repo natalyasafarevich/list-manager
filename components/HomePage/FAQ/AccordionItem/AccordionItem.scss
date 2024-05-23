@@ -1,10 +1,5 @@
 .accordion-item {
   cursor: pointer;
-  // .accordion-item__header
-
-  &__header {
-  }
-
   // .accordion-item__title
 
   &__title {
@@ -19,7 +14,7 @@
       background: center/cover no-repeat url("/material-symbols_add-circle-rounded.svg");
     }
     font-weight: 500;
-    font-size: 20px;
+    font-size: calc(min(4vw, 20px));
     line-height: 180%;
   }
 
