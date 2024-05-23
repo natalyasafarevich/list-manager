@@ -68,7 +68,8 @@ const SideBar: FC = () => {
           {activeLink !== 'inbox' && <p className='side-bar__title'>DASHBOARDS</p>}
 
           {activeLink === 'inbox' ? (
-            <InboxSideBar />
+            // <InboxSideBar />
+            <></>
           ) : (
             <div className='side-bar__column'>
               <div className='side-bar__box'>
