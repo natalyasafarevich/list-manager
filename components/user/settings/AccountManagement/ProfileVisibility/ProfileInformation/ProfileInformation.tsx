@@ -8,9 +8,7 @@ import InputField from './InputField/InputField';
 import {updateUserData} from '@/helper/updateUserData';
 import CountryList from '@/components/CountryList/CountryList';
 import {getAdditionalInfo} from '@/store/data-user/actions';
-import PopupMessage, {
-  PopupMessageProps,
-} from '@/components/PopupMessage/PopupMessage';
+import PopupMessage, {PopupMessageProps} from '@/components/PopupMessage/PopupMessage';
 
 const ProfileInformation = () => {
   const user = useSelector((state: RootState) => state.userdata);
@@ -84,29 +82,27 @@ const ProfileInformation = () => {
     },
   ];
   const [error, setError] = useState('');
-  const data = useSelector(
-    (state: RootState) => state.userdata.additional_info,
-  );
+  const data = useSelector((state: RootState) => state.userdata.additional_info);
   useEffect(() => {
     setGeneralInfo(data);
   }, [data]);
 
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      data.publicName !== generalInfo.publicName &&
-      user_names.includes(generalInfo.publicName)
-    ) {
-      setIsOpenMessage(true);
-      setPopupInfo((prev) => ({
-        ...prev,
-        title: 'Public name',
-        messageType: 'error',
-        message: 'Public name already exists',
-      }));
-      setError('Public name already exists');
-      return;
-    }
+    // if (
+    //   data.publicName !== generalInfo.publicName
+    //   // user_names.includes(generalInfo.publicName)
+    // ) {
+    //   setIsOpenMessage(true);
+    //   setPopupInfo((prev) => ({
+    //     ...prev,
+    //     title: 'Public name',
+    //     messageType: 'error',
+    //     message: 'Public name already exists',
+    //   }));
+    //   setError('Public name already exists');
+    //   return;
+    // }
     setError('');
     setIsChanged(false);
     setPopupInfo({title: '', messageType: '', message: ''});
@@ -145,9 +141,7 @@ const ProfileInformation = () => {
               changedValue={field.setValue}
               readOnly={field.readOnly}
             />
-            {field.label === 'Public name' && (
-              <p className='text-error'>{error}</p>
-            )}
+            {field.label === 'Public name' && <p className='text-error'>{error}</p>}
           </div>
         ))}
       </div>
@@ -155,9 +149,7 @@ const ProfileInformation = () => {
         <p className='profile-information__subtitle'>Country</p>
 
         <CountryList
-          getCountry={(e) =>
-            setGeneralInfo((prevState) => ({...prevState, country: e}))
-          }
+          getCountry={(e) => setGeneralInfo((prevState) => ({...prevState, country: e}))}
           currentCountry={generalInfo?.country}
         />
       </div>
@@ -174,10 +166,7 @@ const ProfileInformation = () => {
         }}
       ></textarea>
       {isChanged && (
-        <button
-          className='button-dark profile-information__button'
-          type='submit'
-        >
+        <button className='button-dark profile-information__button' type='submit'>
           Save
         </button>
       )}

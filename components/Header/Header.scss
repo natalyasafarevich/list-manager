@@ -20,12 +20,16 @@
     justify-content: space-between;
   }
   &__link {
+    &__test {
+      cursor: pointer;
+    }
     &.active,
     &:hover {
       color: #3461ff;
     }
     color: var(--primary-color);
     margin: 0 5px;
+    position: relative;
     &_signIn {
       background: #1b193f;
       border-radius: 39px;
@@ -41,8 +45,28 @@
     width: 100%;
     margin: 0 -5px;
   }
+  &__popup {
+    &:hover {
+      color: var(--primary-color);
+    }
+    position: absolute;
+    background: var(--secondary-color);
+    box-shadow: 0 4px 19px 0 rgba(63, 71, 45, 0.3);
+    z-index: 1;
+    left: 0;
+    padding: 5px;
+    border-radius: 5px;
+    p {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    span {
+      margin-bottom: 5px;
+      display: flex;
+    }
+  }
   &__box {
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
     display: flex;
     justify-content: space-between;
