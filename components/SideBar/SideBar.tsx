@@ -13,6 +13,7 @@ import {usePathname} from 'next/navigation';
 import useResponsive from '@/hooks/useResponsive';
 import CreateBoardForm from '../CreateBoardForm/CreateBoardForm';
 import AddBoard from './Mobile/AddBoard';
+import NotificationButton from '../NotificationButton/NotificationButton';
 
 const links = [
   {url: '/settings/profile', name: 'General settings'},
@@ -97,7 +98,7 @@ const SideBar: FC = () => {
                   </Link>
                 ))}
                 {/* <CreateBoardForm setIsOpen={setIsOpen} isClose={isOpen} /> */}
-                {isMobile && <AddBoard />}
+                {isMobile && <AddBoard />} {isMobile && <NotificationButton />}
                 <ul>
                   <li className=''>
                     <Link
@@ -120,7 +121,7 @@ const SideBar: FC = () => {
                     </li>
                   )}
                 </ul>
-                <InboxItem activeLink={activeLink} handleSetActiveLink={(e) => handleSetActiveLink(e)} />
+                {!isMobile && <InboxItem activeLink={activeLink} handleSetActiveLink={(e) => handleSetActiveLink(e)} />}
                 {!isMobile && (
                   <Link
                     href='/assistance'
