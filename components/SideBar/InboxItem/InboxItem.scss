@@ -19,6 +19,9 @@
         color: var(--secondary-color);
       }
     }
+    @media (max-width: 991.98px) {
+      height: 35px;
+    }
   }
   &__box {
     padding: 13px;

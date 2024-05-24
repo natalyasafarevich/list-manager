@@ -59,6 +59,7 @@
     }
   }
   &__favorite {
+    white-space: nowrap;
     color: var(--purple-dark-color);
     cursor: pointer;
     position: relative;

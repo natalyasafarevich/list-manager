@@ -2,19 +2,26 @@
   * {
     transition: all 0.3s ease;
   }
-  top: 0;
-  left: 0px;
+
   z-index: 2;
   width: 100%;
   max-width: 250px;
   min-width: 250px;
-  transition: all 0.5s ease;
+  @media (max-width: 991.98px) {
+    position: fixed;
+    bottom: 0;
+    max-width: 100%;
+    z-index: 1;
+  }
   &__flex {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     flex-wrap: wrap;
+    @media (max-width: 991.98px) {
+      display: none;
+    }
   }
   &__position {
     text-align: center;
@@ -137,7 +144,6 @@
   }
   &__container {
     position: relative;
-    // border-radius: 0 20px 20px 0;
     padding: 30px 0;
     background: #f3f5f9;
     border-right: 1px solid rgba(151, 151, 151, 0.2941176471);
@@ -147,6 +153,11 @@
     // opacity: 0;
     opacity: 1;
     transition: all 0.5s ease;
+    @media (max-width: 991.98px) {
+      padding: 8px 20px;
+      box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.2);
+      background: var(--secondary-color);
+    }
   }
 
   // .side-bar__logo
@@ -166,14 +177,23 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%; /* Устанавливаем высоту равной 100% */
+    height: 100%;
     align-items: center;
+    @media (max-width: 991.98px) {
+      min-height: 70px;
+    }
   }
 
   // .side-bar__link
   &__box {
     padding: 0 5px 0 25px;
     width: 100%;
+    @media (max-width: 991.98px) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
   }
   &__nested {
     padding-left: 20px;
@@ -205,16 +225,31 @@
       span {
         color: var(--secondary-color);
       }
-
-      // background-color: var(--primary-color);
-      // border-radius: 50%;
     }
-    // &_board.active::before {
-    //   background: center/cover no-repeat url("/board-icon-focus.svg");
-    // }
-    &:hover {
-      // transform: scale(1.1);
-      span {
+    @media (max-width: 991.98px) {
+      width: 35px;
+      max-width: 35px;
+      height: 35px;
+      background: no-repeat url("/dashboard-icon-mobile.svg");
+      &.active {
+        width: auto;
+        background: no-repeat url("/dashboard-icon-mobile.svg");
+        background-color: transparent;
+        background-position-y: 100%;
+
+        &::before {
+          content: none;
+        }
+      }
+
+      &-templates {
+        background-position-x: 32%;
+      }
+      &-account {
+        background-position-x: 66%;
+      }
+      &-inbox {
+        background-position-x: 100%;
       }
     }
   }
@@ -224,4 +259,3 @@
     width: 100%;
   }
 }
-// board-icon-unfocus
