@@ -9,13 +9,14 @@ import {fetchBackData} from '@/helper/getFirebaseData';
 import {getDatabase, onValue, ref} from 'firebase/database';
 import firebaseApp from '@/firebase';
 import CreateBoardForm from '../CreateBoardForm/CreateBoardForm';
+import useResponsive from '@/hooks/useResponsive';
 
 const BoardsList: FC = () => {
   const [closedBoard, setClosedBoard] = useState<Array<BoardProps>>([]);
   const user = useSelector((state: RootState) => state.userdata);
   const [openBoard, setOpenBoard] = useState<Array<BoardProps>>([]);
   const db = getDatabase(firebaseApp);
-
+  const {isMobile} = useResponsive();
   const [accessedBoard, setAccessedBoard] = useState<any>();
   const [otherBoard, setOtherBoard] = useState<Array<any>>([]);
   useEffect(() => {
@@ -58,12 +59,17 @@ const BoardsList: FC = () => {
       <div className='boards-list__container padding-2-3'>
         <div className='boards-list__row'>
           <p className='boards-list__title'>Your boards</p>
-          <button className='button-dark' onClick={() => setIsOpen(!isOpen)}>
-            Create a new board
-          </button>
-          <div className='boards-list__form'>
-            <CreateBoardForm setIsOpen={setIsOpen} isClose={isOpen} />
-          </div>
+          {!isMobile && (
+            <>
+              {' '}
+              <button className='button-dark' onClick={() => setIsOpen(!isOpen)}>
+                Create a new board
+              </button>
+              <div className='boards-list__form'>
+                <CreateBoardForm setIsOpen={setIsOpen} isClose={isOpen} />
+              </div>
+            </>
+          )}
         </div>
         <div className='boards-list__box'>
           {currenBoards.length ? (
