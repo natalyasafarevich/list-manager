@@ -11,10 +11,37 @@ const AddBoard: FC = () => {
         <CreateBoardForm setIsOpen={setIsOpen} isClose={isOpen} />
       </div>
       <button onClick={() => setIsOpen(!isOpen)} className='button-add-board'>
-        <svg width='53' height='53' viewBox='0 0 53 53' fill='none' xmlns='http://www.w3.org/2000/svg'>
-          <circle cx='26.5' cy='26.5' r='26.5' fill='#0560FD' />
-          <path d='M26 17V36' stroke='white' stroke-width='2' stroke-linecap='round' />
-          <path d='M36 27H17' stroke='white' stroke-width='2' stroke-linecap='round' />
+        <svg width='64' height='64' viewBox='0 0 64 64' fill='none' xmlns='http://www.w3.org/2000/svg'>
+          <g filter='url(#filter0_d_12_1067)'>
+            <rect x='6' y='3' width='52' height='52' rx='26' fill='#1DA1FA' shape-rendering='crispEdges' />
+            <path d='M26 29H38' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' />
+            <path d='M32 35V23' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' />
+          </g>
+          <defs>
+            <filter
+              id='filter0_d_12_1067'
+              x='0'
+              y='0'
+              width='64'
+              height='64'
+              filterUnits='userSpaceOnUse'
+              color-interpolation-filters='sRGB'
+            >
+              <feFlood flood-opacity='0' result='BackgroundImageFix' />
+              <feColorMatrix
+                in='SourceAlpha'
+                type='matrix'
+                values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+                result='hardAlpha'
+              />
+              <feOffset dy='3' />
+              <feGaussianBlur stdDeviation='3' />
+              <feComposite in2='hardAlpha' operator='out' />
+              <feColorMatrix type='matrix' values='0 0 0 0 0.583 0 0 0 0 0.815145 0 0 0 0 0.971667 0 0 0 1 0' />
+              <feBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_12_1067' />
+              <feBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_12_1067' result='shape' />
+            </filter>
+          </defs>
         </svg>
       </button>
     </>

@@ -93,7 +93,7 @@ const SideBar: FC = () => {
                      ${navLink.length ? 'count' : ''}`}
                     onClick={() => handleSetActiveLink(navLink.path)}
                   >
-                    {!isMobile && <span>{navLink.label}</span>}
+                    <span>{navLink.label}</span>
                   </Link>
                 ))}
                 {/* <CreateBoardForm setIsOpen={setIsOpen} isClose={isOpen} /> */}
@@ -104,7 +104,7 @@ const SideBar: FC = () => {
                       href={isMobile ? '/settings' : '#'}
                       className={activeLink === '#' ? 'side-bar__link active' : `side-bar__link side-bar__link-account`}
                     >
-                      {!isMobile && <span>Account</span>}
+                      <span>Account</span>
                     </Link>
                   </li>
 

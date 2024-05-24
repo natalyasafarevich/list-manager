@@ -154,9 +154,11 @@
     opacity: 1;
     transition: all 0.5s ease;
     @media (max-width: 991.98px) {
-      padding: 8px 20px;
-      box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.2);
-      background: var(--secondary-color);
+      padding: 0px 15px;
+      filter: drop-shadow(0 3px 6px #95d0f8);
+      background:
+        center/cover no-repeat url("/dashboard-footer.svg"),
+        transparent;
     }
   }
 
@@ -192,7 +194,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 0;
+      padding: 5px 0;
     }
   }
   &__nested {
@@ -227,28 +229,54 @@
       }
     }
     @media (max-width: 991.98px) {
-      width: 35px;
-      max-width: 35px;
-      height: 35px;
-      background: no-repeat url("/dashboard-icon-mobile.svg");
-      &.active {
-        width: auto;
-        background: no-repeat url("/dashboard-icon-mobile.svg");
-        background-color: transparent;
-        background-position-y: 100%;
+      flex-direction: column;
+      align-items: center;
+      font-weight: 400;
+      font-size: calc(min(3vw, 15px));
 
+      line-height: 125%;
+      letter-spacing: 0.02em;
+      span {
+        padding: 0;
+        color: #a2a2a2;
+      }
+      &::before {
+        content: "";
+        width: 35px;
+        max-width: 25px;
+        height: 35px;
+        display: block;
+        background: no-repeat url("/dashboard-icon-mobile.svg");
+      }
+
+      &.active {
         &::before {
-          content: none;
+          width: 35px;
+          max-width: 25px;
+          left: 0;
+          background: no-repeat url("/dashboard-icon-mobile.svg");
+          background-color: transparent;
+          background-position-y: 148%;
+        }
+        span {
+          color: #a2a2a2;
+        }
+        width: auto;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        span {
+          color: #1da1fa;
         }
       }
 
-      &-templates {
+      &-templates::before {
         background-position-x: 32%;
       }
-      &-account {
+      &-account::before {
         background-position-x: 66%;
       }
-      &-inbox {
+      &-inbox::before {
         background-position-x: 100%;
       }
     }

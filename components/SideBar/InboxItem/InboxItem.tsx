@@ -35,7 +35,7 @@ const InboxItem: FC<InboxItemProps> = ({handleSetActiveLink, activeLink}) => {
           }}
           className={activeLink === 'inbox' ? 'side-bar__link active' : 'side-bar__link side-bar__link-inbox'}
         >
-          {!isMobile && <span>Inbox</span>}
+          <span>Inbox</span>
         </Link>
       </li>
     </ul>
