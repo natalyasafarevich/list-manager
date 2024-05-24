@@ -3,6 +3,7 @@ import {useMediaQuery} from 'react-responsive';
 
 const useResponsive = () => {
   const [isMobile, setIsMobile] = useState(useMediaQuery({maxWidth: 991}));
+
   const [isDesktop, setIsDesktop] = useState(useMediaQuery({minWidth: 1024}));
 
   useEffect(() => {

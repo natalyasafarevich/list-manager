@@ -53,6 +53,9 @@
   // .inbox-list-item__desc
 
   &__desc {
+    img {
+      display: none;
+    }
     max-width: 95%;
     overflow: hidden;
     overflow-wrap: break-word;

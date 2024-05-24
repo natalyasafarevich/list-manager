@@ -1,7 +1,12 @@
 .inbox {
+  * {
+    transition: all 0.3s ease;
+  }
   // .inbox__container
 
   &__container {
+    @media (max-width: 1199.98px) {
+    }
   }
 
   // .inbox__row
@@ -18,14 +23,30 @@
     // max-width: 25%;
     max-width: 400px;
     width: 100%;
+    @media (max-width: 1199.98px) {
+      max-width: 300px;
+    }
+    @media (max-width: 991.98px) {
+      max-width: 100%;
+      border: none;
+    }
   }
   &__viewer {
+    display: none;
     max-width: 72%;
     width: 100%;
   }
   &__header {
     padding: 0 16px 24px;
     border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+    @media (max-width: 991.98px) {
+      padding: 130px 16px 0;
+      border: none;
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
   // .inbox__title
 
@@ -35,6 +56,9 @@
     width: 100%;
     justify-content: space-between;
     margin-bottom: 4px;
+    @media (max-width: 991.98px) {
+      width: auto;
+    }
   }
 
   // .inbox__desc
@@ -42,6 +66,9 @@
   &__desc {
     margin-bottom: 25px;
     color: #7f7f7f;
+    @media (max-width: 991.98px) {
+      margin-bottom: 0px;
+    }
   }
 
   // .inbox__new-message
@@ -65,5 +92,10 @@
     right: 15px;
     bottom: 0;
     z-index: 9;
+    @media (max-width: 991.98px) {
+      height: 100%;
+      max-width: 100%;
+      right: 0;
+    }
   }
 }

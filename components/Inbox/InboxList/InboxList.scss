@@ -6,13 +6,13 @@
     overflow-x: hidden;
     height: 100vh;
     padding: 16px;
+    @media (max-width: 991.98px) {
+      // padding-top: 50px;
+    }
     // overflow-x: hidden;
   }
 
   // .inbox-list__box
-
-  &__box {
-  }
 
   // .inbox-list__item
 
@@ -24,5 +24,8 @@
       background: rgba(53, 55, 57, 0.2392156863);
     }
     padding: 24px;
+    @media (max-width: 1199.98px) {
+      padding: 7px 5px;
+    }
   }
 }

@@ -8,6 +8,7 @@ import PopupMessage from '../PopupMessage/PopupMessage';
 import NewMessage from '../NewMessage/NewMessage';
 import 'firebase/database';
 import './Inbox.scss';
+import useResponsive from '@/hooks/useResponsive';
 
 const Inbox: FC = () => {
   const [isNewMessage, setIsNewMessage] = useState(false);
@@ -19,7 +20,7 @@ const Inbox: FC = () => {
   });
 
   const {inbox} = useSelector((state: RootState) => state.inbox);
-
+  const {isMobile} = useResponsive();
   useEffect(() => {
     if (inbox.receivedMessages) {
       setCountedMessages((prev: any) => ({...prev, all: Object.keys(inbox?.receivedMessages).length}));
@@ -56,8 +57,10 @@ const Inbox: FC = () => {
           <div className='inbox__box'>
             <div className='inbox__header'>
               <p className='inbox__title flex'>
-                Inbox <button className='inbox__new-message' onClick={(_e) => setIsNewMessage(true)}></button>
+                {!isMobile && ' Inbox'}
+                <button className='inbox__new-message' onClick={(_e) => setIsNewMessage(true)}></button>
               </p>
+
               <p className='inbox__desc'>
                 {countedMessages.all || 0} messages, {countedMessages.count || 0} Unread
               </p>

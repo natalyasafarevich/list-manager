@@ -21,12 +21,7 @@ const links = [
   {url: '/settings/security', name: 'Security'},
   {url: '/settings/delete-account', name: 'Delete account'},
 ];
-// const inboxLinks = [
-//   {url: '?=general', name: 'General'},
-//   {url: '?=sent', name: 'Sent'},
-//   {url: '?=starred', name: 'Starred'},
-//   {url: '?=archive', name: 'Archive'},
-// ];
+
 interface NavLink {
   path: string;
   label: string;
@@ -77,7 +72,9 @@ const SideBar: FC = () => {
           {!isMobile && activeLink !== 'inbox' && <p className='side-bar__title'>DASHBOARDS</p>}
 
           {activeLink === 'inbox' ? (
-            <></>
+            <>
+              <InboxSideBar />
+            </>
           ) : (
             <div className='side-bar__column'>
               <div className='side-bar__box'>

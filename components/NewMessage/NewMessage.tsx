@@ -128,19 +128,21 @@ const NewMessage: FC<NewMessageProps> = ({recipientId, setIsIOpen, recipientName
               <button className='new-message__button' onClick={() => setIsIOpen(false)}></button>
             </div>
             <form className='new-message__form' onSubmit={handleSubmit}>
-              <input
-                className='new-message__input'
-                placeholder='Recipients'
-                value={recipients}
-                required
-                onChange={(e) => setRepresents(e.currentTarget.value)}
-              />
-              <input
-                className='new-message__input'
-                placeholder='Subject'
-                value={subtitle}
-                onChange={(e) => setSubtitle(e.currentTarget.value)}
-              />
+              <div>
+                <input
+                  className='new-message__input'
+                  placeholder='Recipients'
+                  value={recipients}
+                  required
+                  onChange={(e) => setRepresents(e.currentTarget.value)}
+                />
+                <input
+                  className='new-message__input'
+                  placeholder='Subject'
+                  value={subtitle}
+                  onChange={(e) => setSubtitle(e.currentTarget.value)}
+                />
+              </div>
               <div className='new-message__box'>
                 <ReactQuill
                   className='message-box'
@@ -153,7 +155,9 @@ const NewMessage: FC<NewMessageProps> = ({recipientId, setIsIOpen, recipientName
                   placeholder='Write here your message  '
                 />
               </div>
-              <button className='new-message__button-submit '>Send</button>
+              <div className='new-message__button-box'>
+                <button className='new-message__button-submit '>Send</button>
+              </div>
             </form>
           </div>
         )}
