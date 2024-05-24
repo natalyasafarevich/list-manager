@@ -154,11 +154,11 @@
     opacity: 1;
     transition: all 0.5s ease;
     @media (max-width: 991.98px) {
-      padding: 0px 15px;
-      filter: drop-shadow(0 3px 6px #95d0f8);
-      background:
-        center/cover no-repeat url("/dashboard-footer.svg"),
-        transparent;
+      padding: 8px 20px;
+      overflow: visible;
+      // position: static;
+      // filter: drop-shadow(0 3px 6px #95d0f8);
+      background: center/contain no-repeat url("/dashboard-footer.svg");
     }
   }
 
@@ -256,7 +256,6 @@
           left: 0;
           background: no-repeat url("/dashboard-icon-mobile.svg");
           background-color: transparent;
-          background-position-y: 148%;
         }
         span {
           color: #a2a2a2;
@@ -265,9 +264,6 @@
         justify-content: center;
         align-items: center;
         background-color: transparent;
-        span {
-          color: #1da1fa;
-        }
       }
 
       &-templates::before {
