@@ -153,12 +153,15 @@
     // opacity: 0;
     opacity: 1;
     transition: all 0.5s ease;
+
     @media (max-width: 991.98px) {
       padding: 8px 20px;
-      overflow: visible;
-      // position: static;
-      // filter: drop-shadow(0 3px 6px #95d0f8);
+      background: var(--secondary-color);
+    }
+    @media (max-width: 575.98px) {
+      padding: 8px 20px;
       background: center/contain no-repeat url("/dashboard-footer.svg");
+      background-size: 100% auto;
     }
   }
 

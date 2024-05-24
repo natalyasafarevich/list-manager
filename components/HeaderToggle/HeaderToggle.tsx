@@ -2,10 +2,11 @@ import {useEffect, useRef} from 'react';
 import {motion, useCycle} from 'framer-motion';
 import {Navigation} from './HeaderNavigation/Navigation';
 import {HeaderIconPath} from './HeaderIconPath/HeaderIconPath';
-import {AppDispatch} from '@/store/store';
-import {useDispatch} from 'react-redux';
+import {AppDispatch, RootState} from '@/store/store';
+import {useDispatch, useSelector} from 'react-redux';
 import {toggleMenu} from '@/store/menu/actions';
 import './HeaderToggle.scss';
+import {DashboardNavigation} from './HeaderNavigation/DashboardNavigation';
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -34,7 +35,7 @@ export const HeaderToggle = () => {
   useEffect(() => {
     dispatch(toggleMenu(isOpen));
   }, [isOpen]);
-
+  const {uid} = useSelector((state: RootState) => state.userdata);
   return (
     <motion.nav
       className={`header-toggle ${isOpen ? 'open' : 'closed'}`}
@@ -45,7 +46,7 @@ export const HeaderToggle = () => {
       <motion.div className='header-toggle__container' variants={sidebar} />
 
       <div className={`header-toggle__navigation ${isOpen ? 'open' : 'closed'}`}>
-        <Navigation toggle={() => toggleOpen()} />
+        {uid ? <DashboardNavigation toggle={() => toggleOpen()} /> : <Navigation toggle={() => toggleOpen()} />}
       </div>
 
       <HeaderIconPath toggle={() => toggleOpen()} />

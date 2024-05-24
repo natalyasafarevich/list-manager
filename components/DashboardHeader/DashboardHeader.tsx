@@ -10,8 +10,10 @@ import {RootState} from '@/store/store';
 
 import './DashboardHeader.scss';
 import useResponsive from '@/hooks/useResponsive';
+import {HeaderToggle} from '../HeaderToggle/HeaderToggle';
 
 const DashboardHeader: FC = () => {
+  const {isMobile} = useResponsive();
   const [isCreated, setIsCreated] = useState(false);
   const {uid} = useSelector((state: RootState) => state.userdata);
   const {
@@ -26,26 +28,34 @@ const DashboardHeader: FC = () => {
         <div className='dashboard-header__container '>
           <div className='content-wrap'>
             <div className='dashboard-header__row'>
-              <div className='dashboard-header__box'>
-                <FavoriteComponent />
-                <div className='dashboard-header__search'></div>
-              </div>
-              <div className='dashboard-header__box dashboard-header__box_icons'>
-                <div className='dashboard-header__board' ref={createBoardFormRefClickOutside}>
-                  <button
-                    className='dashboard-header__button dashboard-header__button_add'
-                    onClick={() => setIsCreateBoardFormClose(!isCreateBoardFormClose)}
-                  ></button>
-                  <div className='dashboard-header__form'>
-                    <CreateBoardForm
-                      setIsOpen={setIsCreateBoardFormClose}
-                      isCreated={setIsCreated}
-                      isClose={isCreateBoardFormClose}
-                    />
-                  </div>
+              {!isMobile && (
+                <div className='dashboard-header__box'>
+                  <FavoriteComponent />
+                  <div className='dashboard-header__search'></div>
                 </div>
-                <NotificationButton />
+              )}
+              <div className='dashboard-header__box dashboard-header__box_icons'>
+                {!isMobile && (
+                  <div className='dashboard-header__board' ref={createBoardFormRefClickOutside}>
+                    <button
+                      className='dashboard-header__button dashboard-header__button_add'
+                      onClick={() => setIsCreateBoardFormClose(!isCreateBoardFormClose)}
+                    ></button>
+
+                    <div className='dashboard-header__form'>
+                      <CreateBoardForm
+                        setIsOpen={setIsCreateBoardFormClose}
+                        isCreated={setIsCreated}
+                        isClose={isCreateBoardFormClose}
+                      />
+                    </div>
+                  </div>
+                )}
+                {!isMobile && <NotificationButton />}
                 <ProfilePopup />
+                <div className='header__toggle'>
+                  <HeaderToggle />
+                </div>
               </div>
             </div>
           </div>
