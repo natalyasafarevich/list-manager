@@ -99,10 +99,10 @@ const SideBar: FC = () => {
                 <ul>
                   <li className=''>
                     <Link
-                      href={isMobile ? '/settings' : '#'}
+                      href={isMobile ? '/inbox?n=general' : '#'}
                       className={activeLink === '#' ? 'side-bar__link active' : `side-bar__link side-bar__link-account`}
                     >
-                      <span>Account</span>
+                      <span>{isMobile ? 'Inbox' : 'Account'}</span>
                     </Link>
                   </li>
 
