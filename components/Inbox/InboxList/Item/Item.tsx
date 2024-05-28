@@ -10,17 +10,13 @@ export function formatDate(isoString: string) {
   const date = new Date(isoString);
   const now = new Date();
 
-  // Проверка, является ли дата сегодняшней
   const isToday = date.toDateString() === now.toDateString();
 
-  // Проверка, является ли дата текущим годом
   const isCurrentYear = date.getFullYear() === now.getFullYear();
 
   if (isToday) {
-    // Если дата сегодняшняя, возвращаем только время без секунд
     return date.toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true});
   } else {
-    // Если дата не сегодняшняя, возвращаем дату с условием года
     const dateOptions: any = isCurrentYear
       ? {month: 'long', day: 'numeric'}
       : {year: 'numeric', month: 'long', day: 'numeric'};

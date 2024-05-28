@@ -37,7 +37,7 @@ const InboxSideBar: FC = () => {
     <div className=' inbox-side-bar'>
       {isMobile && (
         <div className='inbox-side-bar__header'>
-          <Link href={'/board'} className='inbox-side-bar__header-button button-back'></Link>
+          <Link href={'/boards'} className='inbox-side-bar__header-button button-back'></Link>
           <p className='inbox-side-bar__header-title'>Inbox</p>
           <div
             className='inbox-side-bar__header-user'

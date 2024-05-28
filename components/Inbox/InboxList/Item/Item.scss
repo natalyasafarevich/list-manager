@@ -21,6 +21,9 @@
   &__info {
     max-width: 300px;
     width: 100%;
+    @media (max-width: 991.98px) {
+      max-width: 100%;
+    }
   }
 
   // .inbox-list-item__name

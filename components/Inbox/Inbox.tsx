@@ -27,6 +27,12 @@ const Inbox: FC = () => {
   const {isMobile} = useResponsive();
 
   const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    if (messageId) {
+      setIsOpenMessage(true);
+    }
+  }, [messageId]);
   useEffect(() => {
     if (inbox.receivedMessages) {
       setCountedMessages((prev: any) => ({...prev, all: Object.keys(inbox?.receivedMessages).length}));
@@ -47,6 +53,8 @@ const Inbox: FC = () => {
         setIsArchived(false);
       }, 2000);
   }, [isArchived]);
+
+  const [isOpenMessage, setIsOpenMessage] = useState(false);
 
   return (
     <div className='inbox'>
@@ -79,12 +87,13 @@ const Inbox: FC = () => {
             </div>
             <InboxList getMessageId={(e) => setMessageId(e)} />
           </div>
-          <div className='inbox__viewer'>
+          <div className={`inbox__viewer ${isOpenMessage ? 'open' : ''}`}>
             {messageId && (
               <InboxViewer
                 isArchived={(e) => {
                   setIsArchived(e);
                 }}
+                isOpen={(e) => setIsOpenMessage(e)}
                 messageId={messageId}
               />
             )}
