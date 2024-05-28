@@ -345,6 +345,9 @@ body {
   align-items: stretch;
   position: relative;
   height: inherit;
+  @media (max-height: 767.98px) {
+    height: auto;
+  }
 }
 .flex {
   display: flex;
