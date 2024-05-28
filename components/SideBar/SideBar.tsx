@@ -55,7 +55,7 @@ const SideBar: FC = () => {
   return (
     <div className={`side-bar `}>
       <div className='side-bar__wrap'>
-        <div className='side-bar__container'>
+        <div className={`side-bar__container ${activeLink === 'inbox' ? 'hide-bg' : ''}`}>
           {!isMobile && (
             <Link href={`/profile/${uid}`} className='side-bar__user'>
               <span className='side-bar__flex'>

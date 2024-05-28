@@ -159,9 +159,12 @@
       background: var(--secondary-color);
     }
     @media (max-width: 575.98px) {
-      padding: 8px 20px;
       background: center/contain no-repeat url("/dashboard-footer.svg");
       background-size: 100% auto;
+      &.hide-bg {
+        background: none;
+        padding: 0;
+      }
     }
   }
 
