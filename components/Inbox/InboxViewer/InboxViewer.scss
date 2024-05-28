@@ -1,6 +1,8 @@
 .inbox-viewer {
   // .inbox-viewer__container
-
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
   &__content {
     width: 100%;
     button {
