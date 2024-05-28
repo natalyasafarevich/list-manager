@@ -8,6 +8,7 @@ import PopupMessage from '../PopupMessage/PopupMessage';
 import 'react-quill/dist/quill.snow.css';
 import './NewMessage.scss';
 import dynamic from 'next/dynamic';
+import useScrollControl from '@/hooks/useScrollControl';
 
 const modules = {
   toolbar: [
