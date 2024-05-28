@@ -14,6 +14,7 @@ import {bg_cards} from '@/variables/default';
 import {getBoards} from '@/store/board/actions';
 import Popup from '@/components/Popup/Popup';
 import {useRouter} from 'next/navigation';
+import useResponsive from '@/hooks/useResponsive';
 
 interface CreateBoardFormProps {
   setIsOpen: (value: boolean) => void;
@@ -22,11 +23,7 @@ interface CreateBoardFormProps {
   isCreated?: (value: boolean) => void;
 }
 
-const CreateBoardForm: FC<CreateBoardFormProps> = ({
-  isCreated,
-  isClose,
-  setIsOpen,
-}) => {
+const CreateBoardForm: FC<CreateBoardFormProps> = ({isCreated, isClose, setIsOpen}) => {
   const [currentBg, setCurrentBg] = useState<string>(bg_cards[0].url);
   const [currentIds, setCurrentIds] = useState<any>({});
   const [updateUserBoard, setUpdateUserBoard] = useState(false);
@@ -99,7 +96,7 @@ const CreateBoardForm: FC<CreateBoardFormProps> = ({
       });
     }
   }, [user]);
-
+  const {isMobile} = useResponsive();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (value.length === 0) {
@@ -131,6 +128,7 @@ const CreateBoardForm: FC<CreateBoardFormProps> = ({
     setIsUpdate(true);
     isCreated && isCreated(true);
     router.push(`/board/${newBoard[id].id}`);
+    isMobile && setIsOpen(false);
   };
   return (
     <>
@@ -159,10 +157,7 @@ const CreateBoardForm: FC<CreateBoardFormProps> = ({
                 />
               </div>
               <VisibilityBoard currentValue={(e) => setVisibility(e)} />
-              <button
-                type='submit'
-                className='create-board-form__button button-dark'
-              >
+              <button type='submit' className='create-board-form__button button-dark'>
                 Create board
               </button>
             </form>
