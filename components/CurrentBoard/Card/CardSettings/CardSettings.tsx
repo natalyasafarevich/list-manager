@@ -33,7 +33,7 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
   const [columnName, setColumnName] = useState<string>('');
   const [allComments, setAllComment] = useState<Array<CommentProps>>([]);
   const [makers, setMarkers] = useState<any>({});
-
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
   const current_markers = useSelector((state: RootState) => state.markers.markers);
 
   useEffect(() => {
@@ -104,7 +104,10 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
               </div>
               <p className='card-settings__column-text'>
                 In column: <span> {columnName}</span>
-              </p>
+              </p>{' '}
+              <div className='card-settings__card-button' onClick={() => setIsOpenMenu(!isOpenMenu)}>
+                Supplemental actions
+              </div>
             </div>
           </div>
           <div className='card-settings__markers'>
@@ -128,7 +131,12 @@ const CardSettings: FC<CardSettingsProps> = ({card, setIsOpenCard}) => {
           </div>
         </div>
 
-        <div className='card-settings__menu'>
+        <div className={`card-settings__menu ${isOpenMenu ? 'show' : ''}`}>
+          <button
+            className='card-settings__button-close button-close'
+            onClick={() => setIsOpenMenu(!isOpenMenu)}
+          ></button>
+
           <CardSideBar />
         </div>
         {/* </div> */}
