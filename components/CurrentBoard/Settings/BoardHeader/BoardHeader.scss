@@ -4,6 +4,9 @@
   &__container {
     // background-color: white;
     padding: 30px;
+    @media (max-width: 575.98px) {
+      padding: 15px;
+    }
   }
 
   // .board-header__row
@@ -22,6 +25,9 @@
   // .board-header__input
   &__item {
     margin-right: 15px;
+    @media (max-width: 767.98px) {
+      display: none;
+    }
   }
   &__input {
     max-width: 385px;
@@ -116,10 +122,13 @@
     }
     max-width: 170px;
     width: 100%;
+    @media (max-width: 767.98px) {
+      display: none;
+    }
   }
   &__count {
     // position: relative;
-    z-index: 1;
+    z-index: 0;
     border-radius: 50px;
     width: 50px;
     min-width: 50px;
@@ -129,5 +138,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    @media (max-width: 767.98px) {
+      display: none;
+    }
+  }
+  .new-members {
+    @media (max-width: 767.98px) {
+      margin-left: auto;
+      margin-right: 15px;
+    }
   }
 }

@@ -1,8 +1,8 @@
 .column-create-form {
   overflow-x: scroll;
   padding: 30px;
-
-  &__container {
+  @media (max-width: 575.98px) {
+    padding: 15px;
   }
 
   // .column-create-form__row
