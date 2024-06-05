@@ -115,6 +115,10 @@
     .visibility__box {
       margin: 0;
     }
+    @media (max-width: 575.98px) {
+      left: 0;
+      right: auto;
+    }
   }
 
   // .board-header__menu
