@@ -1,0 +1,39 @@
+.settings-page {
+  // .settings-page__container
+
+  &__container {
+    padding: 25px 15px;
+  }
+  &__title {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 15px;
+  }
+  // .settings-page__nav
+
+  &__nav {
+  }
+
+  // .settings-page__list
+
+  &__list {
+  }
+
+  // .settings-page__item
+
+  &__item {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  // .settings-page__link
+
+  &__link {
+    width: max-content;
+    color: var(--primary-color);
+    text-align: center;
+    border-bottom: 1px solid grey;
+    margin: 0 auto;
+  }
+}

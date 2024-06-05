@@ -9,6 +9,7 @@ import {getMergedMessages} from '@/store/inbox/actions';
 import InboxListItem from './Item/Item';
 import {updateUserData} from '@/helper/updateUserData';
 import {useSearchParams} from 'next/navigation';
+import useResponsive from '@/hooks/useResponsive';
 
 interface InboxListProps {
   getMessageId: (v: string) => void;

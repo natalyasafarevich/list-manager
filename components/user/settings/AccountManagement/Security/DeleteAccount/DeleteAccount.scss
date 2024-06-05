@@ -59,5 +59,8 @@
     background: #f00;
     padding: 22px 5px;
     color: var(--secondary-color);
+    @media (max-width: 1199.98px) {
+      padding: 10px 0;
+    }
   }
 }

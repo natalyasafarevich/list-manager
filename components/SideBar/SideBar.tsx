@@ -10,6 +10,10 @@ import {RootState} from '@/store/store';
 import InboxItem from './InboxItem/InboxItem';
 import InboxSideBar from '../InboxSideBar/InboxSideBar';
 import {usePathname} from 'next/navigation';
+import useResponsive from '@/hooks/useResponsive';
+import CreateBoardForm from '../CreateBoardForm/CreateBoardForm';
+import AddBoard from './Mobile/AddBoard';
+import NotificationButton from '../NotificationButton/NotificationButton';
 
 const links = [
   {url: '/settings/profile', name: 'General settings'},
@@ -17,18 +21,15 @@ const links = [
   {url: '/settings/security', name: 'Security'},
   {url: '/settings/delete-account', name: 'Delete account'},
 ];
-// const inboxLinks = [
-//   {url: '?=general', name: 'General'},
-//   {url: '?=sent', name: 'Sent'},
-//   {url: '?=starred', name: 'Starred'},
-//   {url: '?=archive', name: 'Archive'},
-// ];
+
 interface NavLink {
   path: string;
   label: string;
   length?: number | null;
 }
 const SideBar: FC = () => {
+  const {isMobile} = useResponsive();
+
   const [countBoard, setCountBoard] = useState<null | number>();
   const [navLinks, setNavLinks] = useState<NavLink[]>([]);
   const [activeLink, setActiveLink] = useState('');
@@ -50,26 +51,30 @@ const SideBar: FC = () => {
   const handleSetActiveLink = (link: string) => {
     setActiveLink(link);
   };
+
   return (
     <div className={`side-bar `}>
       <div className='side-bar__wrap'>
-        <div className='side-bar__container'>
-          <Link href={`/profile/${uid}`} className='side-bar__user'>
-            <span className='side-bar__flex'>
-              <span
-                className='side-bar__img'
-                style={{background: `center/cover no-repeat url(${additional_info?.mainPhoto?.url})`}}
-              ></span>
-              <span className='side-bar__name'>{additional_info?.fullName}</span>
+        <div className={`side-bar__container ${activeLink === 'inbox' ? 'hide-bg' : ''}`}>
+          {!isMobile && (
+            <Link href={`/profile/${uid}`} className='side-bar__user'>
+              <span className='side-bar__flex'>
+                <span
+                  className='side-bar__img'
+                  style={{background: `center/cover no-repeat url(${additional_info?.mainPhoto?.url})`}}
+                ></span>
+                <span className='side-bar__name'>{additional_info?.fullName}</span>
 
-              <span className='side-bar__position'>{additional_info?.position}</span>
-            </span>
-          </Link>
-          {activeLink !== 'inbox' && <p className='side-bar__title'>DASHBOARDS</p>}
+                <span className='side-bar__position'>{additional_info?.position}</span>
+              </span>
+            </Link>
+          )}
+          {!isMobile && activeLink !== 'inbox' && <p className='side-bar__title'>DASHBOARDS</p>}
 
           {activeLink === 'inbox' ? (
-            // <InboxSideBar />
-            <></>
+            <>
+              <InboxSideBar />
+            </>
           ) : (
             <div className='side-bar__column'>
               <div className='side-bar__box'>
@@ -78,38 +83,53 @@ const SideBar: FC = () => {
                     key={index}
                     href={navLink.path}
                     data-count={navLink.length}
-                    className={`${activeLink === navLink.path ? 'side-bar__link active' : 'side-bar__link '} ${navLink.length ? 'count' : ''}`}
+                    className={`${
+                      activeLink === navLink.path
+                        ? 'side-bar__link active'
+                        : `side-bar__link side-bar__link-${navLink.label.toLocaleLowerCase()}`
+                    }
+                     ${navLink.length ? 'count' : ''}`}
                     onClick={() => handleSetActiveLink(navLink.path)}
                   >
                     <span>{navLink.label}</span>
                   </Link>
                 ))}
+                {/* <CreateBoardForm setIsOpen={setIsOpen} isClose={isOpen} /> */}
+                {isMobile && <AddBoard />} {isMobile && <NotificationButton />}
                 <ul>
-                  <li className='side-bar__link'>
-                    <Link href={'#'} className={activeLink === '#' ? 'side-bar__link active' : 'side-bar__link'}>
-                      <span>Account</span>
+                  <li className=''>
+                    <Link
+                      href={isMobile ? '/inbox?n=general' : '#'}
+                      className={activeLink === '#' ? 'side-bar__link active' : `side-bar__link side-bar__link-account`}
+                    >
+                      <span>{isMobile ? 'Inbox' : 'Account'}</span>
                     </Link>
                   </li>
-                  <li>
-                    <SubMenu>
-                      {links.map((link, key) => (
-                        <SideBarItem onClick={() => handleSetActiveLink('#')} key={key} href={link.url}>
-                          {link.name}
-                        </SideBarItem>
-                      ))}
-                    </SubMenu>
-                  </li>
+
+                  {!isMobile && (
+                    <li>
+                      <SubMenu>
+                        {links.map((link, key) => (
+                          <SideBarItem onClick={() => handleSetActiveLink('#')} key={key} href={link.url}>
+                            {link.name}
+                          </SideBarItem>
+                        ))}
+                      </SubMenu>
+                    </li>
+                  )}
                 </ul>
-                <InboxItem activeLink={activeLink} handleSetActiveLink={(e) => handleSetActiveLink(e)} />
-                <Link
-                  href='/assistance'
-                  onClick={() => handleSetActiveLink('assistance')}
-                  className={activeLink === 'assistance' ? 'side-bar__link active' : 'side-bar__link'}
-                >
-                  <span>Assistance</span>
-                </Link>
+                {!isMobile && <InboxItem activeLink={activeLink} handleSetActiveLink={(e) => handleSetActiveLink(e)} />}
+                {!isMobile && (
+                  <Link
+                    href='/assistance'
+                    onClick={() => handleSetActiveLink('assistance')}
+                    className={activeLink === 'assistance' ? 'side-bar__link active' : 'side-bar__link'}
+                  >
+                    <span>Assistance</span>
+                  </Link>
+                )}
               </div>
-              <SignOut />
+              {!isMobile && <SignOut />}
             </div>
           )}
         </div>

@@ -1,0 +1,25 @@
+.add-board {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: var(--secondary-color);
+  top: 99%;
+  left: 0;
+  &.open {
+    top: 0;
+  }
+  .create-board-form > div:nth-child(1) {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.button-add-board {
+  background: transparent;
+  position: relative;
+  top: -33px;
+  right: 5px;
+  z-index: 0;
+}

@@ -4,6 +4,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: 767.98px) {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border-radius: 5px;
+    padding: 10px;
+  }
 
   &__icon {
     width: 20px;
@@ -11,5 +17,11 @@
     margin-right: 5px;
     display: block;
     background: center/contain no-repeat url("/sign-out-icon.svg");
+    @media (max-width: 767.98px) {
+      background: none;
+      margin-right: 0;
+      width: 0;
+      height: 0;
+    }
   }
 }

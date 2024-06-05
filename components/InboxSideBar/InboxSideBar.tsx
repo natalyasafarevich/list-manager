@@ -5,15 +5,18 @@ import Link from 'next/link';
 import {useSearchParams} from 'next/navigation';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
+import useResponsive from '@/hooks/useResponsive';
 
 const InboxSideBar: FC = () => {
+  const {isMobile} = useResponsive();
+
   const searchParams = useSearchParams();
   const [url, setUrl] = useState<string | null>('');
   const [inboxLinks, setInboxLink] = useState<Array<any>>([]);
 
   const {inbox, mergedMessages} = useSelector((state: RootState) => state.inbox);
   const {sentMessages, starredMessage, archivedMessage, deletedMessage, spamMessage} = inbox;
-
+  const mainPhoto = useSelector((state: RootState) => state?.userdata?.additional_info?.mainPhoto);
   useEffect(() => {
     if (inbox || mergedMessages) {
       setInboxLink([
@@ -32,8 +35,18 @@ const InboxSideBar: FC = () => {
   }, [searchParams]);
   return (
     <div className=' inbox-side-bar'>
+      {isMobile && (
+        <div className='inbox-side-bar__header'>
+          <Link href={'/boards'} className='inbox-side-bar__header-button button-back'></Link>
+          <p className='inbox-side-bar__header-title'>Inbox</p>
+          <div
+            className='inbox-side-bar__header-user'
+            style={{background: `center/cover no-repeat url(${mainPhoto?.url})`}}
+          ></div>
+        </div>
+      )}
       <div className='inbox-side-bar__container'>
-        <p className='inbox-side-bar__title '>Inbox</p>
+        {!isMobile && <p className='inbox-side-bar__title '>Inbox</p>}
         <div className='inbox-side-bar__column'>
           {inboxLinks.map((link, i) => (
             <Link
@@ -42,13 +55,15 @@ const InboxSideBar: FC = () => {
               className={` inbox-side-bar__link inbox-side-bar__link-${link.name.toLocaleLowerCase()} ${url === link.name.toLocaleLowerCase() ? 'active' : ''}`}
               key={i}
             >
-              {link.name}
+              {!isMobile && link.name}
             </Link>
           ))}
         </div>
-        <Link className=' inbox-side-bar__button' href={'/boards'}>
-          <span className='button-back'></span> Return back
-        </Link>
+        {!isMobile && (
+          <Link className=' inbox-side-bar__button' href={'/boards'}>
+            <span className='button-back'></span> Return back
+          </Link>
+        )}
       </div>
     </div>
   );

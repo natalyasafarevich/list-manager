@@ -52,7 +52,9 @@ body {
   * {
     transition: all 0.3s ease;
   }
-
+  @media (max-width: 767.98px) {
+    background: #f6f6f6;
+  }
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -61,7 +63,7 @@ body {
 // text
 .title-large-72 {
   font-weight: 500;
-  font-size: 72px;
+  font-size: calc(min(8vw, 72px));
   line-height: 125%;
 }
 .text-green {
@@ -69,7 +71,7 @@ body {
   color: #2b6462;
 }
 .text-green-large {
-  font-size: 25px;
+  font-size: calc(min(5vw, 25px));
   font-weight: 500;
 
   line-height: 150%;
@@ -296,6 +298,9 @@ body {
   padding: 0 30px;
 }
 html {
+  &.no-scroll {
+    overflow: hidden;
+  }
   height: 100%;
   overflow-x: hidden;
 }
@@ -340,6 +345,9 @@ body {
   align-items: stretch;
   position: relative;
   height: inherit;
+  @media (max-height: 767.98px) {
+    height: auto;
+  }
 }
 .flex {
   display: flex;
@@ -367,7 +375,8 @@ body {
 }
 @media (max-width: 575.98px) {
   .auth-container {
-    padding: 30px 20px;
+    padding: 25px 15px 0;
+    box-shadow: none;
   }
 }
 .text-color-button {
@@ -395,7 +404,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 0;
   top: 0;
 }
 .visibility {
@@ -485,8 +494,7 @@ body {
 .auth {
   padding: 79px 0;
   height: 100%;
-  &__container {
-  }
+
   &__text {
     margin-top: clamp(15px, 3vw, 33px);
     text-align: center;
@@ -518,12 +526,15 @@ body {
   &__item {
     margin: 0 10px;
   }
-}
-@media (max-width: 1399.98px) {
-  .auth {
-    padding: 33px 20px;
+  @media (max-width: 767.98px) {
+    padding: 25px 0 0;
+    &__container {
+      border-radius: 0;
+      box-shadow: none;
+    }
   }
 }
+
 @media (max-width: 575.98px) {
   .auth {
     &__link {
@@ -596,6 +607,10 @@ body {
   .register {
     &__text {
       margin-bottom: 10px;
+      margin-left: auto;
+    }
+    .register__input {
+      padding: 10px;
     }
     &__row {
       flex-direction: column-reverse;

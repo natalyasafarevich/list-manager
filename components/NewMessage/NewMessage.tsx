@@ -1,24 +1,50 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
-import ReactQuill, {Quill} from 'react-quill';
 import {updateUserData} from '@/helper/updateUserData';
-import ImageResize from 'quill-image-resize-module-react';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/store';
 import {v4 as createId} from 'uuid';
-import {formats, modules} from '@/variables/edit';
 import PopupMessage from '../PopupMessage/PopupMessage';
 import 'react-quill/dist/quill.snow.css';
 import './NewMessage.scss';
+import dynamic from 'next/dynamic';
+import useScrollControl from '@/hooks/useScrollControl';
 
-Quill.register('modules/imageResize', ImageResize);
+const modules = {
+  toolbar: [
+    [{header: '1'}, {header: '2'}, {font: []}],
+    [{size: []}],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{list: 'ordered'}, {list: 'bullet'}, {indent: '-1'}, {indent: '+1'}],
+    ['link', 'image'],
+    ['clean'],
+  ],
+  clipboard: {
+    matchVisual: false,
+  },
+};
 
+const formats = [
+  'header',
+  'font',
+  'size',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link',
+  'image',
+];
 interface NewMessageProps {
   setIsIOpen: (v: boolean) => void;
   recipientId?: string;
   recipientName?: string;
 }
-
+const ReactQuill = dynamic(() => import('react-quill'), {ssr: false});
 const NewMessage: FC<NewMessageProps> = ({recipientId, setIsIOpen, recipientName}) => {
   const [messageValue, setMessageValue] = useState('');
   const [subtitle, setSubtitle] = useState('');
@@ -103,19 +129,21 @@ const NewMessage: FC<NewMessageProps> = ({recipientId, setIsIOpen, recipientName
               <button className='new-message__button' onClick={() => setIsIOpen(false)}></button>
             </div>
             <form className='new-message__form' onSubmit={handleSubmit}>
-              <input
-                className='new-message__input'
-                placeholder='Recipients'
-                value={recipients}
-                required
-                onChange={(e) => setRepresents(e.currentTarget.value)}
-              />
-              <input
-                className='new-message__input'
-                placeholder='Subject'
-                value={subtitle}
-                onChange={(e) => setSubtitle(e.currentTarget.value)}
-              />
+              <div>
+                <input
+                  className='new-message__input'
+                  placeholder='Recipients'
+                  value={recipients}
+                  required
+                  onChange={(e) => setRepresents(e.currentTarget.value)}
+                />
+                <input
+                  className='new-message__input'
+                  placeholder='Subject'
+                  value={subtitle}
+                  onChange={(e) => setSubtitle(e.currentTarget.value)}
+                />
+              </div>
               <div className='new-message__box'>
                 <ReactQuill
                   className='message-box'
@@ -128,7 +156,9 @@ const NewMessage: FC<NewMessageProps> = ({recipientId, setIsIOpen, recipientName
                   placeholder='Write here your message  '
                 />
               </div>
-              <button className='new-message__button-submit '>Send</button>
+              <div className='new-message__button-box'>
+                <button className='new-message__button-submit '>Send</button>
+              </div>
             </form>
           </div>
         )}

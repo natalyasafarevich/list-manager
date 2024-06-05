@@ -10,6 +10,7 @@ import MainHeader from '@/components/MainHeader/MainHeader';
 import Notifications from '@/components/Notifications/Notifications';
 import WrapProvider from '@/providers/WrapProvider';
 import MessageStatusTracking from '@/providers/MessageStatusTracking';
+import useScrollControl from '@/hooks/useScrollControl';
 
 const popins = Poppins({
   subsets: ['latin'], // Здесь можно указать поддерживаемые подмножества

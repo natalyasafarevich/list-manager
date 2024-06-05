@@ -6,14 +6,16 @@
   overflow-y: scroll;
   top: 50%;
   left: 50%;
-  z-index: 1;
+  z-index: 3;
   transform: translate(-50%, -50%);
   overflow-x: hidden;
   display: flex;
   justify-content: center;
   padding: 25px;
-  // align-items: center;
-  // .card-settings__container
+  @media (max-width: 767.98px) {
+    padding: 0;
+    background-color: var(--secondary-color);
+  }
   &__center {
     display: flex;
     justify-content: center;
@@ -28,6 +30,16 @@
     padding: 20px;
     display: flex;
     justify-content: space-between;
+    @media (max-width: 1319.98px) {
+      width: 80%;
+    }
+    @media (max-width: 991.98px) {
+      width: 100%;
+    }
+    @media (max-width: 767.98px) {
+      border-radius: 0;
+      padding: 15px;
+    }
   }
 
   // .card-settings__cover
@@ -82,9 +94,37 @@
   }
   &__content {
     width: 75%;
+    @media (max-width: 767.98px) {
+      width: 100%;
+    }
+  }
+  &__button-close {
+    display: none;
+    @media (max-width: 767.98px) {
+      display: block;
+      margin-left: auto;
+      width: 25px;
+      height: 25px;
+    }
   }
   &__menu {
     width: 20%;
+    @media (max-width: 767.98px) {
+      box-shadow: 0 16px 32px 0 rgba(17, 24, 39, 0.08);
+      position: fixed;
+      left: -999%;
+      display: block;
+      padding: 15px;
+      background: var(--secondary-color);
+      height: 100%;
+      top: 0;
+      max-width: 200px;
+      width: auto;
+      transition: all 0.3s ease;
+      &.show {
+        left: 0;
+      }
+    }
   }
 
   // .card-settings__subtitle
@@ -93,7 +133,31 @@
     display: block;
     margin-bottom: 10px;
   }
-
+  &__card-button {
+    display: none;
+    border-radius: 50px;
+    padding: 8px 16px 8px 12px;
+    width: max-content;
+    background: #30343b;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 140%;
+    text-align: center;
+    color: var(--secondary-color);
+    &::before {
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5px;
+      width: 20px;
+      height: 20px;
+      background: center/cover no-repeat url("/icon-white-add.svg");
+    }
+    @media (max-width: 767.98px) {
+      display: block;
+      height: inherit;
+    }
+  }
   // .card-settings__box
 
   &__box {

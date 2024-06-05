@@ -5,10 +5,12 @@ import {RootState} from '@/store/store';
 import Link from 'next/link';
 import SignOut from '../auth/SignOut/SignOut';
 import useClickOutside from '@/hooks/useClickOutside';
+import useResponsive from '@/hooks/useResponsive';
 
 const ProfilePopup: FC = () => {
   const user = useSelector((state: RootState) => state.userdata);
   const [avatar, setAvatar] = useState('');
+  const {isMobile} = useResponsive();
 
   useEffect(() => {
     setAvatar(user?.additional_info?.mainPhoto?.url || '/default-image.svg');
@@ -18,13 +20,22 @@ const ProfilePopup: FC = () => {
 
   return (
     <div className='profile-popup' ref={ref}>
-      <div
-        onClick={() => setIsClose(!isClose)} // Обновлено
-        className='dashboard-header__user'
-        style={{
-          background: `center/cover no-repeat url(${user?.additional_info?.mainPhoto?.url || '/default-image.svg'})`,
-        }}
-      ></div>
+      <div className='profile-popup__flex'>
+        <div
+          onClick={() => (isMobile ? {} : setIsClose(!isClose))}
+          className='dashboard-header__user'
+          style={{
+            background: `center/cover no-repeat url(${user?.additional_info?.mainPhoto?.url || '/default-image.svg'})`,
+          }}
+        ></div>
+        {isMobile && (
+          <div className='profile-popup__name'>
+            <span> Hello</span>
+            {user.displayName}
+          </div>
+        )}
+      </div>
+
       {!isClose && (
         <div className='profile-popup__box'>
           <div className='profile-popup__item'>

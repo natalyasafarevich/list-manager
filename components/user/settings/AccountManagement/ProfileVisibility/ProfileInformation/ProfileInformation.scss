@@ -18,6 +18,9 @@
   &__item {
     margin: 0 5px 15px;
     width: 48%;
+    @media (max-width: 575.98px) {
+      width: 100%;
+    }
   }
 
   // .profile-information__textarea

@@ -1,7 +1,10 @@
-// УПРАВЛЕНИЕ АККАУНТОМ
-export default function Settings() {
-  // writeUserData('UtegspYscmbATUOzJ9myuTCHK6q1', 'name', 'email', 'imageUrl');
-  // let [board, setBoard] = useState(createdBoard);
+import SettingsPage from '@/components/pages/SettingsPage/SettingsPage';
+import useResponsive from '@/hooks/useResponsive';
 
-  return <></>;
+export default function Settings() {
+  return (
+    <>
+      <SettingsPage />
+    </>
+  );
 }

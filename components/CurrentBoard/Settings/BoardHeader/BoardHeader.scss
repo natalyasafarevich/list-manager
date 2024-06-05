@@ -1,12 +1,22 @@
 .board-header {
   // .board-header__container
-
-  &__container {
-    // background-color: white;
-    padding: 30px;
+  @media (max-width: 575.98px) {
+    margin-top: -75px;
+    position: relative;
+    z-index: 1;
   }
-
-  // .board-header__row
+  &__container {
+    padding: 30px;
+    @media (max-width: 575.98px) {
+      padding: 15px;
+      background-color: white;
+    }
+  }
+  &__row {
+    @media (max-width: 575.98px) {
+      // flex-wrap: wrap;q
+    }
+  }
 
   &__info {
     // justify-content: flex-end;
@@ -22,6 +32,9 @@
   // .board-header__input
   &__item {
     margin-right: 15px;
+    @media (max-width: 767.98px) {
+      display: none;
+    }
   }
   &__input {
     max-width: 385px;
@@ -80,6 +93,12 @@
     justify-content: space-between;
     align-items: center;
     display: flex;
+    @media (max-width: 575.98px) {
+      width: auto;
+      // height: 15px;
+      color: transparent;
+      // background: url("/1-sidebar.svg");
+    }
   }
 
   &__popup {
@@ -96,6 +115,10 @@
     .visibility__box {
       margin: 0;
     }
+    @media (max-width: 575.98px) {
+      left: 0;
+      right: auto;
+    }
   }
 
   // .board-header__menu
@@ -106,6 +129,12 @@
     border-radius: 5px;
     background: var(--secondary-color);
     cursor: pointer;
+    @media (max-width: 575.98px) {
+      background: center/cover no-repeat url("/1-sidebar.svg");
+      width: 25px;
+      height: 25px;
+      font-size: 0;
+    }
   }
   &__users {
     justify-content: end;
@@ -116,10 +145,13 @@
     }
     max-width: 170px;
     width: 100%;
+    @media (max-width: 767.98px) {
+      display: none;
+    }
   }
   &__count {
     // position: relative;
-    z-index: 1;
+    z-index: 0;
     border-radius: 50px;
     width: 50px;
     min-width: 50px;
@@ -129,5 +161,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    @media (max-width: 767.98px) {
+      display: none;
+    }
+  }
+  .new-members {
+    @media (max-width: 767.98px) {
+      margin-left: auto;
+      margin-right: 15px;
+    }
+    @media (max-width: 575.98px) {
+      display: none;
+    }
   }
 }

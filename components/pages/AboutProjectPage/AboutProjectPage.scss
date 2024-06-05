@@ -2,7 +2,7 @@
   // .about-page__container
 
   &__container {
-    padding: 50px 0;
+    padding: calc(min(5vw, 50px)) 15px;
     max-width: 1120px;
     width: 100%;
     margin: 0 auto;
@@ -11,9 +11,6 @@
   // .about-page__subtitle
 
   &__subtitle {
-    &-large {
-    }
-
     text-align: center;
     margin-bottom: 16px;
   }
@@ -30,6 +27,10 @@
     &-wrap {
       max-width: 100%;
       margin-top: 15px;
+      flex-wrap: wrap;
+      @media (max-width: 575.98px) {
+        justify-content: center;
+      }
       // flex-direction: column;
     }
     max-width: 500px;
@@ -66,6 +67,9 @@
   &__desc {
     font-size: 18px;
     line-height: 175%;
+    @media (max-width: 575.98px) {
+      text-align: center;
+    }
   }
   &__box {
     margin: 35px 0;
@@ -95,7 +99,10 @@
 
   &__item {
     width: 49%;
-    // margin-bottom: 15px;
+    @media (max-width: 575.98px) {
+      width: 100%;
+      // margin-left: 25px;
+    }
     margin: 0 0 15px;
     font-weight: 600;
     span {

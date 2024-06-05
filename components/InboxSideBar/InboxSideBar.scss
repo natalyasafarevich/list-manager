@@ -1,9 +1,49 @@
 .inbox-side-bar {
   // .inbox-side-bar__container
-
+  @media (max-width: 991.98px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--secondary-color);
+  }
   &__container {
     padding: 50px 15px;
     width: 100%;
+    @media (max-width: 991.98px) {
+      padding: 0;
+    }
+  }
+
+  // .inbox-side-bar__header
+
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 1, 1, 0.119);
+  }
+
+  // .inbox-side-bar__header-button
+
+  &__header-button {
+    transform: scale(1.5);
+  }
+
+  // .inbox-side-bar__header-title
+
+  &__header-title {
+    font-weight: 500;
+    font-size: 24px;
+  }
+
+  // .inbox-side-bar__header-user
+
+  &__header-user {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
   }
 
   // .inbox-side-bar__title
@@ -32,6 +72,13 @@
   &__column {
     height: 100%;
     padding: 32px 0 30px;
+    @media (max-width: 991.98px) {
+      display: flex;
+      align-items: center;
+      padding: 20px 50px;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0, 1, 1, 0.119);
+    }
   }
 
   // .inbox-side-bar__link
@@ -50,7 +97,14 @@
       &::before {
         background-position-x: 100%;
       }
+      @media (max-width: 991.98px) {
+        background-color: transparent;
+        &::before {
+          background-position-x: 92%;
+        }
+      }
     }
+
     &::before {
       content: "";
       display: block;
@@ -63,6 +117,17 @@
       content: attr(data-count);
       color: #7f7f7f;
       margin-left: auto;
+    }
+    @media (max-width: 991.98px) {
+      padding: 0;
+      background-color: transparent;
+      transform: scale(1.2);
+      &::after {
+        content: none;
+      }
+      &::before {
+        background: url("/inbox-icons-1.svg");
+      }
     }
   }
 
@@ -79,6 +144,27 @@
   &__link-archive {
     &::before {
       background-position-y: 59%;
+    }
+  }
+  &__link-general {
+    @media (max-width: 991.98px) {
+      &.active {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          display: block;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background: #146fff;
+          margin: auto;
+        }
+      }
     }
   }
   &__link-delete {

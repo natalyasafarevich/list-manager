@@ -24,6 +24,17 @@ const Header: FC = () => {
   };
   const user = useSelector((state: RootState) => state.userdata.uid);
 
+  const {isOpen} = useSelector((state: RootState) => state.menu);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsMenuOpen(isOpen);
+    }
+    if (isMenuOpen) {
+    }
+  }, [isOpen, isMenuOpen]);
+
   if (!user)
     return (
       <header className='header'>

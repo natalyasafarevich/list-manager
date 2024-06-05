@@ -36,11 +36,15 @@
       font-weight: 600;
       font-size: 18px;
     }
+    @media (max-width: 575.98px) {
+      width: 92%;
+    }
   }
 
   // .column-header__button
 
   &__button {
+    min-width: 24px;
     width: 24px;
     height: 24px;
     background: left/cover no-repeat url("/more-icon.svg");
@@ -50,6 +54,9 @@
     &:hover {
       background-position: right;
     }
+    @media (max-width: 575.98px) {
+      background: center/cover no-repeat url("/setting-board-icon.svg");
+    }
   }
 
   // .column-header__settings
@@ -58,8 +65,19 @@
     width: 224px;
     position: absolute;
     z-index: 1;
-    background: aliceblue;
+
     right: -72%;
     top: 0;
+    @media (max-width: 575.98px) {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      right: 0;
+      background: var(--secondary-color);
+      .mini-popup__container {
+        border: none;
+        box-shadow: none;
+      }
+    }
   }
 }

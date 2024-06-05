@@ -13,12 +13,10 @@ export const modules = {
     matchVisual: false,
   },
   imageResize: {
-    parchment: Quill.import('parchment'),
-    modules: ['Resize', 'DisplaySize'],
+    // parchment: Quill.import('parchment'),
+    // modules: ['Resize', 'DisplaySize'],
   },
 };
-
-
 
 export const formats = [
   'header',

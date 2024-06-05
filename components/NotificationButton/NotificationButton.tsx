@@ -9,8 +9,10 @@ import {getNotifications, isNotificationsOpen} from '@/store/notifications/actio
 import {updateFirebaseData, updateUserData} from '@/helper/updateUserData';
 import './NotificationButton.scss';
 import {AnimatePresence, motion} from 'framer-motion';
+import useResponsive from '@/hooks/useResponsive';
 
 const NotificationButton: FC = () => {
+  const {isMobile} = useResponsive();
   const [notifications, setNotifications] = useState<NotificationType>({});
   const [sortedNotification, setSortedNotification] = useState<any>([]);
   const [isViewed, setIsViewed] = useState(false);
@@ -60,14 +62,17 @@ const NotificationButton: FC = () => {
 
   return (
     <AnimatePresence>
-      <motion.button
-        onClick={() => {
-          setIsViewed(true);
-          dispatch(isNotificationsOpen(true));
-        }}
-        data-note={counter}
-        className={`notification-button ${counter ? 'active' : ''}`}
-      ></motion.button>
+      <div className='button-note'>
+        <motion.button
+          onClick={() => {
+            setIsViewed(true);
+            dispatch(isNotificationsOpen(true));
+          }}
+          data-note={counter}
+          className={`notification-button ${counter ? 'active' : ''}`}
+        ></motion.button>
+        {isMobile && <span>Notification</span>}
+      </div>
     </AnimatePresence>
   );
 };

@@ -9,8 +9,14 @@
     border-radius: 8px 8px 0 0;
     background-color: var(--secondary-color);
     overflow: hidden;
+    @media (max-width: 991.98px) {
+      height: 100%;
+      border-radius: 0;
+    }
   }
-
+  @media (max-width: 991.98px) {
+    height: 100%;
+  }
   // .new-message__header
 
   &__header {
@@ -43,6 +49,11 @@
 
   &__form {
     padding: 0 10px 15px;
+    @media (max-width: 991.98px) {
+      // height: 95vh;
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   // .new-message__input
@@ -66,6 +77,10 @@
     min-height: 400px;
     max-height: 400px;
     overflow-y: scroll;
+    @media (max-height: 575.98px) {
+      min-height: 200px;
+      max-height: 200px;
+    }
   }
   .message-box {
     .ql-container.ql-snow {
@@ -90,5 +105,15 @@
     padding: 9px;
     background: #1a73e8;
     color: var(--secondary-color);
+    @media (max-width: 991.98px) {
+      height: max-content;
+    }
+  }
+  &__button-box {
+    @media (max-width: 991.98px) {
+      display: flex;
+      align-items: flex-end;
+      flex: 1;
+    }
   }
 }

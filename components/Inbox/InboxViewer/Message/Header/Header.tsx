@@ -13,7 +13,7 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({senderInfo, time, senderId, recipientId}) => {
-  const {additional_info, uid} = useSelector((state: RootState) => state.userdata);
+  const {uid} = useSelector((state: RootState) => state.userdata);
   const date = formatDate(time);
   return (
     <div className='header-message'>
