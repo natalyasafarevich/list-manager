@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
+import {getAuth, signInWithRedirect, GoogleAuthProvider} from 'firebase/auth';
 import './Google.scss';
 import {useRouter} from 'next/navigation';
 import {useDispatch} from 'react-redux';
@@ -35,10 +35,8 @@ const GoogleSignInComponent = () => {
     const provider = new GoogleAuthProvider();
 
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      await signInWithRedirect(auth, provider);
       dispatch(isSingInWithGoogle(true));
-      setCurrentUser(user);
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;

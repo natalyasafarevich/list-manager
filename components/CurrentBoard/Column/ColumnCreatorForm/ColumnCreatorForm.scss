@@ -8,6 +8,9 @@
   // .column-create-form__row
 
   &__row {
+    @media (max-width: 575.98px) {
+      // flex-direction: column-reverse;
+    }
     align-items: flex-start;
     margin: 0 -12px;
     // overflow-x: scroll;
