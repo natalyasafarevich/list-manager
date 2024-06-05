@@ -19,6 +19,9 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    @media (max-width: 575.98px) {
+      color: var(--primary-color);
+    }
   }
 
   // .archived__button

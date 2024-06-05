@@ -2,6 +2,9 @@
   background-color: var(--secondary-color);
   z-index: 1;
   position: relative;
+  @media (max-width: 575.98px) {
+    background-color: var(--primary-color);
+  }
 
   &__container {
     position: relative;
@@ -34,6 +37,10 @@
     img {
       cursor: pointer;
       margin: 0 7px 7px;
+    }
+    @media (max-width: 575.98px) {
+      background-color: var(--primary-color);
+      justify-content: center;
     }
   }
 }
