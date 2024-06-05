@@ -1,3 +1,4 @@
+'use client';
 import {FC, useRef} from 'react';
 import './Benefits.scss';
 import Image from 'next/image';

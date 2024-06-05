@@ -3,7 +3,6 @@
 @import "/styles/layout-styles.scss";
 @import "/styles/buttons-styles.scss";
 @import "/styles/icons-styles.scss";
-@import "/styles/components-style.scss";
 
 html {
   &.no-scroll {
@@ -112,4 +111,225 @@ body {
 input.input-error {
   border: none;
   outline: 1px solid #ff432a;
+}
+.auth-container {
+  padding: 50px 30px;
+  box-shadow: 0 4px 35px 0 rgba(0, 0, 0, 0.08);
+  background: var(--secondary-color);
+  margin: 0 auto;
+  border-radius: 40px;
+  max-width: 590px;
+  width: 100%;
+}
+
+@media (max-width: 575.98px) {
+  .auth-container {
+    padding: 25px 15px 0;
+    box-shadow: none;
+  }
+}
+.visibility {
+  // .visibility__title
+  &__name {
+    display: block;
+  }
+  &__title {
+    // font-weight: 500;
+    font-size: 16px;
+    line-height: 111%;
+    margin-bottom: 15px;
+  }
+
+  // .visibility__box
+
+  &__box {
+    margin-bottom: 10px;
+    padding: 5px;
+    display: flex;
+    &_public::before {
+      content: "";
+      display: inline-block;
+      width: 15px;
+      min-width: 15px;
+      height: 15px;
+      margin-right: 5px;
+      background: no-repeat url("/visibility-icon.svg");
+      background-position-x: 33%;
+    }
+    &_private::before {
+      content: "";
+      display: inline-block;
+      width: 15px;
+      min-width: 15px;
+      height: 15px;
+      margin-right: 5px;
+      background: no-repeat url("/visibility-icon.svg");
+    }
+    &_public.active::before {
+      background-position-x: 100%;
+    }
+    &_private.active::before {
+      background-position-x: 66%;
+    }
+    &.active {
+      background: #eff0f6;
+      border-radius: 5px;
+      padding: 5px 10px;
+      &::after {
+        content: "";
+        margin-left: auto;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: no-repeat url("/check-icon.svg");
+      }
+    }
+  }
+
+  // .visibility__button
+
+  &__button {
+    text-align: start;
+    background-color: transparent;
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  // .visibility__desc
+
+  &__desc {
+    font-size: 12px;
+    display: block;
+    color: #6f6c90;
+  }
+}
+
+.auth {
+  padding: 79px 0;
+  height: 100%;
+
+  &__text {
+    margin-top: clamp(15px, 3vw, 33px);
+    text-align: center;
+    color: #ababab;
+    text-transform: uppercase;
+  }
+  &__box {
+    justify-content: center;
+    margin: 33px -10px 0;
+    align-items: stretch;
+  }
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(9px, 3vw, 15px);
+    height: 100%;
+    border-radius: 9px;
+    background: #f6f6f6;
+    color: var(--primary-color);
+    &_phone::before {
+      content: "";
+      display: block;
+      width: 30px;
+      height: 30px;
+      background: center/contain no-repeat url("/phone-white.svg");
+    }
+  }
+  &__item {
+    margin: 0 10px;
+  }
+  @media (max-width: 767.98px) {
+    padding: 25px 0 0;
+    &__container {
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+}
+
+@media (max-width: 575.98px) {
+  .auth {
+    &__link {
+      font-size: 12px;
+      text-align: center;
+    }
+    &__box {
+      margin-top: 15px;
+    }
+    &__container {
+      padding: 30px 20px;
+    }
+  }
+}
+
+.register {
+  &__title {
+    font-size: clamp(16px, 2.5vw, 20px);
+  }
+  &__row {
+    align-items: start;
+    justify-content: space-between;
+  }
+  &__text {
+    font-size: clamp(13px, 2.5vw, 16px);
+    color: #8d8d8d;
+    a {
+      color: #b87514;
+    }
+  }
+  &__subtitle {
+    font-weight: 500;
+    font-size: clamp(31px, 2.5vw, 49px);
+    margin-bottom: 32px;
+  }
+  &__box {
+    width: 100%;
+    margin-bottom: clamp(15px, 3vw, 38px);
+  }
+  &__label {
+    margin-bottom: 13px;
+    display: block;
+  }
+  &__input {
+    &::placeholder {
+      font-weight: 300;
+      font-size: 14px;
+    }
+    &:focus {
+      outline: 1px solid var(--primary-color);
+    }
+    border: 1px solid #adadad;
+    border-radius: 9px;
+    width: 100%;
+    padding: 15px 20px;
+  }
+  &__button {
+    cursor: pointer;
+    width: 100%;
+    background: #1b193f;
+    color: var(--secondary-color);
+    border-radius: 15px;
+    font-weight: 500;
+    box-shadow: 0 4px 19px 0 rgba(63, 71, 45, 0.3);
+    padding: 15px 5px;
+  }
+}
+@media (max-width: 575.98px) {
+  .register {
+    &__text {
+      margin-bottom: 10px;
+      margin-left: auto;
+    }
+    .register__input {
+      padding: 10px;
+    }
+    &__row {
+      flex-direction: column-reverse;
+    }
+    &__label {
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+  }
 }

@@ -1,4 +1,5 @@
-import {FC} from 'react';
+'use client';
+import React, {FC} from 'react';
 import './HomePage.scss';
 import Preview from './Preview/Preview';
 import Benefits from './Benefits/Benefits';
