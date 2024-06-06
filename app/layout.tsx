@@ -9,6 +9,7 @@ import Notifications from '@/components/Notifications/Notifications';
 import WrapProvider from '@/providers/WrapProvider';
 import MessageStatusTracking from '@/providers/MessageStatusTracking';
 import './globals.scss';
+import {meta_desc} from '@/variables/metadata';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -22,8 +23,7 @@ export const metadata: Metadata = {
   icons: {
     icon: 'fdfgdf.ico',
   },
-  description: `HiveMind is a task manager that helps you organize, plan, and track your work with ease.
-  Never lose important details and always stay on track with HiveMind's intelligent task management features.`,
+  description: meta_desc,
 };
 
 export default function RootLayout({

@@ -1,4 +1,10 @@
 import {AccountManagement} from '@/components/user/settings/AccountManagement/AccountManagement';
+import {Metadata} from 'next';
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Settings',
+  },
+};
 
 export default function AdditionSettings() {
   return (

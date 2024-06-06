@@ -17,8 +17,12 @@ export async function getFirebaseData(userId: string, params: string) {
     );
   });
 }
-
-export async function getDefaultData(path: string) {
+interface BoardData {
+  name: string;
+  description: string;
+  currentBg: string;
+}
+export async function getDefaultData(path: string): Promise<BoardData> {
   return new Promise((resolve, reject) => {
     const db = getDatabase(firebaseApp);
     const starCountRef = ref(db, path);
