@@ -1,29 +1,19 @@
-'use client';
 import RegistrationForm from '@/components/auth/RegistrationForm/RegistrationForm';
-import UserStatus from '@/components/auth/UserStatus/UserStatus';
-import {useRedirectToProfile} from '@/hooks/useRedirectToProfile';
-import {RootState} from '@/store/store';
-import Link from 'next/link';
-import {useSearchParams} from 'next/navigation';
-import {useRouter} from 'next/navigation';
-import {useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import {Metadata} from 'next';
 
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Sing up',
+  },
+  description: `Join HiveMind and unlock a world of possibilities!
+   Dive into our platform to access exclusive features, personalized 
+   recommendations, and seamless user experience. Sign up today and embark 
+   on your journey to enhanced productivity and success with HiveMind.`,
+};
 export default function Registration() {
-  // const router = useRouter();
-  const isUser = useSelector((state: RootState) => state.userdata.uid);
-  // useRedirectToProfile(isUser);
-  // useEffect(() => {
-  //   isUser && router.push(`/user?id=${isUser}`);
-  // }, [isUser]);
   return (
     <>
       <RegistrationForm />
-
-      {/* <RegistrationComponent />
-      <Link href={'/registration?google'}>Google</Link>
-      <br />
-      <Link href={'/registration?phone'}>Phone</Link> */}
     </>
   );
 }

@@ -11,8 +11,19 @@ import {RootState} from '@/store/store';
 import './DashboardHeader.scss';
 import useResponsive from '@/hooks/useResponsive';
 import {HeaderToggle} from '../HeaderToggle/HeaderToggle';
+import {getDatabase, onValue, ref} from 'firebase/database';
+import firebaseApp from '@/firebase';
+import {rejects} from 'assert';
 
 const DashboardHeader: FC = () => {
+  const db = getDatabase(firebaseApp);
+  // const board = useSelector((state: RootState) => state.boards.currentBoards);
+  const starCountRef = ref(db, 'boards/' + '103db445-d8ac-456d-9262-b68c24cbf180');
+  const product = onValue(starCountRef, (snapshot) => {
+    const data = snapshot.val();
+    console.log(data);
+  });
+  console.log(product);
   const {isMobile} = useResponsive();
   const [isCreated, setIsCreated] = useState(false);
   const {uid} = useSelector((state: RootState) => state.userdata);

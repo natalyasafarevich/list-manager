@@ -1,11 +1,14 @@
-import DashboardHeader from '@/components/DashboardHeader/DashboardHeader';
-import Header from '@/components/Header/Header';
 import {AccountManagement} from '@/components/user/settings/AccountManagement/AccountManagement';
+import {Metadata} from 'next';
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Settings',
+  },
+};
 
 export default function AdditionSettings() {
   return (
     <div>
-      {/* <DashboardHeader /> */}
       <div className='medium-content-wrap'>
         <AccountManagement />
       </div>
