@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: {
     absolute: 'Boards',
   },
+  openGraph: {
+    images: ['/logo.svg'],
+  },
 };
 export default function AllBoardsPage() {
   return (
