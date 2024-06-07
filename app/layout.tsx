@@ -15,13 +15,11 @@ const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500'],
 });
+
 export const metadata: Metadata = {
   title: {
     template: 'HiveMind',
     default: 'HiveMind',
-  },
-  icons: {
-    icon: 'fdfgdf.ico',
   },
   description: meta_desc,
 };
