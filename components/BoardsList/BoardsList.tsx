@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import {FC, useEffect, useState} from 'react';
 import './BoardsList.scss';
@@ -31,7 +30,7 @@ const BoardsList: FC = () => {
         onValue(starCountRef, (snapshot) => {
           const data = snapshot.val();
           if (!data && !data.isCloseBoard) {
-            setClosedBoard((prev: any) => [...prev, data]);
+            setClosedBoard((prev) => [...prev, data]);
           }
         });
       }
