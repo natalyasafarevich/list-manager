@@ -1,15 +1,15 @@
 'use client';
-import {ResetDataUser, getDataUser} from '@/store/data-user/actions';
-import {AppDispatch, RootState} from '@/store/store';
+import {ResetDataUser} from '@/store/data-user/actions';
+import {AppDispatch} from '@/store/store';
 import {getAuth, signOut} from 'firebase/auth';
-import {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+
+import {useDispatch} from 'react-redux';
 import './SignOut.scss';
 import {useRouter} from 'next/navigation';
 
 const SignOut = () => {
   const dispatch: AppDispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.userdata);
+
   const router = useRouter();
   const handleSignOut = async () => {
     try {
@@ -19,7 +19,9 @@ const SignOut = () => {
       setTimeout(() => {
         router.push('/');
       }, 0.1);
-    } catch (error) {}
+    } catch (error) {
+      return null;
+    }
   };
 
   return (

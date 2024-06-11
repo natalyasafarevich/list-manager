@@ -1,10 +1,8 @@
 'use client';
 
-import {usePathname, redirect} from 'next/navigation';
-import {use, useEffect, useState} from 'react';
-import {getAuth, onAuthStateChanged, User, UserInfo} from 'firebase/auth';
+import {useEffect, useState} from 'react';
+import {getAuth, onAuthStateChanged, UserInfo, UserProfile} from 'firebase/auth';
 import firebaseApp from '@/firebase';
-import {AppDispatch, RootState} from '@/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {getAdditionalInfo, getDataUser, isUserUpdated} from '@/store/data-user/actions';
 import {getDatabase, onValue, ref} from 'firebase/database';
@@ -12,26 +10,32 @@ import {getBoards} from '@/store/board/actions';
 import {updateUserData} from '@/helper/updateUserData';
 import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {getUserNames} from '@/store/auth/actions';
+import {usePathname, redirect} from 'next/navigation';
+import {RootState, AppDispatch} from '@/store/store';
 import useScrollControl from '@/hooks/useScrollControl';
 
 const UserStatus = () => {
+  // Hook for scroll tracking
   useScrollControl();
-  const [user, setUser] = useState<any>();
-  const [usernames, setUsernames] = useState<{[id: string]: string}>({});
+
+  // State for user and user profile
+  const [user, setUser] = useState<UserInfo | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [userNames, setUserNames] = useState<Array<string>>([]);
+
+  // Redux dispatch
   const dispatch: AppDispatch = useDispatch();
-  useEffect(() => {
-    fetchBackDefaultData('/usernames', setUsernames);
-  }, []);
 
-  useEffect(() => {
-    // dispatch(getUserNames(usernames as any));
-  }, [usernames]);
-
+  // Current user state from Redux
   const current_user = useSelector((state: RootState) => state.userdata);
 
+  // Firebase authentication object
   const auth = getAuth(firebaseApp);
+
+  // Firebase database object
   const db = getDatabase(firebaseApp);
 
+  // Fetching boards on database change
   useEffect(() => {
     const starCountRef = ref(db, `/boards`);
     onValue(starCountRef, (snapshot) => {
@@ -40,52 +44,64 @@ const UserStatus = () => {
         dispatch(getBoards(data));
       }
     });
-  }, []);
+  }, [db, dispatch]);
 
+  // Handling changes in user authentication state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: UserInfo | null) => {
       if (user) {
-        const {displayName, email, phoneNumber, photoURL, uid} = user;
-        setUser({displayName, email, phoneNumber, photoURL, uid});
+        const {displayName, email, phoneNumber, photoURL, uid, providerId} = user;
+        setUser({displayName, email, phoneNumber, photoURL, uid, providerId});
 
+        // Update user data in database
         updateUserData(`${uid}/`, {
           email: email,
           phoneNumber: phoneNumber,
           displayName: displayName,
           photoURL: photoURL,
         });
+      } else {
+        setUser(null);
       }
     });
 
     return () => unsubscribe();
   }, [auth]);
-  const [additionalInfo, setAdditionalInfo] = useState<any>();
+
+  // Fetching additional user information
   useEffect(() => {
-    dispatch(getAdditionalInfo(additionalInfo));
-  }, [additionalInfo]);
-  const [userNames, setUserNames] = useState<Array<string>>([]);
+    dispatch(getAdditionalInfo(userProfile));
+  }, [userProfile, dispatch]);
+
+  // Fetching user names
   useEffect(() => {
     dispatch(getUserNames(userNames));
-  }, [userNames]);
+  }, [dispatch, userNames]);
+
+  // Updating user profile
   useEffect(() => {
-    // if
-    user && fetchBackDefaultData(`/users/${user?.uid}/additional-info`, setAdditionalInfo);
+    user && fetchBackDefaultData(`/users/${user?.uid}/additional-info`, setUserProfile);
     dispatch(isUserUpdated(false));
-  }, [user, current_user.isUpdate]);
+  }, [user, current_user.isUpdate, dispatch]);
+
+  // Loading user data
   useEffect(() => {
     if (user || current_user.isUpdate) {
       dispatch(getDataUser({...user}));
       fetchBackDefaultData('/usernames', setUserNames);
     }
-  }, [user, current_user.isUpdate]);
+  }, [user, current_user.isUpdate, dispatch]);
 
+  // Checking path and redirecting user
   const pathname = usePathname();
   useEffect(() => {
     if (current_user.uid && pathname === '/') {
       redirect('/boards');
     }
-  }, [current_user]);
-  return <div></div>;
+  }, [current_user, pathname]);
+
+  // Returning component
+  return null;
 };
 
 export default UserStatus;

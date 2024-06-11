@@ -1,12 +1,12 @@
 'use client';
 
-import {handleRegister, isUserExist} from '@/firebase/registration';
+import {handleRegister} from '@/firebase/registration';
 import {useState} from 'react';
 import './EmailPassword.scss';
-import Link from 'next/link';
 import InputField from '@/components/InputField/InputField';
 import WelcomeHeader from '@/components/WelcomeHeader/WelcomeHeader';
 import {useRouter} from 'next/navigation';
+import {AuthError} from 'firebase/auth';
 
 const RegistrationComponent = () => {
   const [email, setEmail] = useState('');
@@ -81,26 +81,30 @@ const RegistrationComponent = () => {
     }
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const user = await handleRegister(email, password, name);
       router.push('/complete-profile');
       clearForm();
-    } catch (error: any) {
-      const errorCode = error.code;
-      switch (errorCode) {
-        case 'auth/email-already-in-use':
-          handleEmailAlreadyInUse();
-          break;
-        case 'auth/invalid-email':
-          handleInvalidEmail();
-          break;
-        case 'auth/missing-password':
-          handleMissingPassword();
-          break;
-        case 'auth/weak-password':
-          handleWeakPassword();
-          break;
-        default:
-          console.error('Error registering user:', errorCode, error.message);
+    } catch (error: unknown) {
+      if (typeof error === 'object' && error !== null && 'code' in error) {
+        const authError = error as AuthError;
+
+        switch (authError.code) {
+          case 'auth/email-already-in-use':
+            handleEmailAlreadyInUse();
+            break;
+          case 'auth/invalid-email':
+            handleInvalidEmail();
+            break;
+          case 'auth/missing-password':
+            handleMissingPassword();
+            break;
+          case 'auth/weak-password':
+            handleWeakPassword();
+            break;
+          default:
+            console.error('Error registering user:', authError.code, authError.message);
+        }
       }
     }
   };

@@ -30,7 +30,7 @@ export async function generateMetadata({params}: Props, parent: ResolvingMetadat
   };
 }
 
-export default function Page({params}: Props) {
+export default function Page() {
   return (
     <>
       <BoardPage />

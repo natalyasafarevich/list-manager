@@ -45,9 +45,7 @@ const RegistrationForm = () => {
               <Link
                 className='auth__link '
                 href='/registration'
-                onClick={() =>
-                  setMethodOfEnter({isPhone: false, isEmail: true})
-                }
+                onClick={() => setMethodOfEnter({isPhone: false, isEmail: true})}
               >
                 Email and Password
               </Link>
@@ -58,9 +56,7 @@ const RegistrationForm = () => {
               <Link
                 className='auth__link auth__link_phone'
                 href='/registration?sign-in=phone'
-                onClick={() =>
-                  setMethodOfEnter({isPhone: true, isEmail: false})
-                }
+                onClick={() => setMethodOfEnter({isPhone: true, isEmail: false})}
               ></Link>
             )}
           </div>

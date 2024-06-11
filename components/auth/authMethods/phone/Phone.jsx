@@ -12,17 +12,13 @@ const PhoneSignInComponent = () => {
   const router = useRouter();
   const auth = getAuth();
   useEffect(() => {
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      auth,
-      'recaptcha-container',
-      {
-        size: 'normal',
-        'expired-callback': () => {
-          console.log('reCAPTCHA expired. Please solve it again.');
-        },
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      size: 'normal',
+      'expired-callback': () => {
+        console.log('reCAPTCHA expired. Please solve it again.');
       },
-    );
-  }, []);
+    });
+  }, [auth]);
 
   const handleSendCode = async () => {
     try {
@@ -33,11 +29,7 @@ const PhoneSignInComponent = () => {
       }
 
       const auth = getAuth();
-      const confirmationResult = await signInWithPhoneNumber(
-        auth,
-        phoneNumber,
-        appVerifier,
-      );
+      const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
       window.confirmationResult = confirmationResult;
       setIsSend(true);
       setError('');
@@ -99,10 +91,7 @@ const PhoneSignInComponent = () => {
               <div id='recaptcha-container'></div>
             </div>
           </div>
-          <button
-            className='button-dark phone-register__button'
-            onClick={handleSendCode}
-          >
+          <button className='button-dark phone-register__button' onClick={handleSendCode}>
             Send code
           </button>
         </>

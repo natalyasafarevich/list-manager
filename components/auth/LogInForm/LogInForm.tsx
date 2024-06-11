@@ -1,6 +1,6 @@
 'use client';
 import React, {useEffect, useState} from 'react';
-import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
+import {AuthError, getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 import firebaseApp from '@/firebase';
 
 import Link from 'next/link';
@@ -40,18 +40,23 @@ const LoginComponent = () => {
     e.preventDefault();
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+
+      // const user = userCredential.user;
       clearForm();
       setTimeout(() => {
         router.push('/board');
       }, 0.1);
-    } catch (error: any) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      switch (errorCode) {
-        case 'auth/invalid-credential': {
-          setError('Wrong email or password');
+    } catch (error: unknown) {
+      if (typeof error === 'object' && error !== null && 'code' in error && 'message' in error) {
+        const authError = error as AuthError;
+        const errorCode = authError.code;
+        // const errorMessage  = authError.me;
+        switch (errorCode) {
+          case 'auth/invalid-credential': {
+            setError('Wrong email or password');
+          }
         }
       }
     }

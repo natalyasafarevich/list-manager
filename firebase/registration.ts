@@ -1,5 +1,5 @@
 import firebaseApp from '@/firebase';
-import {createUserWithEmailAndPassword, getAuth, AuthError, updateProfile} from 'firebase/auth';
+import {createUserWithEmailAndPassword, getAuth, updateProfile} from 'firebase/auth';
 
 export const isUserExist = (a: boolean) => {
   return a;
@@ -18,3 +18,6 @@ export const handleRegister = async (email: string, password: string, username: 
 
   return user;
 };
+export interface AuthError extends Error {
+  code: string;
+}
