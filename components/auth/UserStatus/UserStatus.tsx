@@ -1,5 +1,4 @@
 'use client';
-
 import {useEffect, useState} from 'react';
 import {getAuth, onAuthStateChanged, UserInfo, UserProfile} from 'firebase/auth';
 import firebaseApp from '@/firebase';
@@ -78,18 +77,13 @@ const UserStatus = () => {
     dispatch(getUserNames(userNames));
   }, [dispatch, userNames]);
 
-  // Updating user profile
-  useEffect(() => {
-    user && fetchBackDefaultData(`/users/${user?.uid}/additional-info`, setUserProfile);
-    dispatch(isUserUpdated(false));
-  }, [user, current_user.isUpdate, dispatch]);
-
-  // Loading user data
   useEffect(() => {
     if (user || current_user.isUpdate) {
       dispatch(getDataUser({...user}));
       fetchBackDefaultData('/usernames', setUserNames);
     }
+    user && fetchBackDefaultData(`/users/${user?.uid}/additional-info`, setUserProfile);
+    dispatch(isUserUpdated(false));
   }, [user, current_user.isUpdate, dispatch]);
 
   // Checking path and redirecting user

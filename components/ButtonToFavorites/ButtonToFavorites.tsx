@@ -16,7 +16,7 @@ const ButtonToFavorites: FC<ButtonToFavoritesProps> = ({path, isFavorite}) => {
       updateFirebaseData(path, {
         [user.uid]: isAdded,
       });
-  }, [isAdded]);
+  }, [isAdded, path, user.uid]);
 
   useEffect(() => {
     setIsAdded(isFavorite);
@@ -24,12 +24,7 @@ const ButtonToFavorites: FC<ButtonToFavoritesProps> = ({path, isFavorite}) => {
   const addToFavorite = () => {
     setIsAdded(!isAdded);
   };
-  return (
-    <button
-      className={`${isAdded ? 'active' : ''} button-favorite `}
-      onClick={addToFavorite}
-    ></button>
-  );
+  return <button className={`${isAdded ? 'active' : ''} button-favorite `} onClick={addToFavorite}></button>;
 };
 
 export default ButtonToFavorites;

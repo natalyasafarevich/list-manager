@@ -5,7 +5,7 @@ import {updateUserData} from '@/helper/updateUserData';
 import {useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '@/store/store';
 import PopupMessage from '../PopupMessage/PopupMessage';
-import {fetchBackData, fetchBackDefaultData} from '@/helper/getFirebaseData';
+import {fetchBackDefaultData} from '@/helper/getFirebaseData';
 import {useDispatch} from 'react-redux';
 import {getContacts} from '@/store/contacts/actions';
 const contactLink: ContactLinkItem[] = [
@@ -49,7 +49,7 @@ const Contacts: FC = () => {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     dispatch(getContacts(contactLinks));
-  }, [contactLinks]);
+  }, [contactLinks, dispatch]);
 
   useEffect(() => {
     if (user.uid) {

@@ -1,6 +1,7 @@
 'use client';
 import {FC, useEffect, useState} from 'react';
 import './CountryList.scss';
+import {FlagProps} from '@/types/Account';
 
 interface CountriesProps {
   name: string;
@@ -17,17 +18,19 @@ const CountryList: FC<CountryListProps> = ({getCountry, currentCountry}) => {
   const [countries, setCountries] = useState<Array<CountriesProps>>([]);
   useEffect(() => {
     getCountry(title);
-  }, [title]);
+  }, [getCountry, title]);
+
   useEffect(() => {
     fetch('https://restcountries.com/v3.1/all', {cache: 'force-cache'})
       .then((res) => res.json())
       .then((data) => {
+        console.log(data, 'data');
         const sortedCountries = data
-          .map((country: any) => ({
+          .map((country: FlagProps) => ({
             name: country.name.common,
             flags: country.flags.svg,
           }))
-          .sort((a: any, b: any) => {
+          .sort((a: FlagProps, b: FlagProps) => {
             return a.name.localeCompare(b.name);
           });
         setCountries(sortedCountries);
@@ -36,10 +39,7 @@ const CountryList: FC<CountryListProps> = ({getCountry, currentCountry}) => {
   return (
     <div className='country-list'>
       <div className='country-list__container'>
-        <div
-          className={`country-list__title ${isOpen ? 'active' : ''}`}
-          onClick={(e) => setIsOpen(!isOpen)}
-        >
+        <div className={`country-list__title ${isOpen ? 'active' : ''}`} onClick={() => setIsOpen(!isOpen)}>
           {title || currentCountry || 'Select your country'}
         </div>
         {isOpen && (
@@ -48,7 +48,7 @@ const CountryList: FC<CountryListProps> = ({getCountry, currentCountry}) => {
               <div
                 key={i}
                 className='country-list__item'
-                onClick={(_e) => {
+                onClick={() => {
                   setIsOpen(!isOpen);
                   setTitle(country.name);
                 }}
