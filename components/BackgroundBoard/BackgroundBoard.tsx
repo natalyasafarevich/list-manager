@@ -2,15 +2,18 @@ import {FC, useState} from 'react';
 import './BackgroundBoard.scss';
 
 interface BackgroundBoardProps {
-  handleClick: (e: any) => void;
+  handleClick: (e: string) => void;
   card: Array<{url: string}>;
 }
+
 const BackgroundBoard: FC<BackgroundBoardProps> = ({card, handleClick}) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
+
   const handleButtonClick = (url: string, index: number) => {
     handleClick(url);
     setActiveIndex(index);
   };
+
   return (
     <div className='board-image'>
       <div className='board-image__row flex'>
